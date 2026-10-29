@@ -4,10 +4,8 @@ import type { NotificationData } from "./notification-data.js";
 export type NotificationsPopoverProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** Visible notifications for the "Novas" and "Histórico" tabs (no chat, no connection requests). */
+  /** Visible notifications for the "Novas" and "Histórico" tabs. */
   notifications: NotificationData[];
-  /** Visible chat notifications. */
-  chatNotifications: NotificationData[];
   /** Incoming requests, already filtered (removed or missing senders left out). */
   requests: ConnectionRequestData[];
   requestsLoading: boolean;

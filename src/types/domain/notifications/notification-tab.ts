@@ -1,1 +1,1 @@
-export type NotificationTab = "novas" | "historico" | "solicitacoes" | "chat";
+export type NotificationTab = "novas" | "historico" | "solicitacoes";

@@ -15,7 +15,6 @@ export function NotificationsPopover({
   open,
   onOpenChange,
   notifications,
-  chatNotifications,
   requests,
   requestsLoading,
   stillPendingActorIds,
@@ -32,16 +31,9 @@ export function NotificationsPopover({
   const [notificationTab, setNotificationTab] = useState<NotificationTab>("novas");
 
   const unreadCount = notifications.filter((notification) => !notification.read).length;
-  const chatUnreadCount = chatNotifications.filter((notification) => !notification.read).length;
-  // O sino continua sinalizando mensagem nova (senão a aba Chat passaria despercebida); o que muda
-  // é que ela não se mistura mais com curtida/convite na lista de Novas.
-  const totalUnread = unreadCount + chatUnreadCount;
-  const displayedNotifications =
-    notificationTab === "chat"
-      ? chatNotifications.filter((notification) => !notification.read)
-      : notifications.filter((notification) =>
-          notificationTab === "novas" ? !notification.read : notification.read,
-        );
+  const displayedNotifications = notifications.filter((notification) =>
+    notificationTab === "novas" ? !notification.read : notification.read,
+  );
   const requestCount = requests.length;
   const close = () => onOpenChange(false);
 
@@ -50,12 +42,12 @@ export function NotificationsPopover({
       <PopoverTrigger asChild>
         <button
           className="relative grid h-10 w-10 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary"
-          aria-label={totalUnread > 0 ? messages.unreadLabel(totalUnread) : messages.title}
+          aria-label={unreadCount > 0 ? messages.unreadLabel(unreadCount) : messages.title}
         >
           <Bell className="h-5 w-5" />
-          {totalUnread > 0 && (
+          {unreadCount > 0 && (
             <span className="absolute right-1.5 top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-xs font-medium leading-none text-primary-foreground">
-              {totalUnread > 9 ? messages.overflowCount : totalUnread}
+              {unreadCount > 9 ? messages.overflowCount : unreadCount}
             </span>
           )}
         </button>
@@ -115,24 +107,6 @@ export function NotificationsPopover({
 
           <button
             type="button"
-            onClick={() => setNotificationTab("chat")}
-            className={cn(
-              "flex flex-1 items-center justify-center gap-1.5 py-2.5 text-xs font-normal transition",
-              notificationTab === "chat"
-                ? "border-b-2 border-primary text-primary"
-                : "text-text-subtle hover:text-text-strong",
-            )}
-          >
-            <>{messages.tabs.chat}</>
-            {chatUnreadCount > 0 && (
-              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-xs text-primary-foreground">
-                {chatUnreadCount}
-              </span>
-            )}
-          </button>
-
-          <button
-            type="button"
             onClick={() => setNotificationTab("solicitacoes")}
             className={cn(
               "flex flex-1 items-center justify-center gap-1.5 py-2.5 text-xs font-normal transition",
@@ -175,11 +149,7 @@ export function NotificationsPopover({
             )
           ) : displayedNotifications.length === 0 ? (
             <p className="px-4 py-8 text-center text-sm font-normal text-text-subtle">
-              {notificationTab === "novas"
-                ? messages.emptyNew
-                : notificationTab === "chat"
-                  ? messages.emptyChat
-                  : messages.emptyHistory}
+              {notificationTab === "novas" ? messages.emptyNew : messages.emptyHistory}
             </p>
           ) : (
             displayedNotifications.map((notification) => (

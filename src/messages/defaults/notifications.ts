@@ -9,11 +9,9 @@ export const notificationsMessages: NotificationsMessages = {
       new: "Novas",
       history: "Histórico",
       requests: "Solicitações",
-      chat: "Chat",
     },
     emptyNew: "Nenhuma notificação nova.",
     emptyHistory: "Nenhum histórico ainda.",
-    emptyChat: "Nenhuma mensagem nova no chat.",
     emptyRequests: "Nenhuma solicitação pendente.",
     unreadLabel: (count) =>
       `${count} ${count === 1 ? "notificação não lida" : "notificações não lidas"}`,

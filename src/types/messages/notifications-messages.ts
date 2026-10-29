@@ -3,10 +3,9 @@ export type NotificationsMessages = {
     title: string;
     markAllRead: string;
     overflowCount: string;
-    tabs: { new: string; history: string; requests: string; chat: string };
+    tabs: { new: string; history: string; requests: string };
     emptyNew: string;
     emptyHistory: string;
-    emptyChat: string;
     emptyRequests: string;
     unreadLabel: (count: number) => string;
   };
