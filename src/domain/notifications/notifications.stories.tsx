@@ -53,16 +53,6 @@ export const Popover: StoryObj = {
           open={open}
           onOpenChange={setOpen}
           notifications={notifications}
-          chatNotifications={[
-            {
-              ...base,
-              id: "c1",
-              kind: "NEW_MESSAGE",
-              title: "Mandou mensagem",
-              body: "Oi!",
-              read: false,
-            },
-          ]}
           requests={[
             {
               id: "r1",
