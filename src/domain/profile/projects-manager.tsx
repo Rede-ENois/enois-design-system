@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useId, useState } from "react";
+
+import { X } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import { HtmlEditor } from "../../patterns/editor/html-editor.js";
@@ -49,23 +51,41 @@ export function ProjectsManager({
   const [editando, setEditando] = useState<EditingProject>(null);
   const [modo, setModo] = useState<ProjectCardMode>("estruturado");
   const [stackTexto, setStackTexto] = useState("");
+  const [stackError, setStackError] = useState(false);
+  const stackInputId = useId();
 
-  useEffect(() => {
-    if (editando) {
-      setStackTexto(editando.stack.join(", "));
-      setModo(editando.html ? "html" : "estruturado");
+  const addStackItems = (text: string) => {
+    const stack = [...(editando?.stack ?? [])];
+    const items = text
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    if (!items.length) {
+      setStackTexto("");
+      return stack;
     }
-  }, [editando]);
+
+    let duplicate = false;
+    for (const item of items) {
+      if (stack.some((tech) => tech.trim().toLowerCase() === item.toLowerCase())) {
+        duplicate = true;
+      } else {
+        stack.push(item);
+      }
+    }
+
+    setEditando((current) => current && { ...current, stack });
+    setStackTexto("");
+    setStackError(duplicate);
+    return stack;
+  };
 
   const salvar = async () => {
     if (!editando) return;
     const input: ProjectInput = {
       title: editando.title.trim(),
       description: editando.description?.trim() || null,
-      stack: stackTexto
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
+      stack: addStackItems(stackTexto),
       repoUrl: editando.repoUrl?.trim() || null,
       status: modo === "estruturado" ? editando.status?.trim() || null : null,
       diary: modo === "estruturado" ? editando.diary : [],
@@ -109,7 +129,12 @@ export function ProjectsManager({
                     size="sm"
                     variant="outline"
                     className="rounded-full"
-                    onClick={() => setEditando({ ...project, html: project.html ?? null })}
+                    onClick={() => {
+                      setModo(project.html ? "html" : "estruturado");
+                      setStackTexto("");
+                      setStackError(false);
+                      setEditando({ ...project, html: project.html ?? null });
+                    }}
                   >
                     {messages.edit}
                   </Button>
@@ -133,6 +158,7 @@ export function ProjectsManager({
               onClick={() => {
                 setModo("estruturado");
                 setStackTexto("");
+                setStackError(false);
                 setEditando(vazio());
               }}
             >
@@ -211,14 +237,88 @@ export function ProjectsManager({
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">{messages.stackField}</Label>
+                  <Label htmlFor={stackInputId} className="text-xs text-muted-foreground">
+                    {messages.stackField}
+                  </Label>
+
+                  {editando.stack.length > 0 && (
+                    <ul aria-label={messages.stackField} className="flex min-w-0 flex-wrap gap-1.5">
+                      {editando.stack.map((tech, index) => (
+                        <li
+                          key={`${tech}-${index}`}
+                          className="inline-flex min-w-0 max-w-full items-center gap-1 rounded-full bg-primary-soft py-0.5 pl-2.5 pr-1 text-xs text-primary"
+                        >
+                          <span className="min-w-0 [overflow-wrap:anywhere]">{tech}</span>
+
+                          <button
+                            type="button"
+                            aria-label={messages.stackRemove(tech)}
+                            title={messages.stackRemove(tech)}
+                            className="inline-flex size-6 shrink-0 items-center justify-center rounded-full hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            onClick={() => {
+                              setEditando(
+                                (current) =>
+                                  current && {
+                                    ...current,
+                                    stack: current.stack.filter(
+                                      (_, itemIndex) => itemIndex !== index,
+                                    ),
+                                  },
+                              );
+                              setStackError(false);
+                            }}
+                          >
+                            <X className="size-3" aria-hidden="true" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   <Input
+                    id={stackInputId}
                     value={stackTexto}
                     maxLength={400}
-                    placeholder="Java, React, Postgres"
-                    onChange={(event) => setStackTexto(event.target.value)}
+                    placeholder={messages.stackPlaceholder}
+                    aria-invalid={stackError || undefined}
+                    aria-describedby={`${stackInputId}-hint${stackError ? ` ${stackInputId}-error` : ""}`}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (
+                        value.includes(",") &&
+                        !(event.nativeEvent instanceof InputEvent && event.nativeEvent.isComposing)
+                      ) {
+                        addStackItems(value);
+                      } else {
+                        setStackTexto(value);
+                        setStackError(false);
+                      }
+                    }}
+                    onKeyDown={(event) => {
+                      if (
+                        (event.key === "Enter" || event.key === ",") &&
+                        !event.nativeEvent.isComposing
+                      ) {
+                        event.preventDefault();
+                        addStackItems(event.currentTarget.value);
+                      }
+                    }}
+                    onBlur={(event) => addStackItems(event.currentTarget.value)}
                   />
+
+                  <p id={`${stackInputId}-hint`} className="text-xs text-text-subtle">
+                    {messages.stackHint}
+                  </p>
+
+                  {stackError && (
+                    <p
+                      id={`${stackInputId}-error`}
+                      role="alert"
+                      className="text-xs text-destructive"
+                    >
+                      {messages.stackDuplicate}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-1.5">
