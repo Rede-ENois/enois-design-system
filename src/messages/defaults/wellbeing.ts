@@ -30,13 +30,13 @@ export const wellbeingMessages: WellbeingMessages = {
       "Receba uma mensagem de cuidado ao acessar o feed entre meia-noite e cinco da manhã.",
     likeTitle: "O que quero ver",
     likeHint:
-      "Escolha os assuntos que você gostaria de encontrar com mais frequência. Eles ganham prioridade nas recomendações — o resto do feed continua aí.",
+      "Escolha os assuntos que você gostaria de encontrar com mais frequência. Eles ganham prioridade nas recomendações, e o resto do feed continua aí.",
     dislikeTitle: "Assuntos que não gosto",
     dislikeHint:
       "Assuntos que você prefere evitar nos seus feeds personalizados. Publicações sem assunto nunca são escondidas, e o conteúdo continua no ar para as outras pessoas.",
     modulesTitle: "O que não quero ver",
     modulesHint:
-      "Desative as áreas do Énóis que não fazem parte da experiência que você deseja. Nada é apagado — some só da sua interface, e volta quando reativar.",
+      "Desative as áreas do Énóis que não fazem parte da experiência que você deseja. Nada é apagado: some só da sua interface e volta quando você reativar.",
     modules: [
       { id: "COMMUNITIES", label: "Comunidades" },
       { id: "GROUPS", label: "Grupos" },
@@ -52,13 +52,14 @@ export const wellbeingMessages: WellbeingMessages = {
       },
       { id: "DAILY_GAMES", label: "Jogos diários" },
       { id: "COMMUNITY_GAMES", label: "Jogos da comunidade" },
+      { id: "COMMUNITY_PROJECTS", label: "Projetos da comunidade" },
     ],
   },
   healthyUsageReminder: {
     title: "Hora de uma pausa",
     brandName: "Énóis",
     noise:
-      "Ei, respira! Bebe uma água, olha pela janela e volta quando quiser. Eu também preciso de uma pausa. 🌿",
+      "Ei, respira! Bebe uma água, olha pela janela e volta quando quiser. Eu também preciso de uma pausa.",
     body: "Ops, acho que já passou um tempo que você tá scrollando. Vamos dar uma parada?",
     cta: "Vou dar uma pausa",
   },
