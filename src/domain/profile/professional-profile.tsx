@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { ArrowLeft, BadgeCheck, Building2, ExternalLink, MapPin, PenLine } from "lucide-react";
 
+import { FOCUS_RING } from "../../lib/focus-ring.js";
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ProfessionalProfileProps } from "../../types/domain/profile/professional-profile-props.js";
@@ -9,9 +10,6 @@ import type { ProfileExperienceItem } from "../../types/domain/profile/profile-e
 import { AppLink } from "../../ui/app-link.js";
 import { buttonVariants } from "../../ui/button-variants.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
-
-const FOCUS_RING =
-  "rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 /** "https://www.site.dev/me/" → "site.dev/me": the row reads as an address, not a URL dump. */
 function linkLabel(href: string): string {

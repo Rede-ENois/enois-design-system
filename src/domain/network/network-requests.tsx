@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Check, Loader2, X } from "lucide-react";
 
+import { FOCUS_RING } from "../../lib/focus-ring.js";
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { NetworkRequest } from "../../types/domain/network/network-request.js";
@@ -15,9 +16,6 @@ import { StyledName } from "../name/styled-name.js";
 
 /** Rows shown before "see all": enough to act on, short enough to keep the suggestions in view. */
 const PREVIEW = 4;
-
-const FOCUS_RING =
-  "rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const RESOLVED: Partial<Record<NetworkRequest["status"], true>> = {
   accepted: true,
