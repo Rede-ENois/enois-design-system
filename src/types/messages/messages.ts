@@ -22,6 +22,7 @@ import type { PwaMessages } from "./pwa-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
+import type { StreakMessages } from "./streak-messages.js";
 import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
 import type { UiMessages } from "./ui-messages.js";
@@ -61,4 +62,5 @@ export type Messages = UiMessages &
   DevelopersMessages &
   ModerationMessages &
   CosmeticsMessages &
-  OnboardingMessages;
+  OnboardingMessages &
+  StreakMessages;
