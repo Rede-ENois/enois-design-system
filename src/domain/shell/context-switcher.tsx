@@ -66,7 +66,7 @@ export function ContextSwitcher({
                 if (!selected) onChange(option);
               }}
               className={cn(
-                "flex min-w-0 items-center justify-center gap-1.5 rounded-xl px-2 py-2.5 text-sm transition lg:py-2",
+                "flex min-w-0 items-center justify-center gap-1 rounded-xl px-1 py-2.5 text-sm transition lg:py-2 lg:text-[13px]",
                 selected
                   ? "bg-surface-card font-medium text-text-strong shadow-card"
                   : "text-text-subtle hover:text-text-strong",
