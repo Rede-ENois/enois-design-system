@@ -2,8 +2,6 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { AccountIdentity } from "../../types/domain/account/account-identity.js";
-
 import { AccountMenu } from "./account-menu.js";
 import { AgeGate } from "./age-gate.js";
 import { BlockUserDialog } from "./block-user-dialog.js";
@@ -39,7 +37,6 @@ const hrefs = {
 export const Menu: StoryObj = {
   render: function MenuStory() {
     const [open, setOpen] = useState(true);
-    const [identity, setIdentity] = useState<AccountIdentity>("SOCIAL");
     const [push, setPush] = useState(false);
 
     return (
@@ -49,10 +46,6 @@ export const Menu: StoryObj = {
           hrefs={hrefs}
           open={open}
           onOpenChange={setOpen}
-          showIdentitySwitch
-          corporateIdentityEnabled
-          identity={identity}
-          onChooseIdentity={setIdentity}
           onChangeEmail={() => {}}
           onChangePassword={() => {}}
           onOpenLinkedAccounts={() => {}}

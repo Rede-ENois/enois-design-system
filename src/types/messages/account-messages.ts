@@ -3,9 +3,6 @@ export type AccountMessages = {
     trigger: string;
     triggerLabel: string;
     profile: string;
-    identity: string;
-    socialIdentity: string;
-    corporateIdentity: string;
     corporateProfile: string;
     wallet: string;
     marketplace: string;

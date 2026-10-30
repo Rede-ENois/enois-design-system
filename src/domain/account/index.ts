@@ -7,7 +7,6 @@ export { DeleteAccountDialog } from "./delete-account-dialog.js";
 export { LinkedAccountsDialog } from "./linked-accounts-dialog.js";
 export { LinkedInSyncPrompt } from "./linkedin-sync-prompt.js";
 export { PushToggle } from "./push-toggle.js";
-export type { AccountIdentity } from "../../types/domain/account/account-identity.js";
 export type { AccountMenuHrefs } from "../../types/domain/account/account-menu-hrefs.js";
 export type { AccountMenuProfile } from "../../types/domain/account/account-menu-profile.js";
 export type { AccountMenuProps } from "../../types/domain/account/account-menu-props.js";

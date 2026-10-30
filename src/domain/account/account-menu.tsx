@@ -32,10 +32,6 @@ export function AccountMenu({
   hrefs,
   open,
   onOpenChange,
-  showIdentitySwitch,
-  corporateIdentityEnabled,
-  identity,
-  onChooseIdentity,
   onChangeEmail,
   onChangePassword,
   onOpenLinkedAccounts,
@@ -90,35 +86,6 @@ export function AccountMenu({
             <p className="truncate text-xs text-text-subtle">{profile.email}</p>
           </div>
         </div>
-
-        {/* Identidade ativa: só aparece quando há perfil profissional (a escolha é de
-            interface; o backend decide a autoria de cada publicação). */}
-        {showIdentitySwitch && (
-          <div className="border-b border-border-soft px-4 py-2">
-            <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-text-subtle">
-              {messages.identity}
-            </p>
-
-            <div className="flex rounded-full border border-border-soft p-0.5">
-              {(["SOCIAL", "CORPORATE"] as const).map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  disabled={option === "CORPORATE" && !corporateIdentityEnabled}
-                  onClick={() => onChooseIdentity(option)}
-                  className={cn(
-                    "flex-1 rounded-full px-2 py-1 text-xs font-medium transition disabled:opacity-40",
-                    identity === option
-                      ? "bg-primary text-primary-foreground"
-                      : "text-text-subtle hover:text-text-strong",
-                  )}
-                >
-                  {option === "SOCIAL" ? messages.socialIdentity : messages.corporateIdentity}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-1">
           <AppLink href={hrefs.profile} onClick={close} className={ITEM_CLASS}>
