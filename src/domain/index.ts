@@ -30,3 +30,4 @@ export * from "./streak/index.js";
 export * from "./events/index.js";
 export * from "./network/index.js";
 export * from "./study-pairs/index.js";
+export * from "./companies/index.js";
