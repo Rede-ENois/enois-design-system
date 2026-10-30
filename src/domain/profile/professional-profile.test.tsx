@@ -26,6 +26,14 @@ describe("ProfessionalProfile", () => {
     expect(html).not.toContain("Editar perfil profissional");
   });
 
+  it("breaks a long handle instead of pushing the page sideways on a phone", () => {
+    const handle = "a".repeat(30);
+    const html = render({ profile: { name: "Ana", username: handle, skills: [], links: [] } });
+    expect(html).toMatch(
+      new RegExp(`class="[^"]*min-w-0 break-all[^"]*"><span[^>]*>[^<]*</span>@${handle}`),
+    );
+  });
+
   it("offers the edit link to the owner", () => {
     expect(render({ editHref: "/profissional" })).toContain('href="/profissional"');
   });

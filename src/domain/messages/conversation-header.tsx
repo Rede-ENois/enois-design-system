@@ -17,6 +17,10 @@ export function ConversationHeader({
 }: ConversationHeaderProps) {
   const messages = useMessages().conversationHeader;
   const title = conversationTitle ?? peer?.name ?? messages.conversationFallback;
+  // A titled thread (proposal, hiring) names the subject; who is on the other side goes below it.
+  const subtitle = conversationTitle
+    ? [peer?.name, peer?.headline].filter(Boolean).join(" · ")
+    : peer?.headline;
 
   return (
     <header className="flex items-center gap-3 border-b border-border p-4">
@@ -43,9 +47,7 @@ export function ConversationHeader({
 
             <UserBadges badges={peer?.badges} badge={peer?.badge} />
           </span>
-          {peer?.headline && (
-            <p className="truncate text-xs text-muted-foreground">{peer.headline}</p>
-          )}
+          {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
         </div>
       </div>
 
