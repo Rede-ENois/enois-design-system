@@ -3152,7 +3152,8 @@ html:not(.dark) .frame-shop-price {
 }
 .cos-card__banner {
   position: relative;
-  height: 122px;
+  height: 28dvh;
+  min-height: 192px;
   overflow: hidden;
   background: linear-gradient(
     135deg,
@@ -3313,6 +3314,7 @@ html:not(.dark) .frame-shop-price {
 }
 .cos-card--compact .cos-card__banner {
   height: 72px;
+  min-height: 72px;
 }
 .cos-card--compact .cos-card__head {
   margin-top: -34px;
