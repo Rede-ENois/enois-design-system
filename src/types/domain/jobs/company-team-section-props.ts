@@ -1,7 +1,17 @@
 import type { CompanyMemberCandidate } from "./company-member-candidate.js";
 
 export type CompanyTeamSectionProps = {
-  members: { userId: string; role: string }[];
+  /**
+   * The team. `name`, `username` and `avatar` are optional for older callers: without them the row
+   * falls back to a short id.
+   */
+  members: {
+    userId: string;
+    role: string;
+    name?: string | null;
+    username?: string | null;
+    avatar?: string | null;
+  }[];
   search: string;
   onSearchChange: (search: string) => void;
   /** Resultados da busca (o app só busca com 2+ letras). */

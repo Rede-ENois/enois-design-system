@@ -180,7 +180,10 @@ export const EditCompany: StoryObj = {
       onUploadImage={async () => null}
       teamSection={
         <CompanyTeamSection
-          members={[{ userId: "0b6f0c1e-2c55-4d6a-9f3e-6a2f1c9d7e11", role: "OWNER" }]}
+          members={[
+            { userId: "u1", role: "OWNER", name: "Ana Souza", username: "ana.souza", avatar: null },
+            { userId: "0b6f0c1e-2c55-4d6a-9f3e-6a2f1c9d7e11", role: "EDITOR" },
+          ]}
           search=""
           onSearchChange={noop}
           results={[]}

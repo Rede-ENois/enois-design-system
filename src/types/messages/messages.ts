@@ -4,6 +4,7 @@ import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
 import type { BlogMessages } from "./blog-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
+import type { CompaniesMessages } from "./companies-messages.js";
 import type { ConversationsMessages } from "./conversations-messages.js";
 import type { CosmeticsMessages } from "./cosmetics-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
@@ -69,4 +70,5 @@ export type Messages = UiMessages &
   OnboardingMessages &
   StreakMessages &
   EventsMessages &
-  StudyPairsMessages;
+  StudyPairsMessages &
+  CompaniesMessages;
