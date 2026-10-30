@@ -8,6 +8,7 @@ import {
   Link2,
   LogOut,
   Mail,
+  Settings2,
   ShieldAlert,
   ShieldCheck,
   ShieldOff,
@@ -211,6 +212,14 @@ export function AccountMenu({
           </AppLink>
 
           {pushToggle}
+
+          {hrefs.notificationPreferences && (
+            <AppLink href={hrefs.notificationPreferences} onClick={close} className={ITEM_CLASS}>
+              <Settings2 className="h-4 w-4" />
+
+              <>{messages.notificationPreferences}</>
+            </AppLink>
+          )}
 
           <AppLink href={hrefs.apoie} onClick={close} className={ITEM_CLASS}>
             <Heart className="h-4 w-4 text-primary" />

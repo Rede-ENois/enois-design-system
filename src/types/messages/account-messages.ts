@@ -24,6 +24,7 @@ export type AccountMessages = {
     deleteAccount: string;
     logout: string;
     loggingOut: string;
+    notificationPreferences: string;
   };
   pushToggle: { on: string; off: string; working: string };
   ageGate: {
