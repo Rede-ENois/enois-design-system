@@ -124,6 +124,7 @@ export type ProfileMessages = {
     /** "1 ano e 2 meses": a duração de uma posição, em meses inclusivos. */
     duration: (months: number) => string;
   };
+  profileCityPrivacy: { label: string; hint: string };
   profileCommunityShelf: {
     communityEyebrow: string;
     communityTitle: string;
