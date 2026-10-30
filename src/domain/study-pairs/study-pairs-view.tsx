@@ -33,6 +33,7 @@ export function StudyPairsView({
   requestError = null,
   birthDateHref,
   verifyEmailHref,
+  errorAction,
   onCancelRequest,
   cancelling = false,
   onSaveCheckin,
@@ -176,6 +177,7 @@ export function StudyPairsView({
           requestError={requestError}
           birthDateHref={birthDateHref}
           verifyEmailHref={verifyEmailHref}
+          errorAction={errorAction}
         />
       )}
     </div>
@@ -190,8 +192,9 @@ function RequestForm({
   requestError,
   birthDateHref,
   verifyEmailHref,
+  errorAction,
 }: Required<Pick<StudyPairsViewProps, "topics" | "popularGoals" | "onRequest" | "requesting">> &
-  Pick<StudyPairsViewProps, "requestError" | "birthDateHref" | "verifyEmailHref">) {
+  Pick<StudyPairsViewProps, "requestError" | "birthDateHref" | "verifyEmailHref" | "errorAction">) {
   const messages = useMessages().studyPairs;
   const id = useId();
   const [goal, setGoal] = useState("");
@@ -284,6 +287,8 @@ function RequestForm({
                     {errorLink.label}
                   </AppLink>
                 )}
+
+                {errorAction}
               </div>
             </div>
           )}

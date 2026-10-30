@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type { StudyPairOpenRequest } from "./study-pair-open-request.js";
 import type { StudyPairPopularGoal } from "./study-pair-popular-goal.js";
 import type { StudyPairRequestInput } from "./study-pair-request-input.js";
@@ -28,6 +30,11 @@ export type StudyPairsViewProps = {
   birthDateHref?: string;
   /** Where to verify the e-mail (shown with `EMAIL_NOT_VERIFIED`). */
   verifyEmailHref?: string;
+  /**
+   * Extra action under the request error, e.g. a button that turns the module back on for
+   * `STUDY_PAIRS_DISABLED`. Shown only while there is an error.
+   */
+  errorAction?: ReactNode;
 
   onCancelRequest: () => void;
   cancelling?: boolean;

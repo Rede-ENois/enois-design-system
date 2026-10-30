@@ -107,6 +107,17 @@ describe("StudyPairsView", () => {
     expect(container.querySelector('a[href="/settings/account"]')).not.toBeNull();
   });
 
+  it("explains a disabled module and renders the app's action", () => {
+    render({
+      requestError: "STUDY_PAIRS_DISABLED",
+      errorAction: <button type="button">Ligar</button>,
+    });
+
+    const alert = container.querySelector('[role="alert"]')!;
+    expect(alert.textContent).toContain("Par de estudo está desligado nas suas preferências.");
+    expect(alert.querySelector("button")!.textContent).toBe("Ligar");
+  });
+
   it("shows the waiting state with cancel instead of the form", () => {
     const onCancelRequest = vi.fn();
     render({ openRequest: { goal: "Aprender Rust" }, onCancelRequest });

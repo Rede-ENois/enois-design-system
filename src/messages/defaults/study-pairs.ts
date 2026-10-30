@@ -32,6 +32,7 @@ export const studyPairsMessages: StudyPairsMessages = {
       STUDY_REQUEST_ALREADY_OPEN:
         "Você já tem um pedido aberto. A gente avisa quando achar alguém.",
       STUDY_PAIR_LIMIT: "Você chegou ao limite de pares ativos. Encerre um para começar outro.",
+      STUDY_PAIRS_DISABLED: "Par de estudo está desligado nas suas preferências.",
       UNKNOWN: "Não deu para enviar agora. Tente de novo em instantes.",
     },
     birthDateLink: "Informar data de nascimento",

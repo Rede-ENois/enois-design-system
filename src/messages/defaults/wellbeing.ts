@@ -52,6 +52,7 @@ export const wellbeingMessages: WellbeingMessages = {
       },
       { id: "DAILY_GAMES", label: "Jogos diários" },
       { id: "COMMUNITY_GAMES", label: "Jogos da comunidade" },
+      { id: "STUDY_PAIRS", label: "Par de estudo" },
     ],
   },
   healthyUsageReminder: {

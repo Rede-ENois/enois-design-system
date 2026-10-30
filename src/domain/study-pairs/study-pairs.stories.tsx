@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { StudyPairSaveStatus } from "../../types/domain/study-pairs/study-pair-save-status.js";
 import type { StudyPair } from "../../types/domain/study-pairs/study-pair.js";
 import type { StudyPairsViewProps } from "../../types/domain/study-pairs/study-pairs-view-props.js";
+import { Button } from "../../ui/button.js";
 
 import { StudyPairsView } from "./study-pairs-view.js";
 
@@ -131,6 +132,16 @@ export const RequestErrors: StoryObj = {
       <StudyPairsView {...base} requestError="BIRTH_DATE_REQUIRED" />
       <StudyPairsView {...base} requestError="EMAIL_NOT_VERIFIED" />
       <StudyPairsView {...base} requestError="STUDY_PAIRS_ADULTS_ONLY" popularGoals={[]} />
+      <StudyPairsView
+        {...base}
+        requestError="STUDY_PAIRS_DISABLED"
+        popularGoals={[]}
+        errorAction={
+          <Button size="sm" variant="outline" className="rounded-full">
+            Ligar par de estudo
+          </Button>
+        }
+      />
     </div>
   ),
 };
