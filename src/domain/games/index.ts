@@ -24,6 +24,7 @@ export {
   normalizePieces as normalizeBlocksPieces,
   stepGame as stepBlocksGame,
 } from "../../lib/games/blocks-engine.js";
+export { buildDailyShareText } from "../../lib/games/daily-share.js";
 export { MAX_GUESSES as WORD_MAX_GUESSES, WORD_LENGTH } from "../../lib/games/daily-word.js";
 export {
   SLOW_LOADING_MS,
@@ -46,6 +47,7 @@ export type { DailyGamesPanelProps } from "../../types/domain/games/daily-games-
 export type { DailyMazeProps } from "../../types/domain/games/daily-maze-props.js";
 export type { DailyRankingProps } from "../../types/domain/games/daily-ranking-props.js";
 export type { DailyRankingSource } from "../../types/domain/games/daily-ranking-source.js";
+export type { DailyShareResult } from "../../types/domain/games/daily-share-result.js";
 export type { DailyWordProps } from "../../types/domain/games/daily-word-props.js";
 export type { GameAnalyticsCardProps } from "../../types/domain/games/game-analytics-card-props.js";
 export type { GameBannerFrameProps } from "../../types/domain/games/game-banner-frame-props.js";
