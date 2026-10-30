@@ -16,4 +16,6 @@ export type CommentItemData = {
   mediaSpoiler?: boolean;
   reactionCount?: number;
   pinned?: boolean;
+  /** Accepted answer of a QUESTION post. */
+  accepted?: boolean;
 };

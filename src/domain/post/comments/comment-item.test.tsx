@@ -58,4 +58,21 @@ describe("CommentItem", () => {
     expect(html).toContain('data-part="name"');
     expect(html).not.toContain('href="/perfil/ana"');
   });
+
+  it("marks the accepted answer", () => {
+    expect(renderItem({ comment: { ...comment, accepted: true } })).toContain("Resposta aceita");
+    expect(renderItem()).not.toContain("Resposta aceita");
+  });
+
+  it("offers mark/unmark only when canAccept is true", () => {
+    expect(renderItem({ onAccept: () => {} })).not.toContain("Marcar como resposta");
+    expect(renderItem({ canAccept: true, onAccept: () => {} })).toContain("Marcar como resposta");
+    expect(
+      renderItem({
+        canAccept: true,
+        onUnaccept: () => {},
+        comment: { ...comment, accepted: true },
+      }),
+    ).toContain("Desmarcar");
+  });
 });
