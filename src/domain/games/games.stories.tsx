@@ -2,6 +2,9 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import type { DailyShareStatus } from "../../types/domain/games/daily-share-status.js";
+
+import { DailyBlocks } from "./daily/daily-blocks.js";
 import { DailyGamesPanel } from "./daily/daily-games-panel.js";
 import { DailyMaze } from "./daily/daily-maze.js";
 import { DailyWord } from "./daily/daily-word.js";
@@ -44,7 +47,16 @@ const ranking = {
   error: false,
   onRetry: () => {},
   items: [
-    { username: "ana", name: "Ana Lima", href: "#", attempts: 3, elapsedMillis: 41200, moves: 52 },
+    {
+      username: "ana",
+      name: "Ana Lima",
+      href: "#",
+      attempts: 3,
+      elapsedMillis: 41200,
+      moves: 52,
+      score: 1240,
+      lines: 10,
+    },
   ],
 };
 
@@ -220,6 +232,116 @@ export const DailyPanel: StoryObj = {
         />
       }
       blocks={null}
+    />
+  ),
+};
+
+const challenge = {
+  loading: false,
+  loadError: false,
+  onRetryLoad: noop,
+  canTogglePrevious: false,
+  showPrevious: false,
+  onTogglePrevious: noop,
+  onStart: noop,
+  startPending: false,
+  startError: false,
+};
+
+const wordStats = {
+  played: 5,
+  won: 4,
+  currentStreak: 3,
+  maxStreak: 3,
+  distribution: { 3: 2, 4: 2 },
+};
+
+/** Finished word with the share button; clicking it shows the polite "copied" line. */
+export const DailyWordShare: StoryObj = {
+  render: function Render() {
+    const [status, setStatus] = useState<DailyShareStatus>("idle");
+    return (
+      <DailyWord
+        {...challenge}
+        state={{
+          date: "2026-10-30",
+          status: "WON",
+          streak: 3,
+          guesses: [
+            { word: "TURMA", marks: ["CORRECT", "ABSENT", "PRESENT", "ABSENT", "ABSENT"] },
+            { word: "TRENS", marks: ["CORRECT", "CORRECT", "ABSENT", "ABSENT", "PRESENT"] },
+            { word: "TROCA", marks: ["CORRECT", "CORRECT", "CORRECT", "CORRECT", "CORRECT"] },
+          ],
+        }}
+        draft=""
+        shakeRow={null}
+        lastConfirmedRow={null}
+        localError={null}
+        guessPending={false}
+        onKey={noop}
+        stats={wordStats}
+        statsOpen={false}
+        onStatsOpenChange={noop}
+        onShare={() => setStatus("copied")}
+        shareStatus={status}
+        ranking={ranking}
+      />
+    );
+  },
+};
+
+/** Maze exit found, share already sent through the native sheet. */
+export const DailyMazeShared: StoryObj = {
+  render: () => (
+    <DailyMaze
+      {...challenge}
+      state={{
+        date: "2026-10-30",
+        status: "WON",
+        passages: null,
+        position: 80,
+        moves: 42,
+        startedAt: "2026-10-30T12:00:00.000Z",
+        completedAt: "2026-10-30T12:00:37.400Z",
+      }}
+      movePending={false}
+      moveFailed={false}
+      moveErrorMessage={null}
+      onMove={noop}
+      ranking={ranking}
+      onShare={noop}
+      shareStatus="shared"
+    />
+  ),
+};
+
+/** Blocks result when sharing failed: calm muted line, no error toast. */
+export const DailyBlocksShareError: StoryObj = {
+  render: () => (
+    <DailyBlocks
+      {...challenge}
+      state={{ date: "2026-10-30", status: "WON" }}
+      game={null}
+      official={{
+        date: "2026-10-30",
+        status: "WON",
+        score: 1240,
+        lines: 10,
+        actions: 312,
+        board: Array.from({ length: 20 }, () => ".........."),
+        activeCells: [],
+        nextCells: [],
+        pieces: [],
+        rulesVersion: 1,
+      }}
+      pendingCount={0}
+      syncError={null}
+      onAction={noop}
+      onRetrySync={noop}
+      boardRef={{ current: null }}
+      ranking={ranking}
+      onShare={noop}
+      shareStatus="error"
     />
   ),
 };

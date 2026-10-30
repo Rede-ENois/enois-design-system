@@ -1,4 +1,5 @@
 import type { DailyRankingSource } from "./daily-ranking-source.js";
+import type { DailyShareStatus } from "./daily-share-status.js";
 import type { UserWordStats } from "./user-word-stats.js";
 import type { WordRankingItem } from "./word-ranking-item.js";
 import type { WordState } from "./word-state.js";
@@ -29,5 +30,7 @@ export type DailyWordProps = {
   statsOpen: boolean;
   onStatsOpenChange: (open: boolean) => void;
   onShare: () => void;
+  /** Outcome of the last share, read out politely next to the button. */
+  shareStatus?: DailyShareStatus;
   ranking: DailyRankingSource<WordRankingItem>;
 };

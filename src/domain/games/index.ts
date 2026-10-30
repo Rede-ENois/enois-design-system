@@ -48,6 +48,7 @@ export type { DailyMazeProps } from "../../types/domain/games/daily-maze-props.j
 export type { DailyRankingProps } from "../../types/domain/games/daily-ranking-props.js";
 export type { DailyRankingSource } from "../../types/domain/games/daily-ranking-source.js";
 export type { DailyShareResult } from "../../types/domain/games/daily-share-result.js";
+export type { DailyShareStatus } from "../../types/domain/games/daily-share-status.js";
 export type { DailyWordProps } from "../../types/domain/games/daily-word-props.js";
 export type { GameAnalyticsCardProps } from "../../types/domain/games/game-analytics-card-props.js";
 export type { GameBannerFrameProps } from "../../types/domain/games/game-banner-frame-props.js";

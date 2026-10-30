@@ -206,7 +206,6 @@ export type GamesMessages = {
     emptyTile: string;
     won: (attempts: number) => string;
     lost: string;
-    shareResult: string;
     viewStats: string;
     keyboardLabel: string;
     keyDelete: string;

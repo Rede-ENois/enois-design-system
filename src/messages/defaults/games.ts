@@ -248,7 +248,6 @@ export const gamesMessages: GamesMessages = {
     emptyTile: "vazio",
     won: (attempts) => `🎉 Você acertou em ${attempts} tentativa${attempts === 1 ? "" : "s"}!`,
     lost: "😔 Não foi dessa vez.",
-    shareResult: "Compartilhar resultado",
     viewStats: "Ver estatísticas",
     keyboardLabel: "Teclado virtual",
     keyDelete: "Apagar",
