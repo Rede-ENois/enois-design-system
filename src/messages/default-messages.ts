@@ -23,6 +23,7 @@ import { pwaMessages } from "./defaults/pwa.js";
 import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
+import { streakMessages } from "./defaults/streak.js";
 import { supportUsMessages } from "./defaults/support-us.js";
 import { supportMessages } from "./defaults/support.js";
 import { uiMessages } from "./defaults/ui.js";
@@ -58,4 +59,5 @@ export const defaultMessages: Messages = {
   ...jobsMessages,
   ...moderationMessages,
   ...cosmeticsMessages,
+  ...streakMessages,
 };
