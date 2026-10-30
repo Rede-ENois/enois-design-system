@@ -79,6 +79,7 @@ export const cosmeticsMessages: CosmeticsMessages = {
     noVotes: "Ninguém escolheu um time ainda.",
     choose: "Escolha um time. A escolha vale pro dia todo e não muda.",
     chosen: (team) => `Você está no ${team}. O emblema já está no seu perfil.`,
+    upcoming: "A escolha de times abre no sábado, 31/10.",
     closed: "A escolha de times terminou.",
     winner: (team) => `O ${team} venceu.`,
     tie: "Deu empate: os dois times venceram.",
