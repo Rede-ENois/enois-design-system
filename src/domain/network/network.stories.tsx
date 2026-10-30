@@ -26,18 +26,18 @@ const person = (patch: Partial<NetworkRequest>): NetworkRequest => ({
   username: "ana.souza",
   headline: "Dev front-end e estudante de design",
   profileHref: "#",
-  dateLabel: "há 2 dias",
+  dateLabel: "28 de out.",
   status: "pending",
   ...patch,
 });
 
 const requests: NetworkRequest[] = [
   person({}),
-  person({ userId: "u2", name: "Caio Lima", username: "caio", headline: null, dateLabel: "ontem" }),
-  person({ userId: "u3", name: "Bia Rocha", status: "accepted", dateLabel: "há 5 dias" }),
-  person({ userId: "u4", name: "Davi Alves", status: "accepting", dateLabel: "há 1 semana" }),
-  person({ userId: "u5", name: "Eva Nunes", status: "failed", dateLabel: "há 2 semanas" }),
-  person({ userId: "u6", name: "Fabi Melo", direction: "OUTGOING", dateLabel: "há 3 horas" }),
+  person({ userId: "u2", name: "Caio Lima", username: "caio", headline: null, dateLabel: "29 de out." }),
+  person({ userId: "u3", name: "Bia Rocha", status: "accepted", dateLabel: "25 de out." }),
+  person({ userId: "u4", name: "Davi Alves", status: "accepting", dateLabel: "23 de out." }),
+  person({ userId: "u5", name: "Eva Nunes", status: "failed", dateLabel: "16 de out." }),
+  person({ userId: "u6", name: "Fabi Melo", direction: "OUTGOING", dateLabel: "30 de out." }),
 ];
 
 export const Received: StoryObj<typeof NetworkRequests> = { args: { requests } };

@@ -30,7 +30,7 @@ const person = (patch: Partial<NetworkRequest>): NetworkRequest => ({
   name: "Ana",
   username: "ana",
   profileHref: "/perfil/ana",
-  dateLabel: "há 2 dias",
+  dateLabel: "28 de out.",
   status: "pending",
   ...patch,
 });

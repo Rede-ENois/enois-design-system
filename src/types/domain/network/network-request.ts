@@ -16,7 +16,7 @@ export type NetworkRequest = {
   avatarFrame?: string | null;
   nameStyle?: AuthorNameStyle | null;
   profileHref: string;
-  /** Already formatted, relative to now ("há 2 dias"). */
+  /** Already formatted day of the request ("28 de out."). */
   dateLabel: string;
   status:
     | "pending"
