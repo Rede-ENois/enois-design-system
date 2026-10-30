@@ -60,6 +60,7 @@ export type CosmeticsMessages = {
     noVotes: string;
     choose: string;
     chosen: (team: string) => string;
+    upcoming: string;
     closed: string;
     winner: (team: string) => string;
     tie: string;

@@ -17,6 +17,7 @@ const TEAMS: readonly { team: SaciHalloweenTeam; icon: string }[] = [
  */
 export function SaciHalloweenDuel({
   active,
+  upcoming = false,
   counts,
   myChoice,
   winner,
@@ -29,7 +30,8 @@ export function SaciHalloweenDuel({
   const closed = !active;
 
   let state: string;
-  if (closed && winner) state = messages.winner(messages.teams[winner]);
+  if (upcoming) state = messages.upcoming;
+  else if (closed && winner) state = messages.winner(messages.teams[winner]);
   else if (closed && share !== null && counts.saci === counts.halloween) state = messages.tie;
   else if (closed) state = messages.closed;
   else if (myChoice) state = messages.chosen(messages.teams[myChoice]);
