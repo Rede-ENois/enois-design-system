@@ -1,6 +1,6 @@
 {
   "name": "@rede-enois/design-system",
-  "version": "0.15.0-rc.2",
+  "version": "0.15.0-rc.3",
   "description": "Énois design system: tokens and React components consumed by enois-frontend.",
   "license": "GPL-3.0-only",
   "type": "module",
