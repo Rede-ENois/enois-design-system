@@ -28,4 +28,5 @@ export * from "./cosmetics/index.js";
 export * from "./onboarding/index.js";
 export * from "./streak/index.js";
 export * from "./events/index.js";
+export * from "./network/index.js";
 export * from "./study-pairs/index.js";
