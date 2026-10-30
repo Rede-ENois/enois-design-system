@@ -10,4 +10,11 @@ export type ApplyFreelanceDialogProps = {
   /** Recebe a mensagem já aparada. */
   onSend: (message: string) => void;
   onOpenChat: () => void;
+  /** The professional identity that signs it (shown as "você envia como"). */
+  applicant?: { name: string; username: string } | null;
+  /**
+   * Set while there is no active professional profile: the dialog shows the way to activate it
+   * and does not let the person send (the server refuses it anyway).
+   */
+  professionalSetupHref?: string | null;
 };

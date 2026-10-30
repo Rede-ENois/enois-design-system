@@ -1,5 +1,6 @@
 export type JobsMessages = {
   applyByEmailButton: { action: string; hint: string };
+  professionalSignature: { sendingAs: string; needsProfile: string; setup: string };
   applyFreelanceDialog: {
     title: string;
     hint: string;
