@@ -19,4 +19,6 @@ export type NotificationsPopoverProps = {
   onRejectConnection: (actorId: string) => void;
   /** Opens a notification destination; the popover closes itself. */
   onOpenNotification: (href: string) => void;
+  /** Notification preferences page; the header shows a settings link only when it is set. */
+  preferencesHref?: string;
 };

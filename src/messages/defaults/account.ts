@@ -26,6 +26,7 @@ export const accountMessages: AccountMessages = {
     deleteAccount: "Excluir conta",
     logout: "Sair",
     loggingOut: "Saindo...",
+    notificationPreferences: "Preferências de notificação",
   },
   pushToggle: {
     on: "Notificações no celular ativadas",

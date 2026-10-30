@@ -33,6 +33,7 @@ const hrefs = {
   guardian: "#",
   moderator: "#",
   apoie: "#",
+  notificationPreferences: "#",
 };
 
 export const Menu: StoryObj = {

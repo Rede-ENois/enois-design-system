@@ -76,6 +76,7 @@ export const Popover: StoryObj = {
           onAcceptConnection={() => {}}
           onRejectConnection={() => {}}
           onOpenNotification={() => setOpen(false)}
+          preferencesHref="#"
         />
       </div>
     );

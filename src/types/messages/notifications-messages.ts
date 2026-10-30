@@ -4,6 +4,7 @@ export type NotificationsMessages = {
   notificationsPopover: {
     title: string;
     markAllRead: string;
+    preferences: string;
     overflowCount: string;
     tabs: { new: string; history: string; requests: string };
     emptyNew: string;

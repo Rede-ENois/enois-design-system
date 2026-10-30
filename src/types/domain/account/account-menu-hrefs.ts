@@ -11,4 +11,6 @@ export type AccountMenuHrefs = {
   guardian: string;
   moderator: string;
   apoie: string;
+  /** Notification preferences page; the menu item only shows when it is set. */
+  notificationPreferences?: string;
 };

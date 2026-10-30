@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-import { Bell, CheckCheck, Loader2 } from "lucide-react";
+import { Bell, CheckCheck, Loader2, Settings2 } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { NotificationTab } from "../../types/domain/notifications/notification-tab.js";
 import type { NotificationsPopoverProps } from "../../types/domain/notifications/notifications-popover-props.js";
+import { AppLink } from "../../ui/app-link.js";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover.js";
 
 import { ConnectionRequestItem } from "./connection-request-item.js";
@@ -26,6 +27,7 @@ export function NotificationsPopover({
   onAcceptConnection,
   onRejectConnection,
   onOpenNotification,
+  preferencesHref,
 }: NotificationsPopoverProps) {
   const messages = useMessages().notificationsPopover;
   const [notificationTab, setNotificationTab] = useState<NotificationTab>("novas");
@@ -59,18 +61,33 @@ export function NotificationsPopover({
       >
         <div className="flex items-center justify-between gap-3 border-b border-border-soft px-4 py-3">
           <span className="text-sm font-normal text-text-strong">{messages.title}</span>
-          {unreadCount > 0 && notificationTab === "novas" && (
-            <button
-              type="button"
-              disabled={markAllPending}
-              onClick={onMarkAllRead}
-              className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-normal text-text-subtle transition hover:text-primary disabled:opacity-60"
-            >
-              <CheckCheck className="h-3 w-3" />
 
-              <>{messages.markAllRead}</>
-            </button>
-          )}
+          <div className="flex items-center gap-1">
+            {unreadCount > 0 && notificationTab === "novas" && (
+              <button
+                type="button"
+                disabled={markAllPending}
+                onClick={onMarkAllRead}
+                className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-normal text-text-subtle transition hover:text-primary disabled:opacity-60"
+              >
+                <CheckCheck className="h-3 w-3" />
+
+                <>{messages.markAllRead}</>
+              </button>
+            )}
+
+            {preferencesHref && (
+              <AppLink
+                href={preferencesHref}
+                onClick={close}
+                aria-label={messages.preferences}
+                title={messages.preferences}
+                className="grid h-7 w-7 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Settings2 aria-hidden className="h-4 w-4" />
+              </AppLink>
+            )}
+          </div>
         </div>
 
         <div className="flex border-b border-border-soft">

@@ -4,6 +4,7 @@ export const notificationsMessages: NotificationsMessages = {
   notificationsPopover: {
     title: "Notificações",
     markAllRead: "Ler tudo",
+    preferences: "Preferências de notificação",
     overflowCount: "9+",
     tabs: {
       new: "Novas",
