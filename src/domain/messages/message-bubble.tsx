@@ -1,4 +1,4 @@
-import { Check, CheckCheck, Flag, Smile } from "lucide-react";
+import { Check, CheckCheck, CornerUpLeft, Flag, Smile } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import type { MessageBubbleProps } from "../../types/domain/messages/message-bubble-props.js";
@@ -23,6 +23,8 @@ export function MessageBubble({
   onReact,
   readByOther = false,
   onReport,
+  onReply,
+  replyQuote,
 }: MessageBubbleProps) {
   const messages = useMessages().messageBubble;
 
@@ -53,6 +55,22 @@ export function MessageBubble({
             : "rounded-bl-md bg-card text-foreground"
         } ${selected ? "ring-2 ring-destructive/70" : ""}`}
       >
+        {replyQuote && (
+          <div
+            className={`mb-2 rounded-lg border-l-2 px-2.5 py-1.5 text-xs ${
+              isMe
+                ? "border-primary-foreground/40 bg-primary-foreground/10 text-primary-foreground/80"
+                : "border-primary/40 bg-muted text-text-subtle"
+            }`}
+          >
+            <p className="font-medium">
+              {replyQuote.isMe ? "Você" : replyQuote.from}
+            </p>
+
+            <p className="line-clamp-2">{replyQuote.text}</p>
+          </div>
+        )}
+
         {content}
 
         {media && <div className="mt-1">{media}</div>}
@@ -119,6 +137,22 @@ export function MessageBubble({
           >
             <Smile className="h-3.5 w-3.5" />
           </ReactionPicker>
+
+          {onReply && (
+            <button
+              type="button"
+              onClick={onReply}
+              className={`inline-flex h-6 w-6 items-center justify-center rounded-full transition ${
+                isMe
+                  ? "text-primary-foreground/70 hover:bg-primary-foreground/15"
+                  : "text-text-subtle hover:bg-muted"
+              }`}
+              title={messages.reply}
+              aria-label={messages.reply}
+            >
+              <CornerUpLeft className="h-3 w-3" />
+            </button>
+          )}
 
           {!isMe && onReport && (
             <button

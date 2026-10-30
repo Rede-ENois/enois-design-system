@@ -3,4 +3,6 @@ export type ConversationSendValues = {
   text: string;
   files: File[];
   mediaSpoiler: boolean;
+  /** Id da mensagem sendo respondida (reply). */
+  replyToId?: string;
 };

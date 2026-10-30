@@ -17,6 +17,7 @@ export const conversationsMessages: ConversationsMessages = {
     readReceiptRead: "Lida pela outra pessoa",
     react: "Reagir",
     report: "Denunciar mensagem",
+    reply: "Responder",
   },
   e2eSetupBanner: {
     prompt: "Proteja suas mensagens com criptografia ponta a ponta.",
@@ -46,6 +47,8 @@ export const conversationsMessages: ConversationsMessages = {
     noMessages: "Nenhuma mensagem ainda",
     loadOlderMessages: "Ver mensagens anteriores",
     loadingOlder: "Carregando...",
+    replyingTo: (name: string) => `Respondendo a ${name}`,
+    cancelReply: "Cancelar resposta",
     inputPlaceholder: "Escreva uma mensagem...",
     send: "Enviar mensagem",
     attachMedia: "Anexar imagem",

@@ -41,4 +41,7 @@ export type ConversationThreadProps = {
   services: ConversationServiceOption[];
   /** Endereço do serviço anexado (o app sabe onde a oferta mora). */
   serviceHref: (serviceId: string) => string;
+  /** Mensagem sendo respondida (exibe preview acima do compositor). */
+  replyingTo?: { id: string; from: string; text: string } | null;
+  onCancelReply?: () => void;
 };

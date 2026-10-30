@@ -29,4 +29,8 @@ export type MessageBubbleProps = {
   readByOther?: boolean;
   /** Denunciar esta mensagem. Ausente nas mensagens próprias e onde não se denuncia. */
   onReport?: () => void;
+  /** Responder esta mensagem. */
+  onReply?: () => void;
+  /** Citação da mensagem sendo respondida (acima do conteúdo do balão). */
+  replyQuote?: { from: string; text: string; isMe: boolean } | null;
 };

@@ -15,6 +15,7 @@ export type ConversationsMessages = {
     readReceiptRead: string;
     react: string;
     report: string;
+    reply: string;
   };
   e2eSetupBanner: {
     prompt: string;
@@ -41,6 +42,8 @@ export type ConversationsMessages = {
     noMessages: string;
     loadOlderMessages: string;
     loadingOlder: string;
+    replyingTo: (name: string) => string;
+    cancelReply: string;
     inputPlaceholder: string;
     send: string;
     attachMedia: string;
