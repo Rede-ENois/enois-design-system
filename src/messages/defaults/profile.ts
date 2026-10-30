@@ -141,6 +141,27 @@ export const profileMessages: ProfileMessages = {
       return parts.join(" e ") || "1 mês";
     },
   },
+  professionalProfile: {
+    back: "Voltar ao feed",
+    edit: "Editar perfil profissional",
+    verified: "Identidade verificada",
+    usernameLabel: "Usuário profissional",
+    credibility: "Credibilidade",
+    reputation: "Reputação",
+    memberSince: "No Énóis desde",
+    identity: "Identidade",
+    identityVerified: "Verificada",
+    about: "Sobre",
+    skills: "Habilidades",
+    trajectory: "Trajetória",
+    period: (start, end) =>
+      start ? (end ? `${start} a ${end}` : `${start} até o momento`) : (end ?? "Atual"),
+    education: "Formação",
+    certifications: "Certificações",
+    viewCredential: "Ver credencial",
+    links: "Links",
+    posts: "Publicações profissionais",
+  },
   profileCityPrivacy: {
     label: "Mostrar minha cidade no perfil",
     hint: "Desligado, sua cidade fica só com você e serve para sugerir comunidades e encontros por perto.",

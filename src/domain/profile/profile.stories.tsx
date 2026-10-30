@@ -7,6 +7,7 @@ import { Button } from "../../ui/button.js";
 
 import { EditProfileDialog } from "./edit-profile-dialog.js";
 import { GithubImportDialog } from "./github-import-dialog.js";
+import { ProfessionalProfile } from "./professional-profile.js";
 import { ProfileBannerDialog } from "./profile-banner-dialog.js";
 import { ProfileBioDialog } from "./profile-bio-dialog.js";
 import { ProfileCityPrivacy } from "./profile-city-privacy.js";
@@ -379,4 +380,81 @@ export const CityPrivacy: StoryObj = {
       </div>
     );
   },
+};
+
+// Fake data only: the public work profile with every section filled, owner view.
+export const Professional: StoryObj = {
+  render: () => (
+    <ProfessionalProfile
+      backHref="#"
+      editHref="#"
+      profile={{
+        name: "Ana Exemplo",
+        username: "ana.exemplo",
+        headline: "Engenheira de software focada em plataformas de dados",
+        bio: "Construo sistemas que aguentam o dia a dia.\nGosto de mentoria e de documentação clara.",
+        location: "Belo Horizonte, MG",
+        industry: "Tecnologia",
+        identityVerified: true,
+        reputation: 1240,
+        memberSinceLabel: "mar. 2026",
+        skills: ["Go", "PostgreSQL", "Kubernetes", "Observabilidade"],
+        links: ["https://example.dev/ana", "https://github.com/example"],
+      }}
+      experiences={[
+        {
+          id: "e1",
+          title: "Engenheira de software sênior",
+          company: "Empresa Exemplo",
+          location: "Remoto",
+          currentlyHere: true,
+          startLabel: "jan. 2024",
+          endLabel: null,
+          months: 22,
+          description: "Plataforma de dados e times de produto.",
+        },
+        {
+          id: "e2",
+          title: "Engenheira de software",
+          company: "Outra Exemplo",
+          startLabel: "fev. 2020",
+          endLabel: "dez. 2023",
+          months: 47,
+        },
+      ]}
+      educations={[
+        {
+          id: "d1",
+          school: "Universidade Exemplo",
+          degree: "Bacharelado",
+          field: "Ciência da Computação",
+          periodLabel: "2016 a 2020",
+        },
+      ]}
+      certifications={[
+        {
+          id: "c1",
+          name: "Certificação Exemplo",
+          issuer: "Instituto Exemplo",
+          issuedLabel: "jun. 2025",
+          credentialUrl: "https://example.dev/cred",
+        },
+      ]}
+      posts={<p className="text-sm text-text-subtle">Publicações do perfil profissional.</p>}
+    />
+  ),
+};
+
+export const ProfessionalMinimal: StoryObj = {
+  render: () => (
+    <ProfessionalProfile
+      backHref="#"
+      profile={{ name: "Perfil Novo", username: "perfil.novo", skills: [], links: [] }}
+      experiences={[]}
+      educations={[]}
+      certifications={[]}
+      statusNote="Rascunho: só você vê esta página."
+      posts={<p className="text-sm text-text-subtle">Nada publicado ainda.</p>}
+    />
+  ),
 };
