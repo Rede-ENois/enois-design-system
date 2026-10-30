@@ -14,6 +14,7 @@ import type { LegalMessages } from "./legal-messages.js";
 import type { MarketplaceMessages } from "./marketplace-messages.js";
 import type { ModerationMessages } from "./moderation-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
+import type { OnboardingMessages } from "./onboarding-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
 import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
@@ -59,4 +60,5 @@ export type Messages = UiMessages &
   SupportMessages &
   DevelopersMessages &
   ModerationMessages &
-  CosmeticsMessages;
+  CosmeticsMessages &
+  OnboardingMessages;
