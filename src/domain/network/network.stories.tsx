@@ -33,7 +33,13 @@ const person = (patch: Partial<NetworkRequest>): NetworkRequest => ({
 
 const requests: NetworkRequest[] = [
   person({}),
-  person({ userId: "u2", name: "Caio Lima", username: "caio", headline: null, dateLabel: "29 de out." }),
+  person({
+    userId: "u2",
+    name: "Caio Lima",
+    username: "caio",
+    headline: null,
+    dateLabel: "29 de out.",
+  }),
   person({ userId: "u3", name: "Bia Rocha", status: "accepted", dateLabel: "25 de out." }),
   person({ userId: "u4", name: "Davi Alves", status: "accepting", dateLabel: "23 de out." }),
   person({ userId: "u5", name: "Eva Nunes", status: "failed", dateLabel: "16 de out." }),
