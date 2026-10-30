@@ -93,7 +93,11 @@ export const Panels: StoryObj = {
 export const Sections: StoryObj = {
   render: () => (
     <div className="max-w-2xl space-y-4">
-      <ProfileQuickComposer profile={{ name: "Ana Souza" }} onPublish={async () => true} />
+      <ProfileQuickComposer
+        profile={{ name: "Ana Souza" }}
+        onPublish={async () => true}
+        onWriteArticle={() => undefined}
+      />
       <ProfileProjectsSection
         projects={projects}
         isOwner
