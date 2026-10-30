@@ -1,4 +1,4 @@
-import { BookOpen, Clock, FileText, Pin, PinOff, Repeat2 } from "lucide-react";
+import { BookOpen, CircleCheck, Clock, FileText, Pin, PinOff, Repeat2 } from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { inlineMediaIds } from "../../lib/rich-text/inline-media.js";
@@ -152,6 +152,18 @@ export function PostCard({
           >
             {messages.types[metaType]}
           </span>
+
+          {post.type === "QUESTION" &&
+            (post.resolved ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-growth/10 px-2.5 py-1 text-xs font-medium text-growth">
+                <CircleCheck className="h-3 w-3" aria-hidden />
+                {messages.questionResolved}
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-full border border-border-soft px-2.5 py-1 text-xs font-medium text-text-subtle">
+                {messages.questionOpen}
+              </span>
+            ))}
 
           {/* O assunto (categoria) do post fica ao lado do tipo, quando o autor classificou. */}
           {topicLabel && (
