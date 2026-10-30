@@ -3177,7 +3177,7 @@ html:not(.dark) .frame-shop-price {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  margin-top: -54px;
+  margin-top: -80px;
   padding-inline: 24px 14px;
 }
 .cos-card__avatar {
