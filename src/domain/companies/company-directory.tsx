@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 
 import { Plus, Search } from "lucide-react";
 
@@ -10,10 +10,45 @@ import type { CompanyDirectoryProps } from "../../types/domain/companies/company
 import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
+import { PillRow } from "../../ui/pill-row.js";
 import { Pill } from "../../ui/pill.js";
 import { Skeleton } from "../../ui/skeleton.js";
 
 import { CompanyLogo } from "./company-logo.js";
+
+/** Rows shown before "see all" in the companies that only exist through job posts. */
+const OTHERS_PREVIEW = 12;
+
+/** A company with no page yet: one quiet row (logo, name, how many jobs) that opens its jobs. */
+function EntryRow({ entry }: { entry: CompanyDirectoryEntryView }) {
+  const copy = useMessages().companyDirectory;
+  return (
+    <li className="min-w-0">
+      <AppLink
+        href={entry.href}
+        className={cn(
+          "group flex min-w-0 items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-surface-2",
+          FOCUS_RING,
+          "rounded-xl",
+        )}
+      >
+        <CompanyLogo
+          name={entry.name}
+          logo={entry.logo}
+          className="h-8 w-8 rounded-lg text-[0.625rem]"
+        />
+
+        <span className="min-w-0 flex-1 truncate text-sm text-text-strong group-hover:text-primary">
+          {entry.name}
+        </span>
+
+        <span className="shrink-0 text-xs tabular-nums text-text-subtle">
+          {copy.jobs(entry.openJobs)}
+        </span>
+      </AppLink>
+    </li>
+  );
+}
 
 function EntryCard({ entry }: { entry: CompanyDirectoryEntryView }) {
   const copy = useMessages().companyDirectory;
@@ -47,8 +82,6 @@ function EntryCard({ entry }: { entry: CompanyDirectoryEntryView }) {
                 {[entry.sector, entry.location].filter(Boolean).join(" · ")}
               </p>
             )}
-
-            {entry.external && <p className="mt-1 text-xs text-text-subtle">{copy.noPage}</p>}
           </div>
         </div>
 
@@ -69,8 +102,8 @@ function EntryCard({ entry }: { entry: CompanyDirectoryEntryView }) {
 
 /**
  * The companies directory: a calm editorial header, search and sector filters, the viewer's own
- * pages within reach, and the companies as cards that say at a glance who is hiring. Companies
- * that only exist through job posts show up too, marked as not having a page yet.
+ * pages within reach, and the pages on the network as cards that say at a glance who is hiring.
+ * Companies that only exist through job posts follow as a compact list, a few at a time.
  */
 export function CompanyDirectory({
   query,
@@ -88,6 +121,10 @@ export function CompanyDirectory({
   const copy = useMessages().companyDirectory;
   const searchId = useId();
   const filtered = query.trim().length > 0 || sector !== null;
+  // Pages lead as cards; names that only exist through job posts follow as a compact list.
+  const pages = entries.filter((entry) => !entry.external);
+  const others = entries.filter((entry) => entry.external);
+  const [showAllOthers, setShowAllOthers] = useState(false);
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8">
@@ -163,11 +200,7 @@ export function CompanyDirectory({
         </div>
 
         {sectors.length > 0 && (
-          <div
-            role="group"
-            aria-label={copy.sectorsLabel}
-            className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"
-          >
+          <PillRow label={copy.sectorsLabel}>
             <Pill size="sm" active={sector === null} onClick={() => onSectorChange(null)}>
               {copy.allSectors}
             </Pill>
@@ -182,7 +215,7 @@ export function CompanyDirectory({
                 {item}
               </Pill>
             ))}
-          </div>
+          </PillRow>
         )}
       </div>
 
@@ -244,11 +277,51 @@ export function CompanyDirectory({
             )}
           </div>
         ) : (
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {entries.map((entry) => (
-              <EntryCard key={entry.key} entry={entry} />
-            ))}
-          </ul>
+          <div className="space-y-10">
+            {pages.length > 0 && (
+              <div className="space-y-3">
+                {others.length > 0 && (
+                  <h2 className="text-sm font-semibold text-text-strong">{copy.pagesTitle}</h2>
+                )}
+
+                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {pages.map((entry) => (
+                    <EntryCard key={entry.key} entry={entry} />
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {others.length > 0 && (
+              <div className="space-y-3">
+                <div className="space-y-0.5">
+                  <h2 className="text-sm font-semibold text-text-strong">{copy.othersTitle}</h2>
+
+                  <p className="text-sm text-text-subtle">{copy.othersHint}</p>
+                </div>
+
+                <ul className="grid gap-x-6 gap-y-0.5 border-t border-border-soft pt-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {(showAllOthers ? others : others.slice(0, OTHERS_PREVIEW)).map((entry) => (
+                    <EntryRow key={entry.key} entry={entry} />
+                  ))}
+                </ul>
+
+                {others.length > OTHERS_PREVIEW && (
+                  <button
+                    type="button"
+                    aria-expanded={showAllOthers}
+                    onClick={() => setShowAllOthers((value) => !value)}
+                    className={cn(
+                      "text-sm font-medium text-primary underline-offset-4 hover:underline",
+                      FOCUS_RING,
+                    )}
+                  >
+                    {showAllOthers ? copy.showLess : copy.showAll(others.length)}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         )}
       </section>
     </div>

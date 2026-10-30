@@ -10,7 +10,11 @@ export type CompaniesMessages = {
     createPage: string;
     results: (count: number) => string;
     hiring: string;
-    noPage: string;
+    pagesTitle: string;
+    othersTitle: string;
+    othersHint: string;
+    showAll: (count: number) => string;
+    showLess: string;
     jobs: (count: number) => string;
     projects: (count: number) => string;
     followers: (count: number) => string;

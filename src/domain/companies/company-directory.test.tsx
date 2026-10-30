@@ -82,10 +82,19 @@ describe("CompanyDirectory", () => {
     expect(text()).toContain("2 empresas");
   });
 
-  it("marks companies that only exist through job posts", () => {
-    render({ entries: [entry({ external: true, href: "/vagas?empresa=x" })] });
-    expect(text()).toContain("Ainda sem página na rede");
-    expect(text()).not.toContain("seguidores");
+  it("lists companies without a page after the pages, a few at a time", () => {
+    const others = Array.from({ length: 14 }, (_, i) =>
+      entry({ key: `x${i}`, name: `Externa ${i}`, external: true, href: `/vagas?query=x${i}` }),
+    );
+    render({ entries: [entry({ name: "Página Real" }), ...others] });
+    expect(text()).toContain("No Énóis");
+    expect(text()).toContain("Também contratando");
+    expect(text().indexOf("Página Real")).toBeLessThan(text().indexOf("Externa 0"));
+    // Only the page carries the hiring marker; the rows say how many jobs.
+    expect(text().match(/Contratando/g)).toHaveLength(1);
+    expect(text()).not.toContain("Externa 13");
+    act(() => button("Ver todas as 14")!.click());
+    expect(text()).toContain("Externa 13");
   });
 
   it("shows the viewer's pages and the create action only when signed in", () => {
