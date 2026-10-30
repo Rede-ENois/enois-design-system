@@ -4,6 +4,7 @@ const spoilerReveal = "Mostrar mídia";
 const openImage = "Ampliar imagem";
 
 export const postMessages: PostMessages = {
+  caughtUpDivider: { title: "Você está em dia", subline: "Abaixo, posts que você já viu." },
   spoilerText: { show: "Mostrar spoiler", hide: "Esconder spoiler" },
   imageLightbox: { title: "Imagem ampliada", close: "Fechar" },
   mediaStage: { title: "Vídeo", mute: "Silenciar", unmute: "Ativar som", close: "Fechar" },

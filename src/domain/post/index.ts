@@ -1,3 +1,4 @@
+export { CaughtUpDivider } from "./caught-up-divider.js";
 export { PostCard } from "./post-card.js";
 export { PostCardSkeletons } from "./post-card-skeletons.js";
 export { PostEditDialog } from "./post-edit-dialog.js";
@@ -54,6 +55,7 @@ export {
   rendersInline,
   trimTrailingPunctuation,
 } from "../../lib/shared-links.js";
+export type { CaughtUpDividerProps } from "../../types/domain/post/caught-up-divider-props.js";
 export type { AuthorInfoProps } from "../../types/domain/post/author-info-props.js";
 export type { CommentItemData } from "../../types/domain/post/comment-item-data.js";
 export type { CommentItemProps } from "../../types/domain/post/comment-item-props.js";

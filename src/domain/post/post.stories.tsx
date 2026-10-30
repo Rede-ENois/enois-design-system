@@ -6,6 +6,7 @@ import type { PostCardData } from "../../types/domain/post/post-card-data.js";
 import type { PostMediaGridProps } from "../../types/domain/post/post-media-grid-props.js";
 import type { PostRichTextProps } from "../../types/domain/post/post-rich-text-props.js";
 
+import { CaughtUpDivider } from "./caught-up-divider.js";
 import { CommentItem } from "./comments/comment-item.js";
 import { PostComments } from "./comments/post-comments.js";
 import { MentionTextarea } from "./editor/mention-textarea.js";
@@ -333,6 +334,14 @@ export const Notes: StoryObj = {
       <PostNotes notes={[note]} canAdd onSend={async () => true} />
       <PostNotes notes={[]} pending onSend={async () => true} />
       <PostNotes notes={[]} deniedReason="Sem fonte." onSend={async () => true} />
+    </div>
+  ),
+};
+
+export const CaughtUp: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <CaughtUpDivider />
     </div>
   ),
 };

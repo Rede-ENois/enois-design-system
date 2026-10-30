@@ -5,6 +5,7 @@ import type { ReportTargetType } from "../domain/post/report-target-type.js";
 import type { FormatPlaceholders } from "../lib/rich-text/format-placeholders.js";
 
 export type PostMessages = {
+  caughtUpDivider: { title: string; subline: string };
   spoilerText: { show: string; hide: string };
   imageLightbox: { title: string; close: string };
   mediaStage: { title: string; mute: string; unmute: string; close: string };
