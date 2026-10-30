@@ -134,5 +134,7 @@ export const jobsMessages: JobsMessages = {
     memberSearch: "Adicionar por nome ou @usuário",
     memberAdd: "Adicionar",
     cancel: "Cancelar",
+    roleLabel: "Papel na equipe",
+    roles: { OWNER: "Dono", ADMIN: "Admin", EDITOR: "Editor", RECRUITER: "Recrutador" },
   },
 };

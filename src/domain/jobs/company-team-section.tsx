@@ -4,8 +4,9 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { CompanyTeamSectionProps } from "../../types/domain/jobs/company-team-section-props.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
+import { UserAvatar } from "../avatar/user-avatar.js";
 
-/** A equipe da empresa: quem tem qual papel, e o convite por usuário (busca) para OWNER/ADMIN. */
+/** The company team: who holds which role, and the invite by user search for OWNER/ADMIN. */
 export function CompanyTeamSection({
   members,
   search,
@@ -26,16 +27,35 @@ export function CompanyTeamSection({
         {messages.team}
       </p>
 
-      <ul className="space-y-1">
+      <ul className="space-y-2">
         {members.map((member) => (
-          <li
-            key={member.userId}
-            className="flex items-center justify-between text-xs text-text-strong"
-          >
-            <span className="truncate font-mono">{member.userId.slice(0, 18)}…</span>
+          <li key={member.userId} className="flex min-w-0 items-center gap-2.5 text-sm">
+            {member.name ? (
+              <>
+                <UserAvatar
+                  src={member.avatar ?? undefined}
+                  alt={member.name}
+                  className="h-8 w-8 shrink-0"
+                />
 
-            <span className="rounded-full bg-surface-2 px-2 py-0.5 text-text-subtle">
-              {member.role}
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-medium text-text-strong">{member.name}</span>
+
+                  {member.username && (
+                    <span className="block truncate text-xs text-text-subtle">
+                      @{member.username}
+                    </span>
+                  )}
+                </span>
+              </>
+            ) : (
+              <span className="min-w-0 flex-1 truncate font-mono text-xs text-text-strong">
+                {member.userId.slice(0, 18)}…
+              </span>
+            )}
+
+            <span className="shrink-0 rounded-full bg-surface-2 px-2 py-0.5 text-xs text-text-subtle">
+              {messages.roles[member.role] ?? member.role}
             </span>
           </li>
         ))}
@@ -46,6 +66,7 @@ export function CompanyTeamSection({
         <div className="relative">
           <Input
             placeholder={messages.memberSearch}
+            aria-label={messages.memberSearch}
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -75,21 +96,22 @@ export function CompanyTeamSection({
 
           <select
             className="h-9 rounded-lg border border-border-soft bg-transparent px-2 text-sm"
+            aria-label={messages.roleLabel}
             value={role}
             onChange={(e) => onRoleChange(e.target.value)}
           >
-            <option value="EDITOR">EDITOR</option>
-
-            <option value="ADMIN">ADMIN</option>
-
-            <option value="RECRUITER">RECRUITER</option>
+            {["EDITOR", "ADMIN", "RECRUITER"].map((code) => (
+              <option key={code} value={code}>
+                {messages.roles[code] ?? code}
+              </option>
+            ))}
           </select>
 
           <Button size="sm" className="rounded-full gap-1" disabled={addPending} onClick={onAdd}>
             {addPending ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
             ) : (
-              <UserPlus className="h-3.5 w-3.5" />
+              <UserPlus className="h-3.5 w-3.5" aria-hidden />
             )}
             {messages.memberAdd}
           </Button>
