@@ -28,4 +28,23 @@ export const communitiesMessages: CommunitiesMessages = {
     empty: "Nenhum canal ainda. Crie o primeiro.",
     invalidName: "O nome precisa ter pelo menos 2 caracteres.",
   },
+  localCommunitiesSection: {
+    title: "Perto de você",
+    loading: "Carregando comunidades perto de você",
+    error: "Não foi possível carregar as comunidades da sua região agora.",
+    retry: "Tentar de novo",
+    emptyTitle: "Nenhuma comunidade na sua região ainda",
+    emptyBody: "Que tal criar a primeira? Encontros presenciais começam assim.",
+    noCityTitle: "Encontre gente perto de você",
+    noCityBody:
+      "Informe sua cidade para ver comunidades e encontros da sua região. Ela só aparece no seu perfil se você quiser.",
+    setCity: "Informar minha cidade",
+  },
+  communityLocationFilter: {
+    label: "Filtrar por local",
+    hint: "Escolha um estado, ou um estado e uma cidade.",
+    apply: "Filtrar",
+    clear: "Limpar filtro",
+    cityNeedsState: "Escolha o estado para filtrar por cidade.",
+  },
 };

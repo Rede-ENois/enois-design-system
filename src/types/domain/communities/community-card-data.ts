@@ -9,4 +9,7 @@ export type CommunityCardData = {
   joined: boolean;
   cover: string | null;
   avatar: string | null;
+  /** Optional location; the card shows "City, UF" when present. */
+  city?: string | null;
+  state?: string | null;
 };
