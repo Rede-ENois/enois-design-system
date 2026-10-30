@@ -1,3 +1,5 @@
+import type { CityStateErrorCode } from "../patterns/city-state-error-code.js";
+
 export type PatternsMessages = {
   appSidebar: { expandMenu: string; collapseMenu: string };
   navigationDrawer: { title: string };
@@ -9,6 +11,15 @@ export type PatternsMessages = {
     copy: string;
     error: (message: string) => string;
     suggestion: (hint: string) => string;
+  };
+  cityStateField: {
+    legend: string;
+    cityLabel: string;
+    cityPlaceholder: string;
+    stateLabel: string;
+    statePlaceholder: string;
+    hint: string;
+    errors: Record<CityStateErrorCode, string>;
   };
   moduleDisabledView: { title: string; body: string; reenable: string; backToFeed: string };
 };
