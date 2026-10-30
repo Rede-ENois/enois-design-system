@@ -2,6 +2,7 @@ export { NotificationsPopover } from "./notifications-popover.js";
 export { NotificationItem } from "./notification-item.js";
 export { ConnectionRequestItem } from "./connection-request-item.js";
 export { notificationMeta } from "./notification-meta.js";
+export { NotificationPreferences } from "./notification-preferences.js";
 export type { ConnectionRequestData } from "../../types/domain/notifications/connection-request-data.js";
 export type { ConnectionRequestItemProps } from "../../types/domain/notifications/connection-request-item-props.js";
 export type { ConnectionRequestProfile } from "../../types/domain/notifications/connection-request-profile.js";
@@ -10,3 +11,7 @@ export type { NotificationItemProps } from "../../types/domain/notifications/not
 export type { NotificationMeta } from "../../types/domain/notifications/notification-meta.js";
 export type { NotificationTab } from "../../types/domain/notifications/notification-tab.js";
 export type { NotificationsPopoverProps } from "../../types/domain/notifications/notifications-popover-props.js";
+export type { NotificationPreferenceKey } from "../../types/domain/notifications/notification-preference-key.js";
+export type { NotificationPreferencesProps } from "../../types/domain/notifications/notification-preferences-props.js";
+export type { NotificationPreferencesSaveStatus } from "../../types/domain/notifications/notification-preferences-save-status.js";
+export type { NotificationPreferencesValues } from "../../types/domain/notifications/notification-preferences-values.js";

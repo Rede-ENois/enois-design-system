@@ -1,3 +1,5 @@
+import type { NotificationPreferenceKey } from "../domain/notifications/notification-preference-key.js";
+
 export type NotificationsMessages = {
   notificationsPopover: {
     title: string;
@@ -15,4 +17,20 @@ export type NotificationsMessages = {
     openActorProfile: (name: string) => string;
   };
   connectionRequestItem: { someone: string; accept: string; reject: string };
+  notificationPreferences: {
+    emailTitle: string;
+    pushTitle: string;
+    pushHint: string;
+    items: Record<NotificationPreferenceKey, { label: string; hint: string }>;
+    pushOff: string;
+    enablePush: string;
+    enablingPush: string;
+    securityNote: string;
+    loading: string;
+    loadError: string;
+    retry: string;
+    saving: string;
+    saved: string;
+    saveError: string;
+  };
 };
