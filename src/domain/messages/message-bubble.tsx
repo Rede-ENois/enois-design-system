@@ -63,9 +63,7 @@ export function MessageBubble({
                 : "border-primary/40 bg-muted text-text-subtle"
             }`}
           >
-            <p className="font-medium">
-              {replyQuote.isMe ? "Você" : replyQuote.from}
-            </p>
+            <p className="font-medium">{replyQuote.isMe ? "Você" : replyQuote.from}</p>
 
             <p className="line-clamp-2">{replyQuote.text}</p>
           </div>
