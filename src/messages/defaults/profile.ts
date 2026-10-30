@@ -141,6 +141,10 @@ export const profileMessages: ProfileMessages = {
       return parts.join(" e ") || "1 mês";
     },
   },
+  profileCityPrivacy: {
+    label: "Mostrar minha cidade no perfil",
+    hint: "Desligado, sua cidade fica só com você e serve para sugerir comunidades e encontros por perto.",
+  },
   profileCommunityShelf: {
     communityEyebrow: "Seu círculo",
     communityTitle: "Cantos da comunidade",

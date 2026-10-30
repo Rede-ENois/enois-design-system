@@ -9,6 +9,7 @@ import { EditProfileDialog } from "./edit-profile-dialog.js";
 import { GithubImportDialog } from "./github-import-dialog.js";
 import { ProfileBannerDialog } from "./profile-banner-dialog.js";
 import { ProfileBioDialog } from "./profile-bio-dialog.js";
+import { ProfileCityPrivacy } from "./profile-city-privacy.js";
 import { ProfileCommunityShelf } from "./profile-community-shelf.js";
 import { ProfileExperiencesSection } from "./profile-experiences-section.js";
 import { ProfileExplorePanel } from "./profile-explore-panel.js";
@@ -362,6 +363,19 @@ export const GithubImport: StoryObj = {
           onUseReadme={() => undefined}
           renderHtmlFrame={frame}
         />
+      </div>
+    );
+  },
+};
+
+export const CityPrivacy: StoryObj = {
+  render: function CityPrivacyStory() {
+    const [showCity, setShowCity] = useState(false);
+
+    return (
+      <div className="max-w-md space-y-6">
+        <ProfileCityPrivacy value={showCity} onChange={setShowCity} />
+        <ProfileCityPrivacy value onChange={() => {}} pending />
       </div>
     );
   },
