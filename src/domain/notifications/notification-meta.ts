@@ -2,6 +2,7 @@ import {
   AtSign,
   Briefcase,
   Calendar,
+  CircleCheck,
   Crown,
   GraduationCap,
   Heart,
@@ -28,6 +29,11 @@ export const notificationMeta: Record<string, NotificationMeta> = {
   new_message: { icon: MessageCircle, className: "bg-secondary/30 text-text-strong" },
   event: { icon: Calendar, className: "bg-growth/15 text-growth" },
   job: { icon: Briefcase, className: "bg-opportunity/20 text-opportunity-foreground" },
+  job_application_status: {
+    icon: Briefcase,
+    className: "bg-opportunity/20 text-opportunity-foreground",
+  },
+  answer_accepted: { icon: CircleCheck, className: "bg-growth/15 text-growth" },
   mentoring: { icon: GraduationCap, className: "bg-primary-soft text-primary" },
   jogo_diario: { icon: Sparkles, className: "bg-growth/15 text-growth" },
   // Grupos: entrada, decisão de pedido, moderação e estado do grupo.
