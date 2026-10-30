@@ -25,3 +25,4 @@ export * from "./support/index.js";
 export * from "./developers/index.js";
 export * from "./moderation/index.js";
 export * from "./cosmetics/index.js";
+export * from "./events/index.js";
