@@ -17,4 +17,6 @@ export type AccountMenuProps = {
   loggingOut: boolean;
   /** Push notifications item slot. */
   pushToggle?: ReactNode;
+  /** Slot acima de "Ver perfil" (ex: pill switcher Social/Profissional). */
+  identitySlot?: ReactNode;
 };
