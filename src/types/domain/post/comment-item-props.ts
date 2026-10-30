@@ -23,6 +23,11 @@ export type CommentItemProps<T extends string = string> = {
   /** O autor do post fixa qualquer comentário; o autor do comentário fixa o próprio. */
   canPin: boolean;
   pinning?: boolean;
+  /** Question author on someone else's comment: shows "mark as answer". Never shown when false. */
+  canAccept?: boolean;
+  acceptPending?: boolean;
+  onAccept?: () => void;
+  onUnaccept?: () => void;
   emojis: Record<T, string>;
   /** Reação de quem lê. */
   reaction: T | null;

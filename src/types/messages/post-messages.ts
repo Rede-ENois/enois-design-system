@@ -28,6 +28,9 @@ export type PostMessages = {
   };
   postCard: {
     types: Record<PostType, string>;
+    /** Status pill of a QUESTION post. */
+    questionResolved: string;
+    questionOpen: string;
     pinned: string;
     pin: string;
     unpin: string;
@@ -144,6 +147,9 @@ export type PostMessages = {
     edit: string;
     delete: string;
     report: string;
+    accepted: string;
+    accept: string;
+    unaccept: string;
   };
   postComments: {
     errors: Record<CommentsError, string>;
@@ -187,4 +193,11 @@ export type PostMessages = {
     username: (username: string) => string;
     formatPlaceholders: FormatPlaceholders;
   };
+  questionStatusFilter: {
+    label: string;
+    all: string;
+    open: string;
+    resolved: string;
+  };
+  questionComposer: { hint: string };
 };
