@@ -14,9 +14,12 @@ import {
 } from "../../ui/dialog.js";
 import { Textarea } from "../../ui/textarea.js";
 
+import { ProfessionalSignature } from "./professional-signature.js";
+
 /**
- * Candidatura a um freela: não existe formulário — abre (ou reaproveita) a conversa direta com quem
- * publicou e manda a mensagem de apresentação, que é onde escopo, prazo e valor são combinados.
+ * Proposta para um freela: não existe formulário. A mensagem de apresentação sai pela identidade
+ * profissional e vai para a conversa profissional com quem publicou, onde escopo, prazo e valor
+ * são combinados.
  *
  * A mensagem vem preenchida para a pessoa não travar no "o que eu escrevo?", mas é editável.
  */
@@ -29,6 +32,8 @@ export function ApplyFreelanceDialog({
   sent,
   onSend,
   onOpenChat,
+  applicant = null,
+  professionalSetupHref = null,
 }: ApplyFreelanceDialogProps) {
   const messages = useMessages().applyFreelanceDialog;
   const [message, setMessage] = useState(() => messages.message(freelance.title));
@@ -85,6 +90,7 @@ export function ApplyFreelanceDialog({
             </div>
           ) : (
             <>
+              <ProfessionalSignature identity={applicant} setupHref={professionalSetupHref} />
               <Textarea
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
@@ -112,7 +118,9 @@ export function ApplyFreelanceDialog({
 
                 <Button
                   className="gap-2 rounded-full"
-                  disabled={pending || message.trim().length === 0}
+                  disabled={
+                    pending || message.trim().length === 0 || Boolean(professionalSetupHref)
+                  }
                   onClick={() => onSend(message.trim())}
                 >
                   <Send className="h-4 w-4" />

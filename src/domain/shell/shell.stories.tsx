@@ -1,9 +1,13 @@
+import { useState } from "react";
+
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Compass, Home, Users } from "lucide-react";
+import { Briefcase, Compass, Home, Users } from "lucide-react";
 
 import { ThemeToggle } from "../../patterns/app-shell/theme-toggle.js";
+import type { InterfaceContext } from "../../types/domain/shell/interface-context.js";
 
 import { AuthenticatedAppHeader } from "./authenticated-app-header.js";
+import { ContextSwitcher } from "./context-switcher.js";
 import { GuestAppHeader } from "./guest-app-header.js";
 import { NavigationLinks } from "./navigation-links.js";
 import { PlatformSpacesCard } from "./platform-spaces-card.js";
@@ -45,6 +49,42 @@ export const Navigation: StoryObj = {
       />
     </div>
   ),
+};
+
+export const NavigationWithContexts: StoryObj = {
+  render: function NavigationWithContextsStory() {
+    const [context, setContext] = useState<InterfaceContext>("PROFESSIONAL");
+    const items =
+      context === "SOCIAL"
+        ? [
+            { href: "#feed", label: "Início", icon: Home, active: true },
+            { href: "#comunidades", label: "Comunidades", icon: Compass, active: false },
+          ]
+        : [
+            { href: "#feed", label: "Início", icon: Home, active: true },
+            { href: "#vagas", label: "Vagas", icon: Briefcase, active: false },
+          ];
+    return (
+      <div className="w-60">
+        <NavigationLinks
+          header={
+            <ContextSwitcher
+              value={context}
+              onChange={setContext}
+              professionalSetupHref="#profissional"
+            />
+          }
+          items={items}
+          myCommunities={[]}
+          favoriteCommunities={[]}
+        />
+      </div>
+    );
+  },
+};
+
+export const CollapsedContextSwitcher: StoryObj = {
+  render: () => <ContextSwitcher value="SOCIAL" onChange={() => {}} collapsed />,
 };
 
 export const PlatformSpaces: StoryObj = {

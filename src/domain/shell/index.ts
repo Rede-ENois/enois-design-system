@@ -1,9 +1,12 @@
 export { AppBrand } from "./app-brand.js";
 export { AuthenticatedAppHeader } from "./authenticated-app-header.js";
+export { ContextSwitcher } from "./context-switcher.js";
 export { GuestAppHeader } from "./guest-app-header.js";
 export { NavigationLinks } from "./navigation-links.js";
 export { PlatformSpacesCard } from "./platform-spaces-card.js";
 export type { AppBrandProps } from "../../types/domain/shell/app-brand-props.js";
+export type { ContextSwitcherProps } from "../../types/domain/shell/context-switcher-props.js";
+export type { InterfaceContext } from "../../types/domain/shell/interface-context.js";
 export type { AuthenticatedAppHeaderProps } from "../../types/domain/shell/authenticated-app-header-props.js";
 export type { GuestAppHeaderProps } from "../../types/domain/shell/guest-app-header-props.js";
 export type { NavigationCommunityData } from "../../types/domain/shell/navigation-community-data.js";

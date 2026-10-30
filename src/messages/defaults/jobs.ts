@@ -5,9 +5,15 @@ export const jobsMessages: JobsMessages = {
     action: "Agilizar envio",
     hint: "O Énóis escreve o e-mail com os seus dados e abre o seu app de e-mail.",
   },
+  professionalSignature: {
+    sendingAs: "Você envia como",
+    needsProfile:
+      "Candidaturas e propostas saem pelo seu perfil profissional, nunca pelo pessoal. Ative o seu para continuar.",
+    setup: "Configurar perfil profissional",
+  },
   applyFreelanceDialog: {
     title: "Candidatar-se ao freela",
-    hint: "A mensagem vai direto para a conversa com quem publicou — escopo, prazo e valor são combinados ali.",
+    hint: "A proposta vai para a conversa profissional com quem publicou. Escopo, prazo e valor são combinados ali.",
     placeholder: "Conte como você pretende entregar o trabalho...",
     message: (title) => `Olá! Tenho interesse no freela "${title}".`,
     send: "Enviar mensagem",
@@ -20,7 +26,7 @@ export const jobsMessages: JobsMessages = {
     title: (job) => `Candidatar-se a ${job}`,
     intro: "Ao enviar, seu perfil e suas respostas vão direto para quem publicou a vaga.",
     aboutYou: "O que vai junto",
-    aboutYouProfile: "Seu perfil público (nome, foto, headline, habilidades)",
+    aboutYouProfile: "Seu perfil profissional (nome, @, foto e headline) e suas habilidades",
     aboutYouExperience: "Suas experiências e tempo de experiência",
     aboutYouReputation: "Sua reputação e a verificação da conta",
     message: "Mensagem (opcional)",

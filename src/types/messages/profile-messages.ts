@@ -124,6 +124,28 @@ export type ProfileMessages = {
     /** "1 ano e 2 meses": a duração de uma posição, em meses inclusivos. */
     duration: (months: number) => string;
   };
+  professionalProfile: {
+    back: string;
+    edit: string;
+    verified: string;
+    /** Prefix of the @ line, read by screen readers ("Usuário profissional"). */
+    usernameLabel: string;
+    credibility: string;
+    reputation: string;
+    memberSince: string;
+    identity: string;
+    identityVerified: string;
+    about: string;
+    skills: string;
+    trajectory: string;
+    /** "jan. 2023 a mar. 2025" or "jan. 2023 até o momento" (`end` null = still there). */
+    period: (start: string | null, end: string | null) => string;
+    education: string;
+    certifications: string;
+    viewCredential: string;
+    links: string;
+    posts: string;
+  };
   profileCityPrivacy: { label: string; hint: string };
   profileCommunityShelf: {
     communityEyebrow: string;

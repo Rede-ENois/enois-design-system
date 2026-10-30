@@ -18,10 +18,13 @@ import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
 import { Textarea } from "../../ui/textarea.js";
 
+import { ProfessionalSignature } from "./professional-signature.js";
+
 /**
  * Candidatura: responde o formulário que o autor montou e envia o perfil.
  *
- * A tela mostra o que vai junto (perfil, experiências, reputação) porque a candidatura entrega esses
+ * Sai SEMPRE pela identidade profissional (a linha "você envia como" diz qual; sem perfil ativo, o
+ * diálogo leva a ativar). A tela mostra o que vai junto (perfil, experiências, reputação) porque a candidatura entrega esses
  * dados ao empregador — e erros do backend aparecem com o motivo real (já candidatado, campo
  * obrigatório, conta não verificada), em vez de "erro inesperado".
  */
@@ -33,6 +36,8 @@ export function ApplyJobDialog({
   done,
   error,
   verifyHref,
+  applicant = null,
+  professionalSetupHref = null,
   onSubmit,
   onPrefill,
 }: ApplyJobDialogProps) {
@@ -123,6 +128,8 @@ export function ApplyJobDialog({
           </div>
         ) : (
           <div className="space-y-4 pt-2">
+            <ProfessionalSignature identity={applicant} setupHref={professionalSetupHref} />
+
             <div className="rounded-xl bg-muted/60 px-4 py-3">
               <p className="text-sm font-medium">{messages.aboutYou}</p>
 
@@ -255,7 +262,7 @@ export function ApplyJobDialog({
 
             <Button
               className="w-full rounded-full gap-2"
-              disabled={pending || missingRequired.length > 0}
+              disabled={pending || missingRequired.length > 0 || Boolean(professionalSetupHref)}
               onClick={() => onSubmit({ message, values })}
             >
               {pending ? (

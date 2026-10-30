@@ -1,5 +1,6 @@
 export { EditProfileDialog } from "./edit-profile-dialog.js";
 export { GithubImportDialog } from "./github-import-dialog.js";
+export { ProfessionalProfile } from "./professional-profile.js";
 export { ProfileBannerDialog } from "./profile-banner-dialog.js";
 export { profileBadges } from "./profile-badges.js";
 export { ProfileBioDialog } from "./profile-bio-dialog.js";
@@ -27,6 +28,10 @@ export type { EditingProject } from "../../types/domain/profile/editing-project.
 export type { GithubImportDialogProps } from "../../types/domain/profile/github-import-dialog-props.js";
 export type { GithubReadmePreview } from "../../types/domain/profile/github-readme-preview.js";
 export type { GithubRepoRow } from "../../types/domain/profile/github-repo-row.js";
+export type { ProfessionalCertificationItem } from "../../types/domain/profile/professional-certification-item.js";
+export type { ProfessionalEducationItem } from "../../types/domain/profile/professional-education-item.js";
+export type { ProfessionalProfileData } from "../../types/domain/profile/professional-profile-data.js";
+export type { ProfessionalProfileProps } from "../../types/domain/profile/professional-profile-props.js";
 export type { ProfileBannerDialogProps } from "../../types/domain/profile/profile-banner-dialog-props.js";
 export type { ProfileBioDialogProps } from "../../types/domain/profile/profile-bio-dialog-props.js";
 export type { ProfileCityPrivacyProps } from "../../types/domain/profile/profile-city-privacy-props.js";

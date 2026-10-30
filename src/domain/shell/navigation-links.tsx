@@ -12,6 +12,7 @@ export function NavigationLinks({
   collapsed = false,
   onNavigate,
   className,
+  header,
 }: NavigationLinksProps) {
   const messages = useMessages().navigationLinks;
 
@@ -20,6 +21,8 @@ export function NavigationLinks({
       data-collapsed={collapsed}
       className={cn("group/navigation flex flex-col gap-1", className)}
     >
+      {header && <div className="mb-2">{header}</div>}
+
       {items.map((item) => {
         const Icon = item.icon;
 

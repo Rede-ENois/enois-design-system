@@ -14,4 +14,6 @@ export type ChatDockProps = {
   hasMore: boolean;
   loadingMore: boolean;
   onLoadMore: () => void;
+  /** Which inbox the dock is showing (e.g. "Profissional"), next to the title. */
+  contextLabel?: string;
 };

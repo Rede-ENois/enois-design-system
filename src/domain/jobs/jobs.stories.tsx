@@ -11,6 +11,7 @@ import { CompanyTeamSection } from "./company-team-section.js";
 import { CreateExternalJobDialog } from "./create-external-job-dialog.js";
 import { JobCardSkeletons } from "./job-card-skeletons.js";
 import { JobEditDialog } from "./job-edit-dialog.js";
+import { ProfessionalSignature } from "./professional-signature.js";
 
 const meta: Meta = {
   title: "Domain/Jobs",
@@ -85,6 +86,18 @@ export const ApplyFreelance: StoryObj = {
       onSend={noop}
       onOpenChat={noop}
     />
+  ),
+};
+
+export const ProfessionalSignatureStates: StoryObj = {
+  render: () => (
+    <div className="max-w-md space-y-3">
+      <ProfessionalSignature
+        identity={{ name: "Mel Santos", username: "mel.pro" }}
+        setupHref={null}
+      />
+      <ProfessionalSignature identity={null} setupHref="#profissional" />
+    </div>
   ),
 };
 

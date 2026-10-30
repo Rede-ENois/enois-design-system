@@ -40,10 +40,6 @@ function render(menuHrefs: AccountMenuHrefs) {
         hrefs={menuHrefs}
         open
         onOpenChange={noop}
-        showIdentitySwitch={false}
-        corporateIdentityEnabled={false}
-        identity="SOCIAL"
-        onChooseIdentity={noop}
         onChangeEmail={noop}
         onChangePassword={noop}
         onOpenLinkedAccounts={noop}

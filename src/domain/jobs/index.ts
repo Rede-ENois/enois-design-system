@@ -31,3 +31,5 @@ export type { JobEditOptions } from "../../types/domain/jobs/job-edit-options.js
 export type { JobEditValues } from "../../types/domain/jobs/job-edit-values.js";
 export type { JobOption } from "../../types/domain/jobs/job-option.js";
 export type { JobReputationGate } from "../../types/domain/jobs/job-reputation-gate.js";
+export { ProfessionalSignature } from "./professional-signature.js";
+export type { ProfessionalSignatureProps } from "../../types/domain/jobs/professional-signature-props.js";
