@@ -8,6 +8,7 @@ import type { ConversationsMessages } from "./conversations-messages.js";
 import type { CosmeticsMessages } from "./cosmetics-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
+import type { EventsMessages } from "./events-messages.js";
 import type { GamesMessages } from "./games-messages.js";
 import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
@@ -63,4 +64,5 @@ export type Messages = UiMessages &
   ModerationMessages &
   CosmeticsMessages &
   OnboardingMessages &
-  StreakMessages;
+  StreakMessages &
+  EventsMessages;

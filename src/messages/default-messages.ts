@@ -10,6 +10,7 @@ import { conversationsMessages } from "./defaults/conversations.js";
 import { cosmeticsMessages } from "./defaults/cosmetics.js";
 import { developersMessages } from "./defaults/developers.js";
 import { editorMessages } from "./defaults/editor.js";
+import { eventsMessages } from "./defaults/events.js";
 import { gamesMessages } from "./defaults/games.js";
 import { jobsMessages } from "./defaults/jobs.js";
 import { legalMessages } from "./defaults/legal.js";
@@ -62,4 +63,5 @@ export const defaultMessages: Messages = {
   ...cosmeticsMessages,
   ...onboardingMessages,
   ...streakMessages,
+  ...eventsMessages,
 };
