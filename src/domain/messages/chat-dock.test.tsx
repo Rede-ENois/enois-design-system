@@ -29,6 +29,12 @@ describe("ChatDock", () => {
     expect(renderDock({ unreadCount: 0 })).not.toContain("99+");
   });
 
+  it("tem um título só e diz qual caixa está aberta", () => {
+    const html = renderDock({ contextLabel: "Profissional" });
+    expect(html.match(/>Mensagens</g)).toHaveLength(1);
+    expect(html).toContain("Profissional");
+  });
+
   it("colapsado, esconde a lista", () => {
     expect(renderDock({ expanded: false, empty: true })).not.toContain("Nenhuma conversa ainda.");
   });

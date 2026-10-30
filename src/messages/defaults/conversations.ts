@@ -5,7 +5,6 @@ export const conversationsMessages: ConversationsMessages = {
   conversationItem: { conversationFallback: "Conversa" },
   chatDock: {
     title: "Mensagens",
-    collapse: "Minimizar mensagens",
     empty: "Nenhuma conversa ainda.",
     loading: "Carregando…",
     loadMore: "Carregar mais conversas",

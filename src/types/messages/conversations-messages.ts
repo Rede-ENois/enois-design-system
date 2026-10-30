@@ -3,7 +3,6 @@ export type ConversationsMessages = {
   conversationItem: { conversationFallback: string };
   chatDock: {
     title: string;
-    collapse: string;
     empty: string;
     loading: string;
     loadMore: string;

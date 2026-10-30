@@ -20,7 +20,11 @@ export function ConversationItem({
   previewLoading,
 }: ConversationItemProps) {
   const messages = useMessages().conversationItem;
-  const title = conversation.title ?? peer?.name ?? messages.conversationFallback;
+  // Person first: a titled thread (proposal, hiring) shows who it is with, and the subject goes
+  // in front of the preview. Without a known person, the subject is the name.
+  const subject = peer?.name ? conversation.title : null;
+  const name = peer?.name ?? conversation.title ?? messages.conversationFallback;
+  const preview = [subject, conversation.lastMessage].filter(Boolean).join(" · ");
 
   return (
     <li>
@@ -41,14 +45,14 @@ export function ConversationItem({
           </span>
         )}
         <AppLink href={profileHref}>
-          <UserAvatar src={peer?.avatar} alt={title} className="h-11 w-11 shrink-0" />
+          <UserAvatar src={peer?.avatar} alt={name} className="h-11 w-11 shrink-0" />
         </AppLink>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between">
             <span className="flex min-w-0 items-center gap-1.5">
               <span className="truncate text-sm font-medium">
-                {conversation.title ?? <StyledName name={title} style={peer?.nameStyle} />}
+                <StyledName name={name} style={peer?.name ? peer.nameStyle : null} />
               </span>
 
               <UserBadges badges={peer?.badges} badge={peer?.badge} />
@@ -63,9 +67,7 @@ export function ConversationItem({
                 <Loader2 className="h-3 w-3 animate-spin" />
               </span>
             ) : (
-              <p className="truncate text-xs text-muted-foreground">
-                {conversation.lastMessage ?? ""}
-              </p>
+              <p className="truncate text-xs text-muted-foreground">{preview}</p>
             )}
             {conversation.unread > 0 && (
               <span className="grid h-5 min-w-5 shrink-0 place-items-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">

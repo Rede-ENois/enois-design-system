@@ -1,5 +1,6 @@
 import { ChevronDown, ChevronUp, MessageCircle } from "lucide-react";
 
+import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ChatDockProps } from "../../types/domain/messages/chat-dock-props.js";
 
@@ -21,6 +22,7 @@ export function ChatDock({
   hasMore,
   loadingMore,
   onLoadMore,
+  contextLabel,
 }: ChatDockProps) {
   const messages = useMessages().chatDock;
 
@@ -30,21 +32,10 @@ export function ChatDock({
 
       {/* Painel principal: barra colapsada ou lista expandida */}
       <div className="flex flex-col">
+        {/* One header only: the bar below opens and closes the list. The list grows with its
+            content up to the screen height, instead of a tall empty panel over the page. */}
         {expanded && (
-          <div className="mb-0 flex h-[calc(100vh-8rem)] w-80 flex-col overflow-hidden rounded-t-2xl border border-border-soft bg-surface-card shadow-xl">
-            <div className="flex items-center justify-between border-b border-border-soft px-4 py-3">
-              <h3 className="text-sm font-medium text-text-strong">{messages.title}</h3>
-
-              <button
-                type="button"
-                onClick={onToggleExpanded}
-                className="grid h-7 w-7 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2"
-                aria-label={messages.collapse}
-              >
-                <ChevronDown className="h-4 w-4" />
-              </button>
-            </div>
-
+          <div className="flex max-h-[calc(100vh-8rem)] min-h-40 w-80 flex-col overflow-hidden rounded-t-2xl border border-b-0 border-border-soft bg-surface-card shadow-xl">
             <ul className="flex-1 overflow-y-auto overscroll-contain">
               {empty ? (
                 <li className="px-4 py-12 text-center text-sm text-text-subtle">
@@ -75,12 +66,20 @@ export function ChatDock({
           onClick={onToggleExpanded}
           aria-expanded={expanded}
           aria-label={messages.title}
-          className="flex w-80 items-center gap-3 rounded-t-2xl border border-border-soft bg-surface-card px-4 py-3 shadow-lg transition hover:bg-surface-2"
+          className={cn(
+            "flex w-80 items-center gap-3 border border-border-soft bg-surface-card px-4 py-3 shadow-lg transition hover:bg-surface-2",
+            // Expanded, the bar is the foot of the list (one block); collapsed, a tab of its own.
+            expanded ? "rounded-none" : "rounded-t-2xl",
+          )}
         >
           <MessageCircle className="h-5 w-5 text-primary" />
 
-          <span className="flex-1 text-left text-sm font-medium text-text-strong">
-            {messages.title}
+          <span className="flex min-w-0 flex-1 items-baseline gap-1.5 text-left">
+            <span className="text-sm font-medium text-text-strong">{messages.title}</span>
+
+            {contextLabel && (
+              <span className="truncate text-xs text-text-subtle">{contextLabel}</span>
+            )}
           </span>
 
           {unreadCount > 0 && (
