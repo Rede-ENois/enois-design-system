@@ -3,6 +3,7 @@ export { GithubImportDialog } from "./github-import-dialog.js";
 export { ProfileBannerDialog } from "./profile-banner-dialog.js";
 export { profileBadges } from "./profile-badges.js";
 export { ProfileBioDialog } from "./profile-bio-dialog.js";
+export { ProfileCityPrivacy } from "./profile-city-privacy.js";
 export { ProfileCommunityShelf } from "./profile-community-shelf.js";
 export { ProfileExperiencesSection } from "./profile-experiences-section.js";
 export { ProfileExplorePanel } from "./profile-explore-panel.js";
@@ -28,6 +29,7 @@ export type { GithubReadmePreview } from "../../types/domain/profile/github-read
 export type { GithubRepoRow } from "../../types/domain/profile/github-repo-row.js";
 export type { ProfileBannerDialogProps } from "../../types/domain/profile/profile-banner-dialog-props.js";
 export type { ProfileBioDialogProps } from "../../types/domain/profile/profile-bio-dialog-props.js";
+export type { ProfileCityPrivacyProps } from "../../types/domain/profile/profile-city-privacy-props.js";
 export type { ProfileCommunityItem } from "../../types/domain/profile/profile-community-item.js";
 export type { ProfileCommunityShelfProps } from "../../types/domain/profile/profile-community-shelf-props.js";
 export type { ProfileExperienceItem } from "../../types/domain/profile/profile-experience-item.js";

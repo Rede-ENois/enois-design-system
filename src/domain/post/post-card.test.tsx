@@ -51,4 +51,33 @@ describe("cabeçalho do card de post", () => {
       expect(header?.querySelector('button[aria-label="Ações da publicação"]')).not.toBeNull();
     },
   );
+
+  it.each([
+    [true, "Resolvida"],
+    [false, "Aberta"],
+  ])("mostra o status da pergunta (resolvida: %s)", (resolved, label) => {
+    const html = renderToStaticMarkup(
+      <PostCard
+        post={{
+          id: "q",
+          type: "QUESTION",
+          content: "Como centralizo uma div?",
+          authorName: "Ana",
+          authorAvatar: null,
+          tags: [],
+          mediaIds: [],
+          resolved,
+        }}
+        hrefs={{ author: "/perfil/ana", post: "/post/q" }}
+        timeLabel="agora"
+        isOwner={false}
+        mySeals={[]}
+        onShowSeals={vi.fn()}
+        renderRichText={({ content }) => <p>{content}</p>}
+        renderMediaGrid={() => null}
+      />,
+    );
+    expect(html).toContain("Pergunta");
+    expect(html).toContain(label);
+  });
 });

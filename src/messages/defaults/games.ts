@@ -220,6 +220,17 @@ export const gamesMessages: GamesMessages = {
     startError: "Não foi possível iniciar o desafio.",
     challengeOf: (date) => `Desafio de ${date}`,
   },
+  dailyShare: {
+    button: "Compartilhar resultado",
+    copied: "Resultado copiado",
+    shared: "Resultado compartilhado",
+    error: "Não deu para compartilhar agora",
+    word: (dateLabel, score) => `Palavras Énóis ${dateLabel} · ${score}`,
+    maze: (dateLabel, moves, elapsedMillis) =>
+      `Labirinto Énóis ${dateLabel} · ${moves} ${moves === 1 ? "movimento" : "movimentos"} em ${(elapsedMillis / 1000).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} s`,
+    blocks: (dateLabel, score, lines) =>
+      `Blocos Énóis ${dateLabel} · ${score} pontos · ${lines} ${lines === 1 ? "linha" : "linhas"}`,
+  },
   dailyRanking: {
     title: "Ranking de hoje",
     loading: "Carregando ranking…",
@@ -237,7 +248,6 @@ export const gamesMessages: GamesMessages = {
     emptyTile: "vazio",
     won: (attempts) => `🎉 Você acertou em ${attempts} tentativa${attempts === 1 ? "" : "s"}!`,
     lost: "😔 Não foi dessa vez.",
-    shareResult: "Compartilhar resultado",
     viewStats: "Ver estatísticas",
     keyboardLabel: "Teclado virtual",
     keyDelete: "Apagar",

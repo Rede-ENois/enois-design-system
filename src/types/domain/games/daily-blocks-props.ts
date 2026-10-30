@@ -5,6 +5,7 @@ import type { BlocksLocalGame } from "./blocks-local-game.js";
 import type { BlocksRankingItem } from "./blocks-ranking-item.js";
 import type { BlocksState } from "./blocks-state.js";
 import type { DailyRankingSource } from "./daily-ranking-source.js";
+import type { DailyShareStatus } from "./daily-share-status.js";
 
 export type DailyBlocksProps = {
   loading: boolean;
@@ -30,4 +31,8 @@ export type DailyBlocksProps = {
   /** O tabuleiro recebe o foco quando a partida começa. */
   boardRef: RefObject<HTMLDivElement | null>;
   ranking: DailyRankingSource<BlocksRankingItem>;
+  /** Shows "Compartilhar resultado" on the result; hidden when absent. */
+  onShare?: () => void;
+  /** Outcome of the last share, read out politely next to the button. */
+  shareStatus?: DailyShareStatus;
 };

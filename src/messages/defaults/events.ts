@@ -1,0 +1,48 @@
+import type { EventsMessages } from "../../types/messages/events-messages.js";
+
+export const eventsMessages: EventsMessages = {
+  eventCard: {
+    formats: { ONLINE: "Online", IN_PERSON: "Presencial", HYBRID: "Híbrido" },
+    months: [
+      "",
+      "JAN",
+      "FEV",
+      "MAR",
+      "ABR",
+      "MAI",
+      "JUN",
+      "JUL",
+      "AGO",
+      "SET",
+      "OUT",
+      "NOV",
+      "DEZ",
+    ],
+    hostedBy: (host) => `por ${host}`,
+    watchLive: "Assistir ao vivo",
+    attend: "Confirmar presença",
+    cancelAttend: "Desconfirmar presença",
+    youAreGoing: "Você vai",
+    finished: "Encerrado",
+    attendees: (count) => `${count} ${count === 1 ? "pessoa confirmada" : "pessoas confirmadas"}`,
+  },
+  eventRecurrence: {
+    labels: {
+      NONE: "Não se repete",
+      WEEKLY: "Toda semana",
+      BIWEEKLY: "A cada 2 semanas",
+      MONTHLY: "Todo mês",
+    },
+    next: (dayMonth) => `Próximo: ${dayMonth}`,
+    fieldLabel: "Repetição",
+    fieldHint: "Eventos que se repetem precisam de horário.",
+    controlLabel: "Repetição da série",
+    controlHint: "A mudança vale para os próximos encontros da série.",
+    stop: "Parar a série",
+    stopHint: "Os encontros que já aconteceram continuam na lista.",
+    saving: "Salvando...",
+    filterLabel: "Filtrar eventos",
+    filterAll: "Todos",
+    filterRituals: "Rituais",
+  },
+};

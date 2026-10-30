@@ -4,6 +4,7 @@ const spoilerReveal = "Mostrar mídia";
 const openImage = "Ampliar imagem";
 
 export const postMessages: PostMessages = {
+  caughtUpDivider: { title: "Você está em dia", subline: "Abaixo, posts que você já viu." },
   spoilerText: { show: "Mostrar spoiler", hide: "Esconder spoiler" },
   imageLightbox: { title: "Imagem ampliada", close: "Fechar" },
   mediaStage: { title: "Vídeo", mute: "Silenciar", unmute: "Ativar som", close: "Fechar" },
@@ -46,6 +47,8 @@ export const postMessages: PostMessages = {
       BLOG: "Blog",
       BUSINESS: "Corporativo",
     },
+    questionResolved: "Resolvida",
+    questionOpen: "Aberta",
     pinned: "Fixado",
     pin: "Fixar no topo",
     unpin: "Desafixar",
@@ -188,6 +191,9 @@ export const postMessages: PostMessages = {
     edit: "Editar",
     delete: "Excluir",
     report: "Denunciar",
+    accepted: "Resposta aceita",
+    accept: "Marcar como resposta",
+    unaccept: "Desmarcar",
   },
   postComments: {
     errors: {
@@ -245,4 +251,11 @@ export const postMessages: PostMessages = {
       link: "texto do link",
     },
   },
+  questionStatusFilter: {
+    label: "Filtrar perguntas",
+    all: "Todas",
+    open: "Abertas",
+    resolved: "Resolvidas",
+  },
+  questionComposer: { hint: "Pergunte do seu jeito. Ninguém aqui nasceu sabendo." },
 };

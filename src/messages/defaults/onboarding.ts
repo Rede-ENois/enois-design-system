@@ -1,0 +1,41 @@
+import type { OnboardingMessages } from "../../types/messages/onboarding-messages.js";
+
+export const onboardingMessages: OnboardingMessages = {
+  onboardingView: {
+    progress: (current, total) => `Passo ${current} de ${total}`,
+    skip: "Pular por agora",
+    next: "Continuar",
+    back: "Voltar",
+    complete: "Entrar no Énóis",
+    submitting: "Preparando tudo...",
+    interestsTitle: "Do que você curte?",
+    interestsDescription:
+      "Conta pra gente o que te interessa. Com isso, seu feed já começa com a sua cara.",
+    topicsLabel: "Assuntos",
+    topicsHint: "Escolha quantos quiser.",
+    skillsLabel: "Habilidades e ferramentas",
+    skillsHint: "O que você faz ou está aprendendo. Aperte Enter pra adicionar.",
+    skillsPlaceholder: "Ex.: React, fotografia, gestão de times",
+    skillsFull: "Você chegou ao limite de habilidades.",
+    skillsCount: (count, max) => `${count} de ${max}`,
+    removeSkill: (skill) => `Remover ${skill}`,
+    suggestionsLabel: "Sugestões",
+    packTitle: "Seu começo",
+    packDescription:
+      "Separamos comunidades, grupos e pessoas que combinam com você. Desmarque o que não fizer sentido.",
+    communitiesTitle: "Comunidades",
+    groupsTitle: "Grupos",
+    peopleTitle: "Pessoas",
+    communitiesCount: (count, max) => `${count} de ${max} escolhidas`,
+    groupsCount: (count, max) => `${count} de ${max} escolhidos`,
+    peopleCount: (count, max) => `${count} de ${max} escolhidas`,
+    limitReached: "Limite atingido. Desmarque um pra escolher outro.",
+    members: (count) => `${count.toLocaleString("pt-BR")} ${count === 1 ? "membro" : "membros"}`,
+    communitiesEmpty: "Ainda não achamos comunidades pra esses interesses. Dá pra explorar depois.",
+    groupsEmpty: "Nenhum grupo combinou por enquanto. Dá pra explorar depois.",
+    peopleEmpty: "Ainda não temos pessoas pra sugerir. Elas aparecem conforme a rede cresce.",
+    loading: "Montando seu começo",
+    error: "Não deu pra carregar as sugestões agora.",
+    retry: "Tentar de novo",
+  },
+};

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { BarChart2, HelpCircle, Share2, Type } from "lucide-react";
+import { BarChart2, HelpCircle, Type } from "lucide-react";
 
 import {
   KEYBOARD_ROWS,
@@ -27,6 +27,7 @@ import {
 } from "../../../ui/dialog.js";
 
 import { DailyRanking } from "./daily-ranking.js";
+import { DailyShareAction } from "./daily-share-action.js";
 
 // ─── Sub-componente: célula da grade ──────────────────────────────────────────
 
@@ -113,6 +114,7 @@ export function DailyWord({
   statsOpen,
   onStatsOpenChange,
   onShare,
+  shareStatus,
   ranking,
 }: DailyWordProps) {
   const messages = useMessages().dailyWord;
@@ -265,16 +267,13 @@ export function DailyWord({
 
           {/* Mensagem de resultado */}
           {isFinished && (
-            <div className="flex flex-col items-center gap-3 text-center" role="status">
-              <p className="text-lg font-semibold">
+            <div className="flex flex-col items-center gap-3 text-center">
+              <p className="text-lg font-semibold" role="status">
                 {state.status === "WON" ? messages.won(confirmedGuesses.length) : messages.lost}
               </p>
 
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <Button variant="outline" className="gap-2" onClick={onShare}>
-                  <Share2 className="h-4 w-4" />
-                  {messages.shareResult}
-                </Button>
+                <DailyShareAction onShare={onShare} status={shareStatus} />
 
                 <Button
                   variant="secondary"
@@ -524,12 +523,7 @@ export function DailyWord({
             </div>
 
             {/* Botão de compartilhar */}
-            {isFinished && (
-              <Button className="w-full gap-2" onClick={onShare}>
-                <Share2 className="h-4 w-4" />
-                {messages.shareResult}
-              </Button>
-            )}
+            {isFinished && <DailyShareAction onShare={onShare} status={shareStatus} block />}
           </div>
         </DialogContent>
       </Dialog>

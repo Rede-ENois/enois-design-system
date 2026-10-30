@@ -1,0 +1,37 @@
+export type OnboardingMessages = {
+  onboardingView: {
+    progress: (current: number, total: number) => string;
+    skip: string;
+    next: string;
+    back: string;
+    complete: string;
+    submitting: string;
+    interestsTitle: string;
+    interestsDescription: string;
+    topicsLabel: string;
+    topicsHint: string;
+    skillsLabel: string;
+    skillsHint: string;
+    skillsPlaceholder: string;
+    skillsFull: string;
+    skillsCount: (count: number, max: number) => string;
+    removeSkill: (skill: string) => string;
+    suggestionsLabel: string;
+    packTitle: string;
+    packDescription: string;
+    communitiesTitle: string;
+    groupsTitle: string;
+    peopleTitle: string;
+    communitiesCount: (count: number, max: number) => string;
+    groupsCount: (count: number, max: number) => string;
+    peopleCount: (count: number, max: number) => string;
+    limitReached: string;
+    members: (count: number) => string;
+    communitiesEmpty: string;
+    groupsEmpty: string;
+    peopleEmpty: string;
+    loading: string;
+    error: string;
+    retry: string;
+  };
+};

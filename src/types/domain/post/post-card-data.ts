@@ -28,4 +28,6 @@ export type PostCardData = {
   mediaIds: string[];
   editedAt?: string | null;
   expiresAt?: string | null;
+  /** QUESTION only: an answer was accepted. Absent reads as open. */
+  resolved?: boolean;
 };

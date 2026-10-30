@@ -17,6 +17,7 @@ import type { DailyBlocksProps } from "../../../types/domain/games/daily-blocks-
 import { Button } from "../../../ui/button.js";
 
 import { DailyRanking } from "./daily-ranking.js";
+import { DailyShareAction } from "./daily-share-action.js";
 
 const keys: Record<string, BlocksAction> = {
   ArrowLeft: "LEFT",
@@ -53,6 +54,8 @@ export function DailyBlocks({
   onRetrySync,
   boardRef,
   ranking,
+  onShare,
+  shareStatus,
 }: DailyBlocksProps) {
   const messages = useMessages().dailyBlocks;
   const challenge = useMessages().dailyChallenge;
@@ -275,6 +278,12 @@ export function DailyBlocks({
               </p>
 
               <p>{messages.officialResult(official.score, official.lines, TARGET_LINES)}</p>
+            </div>
+          )}
+
+          {official && onShare && (
+            <div className="flex flex-wrap items-center gap-2">
+              <DailyShareAction onShare={onShare} status={shareStatus} />
             </div>
           )}
 

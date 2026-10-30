@@ -185,6 +185,16 @@ export type GamesMessages = {
     startError: string;
     challengeOf: (date: string) => string;
   };
+  dailyShare: {
+    button: string;
+    copied: string;
+    shared: string;
+    error: string;
+    /** First line of the shared text; `score` is "4/6" or "X/6". */
+    word: (dateLabel: string, score: string) => string;
+    maze: (dateLabel: string, moves: number, elapsedMillis: number) => string;
+    blocks: (dateLabel: string, score: number, lines: number) => string;
+  };
   dailyRanking: { title: string; loading: string; error: string; retry: string; empty: string };
   dailyWord: {
     title: string;
@@ -196,7 +206,6 @@ export type GamesMessages = {
     emptyTile: string;
     won: (attempts: number) => string;
     lost: string;
-    shareResult: string;
     viewStats: string;
     keyboardLabel: string;
     keyDelete: string;

@@ -8,12 +8,14 @@ import type { ConversationsMessages } from "./conversations-messages.js";
 import type { CosmeticsMessages } from "./cosmetics-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
+import type { EventsMessages } from "./events-messages.js";
 import type { GamesMessages } from "./games-messages.js";
 import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { MarketplaceMessages } from "./marketplace-messages.js";
 import type { ModerationMessages } from "./moderation-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
+import type { OnboardingMessages } from "./onboarding-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
 import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
@@ -21,6 +23,8 @@ import type { PwaMessages } from "./pwa-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
+import type { StreakMessages } from "./streak-messages.js";
+import type { StudyPairsMessages } from "./study-pairs-messages.js";
 import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
 import type { UiMessages } from "./ui-messages.js";
@@ -59,4 +63,8 @@ export type Messages = UiMessages &
   SupportMessages &
   DevelopersMessages &
   ModerationMessages &
-  CosmeticsMessages;
+  CosmeticsMessages &
+  OnboardingMessages &
+  StreakMessages &
+  EventsMessages &
+  StudyPairsMessages;

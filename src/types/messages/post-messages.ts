@@ -5,6 +5,7 @@ import type { ReportTargetType } from "../domain/post/report-target-type.js";
 import type { FormatPlaceholders } from "../lib/rich-text/format-placeholders.js";
 
 export type PostMessages = {
+  caughtUpDivider: { title: string; subline: string };
   spoilerText: { show: string; hide: string };
   imageLightbox: { title: string; close: string };
   mediaStage: { title: string; mute: string; unmute: string; close: string };
@@ -28,6 +29,9 @@ export type PostMessages = {
   };
   postCard: {
     types: Record<PostType, string>;
+    /** Status pill of a QUESTION post. */
+    questionResolved: string;
+    questionOpen: string;
     pinned: string;
     pin: string;
     unpin: string;
@@ -144,6 +148,9 @@ export type PostMessages = {
     edit: string;
     delete: string;
     report: string;
+    accepted: string;
+    accept: string;
+    unaccept: string;
   };
   postComments: {
     errors: Record<CommentsError, string>;
@@ -187,4 +194,11 @@ export type PostMessages = {
     username: (username: string) => string;
     formatPlaceholders: FormatPlaceholders;
   };
+  questionStatusFilter: {
+    label: string;
+    all: string;
+    open: string;
+    resolved: string;
+  };
+  questionComposer: { hint: string };
 };

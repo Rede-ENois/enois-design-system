@@ -8,6 +8,7 @@ import type { MazeDirection } from "../../../types/domain/games/maze-direction.j
 import { Button } from "../../../ui/button.js";
 
 import { DailyRanking } from "./daily-ranking.js";
+import { DailyShareAction } from "./daily-share-action.js";
 
 const keys: Record<string, MazeDirection> = {
   ArrowUp: "UP",
@@ -39,6 +40,8 @@ export function DailyMaze({
   moveErrorMessage,
   onMove,
   ranking,
+  onShare,
+  shareStatus,
 }: DailyMazeProps) {
   const messages = useMessages().dailyMaze;
   const challenge = useMessages().dailyChallenge;
@@ -291,6 +294,12 @@ export function DailyMaze({
                 )}
                 .
               </p>
+            </div>
+          )}
+
+          {state.status === "WON" && onShare && (
+            <div className="flex flex-wrap items-center gap-2">
+              <DailyShareAction onShare={onShare} status={shareStatus} />
             </div>
           )}
         </div>

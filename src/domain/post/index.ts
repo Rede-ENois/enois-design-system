@@ -1,3 +1,4 @@
+export { CaughtUpDivider } from "./caught-up-divider.js";
 export { PostCard } from "./post-card.js";
 export { PostCardSkeletons } from "./post-card-skeletons.js";
 export { PostEditDialog } from "./post-edit-dialog.js";
@@ -14,6 +15,9 @@ export { CommentSkeletons } from "./comments/comment-skeletons.js";
 export { GifPickerDialog } from "./comments/gif-picker-dialog.js";
 export { isGifUrl } from "./comments/gif-url.js";
 export { PostComments } from "./comments/post-comments.js";
+export { orderCommentsWithAccepted } from "./comments/order-comments-with-accepted.js";
+export { QuestionComposerHint } from "./question-composer-hint.js";
+export { QuestionStatusFilter } from "./question-status-filter.js";
 export { MentionTextarea } from "./editor/mention-textarea.js";
 export { EmbedPlayer } from "./media/embed-player.js";
 export { extractVideoId } from "./media/extract-video-id.js";
@@ -54,6 +58,7 @@ export {
   rendersInline,
   trimTrailingPunctuation,
 } from "../../lib/shared-links.js";
+export type { CaughtUpDividerProps } from "../../types/domain/post/caught-up-divider-props.js";
 export type { AuthorInfoProps } from "../../types/domain/post/author-info-props.js";
 export type { CommentItemData } from "../../types/domain/post/comment-item-data.js";
 export type { CommentItemProps } from "../../types/domain/post/comment-item-props.js";
@@ -91,6 +96,8 @@ export type { PostSealCount } from "../../types/domain/post/post-seal-count.js";
 export type { PostSealPickerProps } from "../../types/domain/post/post-seal-picker-props.js";
 export type { PostType } from "../../types/domain/post/post-type.js";
 export type { PostTypeOption } from "../../types/domain/post/post-type-option.js";
+export type { QuestionStatus } from "../../types/domain/post/question-status.js";
+export type { QuestionStatusFilterProps } from "../../types/domain/post/question-status-filter-props.js";
 export type { ReactionPickerProps } from "../../types/domain/post/reaction-picker-props.js";
 export type { ReactionRowData } from "../../types/domain/post/reaction-row-data.js";
 export type { ReactionUserData } from "../../types/domain/post/reaction-user-data.js";

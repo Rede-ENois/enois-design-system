@@ -2,6 +2,7 @@ import { Users } from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { useMessages } from "../../messages/messages-context.js";
+import { LocationLine } from "../../patterns/location/location-line.js";
 import type { CommunityCardProps } from "../../types/domain/communities/community-card-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
@@ -54,6 +55,8 @@ export function CommunityCard({
           {c.description && (
             <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">{c.description}</p>
           )}
+
+          <LocationLine city={c.city} state={c.state} className="mt-3 flex" />
 
           <div className="mt-4 flex items-center justify-between gap-2">
             <span className="inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">

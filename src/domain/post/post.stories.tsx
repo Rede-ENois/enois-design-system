@@ -6,7 +6,9 @@ import type { PostCardData } from "../../types/domain/post/post-card-data.js";
 import type { PostMediaGridProps } from "../../types/domain/post/post-media-grid-props.js";
 import type { PostRichTextProps } from "../../types/domain/post/post-rich-text-props.js";
 
+import { CaughtUpDivider } from "./caught-up-divider.js";
 import { CommentItem } from "./comments/comment-item.js";
+import { orderCommentsWithAccepted } from "./comments/order-comments-with-accepted.js";
 import { PostComments } from "./comments/post-comments.js";
 import { MentionTextarea } from "./editor/mention-textarea.js";
 import { MediaGrid } from "./media/media-grid.js";
@@ -14,6 +16,8 @@ import { PostCardSkeletons } from "./post-card-skeletons.js";
 import { PostCard } from "./post-card.js";
 import { PostNotes } from "./post-notes.js";
 import { PostSealPicker } from "./post-seal-picker.js";
+import { QuestionComposerHint } from "./question-composer-hint.js";
+import { QuestionStatusFilter } from "./question-status-filter.js";
 import { PostActions } from "./reactions/post-actions.js";
 import { ReactionsDialog } from "./reactions/reactions-dialog.js";
 import { ReactionsSummary } from "./reactions/reactions-summary.js";
@@ -277,6 +281,97 @@ export const Comments: StoryObj = {
   },
 };
 
+const question: PostCardData = {
+  id: "q1",
+  type: "QUESTION",
+  content: "Alguém sabe por que meu `useEffect` roda duas vezes em desenvolvimento?",
+  authorName: "Carla Souza",
+  authorAvatar: null,
+  tags: ["react"],
+  mediaIds: [],
+};
+
+const answers = [
+  {
+    id: "a1",
+    parentCommentId: null,
+    authorName: "Bruno Lima",
+    authorAvatar: null,
+    content: "Também queria saber!",
+  },
+  {
+    id: "a2",
+    parentCommentId: null,
+    authorName: "Ana Reis",
+    authorAvatar: null,
+    content:
+      "É o StrictMode: em dev o React monta, desmonta e monta de novo para achar efeitos sem limpeza.",
+  },
+  {
+    id: "a3",
+    parentCommentId: null,
+    authorName: "Carla Souza",
+    authorAvatar: null,
+    content: "Faz sentido, obrigada!",
+  },
+];
+
+/** QUESTION posts: status pill, filter, composer hint and the accepted answer (viewer = author). */
+export const Questions: StoryObj = {
+  render: function QuestionsStory() {
+    const [status, setStatus] = useState<"all" | "open" | "resolved">("all");
+    const [acceptedId, setAcceptedId] = useState<string | null>("a2");
+
+    return (
+      <div className="max-w-xl space-y-4">
+        <QuestionStatusFilter value={status} onChange={setStatus} />
+        <QuestionComposerHint />
+        {[false, true].map((resolved) => (
+          <PostCard
+            key={String(resolved)}
+            post={{ ...question, id: `q-${resolved}`, resolved }}
+            hrefs={{ author: "#", post: "#" }}
+            isOwner={false}
+            timeLabel="há 1 h"
+            mySeals={[]}
+            onShowSeals={() => {}}
+            renderRichText={renderRichText}
+            renderMediaGrid={renderMediaGrid}
+          />
+        ))}
+        <div className="space-y-3">
+          {orderCommentsWithAccepted(answers, acceptedId).map((answer) => (
+            <CommentItem<keyof typeof emojis>
+              key={answer.id}
+              comment={{ ...answer, accepted: answer.id === acceptedId }}
+              content={answer.content}
+              edited={false}
+              timeLabel="há 20 min"
+              isOwner={answer.authorName === question.authorName}
+              canPin={false}
+              canAccept={answer.authorName !== question.authorName}
+              onAccept={() => setAcceptedId(answer.id)}
+              onUnaccept={() => setAcceptedId(null)}
+              emojis={emojis}
+              reaction={null}
+              onReact={() => {}}
+              onReply={() => {}}
+              onTogglePin={() => {}}
+              onDelete={() => {}}
+              onReport={() => {}}
+              onSaveEdit={async () => true}
+              onCancelEdit={() => {}}
+              renderRichText={renderRichText}
+              renderMediaGrid={renderMediaGrid}
+              renderEditField={() => null}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  },
+};
+
 export const Reactions: StoryObj = {
   render: function ReactionsStory() {
     const [open, setOpen] = useState(true);
@@ -333,6 +428,14 @@ export const Notes: StoryObj = {
       <PostNotes notes={[note]} canAdd onSend={async () => true} />
       <PostNotes notes={[]} pending onSend={async () => true} />
       <PostNotes notes={[]} deniedReason="Sem fonte." onSend={async () => true} />
+    </div>
+  ),
+};
+
+export const CaughtUp: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <CaughtUpDivider />
     </div>
   ),
 };
