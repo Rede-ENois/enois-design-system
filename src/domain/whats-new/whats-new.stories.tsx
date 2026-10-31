@@ -13,7 +13,6 @@ export const Dialog: StoryObj = {
     <WhatsNewDialog
       open
       onOpenChange={() => {}}
-      releaseLabel="Outubro de 2026"
       items={[
         {
           id: "study-pairs",

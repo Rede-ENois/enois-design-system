@@ -15,16 +15,14 @@ import {
  * unseen and what it contains; this only draws. Calm on purpose: a numbered list, no motion beyond
  * the dialog's own fade, one button.
  */
-export function WhatsNewDialog({ open, onOpenChange, releaseLabel, items }: WhatsNewDialogProps) {
+export function WhatsNewDialog({ open, onOpenChange, items }: WhatsNewDialogProps) {
   const messages = useMessages().whatsNewDialog;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="gap-6 sm:max-w-md">
         <DialogHeader className="space-y-2 text-left">
-          <p className="text-xs font-medium text-primary">
-            {releaseLabel ? `${messages.eyebrow} · ${releaseLabel}` : messages.eyebrow}
-          </p>
+          <p className="text-xs font-medium text-primary">{messages.eyebrow}</p>
 
           <DialogTitle className="text-xl text-text-strong text-balance">
             {messages.title}

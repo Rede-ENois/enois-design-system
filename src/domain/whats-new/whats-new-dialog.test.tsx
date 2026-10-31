@@ -31,18 +31,13 @@ const items = [
   { id: "b", title: "Comunidades locais", description: "Perto de você." },
 ];
 
-it("lists every item in order under the release label", () => {
-  act(() =>
-    root.render(
-      <WhatsNewDialog open onOpenChange={() => {}} releaseLabel="Outubro de 2026" items={items} />,
-    ),
-  );
+it("lists every item in order", () => {
+  act(() => root.render(<WhatsNewDialog open onOpenChange={() => {}} items={items} />));
 
   const titles = [...document.querySelectorAll("ol li p:first-child")].map(
     (node) => node.textContent,
   );
   expect(titles).toEqual(["Par de estudo", "Comunidades locais"]);
-  expect(document.body.textContent).toContain(`${messages.eyebrow} · Outubro de 2026`);
 });
 
 it("confirming closes the dialog", () => {
