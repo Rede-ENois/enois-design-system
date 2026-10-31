@@ -196,6 +196,12 @@
     border-color: var(--color-border);
   }
 
+  /* No iOS o "rubber band" do scroll mostra o fundo do html, não o do body: sem isso aparece uma
+     faixa branca acima e abaixo do feed em tema escuro. */
+  html {
+    background-color: var(--color-background);
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
