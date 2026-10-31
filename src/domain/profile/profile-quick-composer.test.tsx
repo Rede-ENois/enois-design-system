@@ -1,22 +1,27 @@
 // @vitest-environment jsdom
 import { act } from "react";
 
-import { createRoot } from "react-dom/client";
+import { type Root, createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ProfileQuickComposer } from "./profile-quick-composer.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const container = document.createElement("div");
-document.body.append(container);
-const root = createRoot(container);
-
-afterEach(() => act(() => root.render(null)));
+let container: HTMLDivElement;
+let root: Root;
 
 beforeEach(() => {
+  container = document.createElement("div");
+  document.body.append(container);
+  root = createRoot(container);
   URL.createObjectURL = vi.fn(() => "blob:preview");
   URL.revokeObjectURL = vi.fn();
+});
+
+afterEach(() => {
+  act(() => root.unmount());
+  container.remove();
 });
 
 function render(onWriteArticle?: () => void) {
@@ -92,6 +97,8 @@ describe("ProfileQuickComposer", () => {
 
     expect(container.querySelector("img")).not.toBeNull();
     expect(button("Publicar").disabled).toBe(true);
+    expect(container.textContent).toContain("Escreva uma legenda para publicar.");
+    expect(button("Publicar").getAttribute("aria-describedby")).toBeTruthy();
   });
 
   it("publishes media once there is text", async () => {
@@ -100,6 +107,7 @@ describe("ProfileQuickComposer", () => {
     type("Legenda");
 
     expect(button("Publicar").disabled).toBe(false);
+    expect(container.textContent).not.toContain("Escreva uma legenda para publicar.");
     await act(async () => button("Publicar").click());
 
     expect(onPublish).toHaveBeenCalledWith(

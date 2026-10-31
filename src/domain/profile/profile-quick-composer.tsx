@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useEffect, useId, useRef, useState } from "react";
 
 import { EyeOff, FilePenLine, Image, Send, Video, X } from "lucide-react";
 
@@ -24,6 +24,9 @@ export function ProfileQuickComposer({
   const [isComposerOpen, setIsComposerOpen] = useState(false);
   const [media, setMedia] = useState<ProfileQuickComposerMediaItem[]>([]);
   const [mediaSpoiler, setMediaSpoiler] = useState(false);
+  const textRequiredId = useId();
+  // The API refuses a post without text; say why "Publicar" is off once media is attached.
+  const textMissing = media.length > 0 && !content.trim();
   const fileRef = useRef<HTMLInputElement>(null);
   const pendingAccept = useRef<"image" | "video" | null>(null);
 
@@ -257,6 +260,7 @@ export function ProfileQuickComposer({
                 className="shrink-0 gap-1.5 rounded-full"
                 onClick={() => void publish()}
                 disabled={!content.trim() || publishPending}
+                aria-describedby={textMissing ? textRequiredId : undefined}
               >
                 <Send className="h-3.5 w-3.5" />
 
@@ -264,6 +268,12 @@ export function ProfileQuickComposer({
               </Button>
             </div>
           </div>
+
+          {textMissing && (
+            <p id={textRequiredId} className="mt-2 text-right text-xs text-text-subtle">
+              {messages.textRequired}
+            </p>
+          )}
         </>
       )}
     </section>
