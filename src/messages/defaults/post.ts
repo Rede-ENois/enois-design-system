@@ -42,6 +42,7 @@ export const postMessages: PostMessages = {
       TUTORIAL: "Tutorial",
       REVIEW: "Avaliação",
       MOMENT: "Momento",
+      POLL: "Enquete",
       DIVERTIDO: "Divertido",
       PAGE: "Página",
       BLOG: "Blog",

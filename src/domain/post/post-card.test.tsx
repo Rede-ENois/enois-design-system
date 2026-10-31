@@ -80,4 +80,32 @@ describe("cabeçalho do card de post", () => {
     expect(html).toContain("Pergunta");
     expect(html).toContain(label);
   });
+
+  it("mostra a enquete no slot proprio e marca o tipo", () => {
+    const html = renderToStaticMarkup(
+      <PostCard
+        post={{
+          id: "p",
+          type: "POLL",
+          content: "Café ou chá?",
+          authorName: "Ana",
+          authorAvatar: null,
+          tags: [],
+          mediaIds: [],
+        }}
+        hrefs={{ author: "/perfil/ana", post: "/post/p" }}
+        timeLabel="agora"
+        isOwner={false}
+        mySeals={[]}
+        onShowSeals={vi.fn()}
+        poll={<ul data-testid="enquete">{["Café", "Chá"].map((o) => <li key={o}>{o}</li>)}</ul>}
+        renderRichText={({ content }) => <p>{content}</p>}
+        renderMediaGrid={() => null}
+      />,
+    );
+    expect(html).toContain("Enquete");
+    expect(html).toContain("Café ou chá?");
+    expect(html).toContain("Café");
+    expect(html).toContain("Chá");
+  });
 });

@@ -55,6 +55,10 @@ export const POST_TYPE_META: Record<PostType, PostTypeMeta> = {
     className: "bg-highlight-article text-highlight-article-text",
     classAvatar: "bg-user-article text-user-article-text",
   },
+  POLL: {
+    className: "bg-secondary/30 text-text-strong",
+    classAvatar: "",
+  },
   BUSINESS: {
     // Destaque próprio do contexto profissional (o mesmo par usado pelos demais tipos).
     className: "bg-highlight-news text-highlight-news-text",

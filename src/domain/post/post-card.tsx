@@ -53,6 +53,7 @@ export function PostCard({
   pageLoading = false,
   mediaSpoiler = false,
   page,
+  poll,
   reactionsSummary,
   notes,
   actions,
@@ -335,6 +336,7 @@ export function PostCard({
         </p>
       ) : null}
 
+      {poll}
       {reactionsSummary}
       <LinkPreviews content={post.content} autoplay={autoplayLinks} />
 

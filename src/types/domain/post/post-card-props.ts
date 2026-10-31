@@ -51,6 +51,8 @@ export type PostCardProps = {
   mediaSpoiler?: boolean;
   /** A mini página do post (o app monta o quadro). */
   page?: ReactNode;
+  /** A enquete do post (alternativas + voto); o app monta — o DS não conhece a API de voto. */
+  poll?: ReactNode;
   /** Resumo de reações. */
   reactionsSummary?: ReactNode;
   /** Notas de rodapé da comunidade (logo antes da fileira de ações). */
