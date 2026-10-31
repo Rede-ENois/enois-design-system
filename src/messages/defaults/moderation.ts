@@ -90,7 +90,7 @@ export const moderationMessages: ModerationMessages = {
     commentPlaceholder: "Explique o que precisa mudar antes de pedir alterações...",
     send: "Enviar revisão",
     writeHint:
-      "Para revisar em seu nome — e não como o bot do Énóis — conecte o GitHub com permissão de escrita.",
+      "Para revisar em seu nome (e não como o bot do Énóis), conecte o GitHub com permissão de escrita.",
     connectWrite: "Conectar GitHub com permissão de escrita",
     openOnGithub: "Abrir no GitHub",
     by: (login: string) => `por @${login}`,
@@ -98,7 +98,7 @@ export const moderationMessages: ModerationMessages = {
   notesSection: {
     title: "Notas de rodapé",
     description:
-      "Correções enviadas pela comunidade. Só uma nota é aprovada por post — aprovar descarta as outras pendentes sem penalidade. Negar mantém oculta e reduz a credibilidade de quem enviou.",
+      "Correções enviadas pela comunidade. Só uma nota é aprovada por post: aprovar descarta as outras pendentes sem penalidade. Negar mantém oculta e reduz a credibilidade de quem enviou.",
     empty: "Nenhuma nota pendente.",
     approve: "Aprovar",
     reject: "Negar",
@@ -200,7 +200,7 @@ export const moderationMessages: ModerationMessages = {
     done: "Decidida",
     verifiedByGithub: "Verificado pelo GitHub",
     landingSource: "Landing",
-    githubOnly: "Aprovado pelo GitHub — sem triagem manual.",
+    githubOnly: "Aprovado pelo GitHub, sem triagem manual.",
     formPending: "Aguardando a confirmação dos dados pelo formulário.",
     seal: (name) => `Selo: ${name}`,
     evidence: (count) =>
@@ -223,8 +223,7 @@ export const moderationMessages: ModerationMessages = {
     title: "Modo pânico",
     description:
       "Bloqueia toda escrita da aplicação (POST/PUT/PATCH/DELETE) com 429 imediatamente. O login e este botão continuam funcionando para você poder desligar.",
-    active:
-      "ATIVO — toda escrita está respondendo 429. Desligue para a aplicação voltar ao normal.",
+    active: "ATIVO: toda escrita está respondendo 429. Desligue para a aplicação voltar ao normal.",
     activate: "Ativar modo pânico",
     deactivate: "Desativar modo pânico",
     confirmTitle: "Ativar o modo pânico?",
@@ -266,7 +265,7 @@ export const moderationMessages: ModerationMessages = {
   suspiciousUsersSection: {
     title: "Contas suspeitas",
     description:
-      "Contas recentes com sinais de cadastro em série: nome repetido ou de teste, e-mail não confirmado, perfil vazio e denúncias contra. Revise e selecione o que banir — o lote aplica o banimento pelo fluxo normal, sem apagar conteúdo de quem você está julgando.",
+      "Contas recentes com sinais de cadastro em série: nome repetido ou de teste, e-mail não confirmado, perfil vazio e denúncias contra. Revise e selecione o que banir. O lote aplica o banimento pelo fluxo normal, sem apagar conteúdo de quem você está julgando.",
     autoHint:
       "Risco acima de 60: a triagem automática bane a conta e apaga o conteúdo sozinha. O que aparece aqui é o que ficou abaixo do teto ou pede julgamento humano.",
     empty: "Nenhuma conta suspeita no período.",
@@ -276,7 +275,7 @@ export const moderationMessages: ModerationMessages = {
     clear: "Limpar seleção",
     selected: (count: number) => `${count} selecionada(s)`,
     reasonPlaceholder:
-      "Motivo (opcional) — sem ele fica registrado como limpeza de contas em série",
+      "Motivo (opcional). Sem ele, fica registrado como limpeza de contas em série",
     banTypes: { BAN: "Banir", PERMABAN: "Banir permanentemente" },
     ban: (count: number) => (count === 0 ? "Banir selecionadas" : `Banir ${count} conta(s)`),
     confirmTitle: "Banir em lote",
@@ -383,7 +382,7 @@ export const moderationMessages: ModerationMessages = {
     moedaCofre: "No cofre",
     moedaCirculacao: "Em circulação",
     moedaCoerente: "Coerente: a soma de todas as contas fecha com o total.",
-    moedaDivergente: "Divergência: a soma dos saldos não fecha com o total — investigar.",
+    moedaDivergente: "Divergência: a soma dos saldos não fecha com o total. Investigar.",
     copyEvent: "Copiar mensagem completa",
     copyAll: "Copiar tudo",
     copied: "Copiado.",

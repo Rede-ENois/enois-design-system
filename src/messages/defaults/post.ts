@@ -157,7 +157,7 @@ export const postMessages: PostMessages = {
   },
   gifPickerDialog: {
     title: "Adicionar GIF",
-    hint: "Cole o link do Giphy ou Tenor — ele aparece como GIF no comentário.",
+    hint: "Cole o link do Giphy ou Tenor. Ele aparece como GIF no comentário.",
     placeholder: "https://giphy.com/gifs/...",
     action: "Adicionar GIF",
     invalid: "Esse link não parece ser um GIF do Giphy, Tenor ou um .gif direto.",
@@ -167,7 +167,7 @@ export const postMessages: PostMessages = {
     searchNothing: "Nenhum GIF para mostrar agora.",
     searchError: "Não foi possível buscar GIFs agora. Tente de novo.",
     unavailable:
-      "Sem provedor externo configurado — buscando nos GIFs da comunidade. Para a busca externa, configure REDE_GIFS_TENOR_KEY (grátis no Google Cloud) e colar link continua valendo.",
+      "Sem provedor externo configurado, buscando nos GIFs da comunidade. Para a busca externa, configure REDE_GIFS_TENOR_KEY (grátis no Google Cloud) e colar link continua valendo.",
     pasteToggle: "Prefiro colar um link",
     backToSearch: "Voltar para a busca",
     poweredBy: (provider) => `GIFs por ${provider}`,

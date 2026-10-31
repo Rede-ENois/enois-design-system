@@ -125,7 +125,7 @@ export const supportMessages: SupportMessages = {
   verifiedContributorPrompt: {
     title: "Você tem contribuições verificadas",
     description:
-      "Confirme seus dados para aparecer no painel de contribuintes. A verificação é o próprio GitHub — não há aprovação manual.",
+      "Confirme seus dados para aparecer no painel de contribuintes. A verificação é o próprio GitHub, sem aprovação manual.",
     action: "Preencher formulário",
     close: "Agora não",
     formTitle: "Confirme seus dados",

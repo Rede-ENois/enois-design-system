@@ -65,11 +65,11 @@ export function LinkedinImportSection({
           : []),
         ...preview.experiences.map((exp, i) => ({
           key: `exp${i}`,
-          label: `${exp.title ?? ""} — ${exp.company ?? ""}`,
+          label: `${exp.title ?? ""} · ${exp.company ?? ""}`,
         })),
         ...preview.education.map((edu, i) => ({
           key: `edu${i}`,
-          label: `${edu.school} — ${edu.degree || edu.field || ""}`,
+          label: `${edu.school} · ${edu.degree || edu.field || ""}`,
         })),
         ...preview.certifications.map((cert, i) => ({ key: `cert${i}`, label: cert.name })),
         ...preview.projects.map((project, i) => ({ key: `proj${i}`, label: project.title })),

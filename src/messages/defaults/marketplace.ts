@@ -9,7 +9,7 @@ export const marketplaceMessages: MarketplaceMessages = {
     error: "Não foi possível abrir o conteúdo desta compra.",
     download: "Baixar .html",
     copy: "Copiar HTML",
-    copied: "HTML copiado — cole onde quiser usar.",
+    copied: "HTML copiado. Cole onde quiser usar.",
     copyError: "Não deu para copiar. Selecione o texto e copie à mão.",
   },
   marketplaceSellDialog: {

@@ -48,16 +48,16 @@ export const securityMessages: SecurityMessages = {
       `Também vieram no arquivo, mas ainda não têm um lugar no perfil do Énóis: ${lista}.`,
     connectFirst: "Conecte o LinkedIn para importar seus dados.",
     title: "Sincronizar com LinkedIn",
-    hint: "O vínculo confirma a identidade pelo login. Experiências, certificações e projetos o LinkedIn só entrega no arquivo de dados (pela API vem só o básico — nome e e-mail — salvo aprovação no programa de parceiros deles). Sem baixar nada: copie o texto do seu perfil e cole; ou use o ZIP da exportação. O app mostra a prévia de tudo antes de salvar.",
+    hint: "O vínculo confirma a identidade pelo login. Experiências, certificações e projetos o LinkedIn só entrega no arquivo de dados (pela API vem só o básico, nome e e-mail, salvo aprovação no programa de parceiros deles). Sem baixar nada: copie o texto do seu perfil e cole; ou use o ZIP da exportação. O app mostra a prévia de tudo antes de salvar.",
     button: "Enviar o ZIP do LinkedIn",
     getArchive: "Baixar meu arquivo no LinkedIn",
     tooLarge: (mb) =>
       `O arquivo passa de ${mb} MB. Use o arquivo BÁSICO da exportação do LinkedIn (o completo vem com senha e é enorme).`,
     pasteToggle: "Colar o perfil",
     pastePlaceholder:
-      "Abra seu perfil no LinkedIn, selecione tudo (Ctrl+A), copie e cole aqui — o app extrai experiências, formação, certificações e projetos.",
+      "Abra seu perfil no LinkedIn, selecione tudo (Ctrl+A), copie e cole aqui. O app extrai experiências, formação, certificações e projetos.",
     pasteRead: "Ler o perfil colado",
-    found: (count) => `${count} itens encontrados — marque o que quer importar:`,
+    found: (count) => `${count} itens encontrados. Marque o que quer importar:`,
     save: "Importar selecionados",
     resumeButton: "Enviar o currículo",
     resumeHint:

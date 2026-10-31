@@ -28,7 +28,7 @@ export const blogMessages: BlogMessages = {
     preview: "Prévia",
     textHint:
       "Escreva como no Word: # vira título, **negrito**, *itálico*, - vira lista, > vira citação. A prévia mostra como fica.",
-    htmlHint: "Cole HTML e CSS livres — é o mesmo editor das páginas do perfil.",
+    htmlHint: "Cole HTML e CSS livres. É o mesmo editor das páginas do perfil.",
     htmlPlaceholder:
       '<style>\n.post { color: #f4efff; }\n</style>\n<article class="post">...</article>',
     emptyPreview: "Cole um HTML para ver a pré-visualização.",

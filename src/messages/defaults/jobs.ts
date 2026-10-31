@@ -40,12 +40,12 @@ export const jobsMessages: JobsMessages = {
     verifyIdentity: "Verificar minha conta",
     resumePrefill: "Preencher com meu currículo",
     resumePrefillHint:
-      "Suba o currículo (PDF ou texto): o app sugere a mensagem e as respostas. O que ele não achar fica marcado para você preencher — revise antes de enviar.",
+      "Suba o currículo (PDF ou texto): o app sugere a mensagem e as respostas. O que ele não achar fica marcado para você preencher. Revise antes de enviar.",
     resumeReading: "Lendo o currículo...",
     resumeFilled: (filled, total) =>
-      `${filled} de ${total} campos preenchidos — revise e complete o resto.`,
+      `${filled} de ${total} campos preenchidos. Revise e complete o resto.`,
     resumeNoSuggestion: "preencha aqui",
-    resumeMissingField: " — o currículo não trouxe este campo.",
+    resumeMissingField: " (o currículo não trouxe este campo)",
     close: "Fechar",
   },
   applicationFeedbackDialog: {
@@ -83,7 +83,7 @@ export const jobsMessages: JobsMessages = {
   jobEditDialog: {
     title: "Editar vaga",
     description:
-      "Os campos do formulário de candidatura continuam como estão — para mudá-los, publique outra vaga.",
+      "Os campos do formulário de candidatura continuam como estão. Para mudá-los, publique outra vaga.",
     save: "Salvar",
     saving: "Salvando...",
   },

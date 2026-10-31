@@ -205,7 +205,7 @@ export function GameDetail({
             {spend && (
               <p className="text-sm text-text-strong">
                 <span className="font-semibold">{t.spend.amount(spend.amountLabel)}</span>
-                {spend.motivo ? ` — ${spend.motivo}` : ""}
+                {spend.motivo ? ` · ${spend.motivo}` : ""}
               </p>
             )}
 

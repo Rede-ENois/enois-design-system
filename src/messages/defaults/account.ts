@@ -116,10 +116,10 @@ export const accountMessages: AccountMessages = {
       lastShareOk: "Última tentativa: o LinkedIn aceitou · ",
       lastShareFailed: (detail) =>
         detail === "HTTP_401" || detail === "HTTP_403"
-          ? "A última tentativa não foi: o LinkedIn recusou a permissão — reconecte o LinkedIn e publique de novo. · "
+          ? "A última tentativa não foi: o LinkedIn recusou a permissão. Reconecte o LinkedIn e publique de novo. · "
           : detail === "HTTP_422"
             ? "A última tentativa não foi: o LinkedIn recusou o conteúdo do post. · "
-            : `A última tentativa não foi (${detail}) — reconecte o LinkedIn e publique de novo. · `,
+            : `A última tentativa não foi (${detail}). Reconecte o LinkedIn e publique de novo. · `,
       notReady: "Reconecte o LinkedIn para autorizar a publicação em seu nome.",
       serverKey:
         "A publicação no LinkedIn ainda não está disponível nesta instalação. Avise o time de suporte.",
