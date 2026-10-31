@@ -2458,7 +2458,9 @@
    Durações quase zero (em vez de `animation: none`) porque assim a animação
    termina no primeiro quadro e o elemento fica no estado final — nada de diálogo
    ou esqueleto preso no meio do caminho. As partículas das molduras somem porque
-   paradas viram pontinhos soltos em volta do avatar. */
+   paradas viram pontinhos soltos em volta do avatar. O desfoque de fundo
+   (`backdrop-filter`) sai porque é o paint mais caro em GPU fraca ou sem
+   aceleração, refeito a cada quadro de rolagem; os fundos já são quase opacos. */
 html[data-lite] *,
 html[data-lite] *::before,
 html[data-lite] *::after {
@@ -2466,6 +2468,7 @@ html[data-lite] *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
+  backdrop-filter: none !important;
 }
 
 html[data-lite] .moldura-fx__particula {
