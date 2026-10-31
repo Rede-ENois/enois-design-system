@@ -1,5 +1,8 @@
+import { useState } from "react";
+
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { ReleaseNotesEditor } from "./release-notes-editor.js";
 import { WhatsNewDialog } from "./whats-new-dialog.js";
 
 const meta: Meta = {
@@ -33,3 +36,30 @@ export const Dialog: StoryObj = {
     />
   ),
 };
+
+function EditorStory({ live }: { live: boolean }) {
+  const [items, setItems] = useState([
+    {
+      id: "study-pairs",
+      title: "Par de estudo",
+      description: "Encontre alguém com os mesmos objetivos para estudar junto.",
+    },
+    { id: "draft", title: "", description: "" },
+  ]);
+
+  return (
+    <div className="max-w-2xl p-4">
+      <ReleaseNotesEditor
+        items={items}
+        onItemsChange={setItems}
+        liveSince={live ? "31/10/2026" : null}
+        onPublish={() => {}}
+        onRetire={() => {}}
+      />
+    </div>
+  );
+}
+
+export const Editor: StoryObj = { render: () => <EditorStory live={false} /> };
+
+export const EditorLive: StoryObj = { render: () => <EditorStory live /> };
