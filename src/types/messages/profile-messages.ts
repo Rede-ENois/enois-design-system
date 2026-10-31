@@ -213,6 +213,10 @@ export type ProfileMessages = {
     modeHtml: string;
     titleField: string;
     stackField: string;
+    stackPlaceholder: string;
+    stackHint: string;
+    stackDuplicate: string;
+    stackRemove: (tech: string) => string;
     repoField: string;
     statusField: string;
     descriptionField: string;

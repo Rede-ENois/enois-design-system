@@ -218,6 +218,42 @@ export const Dialogs: StoryObj = {
   },
 };
 
+export const StackChips: StoryObj = {
+  render: function StackChipsStory() {
+    const [open, setOpen] = useState(true);
+    const [stack, setStack] = useState([
+      "React",
+      "TypeScript",
+      "Postgres",
+      "Tailwind CSS",
+      "Node.js",
+      "Docker",
+      "Vitest",
+      "Storybook",
+    ]);
+
+    return (
+      <div className="max-w-2xl space-y-3">
+        <Button onClick={() => setOpen(true)}>Gerenciar stack</Button>
+
+        <p className="text-sm text-text-subtle">Stack salva: {stack.join(", ")}</p>
+
+        <ProjectsManager
+          open={open}
+          onOpenChange={setOpen}
+          projects={[{ ...projects[0], stack }]}
+          onSave={async (_id, input) => {
+            setStack(input.stack);
+            return true;
+          }}
+          onDelete={() => setStack([])}
+          renderHtmlFrame={frame}
+        />
+      </div>
+    );
+  },
+};
+
 export const Seals: StoryObj = {
   render: function SealsStory() {
     const [open, setOpen] = useState(true);
