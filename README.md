@@ -71,6 +71,25 @@ for a verification code:
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
 `CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
 
+### Profile garden
+
+`ProfileGarden` (domain) draws a profile's reputation as a small static garden: the tree is
+`trajectory`, the flowers `relations`, the raised bed and its fruits `contribution` and the grass
+`tenure`, each at stage 0 to 3. `health` (0 to 2) only softens the colors; nothing ever dries or
+dies. The style comes from the equipped `GARDEN` cosmetic (`garden-cerrado`,
+`garden-mata-atlantica`, `garden-caatinga`, `garden-pampa`); map its id with `gardenStyleOf`, which
+falls back to the default `quintal`. The owner sees a hint about the part that grows next.
+
+`ProfileGamificationPanel` takes `garden` and `gardenStyle` and draws it next to the reputation:
+
+```tsx
+<ProfileGamificationPanel
+  {...panelProps}
+  garden={profile.garden}
+  gardenStyle={gardenStyleOf(equippedGardenItemId)}
+/>
+```
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).

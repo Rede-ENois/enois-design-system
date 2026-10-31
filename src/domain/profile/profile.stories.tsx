@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import type { ProfileGardenStyle } from "../../types/domain/profile/profile-garden-style.js";
 import type { ProfileHtmlFrameProps } from "../../types/domain/profile/profile-html-frame-props.js";
 import { Button } from "../../ui/button.js";
 
@@ -15,6 +16,8 @@ import { ProfileCommunityShelf } from "./profile-community-shelf.js";
 import { ProfileExperiencesSection } from "./profile-experiences-section.js";
 import { ProfileExplorePanel } from "./profile-explore-panel.js";
 import { ProfileGamificationPanel } from "./profile-gamification-panel.js";
+import { PROFILE_GARDEN_STYLES } from "./profile-garden-styles.js";
+import { ProfileGarden } from "./profile-garden.js";
 import { ProfileNetworkDialog } from "./profile-network-dialog.js";
 import { ProfileProjectsSection } from "./profile-projects-section.js";
 import { ProfileQuickComposer } from "./profile-quick-composer.js";
@@ -59,6 +62,60 @@ const projects = [
   },
 ];
 
+const GARDEN_STYLES = Object.keys(PROFILE_GARDEN_STYLES) as ProfileGardenStyle[];
+const gardenAt = (stage: number, health = 2) => ({
+  trajectory: stage,
+  relations: stage,
+  contribution: stage,
+  tenure: stage,
+  health,
+});
+
+/** Every style at stages 0 to 3. Switch the toolbar theme to check light and dark. */
+export const Gardens: StoryObj = {
+  render: () => (
+    <div className="grid gap-6">
+      {GARDEN_STYLES.map((style) => (
+        <section key={style} className="grid gap-2">
+          <h3 className="text-sm font-medium text-text-strong">{style}</h3>
+
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[0, 1, 2, 3].map((stage) => (
+              <ProfileGarden key={stage} garden={gardenAt(stage)} style={style} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  ),
+};
+
+export const GardensDark: StoryObj = { ...Gardens, globals: { theme: "dark" } };
+
+/** Health only softens the colors: 2 normal, 1 softer, 0 softest. */
+export const GardenHealth: StoryObj = {
+  render: () => (
+    <div className="grid max-w-3xl grid-cols-3 gap-3">
+      {[2, 1, 0].map((health) => (
+        <ProfileGarden key={health} garden={gardenAt(2, health)} style="cerrado" />
+      ))}
+    </div>
+  ),
+};
+
+/** Mixed stages: the owner sees a hint about the part that grows next, visitors do not. */
+export const GardenOwnerAndVisitor: StoryObj = {
+  render: () => {
+    const garden = { trajectory: 2, relations: 1, contribution: 3, tenure: 2, health: 2 };
+    return (
+      <div className="grid max-w-2xl gap-4 sm:grid-cols-2">
+        <ProfileGarden garden={garden} style="mata-atlantica" isOwner />
+        <ProfileGarden garden={garden} style="mata-atlantica" />
+      </div>
+    );
+  },
+};
+
 export const Panels: StoryObj = {
   render: () => (
     <div className="grid max-w-3xl gap-4 sm:grid-cols-2">
@@ -68,6 +125,8 @@ export const Panels: StoryObj = {
         postsCount={12}
         walletBalance="1.250"
         walletHref="#"
+        garden={{ trajectory: 2, relations: 1, contribution: 2, tenure: 3, health: 2 }}
+        gardenStyle="caatinga"
       />
 
       <div className="space-y-4">

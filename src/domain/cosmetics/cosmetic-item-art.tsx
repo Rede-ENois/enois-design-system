@@ -6,6 +6,8 @@ import type { ProfileNameTheme } from "../../types/lib/theme/profile-name-theme.
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { OfficialBadge } from "../badges/official-badge.js";
 import { StyledName } from "../name/styled-name.js";
+import { gardenStyleOf } from "../profile/profile-garden-styles.js";
+import { ProfileGarden } from "../profile/profile-garden.js";
 
 import { cardTheme } from "./card-themes.js";
 import { CosmeticIcon } from "./cosmetic-icon.js";
@@ -13,6 +15,9 @@ import { Nameplate } from "./nameplate.js";
 import { NAMEPLATES } from "./nameplates.js";
 import { OfficialBanner } from "./official-banner.js";
 import { profileEffect } from "./profile-effects.js";
+
+/** A garden item shows its style at a mid stage: grown enough to tell the species apart. */
+const GARDEN_PREVIEW = { trajectory: 2, relations: 2, contribution: 2, tenure: 2, health: 2 };
 
 /** The picture of a shop item, on the user's own avatar and name where it applies. */
 export function CosmeticItemArt({ item, user, variant }: CosmeticItemArtProps) {
@@ -81,6 +86,12 @@ export function CosmeticItemArt({ item, user, variant }: CosmeticItemArtProps) {
         </span>
       );
     }
+    case "GARDEN":
+      return (
+        <span className={thumb ? "cos-art-garden-thumb" : "cos-art-garden"}>
+          <ProfileGarden garden={GARDEN_PREVIEW} style={gardenStyleOf(item.id)} />
+        </span>
+      );
     default:
       return null;
   }

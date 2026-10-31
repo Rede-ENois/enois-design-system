@@ -41,7 +41,13 @@ describe("filterShopItems", () => {
       query: "",
     });
 
-    expect(classic.map((i) => i.id)).toEqual(["moldura-ambar"]);
+    expect(classic.map((i) => i.id)).toEqual([
+      "moldura-ambar",
+      "garden-cerrado",
+      "garden-mata-atlantica",
+      "garden-caatinga",
+      "garden-pampa",
+    ]);
   });
 
   it("searches every collection by name, description and collection name, ignoring case", () => {
@@ -57,6 +63,17 @@ describe("filterShopItems", () => {
     const counts = countByKind(SHOP_ITEMS.filter((i) => i.collection === "namorados"));
 
     expect(counts).toMatchObject({ ALL: 9, FRAME: 3, BADGE: 2, NAME_STYLE: 1, BANNER: 0 });
+  });
+
+  it("filters and counts the garden kind", () => {
+    const gardens = filterShopItems(SHOP_ITEMS, SHOP_COLLECTIONS, {
+      collection: null,
+      kind: "GARDEN",
+      query: "",
+    });
+
+    expect(gardens).toHaveLength(4);
+    expect(countByKind(gardens)).toMatchObject({ ALL: 4, GARDEN: 4, FRAME: 0 });
   });
 });
 

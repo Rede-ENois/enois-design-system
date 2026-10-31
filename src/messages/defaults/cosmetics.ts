@@ -29,6 +29,7 @@ export const cosmeticsMessages: CosmeticsMessages = {
       NAMEPLATE: "Placas",
       BANNER: "Banners",
       PROFILE_EFFECT: "Efeitos",
+      GARDEN: "Jardins",
     },
     kind: {
       CARD_THEME: "Tema do cartão",
@@ -38,6 +39,7 @@ export const cosmeticsMessages: CosmeticsMessages = {
       NAMEPLATE: "Placa de nome",
       BANNER: "Banner",
       PROFILE_EFFECT: "Efeito",
+      GARDEN: "Jardim",
     },
     tryItem: (name) => `Provar ${name} no perfil`,
     owned: "Seu",

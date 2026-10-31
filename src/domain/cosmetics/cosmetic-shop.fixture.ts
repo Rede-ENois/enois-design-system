@@ -56,6 +56,21 @@ export const SHOP_ITEMS: CosmeticShopItem[] = [
     available: true,
     purchasable: true,
   },
+  ...[
+    ["garden-cerrado", "Jardim do Cerrado", "Ipê amarelo, canela-de-ema e buriti."],
+    ["garden-mata-atlantica", "Jardim da Mata Atlântica", "Palmeira juçara, bromélias e pitanga."],
+    ["garden-caatinga", "Jardim da Caatinga", "Mandacaru em flor, xique-xique e umbu."],
+    ["garden-pampa", "Jardim do Pampa", "Corticeira, macela no campo e butiá."],
+  ].map(([id, name, description]): CosmeticShopItem => ({
+    id,
+    kind: "GARDEN",
+    collection: null,
+    name,
+    description,
+    priceLabel: "4",
+    available: true,
+    purchasable: true,
+  })),
 ];
 
 export const SHOP_COLLECTIONS: CosmeticShopCollection[] = CATALOG_COLLECTIONS.map(

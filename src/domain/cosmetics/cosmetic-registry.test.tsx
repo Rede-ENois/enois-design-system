@@ -8,10 +8,14 @@ import { FX_FRAMES, SEASONAL_FX_FRAMES } from "../avatar/avatar-frames.js";
 import { SEASONAL_FRAME_ART } from "../avatar/frames/seasonal/seasonal-frame-art.js";
 import { OfficialBadge } from "../badges/official-badge.js";
 import { OFFICIAL_BADGE_ICONS } from "../badges/official-badges.js";
+import { PROFILE_GARDEN_STYLES, gardenStyleOf } from "../profile/profile-garden-styles.js";
 
 import { CARD_THEMES } from "./card-themes.js";
 import { CATALOG_COLLECTIONS, CATALOG_LOOKS, CATALOG_REWARDS } from "./cosmetic-catalog.fixture.js";
 import { COSMETIC_ICONS } from "./cosmetic-icons.js";
+import { CosmeticItemArt } from "./cosmetic-item-art.js";
+import { COSMETIC_KINDS } from "./cosmetic-shop-state.js";
+import { SHOP_ITEMS } from "./cosmetic-shop.fixture.js";
 import { NAMEPLATES } from "./nameplates.js";
 import { OfficialBanner } from "./official-banner.js";
 import { OFFICIAL_BANNERS } from "./official-banners.js";
@@ -78,6 +82,38 @@ describe("seasonal cosmetics registries", () => {
       for (const id of [...items, ...look.badges].filter(Boolean)) {
         expect(ids.has(id as string), `${look.collection}: ${id}`).toBe(true);
       }
+    }
+  });
+
+  it("draws every garden item in its own style, in the card and in the album", () => {
+    const gardens = SHOP_ITEMS.filter((item) => item.kind === "GARDEN");
+    expect(gardens.map((item) => gardenStyleOf(item.id)).sort()).toEqual(
+      Object.keys(PROFILE_GARDEN_STYLES)
+        .filter((style) => style !== "quintal")
+        .sort(),
+    );
+    const user = { name: "Ana" };
+    for (const item of gardens) {
+      for (const variant of ["stage", "thumb"] as const) {
+        const html = renderToStaticMarkup(
+          <CosmeticItemArt item={item} user={user} variant={variant} />,
+        );
+        expect(html, item.id).toContain("<svg");
+        expect(html, item.id).toContain('aria-label="Jardim d');
+      }
+    }
+  });
+
+  it("has a picture for every kind the shop lists", () => {
+    const sample = (kind: string) => SHOP_ITEMS.find((item) => item.kind === kind);
+    for (const kind of COSMETIC_KINDS) {
+      const item = sample(kind);
+      expect(item, kind).toBeDefined();
+      if (!item) continue;
+      const html = renderToStaticMarkup(
+        <CosmeticItemArt item={item} user={{ name: "Ana" }} variant="stage" />,
+      );
+      expect(html, kind).not.toBe("");
     }
   });
 

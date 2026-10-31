@@ -215,6 +215,23 @@ export const Shop: StoryObj = {
   },
 };
 
+/** The classic tab, where the GARDEN items live. */
+export const ShopClassics: StoryObj = {
+  render: () => (
+    <CosmeticShop
+      items={SHOP_ITEMS}
+      collections={SHOP_COLLECTIONS}
+      user={person}
+      initialCollection={null}
+      onRetry={() => {}}
+      onBuy={() => {}}
+      onBuyLook={() => {}}
+      onEquip={() => {}}
+      onUnequip={() => {}}
+    />
+  ),
+};
+
 export const ShopLoading: StoryObj = {
   render: () => (
     <CosmeticShop
