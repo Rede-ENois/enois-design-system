@@ -91,7 +91,7 @@ export function DeveloperOriginsSection({
                   {item.blocked && (
                     <span className="truncate text-xs text-destructive">
                       {messages.blocked}
-                      {item.blockedReason ? ` — ${item.blockedReason}` : ""}
+                      {item.blockedReason ? ` · ${item.blockedReason}` : ""}
                     </span>
                   )}
                 </span>

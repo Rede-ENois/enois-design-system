@@ -24,12 +24,12 @@ describe("ProfileExperiencesSection", () => {
   });
 
   it("período com fim e duração em anos e meses", () => {
-    expect(render([item({})])).toContain("jan. 2023 – mar. 2024 · 1 ano e 3 meses");
+    expect(render([item({})])).toContain("jan. 2023 - mar. 2024 · 1 ano e 3 meses");
   });
 
   it("quem está lá vê 'atual' no lugar do fim", () => {
     expect(render([item({ currentlyHere: true, months: 24 })])).toContain(
-      "jan. 2023 – atual · 2 anos",
+      "jan. 2023 - atual · 2 anos",
     );
   });
 

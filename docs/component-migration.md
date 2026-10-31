@@ -53,6 +53,8 @@ Fixed copy of a component lives in the DS, keyed by component name in camelCase:
 
 Copy the pt-BR strings verbatim from the front `src/texts.ts` (functions included). Content (names, post text, user input) and page-level copy stay props. Do not delete keys from the front `texts.ts`; it is pruned once at the end.
 
+Copy has no em/en dashes (use a comma, colon, period or parentheses) and no decorative emojis. `src/messages/default-messages.test.ts` enforces it over every default; an emoji that is content (an icon) goes in its explicit key allowlist.
+
 ## Helpers and constants
 
 - Pure presentation helpers/constants used only by moved views move with them (`src/domain/<feature>/` or `src/lib/`).

@@ -25,6 +25,8 @@ const ENGLISH_MARKERS = [
 
 function stringValues(node: unknown, keyPath = "messages"): { keyPath: string; value: string }[] {
   if (typeof node === "string") return [{ keyPath, value: node }];
+  // Template messages are functions: their source holds the literal copy.
+  if (typeof node === "function") return [{ keyPath, value: node.toString() }];
   if (Array.isArray(node)) return node.flatMap((item, i) => stringValues(item, `${keyPath}[${i}]`));
   if (node && typeof node === "object") {
     return Object.entries(node).flatMap(([key, value]) => stringValues(value, `${keyPath}.${key}`));
@@ -36,6 +38,15 @@ const flagged = (test: (value: string) => boolean): string[] =>
   stringValues(defaultMessages)
     .filter(({ value }) => test(value))
     .map(({ keyPath, value }) => `${keyPath} = ${value}`);
+
+// Keys whose emoji or symbol is content (an icon or a legal mark), not decoration.
+const PICTOGRAPHIC_ALLOWLIST = new Set([
+  "messages.embedPlayer.icons.cinema",
+  "messages.embedPlayer.icons.television",
+  "messages.embedPlayer.icons.play",
+  "messages.linkPreviews.webIcon",
+  "messages.legalLayout.copyright",
+]);
 
 describe("default messages copy", () => {
   it("has no English UI copy", () => {
@@ -50,5 +61,25 @@ describe("default messages copy", () => {
 
   it("uses the brand's masculine article (o Énóis)", () => {
     expect(flagged((value) => /\ba Énóis\b/.test(value) || /\bda Énóis\b/.test(value))).toEqual([]);
+  });
+
+  it("has no em/en dashes", () => {
+    expect(flagged((value) => /[–—]/.test(value))).toEqual([]);
+  });
+
+  it("has no emojis outside the content allowlist", () => {
+    const pictographic = stringValues(defaultMessages).filter(({ value }) =>
+      /\p{Extended_Pictographic}/u.test(value),
+    );
+
+    expect(
+      pictographic
+        .filter(({ keyPath }) => !PICTOGRAPHIC_ALLOWLIST.has(keyPath))
+        .map(({ keyPath, value }) => `${keyPath} = ${value}`),
+    ).toEqual([]);
+    // A stale allowlist entry would silently allow an emoji back in later.
+    expect(pictographic.map(({ keyPath }) => keyPath).sort()).toEqual(
+      [...PICTOGRAPHIC_ALLOWLIST].sort(),
+    );
   });
 });

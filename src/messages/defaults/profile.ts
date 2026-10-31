@@ -87,10 +87,10 @@ export const profileMessages: ProfileMessages = {
   profileBannerDialog: {
     title: "Capa do perfil",
     choiceHint:
-      "Escolha uma das duas formas de capa. Dá para trocar de ideia quando quiser — a foto continua guardada.",
+      "Escolha uma das duas formas de capa. Dá para trocar de ideia quando quiser: a foto continua guardada.",
     photoTab: "Selecionar nova foto",
     photo: "Escolher arquivo",
-    photoHint: "JPG, PNG ou WebP — você recorta no formato da capa em seguida.",
+    photoHint: "JPG, PNG ou WebP. Você recorta no formato da capa em seguida.",
     htmlTab: "Digitar código HTML",
     label: "HTML/CSS da capa",
     description:
@@ -227,7 +227,7 @@ export const profileMessages: ProfileMessages = {
   },
   projectsManager: {
     title: "Projetos",
-    hint: "O que você anda construindo — stack, repositório, status e o diário de evolução.",
+    hint: "O que você anda construindo: stack, repositório, status e o diário de evolução.",
     empty: "Nenhum projeto ainda. Conte o que você está construindo.",
     diary: "Diário de evolução",
     modeStructured: "Estruturado",
@@ -270,7 +270,7 @@ export const profileMessages: ProfileMessages = {
     grantedAt: "Concedido em",
     verified: (count) =>
       count === 1 ? "1 contribuição verificada" : `${count} contribuições verificadas`,
-    tierRange: (min, max) => (max === null ? `${min}+` : `${min}–${max}`),
+    tierRange: (min, max) => (max === null ? `${min}+` : `${min}-${max}`),
   },
   sealEvidenceList: {
     evidence: "Evidências públicas",

@@ -23,8 +23,4 @@ describe("wellbeing messages", () => {
 
     expect(ids).toEqual(expect.arrayContaining(BACKEND_MODULES));
   });
-
-  it("has no em/en dashes or emojis in the copy", () => {
-    expect(JSON.stringify(wellbeingMessages)).not.toMatch(/[–—]|\p{Extended_Pictographic}/u);
-  });
 });

@@ -7,7 +7,7 @@ import type { ProfileExperiencesSectionProps } from "../../types/domain/profile/
 function ExperienceItem({ item }: { item: ProfileExperienceItem }) {
   const messages = useMessages().profileExperiencesSection;
   const period = item.startLabel
-    ? `${item.startLabel} – ${
+    ? `${item.startLabel} - ${
         item.currentlyHere || !item.endLabel ? messages.present : item.endLabel
       }`
     : item.currentlyHere || !item.endLabel

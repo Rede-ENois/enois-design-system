@@ -65,7 +65,7 @@ export function ConversationThread({
   const messagesScrollRef = useRef<HTMLDivElement>(null);
 
   const attachService = (listing: ConversationServiceOption) => {
-    const snippet = `${messages.serviceAttachment} ${listing.title} — ${serviceHref(listing.id)}`;
+    const snippet = `${messages.serviceAttachment} ${listing.title} · ${serviceHref(listing.id)}`;
     setText((previous) => (previous.trim() ? `${previous.trimEnd()}\n${snippet}` : snippet));
     onServicesOpenChange(false);
     messageInputRef.current?.focus();

@@ -11,10 +11,10 @@ export const gamesMessages: GamesMessages = {
     openAtOrigin: "Abrir no site do criador",
     loadingProgress: (progress) => `Carregando o jogo… ${progress}%`,
     progressLabel: "Progresso do carregamento do jogo",
-    slow: "Está demorando mais que o normal. Jogos WebGL grandes podem levar alguns minutos, principalmente no celular — o jogo continua carregando.",
+    slow: "Está demorando mais que o normal. Jogos WebGL grandes podem levar alguns minutos, principalmente no celular, mas o jogo continua carregando.",
     ready: "Jogo pronto.",
     unverified:
-      "Se o jogo não aparecer, o site do criador pode não permitir ser exibido dentro do Énóis — use “Abrir no site do criador”.",
+      "Se o jogo não aparecer, o site do criador pode não permitir ser exibido dentro do Énóis. Use “Abrir no site do criador”.",
     error: "O jogo avisou que não conseguiu iniciar.",
     errorDetail: (message) => `O jogo avisou que não conseguiu iniciar: ${message}`,
     fullscreenUnavailable:
@@ -24,7 +24,7 @@ export const gamesMessages: GamesMessages = {
   gameBanner: { frameTitle: (title) => `Banner de ${title}` },
   gameStatsLine: {
     statsHint:
-      "Partida iniciada conta cada vez que alguém aperta Jogar — não prova que o jogo terminou de carregar. Jogador conta cada conta uma vez; quem joga sem entrar conta a cada partida.",
+      "Partida iniciada conta cada vez que alguém aperta Jogar, mas não prova que o jogo terminou de carregar. Jogador conta cada conta uma vez; quem joga sem entrar conta a cada partida.",
     plays: (count) => `${count} ${count === 1 ? "partida iniciada" : "partidas iniciadas"}`,
     players: (count) => `${count} ${count === 1 ? "jogador" : "jogadores"}`,
     favorites: (count) => `${count} na biblioteca`,
@@ -70,10 +70,10 @@ export const gamesMessages: GamesMessages = {
     banner: "Banner da página",
     uploadPhoto: "Enviar foto do banner",
     removeBanner: "Remover banner",
-    bannerHint: "Ou desenhe um banner em HTML, abaixo — a foto tem prioridade.",
+    bannerHint: "Ou desenhe um banner em HTML, abaixo. A foto tem prioridade.",
     bannerHtml: "Banner em HTML/CSS (opcional)",
     bannerHtmlHint:
-      "Roda isolado, sem script — o mesmo formato do banner do seu perfil. A foto acima vence o HTML.",
+      "Roda isolado, sem script, no mesmo formato do banner do seu perfil. A foto acima vence o HTML.",
     addressTitle: "Endereço e título",
     titleField: "Título",
     slug: "Endereço do jogo",
@@ -162,13 +162,13 @@ export const gamesMessages: GamesMessages = {
     unfavorite: "Tirar da biblioteca",
     share: "Compartilhar",
     suspended: "Este jogo está fora do ar por decisão da moderação.",
-    notPublished: "Este jogo ainda não está publicado — só você vê esta página.",
+    notPublished: "Este jogo ainda não está publicado: só você vê esta página.",
     accountChanged:
       "Você trocou de conta. Use “Tentar de novo” para o jogo reconhecer a conta atual.",
     spend: {
       title: "O jogo quer gastar faíscas",
       notice:
-        "O gasto só acontece com a sua confirmação. O jogo nunca acessa a sua conta nem a sua sessão — ele apenas pediu.",
+        "O gasto só acontece com a sua confirmação. O jogo nunca acessa a sua conta nem a sua sessão. Ele apenas pediu.",
       amount: (value) => `${value} faíscas`,
       refuse: "Recusar",
       confirm: "Confirmar gasto",
@@ -177,7 +177,7 @@ export const gamesMessages: GamesMessages = {
     achievement: {
       title: "Compartilhar conquista",
       notice: (title) =>
-        `Publica no seu feed com a tag do jogo ${title}. A imagem e o texto vêm do jogo — confira antes de publicar.`,
+        `Publica no seu feed com a tag do jogo ${title}. A imagem e o texto vêm do jogo. Confira antes de publicar.`,
       imageAlt: "Imagem enviada pelo jogo",
       cancel: "Cancelar",
       publish: "Publicar no feed",
@@ -203,7 +203,7 @@ export const gamesMessages: GamesMessages = {
     completedCount: (count) => `${count} de 3`,
     prizesTitle: "Prêmios em faíscas",
     prizesNotice:
-      "O placar fecha e as faíscas caem na carteira depois que o dia termina — quem completa o desafio, mesmo fora do top 10, recebe.",
+      "O placar fecha e as faíscas caem na carteira depois que o dia termina. Quem completa o desafio, mesmo fora do top 10, recebe.",
     tabsLabel: "Selecionar jogo diário",
     words: "Palavras",
     maze: "Labirinto",
@@ -243,11 +243,11 @@ export const gamesMessages: GamesMessages = {
     subtitle: (maxGuesses) => `Descubra a palavra de 5 letras em até ${maxGuesses} tentativas.`,
     howToPlay: "Como jogar",
     stats: "Estatísticas",
-    streak: (days) => ` · 🔥 ${days} ${days === 1 ? "dia" : "dias"} consecutivos`,
+    streak: (days) => ` · ${days} ${days === 1 ? "dia" : "dias"} consecutivos`,
     gridLabel: "Grade de palpites",
     emptyTile: "vazio",
-    won: (attempts) => `🎉 Você acertou em ${attempts} tentativa${attempts === 1 ? "" : "s"}!`,
-    lost: "😔 Não foi dessa vez.",
+    won: (attempts) => `Você acertou em ${attempts} tentativa${attempts === 1 ? "" : "s"}!`,
+    lost: "Não foi dessa vez.",
     viewStats: "Ver estatísticas",
     keyboardLabel: "Teclado virtual",
     keyDelete: "Apagar",
@@ -285,7 +285,7 @@ export const gamesMessages: GamesMessages = {
     moveDown: "Mover para baixo",
     moveRight: "Mover para a direita",
     moveError: "Não foi possível mover.",
-    won: "🎉 Você encontrou a saída!",
+    won: "Você encontrou a saída!",
     completedIn: "Completado em",
     and: "e",
     seconds: (value) => `${value} segundos`,

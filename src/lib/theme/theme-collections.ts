@@ -299,7 +299,7 @@ export const THEME_COLLECTIONS: ThemeCollection[] = [
     id: "win98",
     category: "retro",
     name: "Memphis 98",
-    description: "O 95 com o título em degradê — a última infância do século XX.",
+    description: "O 95 com o título em degradê: a última infância do século XX.",
     metaColor: "#0a246a",
     tokens: {
       light: palette({
@@ -649,7 +649,7 @@ html:root.dark[data-theme="aero-glass"] .bg-surface-card, html:root.dark[data-th
     category: "retro",
     name: "Terminal",
     description:
-      "Fósforo verde sobre preto, fonte de máquina. Escuro por natureza — o brilho do tubo não tem modo claro.",
+      "Fósforo verde sobre preto, fonte de máquina. Escuro por natureza: o brilho do tubo não tem modo claro.",
     metaColor: "#050805",
     tokens: {
       light: palette({
@@ -687,7 +687,7 @@ html:root.dark[data-theme="aero-glass"] .bg-surface-card, html:root.dark[data-th
     category: "retro",
     name: "Vaporwave",
     description:
-      "Roxo profundo, rosa e ciano neon. Escuro por natureza — a noite é o ponto do tema.",
+      "Roxo profundo, rosa e ciano neon. Escuro por natureza: a noite é o ponto do tema.",
     metaColor: "#2b1055",
     tokens: {
       light: palette({
