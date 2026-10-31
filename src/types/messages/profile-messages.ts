@@ -194,6 +194,7 @@ export type ProfileMessages = {
     sending: string;
     mediaSpoiler: string;
     mediaSpoilerActive: string;
+    textRequired: string;
   };
   profileProjectsSection: {
     title: string;

@@ -215,6 +215,7 @@ export const profileMessages: ProfileMessages = {
     sending: "Enviando...",
     mediaSpoiler: "Spoiler",
     mediaSpoilerActive: "Spoiler ativo",
+    textRequired: "Escreva uma legenda para publicar.",
   },
   profileProjectsSection: {
     title: "Projetos",

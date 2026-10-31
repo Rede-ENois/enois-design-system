@@ -99,8 +99,8 @@ export type PostMessages = {
   reportDialog: {
     titles: Record<ReportTargetType, string>;
     reason: string;
-    /** Rótulo por motivo; ausente, o código cru é exibido. */
-    reasons?: Record<string, string>;
+    /** Label per reason; a reason without a label shows its raw code. */
+    reasons: Record<string, string>;
     description: string;
     action: string;
     sending: string;
