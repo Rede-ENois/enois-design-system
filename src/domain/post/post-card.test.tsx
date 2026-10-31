@@ -98,7 +98,13 @@ describe("cabeçalho do card de post", () => {
         isOwner={false}
         mySeals={[]}
         onShowSeals={vi.fn()}
-        poll={<ul data-testid="enquete">{["Café", "Chá"].map((o) => <li key={o}>{o}</li>)}</ul>}
+        poll={
+          <ul data-testid="enquete">
+            {["Café", "Chá"].map((o) => (
+              <li key={o}>{o}</li>
+            ))}
+          </ul>
+        }
         renderRichText={({ content }) => <p>{content}</p>}
         renderMediaGrid={() => null}
       />,
