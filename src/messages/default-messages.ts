@@ -34,6 +34,7 @@ import { supportMessages } from "./defaults/support.js";
 import { uiMessages } from "./defaults/ui.js";
 import { walletMessages } from "./defaults/wallet.js";
 import { wellbeingMessages } from "./defaults/wellbeing.js";
+import { whatsNewMessages } from "./defaults/whats-new.js";
 
 export const defaultMessages: Messages = {
   ...uiMessages,
@@ -70,4 +71,5 @@ export const defaultMessages: Messages = {
   ...studyPairsMessages,
   ...networkMessages,
   ...companiesMessages,
+  ...whatsNewMessages,
 };

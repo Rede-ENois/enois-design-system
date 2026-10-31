@@ -32,6 +32,7 @@ import type { SupportUsMessages } from "./support-us-messages.js";
 import type { UiMessages } from "./ui-messages.js";
 import type { WalletMessages } from "./wallet-messages.js";
 import type { WellbeingMessages } from "./wellbeing-messages.js";
+import type { WhatsNewMessages } from "./whats-new-messages.js";
 
 /**
  * Fixed microcopy owned by the design system components (accessible labels, headings, empty
@@ -71,4 +72,5 @@ export type Messages = UiMessages &
   StreakMessages &
   EventsMessages &
   StudyPairsMessages &
-  CompaniesMessages;
+  CompaniesMessages &
+  WhatsNewMessages;
