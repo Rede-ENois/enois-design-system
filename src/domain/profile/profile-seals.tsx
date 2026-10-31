@@ -27,9 +27,20 @@ export function ProfileSeals({ seals, renderEvidence }: ProfileSealsProps) {
           className="space-y-2 border-t border-border-soft pt-3 first:border-0 first:pt-0"
         >
           <div className="flex flex-wrap items-center gap-2">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
-              <Award className="h-5 w-5" aria-hidden />
-            </span>
+            {seal.emblemSrc ? (
+              <img
+                src={seal.emblemSrc}
+                alt=""
+                width={48}
+                height={48}
+                loading="lazy"
+                className="h-12 w-12 shrink-0"
+              />
+            ) : (
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
+                <Award className="h-5 w-5" aria-hidden />
+              </span>
+            )}
 
             <div className="min-w-0">
               <p className="text-sm font-semibold text-text-strong">{seal.name}</p>

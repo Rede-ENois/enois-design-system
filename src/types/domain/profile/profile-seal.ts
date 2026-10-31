@@ -12,4 +12,6 @@ export type ProfileSeal = {
   maxCount: number | null;
   evidenceCount: number;
   grantedAtLabel: string;
+  /** Emblema fixo do nível (URL da imagem); sem ele, o selo usa o ícone genérico. */
+  emblemSrc?: string;
 };

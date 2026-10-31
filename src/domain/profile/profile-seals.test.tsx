@@ -57,6 +57,18 @@ describe("ProfileSeals", () => {
     expect(html).toContain("Código · 50+ · 1 contribuição verificada");
     expect(html).toContain("Concedido em 12 out. 2026");
     expect(html).toContain("<i>ev-CODE</i>");
+    expect(html).not.toContain("<img");
+  });
+
+  it("com emblema desenha a imagem do nível no lugar do ícone", () => {
+    const html = renderToStaticMarkup(
+      <ProfileSeals
+        seals={[{ ...seal, emblemSrc: "/seals/hardcore.png" }]}
+        renderEvidence={() => null}
+      />,
+    );
+    expect(html).toContain('src="/seals/hardcore.png"');
+    expect(html).not.toContain("<svg");
   });
 });
 
