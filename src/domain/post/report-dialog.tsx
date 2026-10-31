@@ -51,7 +51,7 @@ export function ReportDialog<T extends string>({
             >
               {reasons.map((r) => (
                 <option key={r} value={r} className="h-10 border-transparent bg-muted">
-                  {messages.reasons?.[r] ?? r.replace(/_/g, " ").toLowerCase()}
+                  {messages.reasons[r] ?? r.replace(/_/g, " ").toLowerCase()}
                 </option>
               ))}
             </select>
