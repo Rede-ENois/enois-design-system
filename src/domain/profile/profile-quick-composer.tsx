@@ -16,6 +16,7 @@ export function ProfileQuickComposer({
   publishPending = false,
   uploadProgress,
   onPublish,
+  onWriteArticle,
 }: ProfileQuickComposerProps) {
   const messages = useMessages().profileQuickComposer;
   const { resolveMediaUrl } = useAdapters();
@@ -132,7 +133,9 @@ export function ProfileQuickComposer({
             </button>
           </div>
 
-          <div className="mt-3 grid grid-cols-3 divide-x divide-border-soft border-t border-border-soft pt-3">
+          <div
+            className={`mt-3 grid ${onWriteArticle ? "grid-cols-3" : "grid-cols-2"} divide-x divide-border-soft border-t border-border-soft pt-3`}
+          >
             <button
               type="button"
               onClick={() => openWithMedia("video")}
@@ -151,14 +154,16 @@ export function ProfileQuickComposer({
               {messages.photo}
             </button>
 
-            <button
-              type="button"
-              onClick={() => setIsComposerOpen(true)}
-              className="flex items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            >
-              <FilePenLine className="h-4 w-4 text-primary" />
-              {messages.article}
-            </button>
+            {onWriteArticle && (
+              <button
+                type="button"
+                onClick={onWriteArticle}
+                className="flex items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <FilePenLine className="h-4 w-4 text-primary" />
+                {messages.article}
+              </button>
+            )}
           </div>
         </>
       ) : (
@@ -251,7 +256,7 @@ export function ProfileQuickComposer({
                 size="sm"
                 className="shrink-0 gap-1.5 rounded-full"
                 onClick={() => void publish()}
-                disabled={(!content.trim() && media.length === 0) || publishPending}
+                disabled={!content.trim() || publishPending}
               >
                 <Send className="h-3.5 w-3.5" />
 
