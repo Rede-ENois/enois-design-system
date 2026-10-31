@@ -182,6 +182,40 @@ export const profileMessages: ProfileMessages = {
     dailyGames: "Jogos diários",
     appearance: "Explorar aparências",
   },
+  profileGarden: {
+    style: {
+      quintal: "do quintal",
+      cerrado: "do cerrado",
+      "mata-atlantica": "da mata atlântica",
+      caatinga: "da caatinga",
+      pampa: "do pampa",
+    },
+    label: (style, parts) => `Jardim ${style}: ${parts.join(", ")}.`,
+    stages: {
+      trajectory: ["árvore ainda semente", "árvore em muda", "árvore jovem", "árvore adulta"],
+      relations: [
+        "flores em botão",
+        "primeiras flores abertas",
+        "flores se espalhando",
+        "flores por toda parte",
+      ],
+      contribution: [
+        "canteiro semeado",
+        "canteiro brotando",
+        "canteiro com os primeiros frutos",
+        "canteiro carregado de frutos",
+      ],
+      tenure: ["terra preparada", "grama nascendo", "grama crescida", "gramado cheio"],
+    },
+    health: ["cores bem suaves", "cores suaves"],
+    hint: {
+      trajectory: "Sua árvore cresce conforme você publica e participa com constância.",
+      relations: "Suas flores abrem quando pessoas novas interagem com você.",
+      contribution: "Seu canteiro dá frutos quando você ajuda e contribui com a comunidade.",
+      tenure: "Seu gramado fica mais cheio com o tempo de casa.",
+      complete: "Seu jardim está no auge. Continue cuidando dele.",
+    },
+  },
   profileGamificationPanel: {
     walletEyebrow: "Sua carteira",
     walletCaption: "Faíscas disponíveis agora",

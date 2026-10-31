@@ -1,3 +1,5 @@
+import type { ProfileGardenStyle } from "../domain/profile/profile-garden-style.js";
+
 export type ProfileMessages = {
   editProfileDialog: {
     title: string;
@@ -160,6 +162,29 @@ export type ProfileMessages = {
     exploreDescription: string;
     dailyGames: string;
     appearance: string;
+  };
+  profileGarden: {
+    /** Biome name as it follows "Jardim" ("do cerrado", "da caatinga"...). */
+    style: Record<ProfileGardenStyle, string>;
+    /** Accessible description: the style plus every part's stage in words. */
+    label: (style: string, parts: string[]) => string;
+    /** Each part's stage 0..3 in words. */
+    stages: {
+      trajectory: readonly [string, string, string, string];
+      relations: readonly [string, string, string, string];
+      contribution: readonly [string, string, string, string];
+      tenure: readonly [string, string, string, string];
+    };
+    /** Health 0 and 1 in words (2 is the normal garden and says nothing). */
+    health: readonly [string, string];
+    /** Owner hint for the part that grows next, or for a garden at its peak. */
+    hint: {
+      trajectory: string;
+      relations: string;
+      contribution: string;
+      tenure: string;
+      complete: string;
+    };
   };
   profileGamificationPanel: {
     walletEyebrow: string;

@@ -3864,6 +3864,57 @@ html:not(.dark) .frame-shop-price {
   background: var(--cos-accent);
 }
 
+.cos-art-garden {
+  width: 92%;
+}
+.cos-art-garden-thumb {
+  width: 100%;
+}
+.cos-art-garden-thumb .profile-garden,
+.cos-art-garden-thumb .profile-garden__art {
+  border: 0;
+  border-radius: 0;
+}
+
+/* Profile garden: theme tokens paint the frame, the sky and the soil; the plants keep their own
+   natural palette (see profile-garden-styles.ts), mid tones that read on light and dark. */
+.profile-garden {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.profile-garden__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in oklab, var(--primary) 5%, var(--surface-1));
+  transform-origin: 50% 100%;
+}
+.profile-garden__sun {
+  fill: color-mix(in oklab, var(--opportunity) 30%, transparent);
+}
+/* At night the sun turns into a pale moon instead of a muddy disc. */
+.dark .profile-garden__sun {
+  fill: color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+.profile-garden__soil {
+  fill: color-mix(in oklab, #8b6a4e 55%, var(--surface-2));
+}
+.profile-garden__furrow {
+  stroke: color-mix(in oklab, #5e4029 70%, var(--surface-2));
+  stroke-width: 1.4;
+}
+.profile-garden__furrow-fill {
+  fill: color-mix(in oklab, #5e4029 70%, var(--surface-2));
+}
+.profile-garden__hint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-subtle);
+}
+
 /* Events: the Saci × Halloween duel and the hidden Saci of the hunt. */
 .cos-event {
   padding: 16px 18px;

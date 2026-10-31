@@ -6,6 +6,7 @@ import { AppLink } from "../../ui/app-link.js";
 import { UserBadge } from "../badges/user-badge.js";
 
 import { profileBadges } from "./profile-badges.js";
+import { ProfileGarden } from "./profile-garden.js";
 
 function PanelTitle({ icon: Icon, children }: { icon: typeof Award; children: string }) {
   return (
@@ -25,6 +26,8 @@ export function ProfileGamificationPanel({
   postsCount,
   walletBalance,
   walletHref,
+  garden,
+  gardenStyle,
 }: ProfileGamificationPanelProps) {
   const messages = useMessages().profileGamificationPanel;
   const badges = profileBadges(profile);
@@ -78,11 +81,22 @@ export function ProfileGamificationPanel({
           </div>
         </div>
 
-        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-surface-2" aria-hidden="true">
-          <div className="h-full w-2/3 rounded-full bg-primary" />
-        </div>
+        {garden ? (
+          <ProfileGarden garden={garden} style={gardenStyle} isOwner={isOwner} className="mt-3" />
+        ) : (
+          <>
+            <div
+              className="mt-4 h-1.5 overflow-hidden rounded-full bg-surface-2"
+              aria-hidden="true"
+            >
+              <div className="h-full w-2/3 rounded-full bg-primary" />
+            </div>
 
-        <p className="mt-2 text-xs leading-relaxed text-text-subtle">{messages.progressCaption}</p>
+            <p className="mt-2 text-xs leading-relaxed text-text-subtle">
+              {messages.progressCaption}
+            </p>
+          </>
+        )}
       </section>
 
       <section className="rounded-2xl border border-border-soft bg-surface-card p-4">
