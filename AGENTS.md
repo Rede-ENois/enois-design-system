@@ -69,7 +69,8 @@ contributions made with AI.
 4. Behavior change? Try it in the front before publishing: `npm run build && npm pack` here, then
    install the `.tgz` in the front and run its typecheck, lint and tests.
 5. Short, neutral commit message (Conventional Commits: `feat(post): ...`, `fix(profile): ...`).
-6. Push your branch and open a PR to `qa`. Never finish with uncommitted work.
+6. Push your branch and open a PR to `qa`. Never finish with uncommitted work. Fill the PR template;
+   AI use is recorded only by its checkbox (no tool name, no Co-Authored-By or "Generated with" line).
 7. Before pushing: `git fetch`, reconcile with the remote, look for conflict markers (`<<<<<<<`), run
    the checks again.
 
