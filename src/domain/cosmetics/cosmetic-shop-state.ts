@@ -17,6 +17,7 @@ export const COSMETIC_KINDS: readonly CosmeticKind[] = [
   "NAMEPLATE",
   "BANNER",
   "PROFILE_EFFECT",
+  "GARDEN",
 ];
 
 export const EMPTY_TRY_ON: CosmeticTryOn = {
