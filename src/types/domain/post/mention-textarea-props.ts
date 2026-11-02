@@ -1,5 +1,7 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, Ref } from "react";
 
+import type { EditorSticker } from "./editor-sticker.js";
+import type { MentionTextareaHandle } from "./mention-textarea-handle.js";
 import type { MentionUser } from "./mention-user.js";
 
 export type MentionTextareaProps = Pick<
@@ -23,6 +25,14 @@ export type MentionTextareaProps = Pick<
   onSubmitShortcut?: () => void;
   /** Users matching the current @mention term (the app searches from two characters on). */
   mentionResults: MentionUser[];
+  /**
+   * Stickers by code. A whitespace-delimited word equal to a code is drawn as an inline image that
+   * the caret skips and Backspace/Delete remove whole; the value and `onChange` keep the plain code.
+   * Without it the field shows text only.
+   */
+  stickers?: Record<string, EditorSticker>;
+  /** Imperative handle: insert text at the caret, focus the field. */
+  ref?: Ref<MentionTextareaHandle>;
   /** The @mention term being typed ("" when there is none). */
   onMentionQueryChange: (query: string) => void;
 };

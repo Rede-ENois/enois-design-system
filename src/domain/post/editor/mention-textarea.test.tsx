@@ -24,6 +24,6 @@ describe("MentionTextarea", () => {
     const html = render(false);
 
     expect(html).not.toContain('aria-live="polite"');
-    expect(html).toContain('maxLength="1200"');
+    expect(html).toContain('data-max-length="1200"');
   });
 });

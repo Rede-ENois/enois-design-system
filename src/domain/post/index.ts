@@ -76,6 +76,8 @@ export type { MediaGridProps } from "../../types/domain/post/media-grid-props.js
 export type { MediaItemData } from "../../types/domain/post/media-item-data.js";
 export type { MediaStageProps } from "../../types/domain/post/media-stage-props.js";
 export type { MentionTextareaProps } from "../../types/domain/post/mention-textarea-props.js";
+export type { EditorSticker } from "../../types/domain/post/editor-sticker.js";
+export type { MentionTextareaHandle } from "../../types/domain/post/mention-textarea-handle.js";
 export type { MentionUser } from "../../types/domain/post/mention-user.js";
 export type { PostActionsProps } from "../../types/domain/post/post-actions-props.js";
 export type { PostCardData } from "../../types/domain/post/post-card-data.js";
