@@ -12,15 +12,19 @@ export { ProfileCard } from "./profile-card.js";
 export { ProfileMiniCard } from "./profile-mini-card.js";
 export { CosmeticItemArt } from "./cosmetic-item-art.js";
 export { CosmeticShop } from "./cosmetic-shop.js";
+export { LookScene } from "./look-scene.js";
+export { LOOK_SCENES } from "./look-scenes.js";
 export {
   COSMETIC_KINDS,
   EMPTY_TRY_ON,
   albumPage,
+  collectionsInSeason,
   completedCollections,
   countByKind,
   defaultCollection,
   filterShopItems,
   isTryingOn,
+  itemsOnSale,
   lookMissing,
   previewProfile,
   toggleTryItem,
@@ -44,6 +48,7 @@ export type { NameplateArt } from "../../types/domain/cosmetics/nameplate-art.js
 export type { NameplateProps } from "../../types/domain/cosmetics/nameplate-props.js";
 export type { OfficialBannerProps } from "../../types/domain/cosmetics/official-banner-props.js";
 export type { OfficialBannerSpec } from "../../types/domain/cosmetics/official-banner-spec.js";
+export type { OfficialBannerSprite } from "../../types/domain/cosmetics/official-banner-sprite.js";
 export type { ProfileCardData } from "../../types/domain/cosmetics/profile-card-data.js";
 export type { ProfileCardProps } from "../../types/domain/cosmetics/profile-card-props.js";
 export type { ProfileEffectMotion } from "../../types/domain/cosmetics/profile-effect-motion.js";

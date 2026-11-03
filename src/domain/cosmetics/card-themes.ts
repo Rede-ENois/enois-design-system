@@ -36,8 +36,14 @@ function light(top: string, bottom: string, accent: string): CardTheme {
   };
 }
 
-/** Card themes of the seasonal collections (`CARD_THEME` items), from the approved prototype. */
+/**
+ * Card themes of the seasonal collections (`CARD_THEME` items), from the approved prototype, plus
+ * the permanent Essenciais themes, which stay on sale all year.
+ */
 export const CARD_THEMES: Readonly<Record<string, CardTheme>> = {
+  "tema-papel": light("#fdf6e3", "#f3e2c0", "#b45309"),
+  "tema-noite-limpa": dark("#1e293b", "#0f172a", "#818cf8"),
+  "tema-jardim": light("#ecfdf5", "#d1fae5", "#059669"),
   "tema-saci": dark("#166534", "#052e16", "#ef4444"),
   "tema-halloween": dark("#1e1b4b", "#0b0a1f", "#f97316"),
   "tema-folclore": dark("#115e59", "#042f2e", "#f59e0b"),

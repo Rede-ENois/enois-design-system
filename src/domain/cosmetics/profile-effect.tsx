@@ -54,7 +54,22 @@ export function ProfileEffect({ effect, replayKey, className }: ProfileEffectPro
           className="cos-fx-layer__particle"
           style={{ width: particle.size, height: particle.size }}
         >
-          {particle.icon ? (
+          {particle.sprite ? (
+            <span
+              className="block h-full w-full"
+              style={{
+                backgroundColor: particle.color,
+                maskImage: `url("${particle.sprite}")`,
+                WebkitMaskImage: `url("${particle.sprite}")`,
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+              }}
+            />
+          ) : particle.icon ? (
             <CosmeticIcon icon={particle.icon} className="block h-full w-full" />
           ) : (
             <svg viewBox="-8 -8 16 16" className="block h-full w-full">

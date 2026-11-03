@@ -81,6 +81,14 @@ describe("ProfileEffect", () => {
     expect(particles()).toBe(0);
     expect(animate).not.toHaveBeenCalled();
   });
+
+  it("draws the permanent effects with the Kenney sprites, tinted", async () => {
+    await act(async () => root.render(<ProfileEffect effect="efeito-estrelas" />));
+
+    const sprite = host.querySelector<HTMLElement>(".cos-fx-layer__particle span");
+    expect(sprite?.getAttribute("style")).toContain("star-01.webp");
+    expect(sprite?.getAttribute("style")).toContain("background-color");
+  });
 });
 
 describe("profileEffectParticles", () => {
@@ -90,6 +98,24 @@ describe("profileEffectParticles", () => {
     expect(flake.icon).toBe("floco");
     expect(flake.keyframes.at(-1)).toMatchObject({ opacity: 0 });
     expect(flake.options.fill).toBe("both");
+  });
+
+  it("gives the permanent effects a Kenney sprite and a tint instead of an icon", () => {
+    const stars = profileEffectParticles(PROFILE_EFFECTS["efeito-estrelas"], 300, 400, () => 0.5);
+    const leaves = profileEffectParticles(
+      PROFILE_EFFECTS["efeito-folhas-calmas"],
+      300,
+      400,
+      () => 0.5,
+    );
+
+    expect(stars[0].sprite).toContain("star-01.webp");
+    expect(stars[0].color).toBe("#fbbf24");
+    expect(stars[0].icon).toBeUndefined();
+    expect(leaves.map((particle) => particle.sprite)).toContainEqual(
+      expect.stringContaining("leaf-"),
+    );
+    expect(leaves.every((particle) => particle.color)).toBe(true);
   });
 
   it("draws the Boitatá as shrinking dots, one after the other", () => {

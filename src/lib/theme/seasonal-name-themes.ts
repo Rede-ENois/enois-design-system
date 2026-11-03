@@ -154,4 +154,23 @@ export const SEASONAL_NAME_THEMES: Record<SeasonalNameTheme, ProfileNameThemeDef
     fontSize: "1.12em",
     className: "",
   },
+  // Permanent Essenciais styles: no seasonal font, just paint that works all year.
+  "nome-papel": {
+    font: "SERIF",
+    colors: ["#78350f", "#9a3412", "#b45309"],
+    paint: "linear-gradient(90deg, #78350f, #9a3412 55%, #b45309)",
+    className: "",
+  },
+  "nome-noite-limpa": {
+    font: "SYSTEM",
+    colors: ["#4338ca", "#7c3aed"],
+    paint: "linear-gradient(90deg, #4338ca, #7c3aed)",
+    className: "",
+  },
+  "nome-jardim": {
+    font: "SYSTEM",
+    colors: ["#059669", "#65a30d"],
+    paint: "linear-gradient(90deg, #059669, #65a30d)",
+    className: "",
+  },
 };
