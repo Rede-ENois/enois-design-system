@@ -276,11 +276,8 @@ export function PostComments<C extends PostCommentNode>({
           onChange={addMedia}
         />
 
-        {/* One calm row, like a chat app: "+" for the extras, the field, send. The extras
-              (photo, audio, GIF and the formatting bar) stay out of the way until asked for.
-              On a phone the send button drops to its own line: the field keeps the whole width
-              for writing instead of splitting it with the two buttons. */}
-        <div className="flex flex-wrap items-end gap-1.5">
+        {/* The field spans the mobile row; one footer owns tools and the only submit button. */}
+        <div className="grid grid-cols-[2.25rem_minmax(0,1fr)_auto] items-end gap-x-1.5 gap-y-1.5 sm:gap-y-0">
           <button
             type="button"
             onClick={() => setToolsOpen((open) => !open)}
@@ -290,7 +287,7 @@ export function PostComments<C extends PostCommentNode>({
             aria-label={toolsShown ? messages.closeTools : messages.moreTools}
             title={toolsShown ? messages.closeTools : messages.moreTools}
             className={cn(
-              "grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-60",
+              "col-start-1 row-start-2 grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-60 sm:row-start-1",
               toolsShown && "bg-surface-2 text-primary",
             )}
           >
@@ -302,7 +299,7 @@ export function PostComments<C extends PostCommentNode>({
             />
           </button>
 
-          <div className="min-w-0 flex-1 rounded-[1.25rem] border border-border-soft bg-surface-1 px-2 py-1 transition-colors focus-within:border-primary/50">
+          <div className="col-span-3 col-start-1 row-start-1 min-w-0 rounded-[1.25rem] border border-border-soft bg-surface-1 px-2 py-1 transition-colors focus-within:border-primary/50 sm:col-span-1 sm:col-start-2">
             {typeof composerField === "function"
               ? composerField({
                   toolsOpen: toolsShown,
@@ -313,69 +310,84 @@ export function PostComments<C extends PostCommentNode>({
 
           <Button
             type="submit"
-            size="icon"
-            // 36px: big enough for a thumb on the phone. Below `sm` it takes the whole line, so
-            // the field on the row above is not squeezed by it.
-            className="order-last h-9 w-full shrink-0 rounded-full sm:order-none sm:w-9"
+            size="sm"
+            className={cn(
+              "col-start-3 row-start-2 h-9 min-w-9 shrink-0 rounded-full sm:row-start-1 sm:w-9 sm:p-0",
+              toolsShown && "w-9 p-0",
+            )}
             disabled={!canSend || sending}
-            aria-label={messages.send}
+            aria-busy={sending}
+            aria-label={sending ? messages.sending : messages.submit}
           >
             {sending ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              <Loader2
+                className={cn("h-3.5 w-3.5 animate-spin", !toolsShown && "hidden sm:block")}
+                aria-hidden="true"
+              />
             ) : (
-              <Send className="h-3.5 w-3.5" />
+              <Send
+                className={cn("h-3.5 w-3.5", !toolsShown && "hidden sm:block")}
+                aria-hidden="true"
+              />
             )}
+            <span className={toolsShown ? "sr-only" : "sm:sr-only"}>
+              {sending ? messages.sending : messages.submit}
+            </span>
           </Button>
-        </div>
 
-        {/* Height animates through grid rows, so the tray slides open without measuring it. */}
-        <div
-          id={trayId}
-          inert={!toolsShown}
-          className="grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none"
-          style={{ gridTemplateRows: toolsShown ? "1fr" : "0fr" }}
-        >
-          <div className="min-h-0 overflow-hidden">
-            <div className="flex flex-wrap items-center gap-1.5 pl-[2.625rem] pt-2">
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border-soft px-3 text-xs text-text-subtle transition-colors hover:border-primary hover:text-primary"
-                aria-label={messages.attachMedia}
-              >
-                <Image className="h-3.5 w-3.5" />
-                {messages.photo}
-              </button>
-
-              {canRecord && (
+          {/* Height animates through grid rows, so the tray slides open without measuring it. */}
+          <div
+            id={trayId}
+            inert={!toolsShown}
+            className="col-start-2 row-start-2 grid min-w-0 self-center transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none sm:col-span-3 sm:col-start-1"
+            style={{ gridTemplateRows: toolsShown ? "1fr" : "0fr" }}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <div className="flex flex-wrap items-center gap-1.5 sm:pl-[2.625rem] sm:pt-2">
                 <button
                   type="button"
-                  onClick={() => (recording ? stopRecording() : void startRecording())}
-                  className={cn(
-                    "inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs transition-colors",
-                    recording
-                      ? "border-destructive/50 text-destructive"
-                      : "border-border-soft text-text-subtle hover:border-primary hover:text-primary",
-                  )}
-                  aria-label={recording ? messages.stopRecording : messages.recordAudio}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border-soft px-2 text-xs text-text-subtle transition-colors hover:border-primary hover:text-primary sm:px-3"
+                  aria-label={messages.attachMedia}
                 >
-                  {recording ? <Square className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
-                  {recording
-                    ? messages.recording(Math.floor(recordedSeconds / 60), recordedSeconds % 60)
-                    : messages.audio}
+                  <Image className="h-3.5 w-3.5" />
+                  {messages.photo}
                 </button>
-              )}
 
-              <button
-                type="button"
-                onClick={() => {
-                  setToolsOpen(false);
-                  onOpenGifPicker();
-                }}
-                className="inline-flex h-8 items-center rounded-full border border-border-soft px-3 text-xs font-semibold text-text-subtle transition-colors hover:border-primary hover:text-primary"
-              >
-                {messages.gif}
-              </button>
+                {canRecord && (
+                  <button
+                    type="button"
+                    onClick={() => (recording ? stopRecording() : void startRecording())}
+                    className={cn(
+                      "inline-flex h-8 items-center gap-1.5 rounded-full border px-2 text-xs transition-colors sm:px-3",
+                      recording
+                        ? "border-destructive/50 text-destructive"
+                        : "border-border-soft text-text-subtle hover:border-primary hover:text-primary",
+                    )}
+                    aria-label={recording ? messages.stopRecording : messages.recordAudio}
+                  >
+                    {recording ? (
+                      <Square className="h-3.5 w-3.5" />
+                    ) : (
+                      <Mic className="h-3.5 w-3.5" />
+                    )}
+                    {recording
+                      ? messages.recording(Math.floor(recordedSeconds / 60), recordedSeconds % 60)
+                      : messages.audio}
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setToolsOpen(false);
+                    onOpenGifPicker();
+                  }}
+                  className="inline-flex h-8 items-center rounded-full border border-border-soft px-2 text-xs font-semibold text-text-subtle transition-colors hover:border-primary hover:text-primary sm:px-3"
+                >
+                  {messages.gif}
+                </button>
+              </div>
             </div>
           </div>
         </div>

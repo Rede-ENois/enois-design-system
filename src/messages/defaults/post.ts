@@ -249,6 +249,8 @@ export const postMessages: PostMessages = {
     recording: (minutes, seconds) => `gravando ${minutes}:${String(seconds).padStart(2, "0")}`,
     gif: "GIF",
     send: "Enviar comentário",
+    submit: "Comentar",
+    sending: "Enviando...",
   },
   postNotes: {
     title: "Nota da comunidade",
