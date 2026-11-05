@@ -41,7 +41,7 @@ export function CommunityMark({
   className,
 }: CommunityMarkProps) {
   const { resolveMediaUrl } = useAdapters();
-  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const [failedSrc, setFailedSrc] = useState<string | undefined>(undefined);
   const resolved = resolveMediaUrl(avatar);
   const showImage = Boolean(resolved && failedSrc !== resolved);
 
