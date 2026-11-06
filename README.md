@@ -143,6 +143,13 @@ falls back to the default `quintal`. The owner sees a hint about the part that g
 />
 ```
 
+### Card themes
+
+`cardTheme(id)` maps a shop `CARD_THEME` item to the colors of the profile card: the seasonal
+collections plus one theme for each of the 85 appearance themes (`tema-<themeId>`), taken from that
+theme's own gradient and accent. `card-themes.test.ts` keeps every card at AA contrast on both stops.
+An id without a card theme renders no art, so a new item needs its entry here.
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).
