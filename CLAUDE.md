@@ -7,6 +7,8 @@ it applies. The rules below are repeated because they are the ones agents break 
 
 - **You never merge, never push to `qa`/`main`, never tag, never publish.** Open a PR to `qa` and
   stop. `.claude/settings.json` blocks these commands; do not look for a way around it.
+  The only merge exception (the `kof-agent-worker` app, with no outstanding `CHANGES_REQUESTED`) is
+  rule 1 of the `AGENTS.md` prohibitions.
 - **You never revert or redo someone else's work, and never change the visual language, without a
   maintainer's written go.** If the task seems to need it, stop and ask.
 - **One release carries many changes.** Never open a `chore(release)` PR per fix; add to the open
