@@ -11,6 +11,8 @@ export type AccountSettingsProps = {
     mutedUsers?: string;
     /** Notification preferences page; the row only shows when it is set. */
     notificationPreferences?: string;
+    /** Feed preferences page; the row only shows when it is set. */
+    feedPreferences?: string;
     /** Support the project; the row only shows when it is set. */
     supportUs?: string;
   };

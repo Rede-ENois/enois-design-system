@@ -31,6 +31,7 @@ export const accountMessages: AccountMessages = {
     guardian: "Supervisão parental",
     preferences: "Preferências",
     notificationPreferences: "Preferências de aviso",
+    feedPreferences: "Preferências de feed",
     healthyUsage: "Uso saudável",
     project: "O Énóis",
     supportUs: "Apoie o Énóis",
