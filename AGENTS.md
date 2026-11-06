@@ -112,6 +112,19 @@ Lint rules changed: also `npm run test:eslint-rules`. Stories changed: also
 - **Accessibility:** labels on controls, keyboard support, visible focus, `aria-hidden` on
   decoration. **Responsiveness:** flex/grid children that hold text need `min-w-0`.
 
+## Work cycle
+
+Read the state, pick the highest-value unclaimed task, implement **one complete scope**, test,
+commit, open the PR to `qa`.
+
+- **Never ask when the repository evidence can answer.** Read the code, the test, the log. A question
+  is for a product decision, not for a fact that is already in a file.
+- **Never end a turn with uncommitted work, and never end a turn with only a summary.**
+- Exactly one todo item may be `in_progress`.
+- **Done means proven, not intended.**
+- Stop and report when the decision needs product or visual language (maintainers only), when a
+  collision with another agent's lane is unavoidable, or when it needs access you do not have.
+
 ## Pull requests
 
 - **One topic per PR**, based on `qa`, targeting `qa`, containing only your commits.
@@ -125,6 +138,28 @@ Lint rules changed: also `npm run test:eslint-rules`. Stories changed: also
 - Before pushing: `git fetch`, rebase on `origin/qa`, search for conflict markers (`<<<<<<<`), run
   the checks again. If the remote moved, reconcile keeping both sides; never overwrite.
 - Never finish with uncommitted work, and never push someone else's work.
+
+## Quality gate (Q0–Q7)
+
+Fix flow: **reproduce → fix the root cause → add the proof test → run the focused tests → run the
+suite → hunt edge cases → commit → push.**
+
+- **Q0 — root cause.** A bug is fixed at the cause, not the symptom. The proof test **fails on the old
+  code** and passes on the new one. A test that passes before and after proves nothing.
+- **Q1 — coverage.** Every feature has a test; every fix has a regression test; test and
+  implementation share the commit; a refactor preserves the existing proof.
+- **Q2 — green before push.** Lint, typecheck, test, build and `test:dist` green **before** pushing.
+- **Q3 — edge cases.** Cover when applicable: empty/null, long text, missing optional prop, error
+  state, loading state, 390px viewport, both themes, RTL-safe layout. **The happy path alone is not
+  enough.**
+- **Q4 — hunt.** Actively look for: extreme content, contract boundary (prop types and entrypoints),
+  regression in a neighbouring view, uncovered behaviour.
+- **Q5 — honest green.** No false green, no weakened assertion, no hidden `.skip`. Your red is fixed
+  or reverted.
+- **Q6 — the suite is the floor, not the ceiling.**
+- **Q7 — forbidden.** Stub, placeholder, `TODO`/`FIXME` pretending to be done, a component that
+  returns `null` to hide a missing state, a swallowed unhandled branch, support faked as
+  "not implemented". Unsupported behaviour renders an explicit state, never "maybe it works".
 
 ## Releases
 
@@ -152,14 +187,87 @@ Lint rules changed: also `npm run test:eslint-rules`. Stories changed: also
 ## Quality gates
 
 - **Boy scout rule: every failure is fixed when found.** A broken or flaky test, build, lint or type
-  error, bug or security flaw you hit is fixed in the same task, even if it predates your change. If
-  the fix is truly out of reach (needs a maintainer decision or infrastructure access), open an issue
-  and say so in the PR. Never silent.
-- **No stubs, no TODO pretending to be done, no silent fallbacks.** Loading, empty and error states
-  are explicit; errors are shown, not swallowed.
-- **Evidence over inference.** Say "unknown" instead of "probably".
+  error, bug or security flaw you find is fixed in the same task, even if it predates your change.
+  If the fix is truly out of reach (needs a maintainer decision, infrastructure access, or is too big
+  for the task), record it (issue or backlog item) and say so in the PR. Never leave it silent.
+- **Evidence before inference.** Never invent a component, hook or prop; check the source.
+- **Accessibility is a requirement:** labels on controls, keyboard support, focus visible,
+  `aria-hidden` on decoration.
+- **Responsiveness is a requirement:** views work at 390px and desktop. Flex/grid children that
+  hold text need `min-w-0`, or they overflow on mobile.
+- **Never claim green without executed proof.** "It should pass" is not a result. An environmental
+  failure (broken local `node_modules`, stale `dist`) is not your regression — but it must be stated
+  in the PR with the evidence that the same failure exists on a clean `qa` worktree.
+
+## Design contract (what consumers depend on)
+
+The consumers are `enois-frontend` and every product surface built on it. This package is a
+**contract**, not a suggestion.
+
+- **Tokens, not magic values.** Colour, spacing, radius, typography and shadow come from theme
+  tokens. No raw hex, no arbitrary `px`, no `!important` to beat the theme.
+- **Theme is data, not code.** A component never assumes a mode (light/dark) or a fixed palette.
+  Every view must hold up in both modes and in every shipped theme.
+- **Contrast is a requirement.** Every text/background pair passes WCAG AA in both modes and in the
+  shipped themes. A new component ships with numeric contrast verification, not with "looks fine".
+- **Accessibility is a requirement:** real button or link elements, accessible name (`aria-label`
+  when there is no visible text), visible focus, keyboard navigation, `aria-hidden` on decoration.
+- **Don't repaint a token in a scope** without listing every use of it there first (`--primary`
+  paints text and background) and proving contrast in light and dark.
+- **Semver is the contract.** A removed or renamed export, a changed prop type or a changed default
+  is a major bump and a coordinated consumer PR. Never publish a silent breaking change under a
+  minor.
+- **No inline style to solve layout.** If layout breaks, the problem is the structure (grid/flex,
+  `min-w-0`, minimum width), not an emergency `style=`.
+- **Every exported view has a story and a test.** A component without a story and a test is not
+  done — it is a stub with a type.
+
+## Multi-agent
+
+- Several agents work on this repository and on the front in parallel. **Never push someone else's
+  work** or force someone else's branch, unless the author asked for it.
+- Parallel `npm install` or build? Use a separate `git worktree`; processes fight over the same
+  `node_modules` and `dist`.
+- If a push fails because the remote moved, **reconcile with the current content** (keep both sides),
+  never overwrite.
 
 ## Documentation
 
-- `README.md` and `docs/` describe what **exists**. Code changed? Its doc changes in the same PR.
-- A decision made in conversation becomes a doc in the commit that implements it.
+- `README.md` and `docs/` describe what **exists**. Code changed? The doc changes in the same PR.
+- A decision made in conversation becomes a doc in the same commit that implements it.
+- A doc that describes behaviour the code does not have is a documentation bug — fix it or remove it.
+
+## Contributing with AI
+
+This project accepts and uses AI-assisted code — under the same rules as always, plus these:
+
+1. **Declare the use.** Check the AI box in the PR template. No tool name and no attribution line
+   (Co-Authored-By, "Generated with") in commits or PRs: the checkbox is the record.
+2. **Whoever submits answers for the code.** Understand every line before opening the PR. AI output
+   pasted without review is the fastest way to introduce a subtle regression.
+3. **Proof, not promise.** "It should work" is not verification: run the checks and describe the
+   result in the PR.
+4. **Zero slop.** No comment narrating the obvious, no mass-generated files, no new dependency
+   without justification, no refactor the task did not ask for, no speculative abstraction.
+5. **Security comes first.** The rules above apply in full.
+6. **Human review before merge remains the rule**, with approval from someone who did not push.
+
+## Final self-check
+
+Before saying you are done, verify every item. **If any is false, the state is `not-ready`.**
+
+- [ ] lint, typecheck, test, build and `test:dist` green on the final tree
+- [ ] root cause fixed, not the symptom
+- [ ] proof test fails on the old code
+- [ ] edge cases covered (empty, loading, error, 390px, both themes)
+- [ ] no false green, no weakened assertion, no hidden skip
+- [ ] no stub, no placeholder, no TODO pretending to be done
+- [ ] no secret, no personal data, no security-fix detail in public text
+- [ ] tokens only, contrast AA proven, accessibility checked
+- [ ] story and test exist for every new exported view
+- [ ] semver respected; consumer impact stated in the PR
+- [ ] module documentation updated in the same commit
+- [ ] clean tree, no conflict marker, no one else's work
+- [ ] remote in sync
+
+`if_any_false: state: not-ready — next: fix-before-delivery`
