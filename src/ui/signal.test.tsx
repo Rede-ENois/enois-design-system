@@ -40,6 +40,20 @@ describe("semantic shapes", () => {
     expect(html).toContain("background:#0f766e");
   });
 
+  it("draws a community image preview when avatar is present", () => {
+    const html = renderToStaticMarkup(
+      <CommunityMark
+        name="Nós axolotes"
+        avatar="https://example.com/axolote.png"
+        color="#db2777"
+      />,
+    );
+
+    expect(html).toContain("rounded-[34%]");
+    expect(html).toContain('src="https://example.com/axolote.png"');
+    expect(html).not.toContain(">NA<");
+  });
+
   it("draws an event as a notched ticket", () => {
     const html = renderToStaticMarkup(<EventTicket day="02" month="NOV" />);
 

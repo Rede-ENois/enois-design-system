@@ -15,14 +15,28 @@ export type PostCardData = {
   authorContributor?: AuthorContributorTag | null;
   authorAvatar: string | null;
   authorAvatarFrame?: string | null;
+  /** Bio ou cargo/headline do autor. */
+  authorHeadline?: string | null;
+  authorBio?: string | null;
+  /** Grau de conexão ou detalhe (ex: "2º"). */
+  authorConnectionDegree?: string | null;
+  /** Se o leitor já segue o autor. */
+  isFollowingAuthor?: boolean;
   authorBadge?: string | null;
   authorBadges?: string[] | null;
   community?: { name: string; joined: boolean } | null;
+  /** Contexto social do post (ex: "Deyse Paiva gostou" com avatar). */
+  socialContext?: {
+    avatar?: string | null;
+    text: string;
+    href?: string | null;
+  } | null;
   repostOf?: string | null;
   repostOfAuthor?: string | null;
   repostWithOpinion?: boolean;
   repostOfContent?: string | null;
   repostOfMediaIds?: string[] | null;
+  repostOfAvatar?: string | null;
   repostedByName?: string | null;
   repostedByAvatar?: string | null;
   repostedByUsername?: string | null;

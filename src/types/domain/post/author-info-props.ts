@@ -13,6 +13,12 @@ export type AuthorInfoProps = {
   authorAvatarFrame?: string | null;
   authorBadge?: string | null;
   authorBadges?: string[] | null;
+  authorHeadline?: string | null;
+  authorBio?: string | null;
+  authorConnectionDegree?: string | null;
+  onFollowAuthor?: () => void;
+  followAuthorPending?: boolean;
+  isFollowingAuthor?: boolean;
   /** Perfil da identidade que assinou (social ou profissional). */
   authorHref: string;
   /** Tempo relativo da publicação ("há 5 min"). */

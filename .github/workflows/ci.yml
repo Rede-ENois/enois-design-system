@@ -29,6 +29,15 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
+      # eslint-suppressions.json freezes the lint debt that predates a rule and may only shrink: new
+      # violations get fixed, not hidden with `eslint --suppress-all`.
+      - name: Lint baseline only shrinks
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_REF"
+          node scripts/check-lint-suppressions.mjs FETCH_HEAD
       - run: npm run typecheck
       - run: npm test
       - run: npm run test:eslint-rules

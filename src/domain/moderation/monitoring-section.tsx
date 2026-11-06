@@ -415,7 +415,7 @@ export function MonitoringSection({
             onChange={(event) => onFromChange(event.target.value)}
             aria-label={messages.fromLabel}
             title={messages.fromLabel}
-            className="h-8 rounded-lg border border-border-soft bg-surface-1 px-2 text-xs text-text-strong"
+            className="h-8 rounded-lg border border-border-soft bg-surface-1 px-2 text-base md:text-xs text-text-strong"
           />
           <input
             type="datetime-local"
@@ -423,7 +423,7 @@ export function MonitoringSection({
             onChange={(event) => onToChange(event.target.value)}
             aria-label={messages.toLabel}
             title={messages.toLabel}
-            className="h-8 rounded-lg border border-border-soft bg-surface-1 px-2 text-xs text-text-strong"
+            className="h-8 rounded-lg border border-border-soft bg-surface-1 px-2 text-base md:text-xs text-text-strong"
           />
 
           <button

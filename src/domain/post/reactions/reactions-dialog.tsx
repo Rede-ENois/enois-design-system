@@ -38,7 +38,7 @@ export function ReactionsDialog<T extends string>({
   // Se a aba ativa sumiu (a reação zerou com a remoção otimista), volta para "Todas".
   useEffect(() => {
     if (activeTab !== "all" && !tabs.some((tab) => tab.type === activeTab)) setActiveTab("all");
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- tabKey é a identidade estável de tabs
+    // tabKey é a identidade estável de tabs
   }, [activeTab, tabKey]);
 
   const total = reactions.length;

@@ -1,3 +1,5 @@
+import { Plus } from "lucide-react";
+
 import { useMessages } from "../../messages/messages-context.js";
 import type { AuthorInfoProps } from "../../types/domain/post/author-info-props.js";
 import { AppLink } from "../../ui/app-link.js";
@@ -6,7 +8,10 @@ import { UserBadges } from "../badges/user-badges.js";
 import { ContributorTag } from "../name/contributor-tag.js";
 import { StyledName } from "../name/styled-name.js";
 
-/** Avatar + nome + tempo relativo do autor de um post, com a comunidade quando houver. */
+/**
+ * Avatar + Informações empilhadas verticalmente (Nome, Bio/Cargo, Timestamp)
+ * e botão de ação primária (+ Seguir) no topo à direita.
+ */
 export function AuthorInfo({
   authorName,
   authorStyle,
@@ -22,6 +27,12 @@ export function AuthorInfo({
   onFollowCommunity,
   followPending,
   renderAuthorTrigger,
+  authorHeadline,
+  authorBio,
+  authorConnectionDegree,
+  onFollowAuthor,
+  followAuthorPending,
+  isFollowingAuthor,
 }: AuthorInfoProps) {
   const messages = useMessages().authorInfo;
   const avatar = (
@@ -30,61 +41,90 @@ export function AuthorInfo({
       src={authorAvatar}
       alt={authorName}
       fallbackClassName={fallbackClassName}
-      className="h-11 w-11"
+      className="h-12 w-12 rounded-full shrink-0"
     />
   );
   const name = <StyledName name={authorName} style={authorStyle} />;
 
-  // O nome leva para a identidade que ASSINOU: post profissional abre o perfil profissional
-  // (o @ é de outro namespace e não existe em /perfil). Quem decide o endereço é o app.
-  // min-w-0: inside the post header (a flex row) this box would otherwise grow to the name and push
-  // a long name on a plate out of the card.
+  const followAction = onFollowAuthor ? (
+    <button
+      type="button"
+      onClick={onFollowAuthor}
+      disabled={followAuthorPending}
+      className="flex items-center gap-1 text-sm font-semibold text-primary transition hover:text-primary-hover disabled:opacity-60 shrink-0 self-start mt-0.5"
+    >
+      <Plus className="h-4 w-4" />
+
+      <span>{isFollowingAuthor ? "Seguindo" : "Seguir"}</span>
+    </button>
+  ) : community && !community.joined && onFollowCommunity ? (
+    <button
+      type="button"
+      onClick={onFollowCommunity}
+      disabled={followPending}
+      className="flex items-center gap-1 text-sm font-semibold text-primary transition hover:text-primary-hover disabled:opacity-60 shrink-0 self-start mt-0.5"
+    >
+      <Plus className="h-4 w-4" />
+
+      <span>{followPending ? messages.sending : messages.follow}</span>
+    </button>
+  ) : null;
+
   return (
     <div className="flex min-w-0 flex-[1_1_16rem] items-start gap-3">
       {renderAuthorTrigger ? (
         renderAuthorTrigger(avatar, "avatar")
       ) : (
-        <AppLink href={authorHref}>{avatar}</AppLink>
+        <AppLink href={authorHref} className="shrink-0">
+          {avatar}
+        </AppLink>
       )}
 
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+      <div className="flex min-w-0 flex-1 flex-col">
+        {/* Linha 1: Nome (em destaque/bold) + Badges + Conexão */}
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
           {renderAuthorTrigger ? (
-            <span className="min-w-0 max-w-full truncate font-bold hover:underline text-sm">
+            <span className="min-w-0 max-w-full truncate text-sm font-bold text-text-strong hover:underline">
               {renderAuthorTrigger(name, "name")}
             </span>
           ) : (
             <AppLink
               href={authorHref}
-              className="min-w-0 max-w-full truncate font-bold hover:underline text-sm"
+              className="min-w-0 max-w-full truncate text-sm font-bold text-text-strong hover:underline"
             >
               {name}
             </AppLink>
           )}
 
+          {authorConnectionDegree && (
+            <span className="text-xs font-normal text-text-subtle">• {authorConnectionDegree}</span>
+          )}
+
           <UserBadges badges={authorBadges} badge={authorBadge} />
+        </div>
 
-          {community ? (
-            <span className="text-xs font-normal text-text-subtle">
-              {messages.publishedIn}{" "}
-              <AppLink href={community.href} className="font-medium text-primary hover:underline">
-                {community.name}
-              </AppLink>
-            </span>
-          ) : null}
+        {/* Linha 2: Bio/Cargo/Comunidade (texto menor, secundária/cinza) */}
+        {(authorHeadline || authorBio || community) && (
+          <div className="mt-0.5 truncate text-xs text-text-subtle leading-tight">
+            {authorHeadline ||
+              authorBio ||
+              (community ? (
+                <span>
+                  {messages.publishedIn}{" "}
+                  <AppLink
+                    href={community.href}
+                    className="font-medium text-text-subtle hover:text-primary hover:underline"
+                  >
+                    {community.name}
+                  </AppLink>
+                </span>
+              ) : null)}
+          </div>
+        )}
 
-          {community && !community.joined && onFollowCommunity ? (
-            <button
-              type="button"
-              onClick={onFollowCommunity}
-              disabled={followPending}
-              className="rounded-full border border-primary/40 px-2.5 py-0.5 text-xs font-semibold text-primary transition hover:bg-primary/10 disabled:opacity-60"
-            >
-              {followPending ? messages.sending : messages.follow}
-            </button>
-          ) : null}
-
-          <span className="text-xs font-normal text-text-date">{messages.time(timeLabel)}</span>
+        {/* Linha 3: Timestamp (texto menor, cinza) */}
+        <div className="mt-0.5 flex items-center gap-1.5 text-xs text-text-date leading-tight">
+          <span>{timeLabel.startsWith("há") ? timeLabel : messages.time(timeLabel)}</span>
         </div>
 
         {authorContributor && (
@@ -93,6 +133,9 @@ export function AuthorInfo({
           </div>
         )}
       </div>
+
+      {/* Ação primária no topo à direita */}
+      {followAction}
     </div>
   );
 }

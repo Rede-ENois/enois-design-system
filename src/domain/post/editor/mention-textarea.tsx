@@ -17,7 +17,9 @@ import { applyFormat } from "../../../lib/rich-text/apply-format.js";
 import { insertSnippet } from "../../../lib/rich-text/insert-snippet.js";
 import { parseRichText } from "../../../lib/rich-text/parse.js";
 import { isSubmitShortcut } from "../../../lib/submit-shortcut.js";
+import { textFieldClasses } from "../../../lib/text-field-classes.js";
 import { useMessages } from "../../../messages/messages-context.js";
+import { RichTextToolbarMenu } from "../../../patterns/editor/rich-text-toolbar-menu.js";
 import { RichTextToolbar } from "../../../patterns/editor/rich-text-toolbar.js";
 import type { MentionTextareaProps } from "../../../types/domain/post/mention-textarea-props.js";
 import type { MentionUser } from "../../../types/domain/post/mention-user.js";
@@ -73,6 +75,7 @@ export function MentionTextarea({
   rows,
   toolbar = false,
   toolbarVisible = true,
+  toolbarMenu = false,
   onPasteImages,
   onSubmitShortcut,
   mentionResults: results,
@@ -332,14 +335,24 @@ export function MentionTextarea({
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1">
-      {toolbar && toolbarVisible && (
-        <RichTextToolbar
-          label={messages.toolbar}
-          onFormat={formatSelection}
-          onEmoji={insertEmoji}
-          className="mb-1.5"
-        />
-      )}
+      {toolbar &&
+        toolbarVisible &&
+        (toolbarMenu ? (
+          <RichTextToolbarMenu
+            label={messages.toolbar}
+            onFormat={formatSelection}
+            onEmoji={insertEmoji}
+            // Dentro do campo, no canto: o texto ganha um respiro à direita para não passar por baixo.
+            className="absolute right-1 top-1 z-10"
+          />
+        ) : (
+          <RichTextToolbar
+            label={messages.toolbar}
+            onFormat={formatSelection}
+            onEmoji={insertEmoji}
+            className="mb-1.5"
+          />
+        ))}
 
       <textarea
         ref={textareaRef}
@@ -356,7 +369,11 @@ export function MentionTextarea({
           onPasteImages(files);
         }}
         placeholder={placeholder}
-        className={`max-h-[240px] w-full resize-none overflow-y-auto ${className}`}
+        className={textFieldClasses(
+          "max-h-[240px] w-full resize-none overflow-y-auto text-base md:text-sm",
+          className,
+          toolbarMenu && "pr-9",
+        )}
         maxLength={maxLength}
         rows={rows}
       />

@@ -12,7 +12,7 @@ describe("ComposerLauncher", () => {
       <ComposerLauncher avatar={null} name="Ana" onOpen={() => {}} />,
     );
 
-    expect(withMedia).toContain("O que você aprendeu hoje?");
+    expect(withMedia).toContain("Começar publicação");
     expect(withMedia).toContain('aria-label="Adicionar foto ou vídeo"');
     expect(plain).not.toContain("Adicionar foto ou vídeo");
   });

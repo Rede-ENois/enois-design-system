@@ -27,7 +27,7 @@ export function SealEvidenceList({
   return (
     <details
       open={open}
-      className="group rounded-xl border border-border-soft px-3 py-2"
+      className="group min-w-0 overflow-hidden rounded-xl border border-border-soft px-3 py-2"
       onToggle={(event) => onOpenChange(event.currentTarget.open)}
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-xs font-medium text-text-subtle [&::-webkit-details-marker]:hidden">
@@ -53,12 +53,15 @@ export function SealEvidenceList({
           ) : (
             <ul className="max-h-64 space-y-1 overflow-y-auto pr-1">
               {items.map((evidence) => (
-                <li key={`${evidence.repository}-${evidence.kind}-${evidence.number}`}>
+                <li
+                  key={`${evidence.repository}-${evidence.kind}-${evidence.number}`}
+                  className="min-w-0"
+                >
                   <a
                     href={safeHref(evidence.url) ?? undefined}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-w-0 items-center gap-1 text-xs text-primary hover:underline"
+                    className="flex min-w-0 items-center gap-1 text-xs text-primary hover:underline"
                   >
                     <span className="truncate">
                       {evidence.kind === "ISSUE" ? messages.issue : messages.pullRequest} ·{" "}

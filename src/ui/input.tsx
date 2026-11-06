@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { textFieldClasses } from "../lib/text-field-classes.js";
 import { cn } from "../lib/utils.js";
 import type { InputProps } from "../types/components/ui/input-props.js";
 
@@ -27,7 +28,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             setLength(event.target.value.length);
             onChange?.(event);
           }}
-          className={cn(
+          className={(type &&
+            [
+              "checkbox",
+              "radio",
+              "range",
+              "color",
+              "file",
+              "hidden",
+              "button",
+              "submit",
+              "reset",
+            ].includes(type)
+            ? cn
+            : textFieldClasses)(
             "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
             className,
           )}

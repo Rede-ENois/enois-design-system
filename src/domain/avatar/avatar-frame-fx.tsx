@@ -3,13 +3,17 @@ import type { ComponentType } from "react";
 import type { AvatarFrameFxProps } from "../../types/domain/avatar/avatar-frame-fx-props.js";
 
 import { SEASONAL_FX_FRAMES } from "./avatar-frames.js";
+import { BruxaFx } from "./frames/bruxa.js";
 import { BuracoNegroFx } from "./frames/buraco-negro.js";
+import { CaixaoFx } from "./frames/caixao.js";
 import { CircuitoFx } from "./frames/circuito.js";
 import { FliperamaFx } from "./frames/fliperama.js";
 import { GalaxiaFx } from "./frames/galaxia.js";
 import { GlacialFx } from "./frames/glacial.js";
 import { HologramaFx } from "./frames/holograma.js";
 import { InfernoFx } from "./frames/inferno.js";
+import { LacraiaFx } from "./frames/lacraia.js";
+import { LanternaFx } from "./frames/lanterna.js";
 import { MareFx } from "./frames/mare.js";
 import { NebulosaFx } from "./frames/nebulosa.js";
 import { NeonFx } from "./frames/neon.js";
@@ -21,6 +25,7 @@ import { SupernovaFx } from "./frames/supernova.js";
 import { TempestadeFx } from "./frames/tempestade.js";
 import { ToxicaFx } from "./frames/toxica.js";
 import { TrepadeiraFx } from "./frames/trepadeira.js";
+import { UivoFx } from "./frames/uivo.js";
 import { VagaLumesFx } from "./frames/vaga-lumes.js";
 import { VendavalFx } from "./frames/vendaval.js";
 
@@ -45,6 +50,11 @@ const EFEITOS: Record<string, ComponentType<AvatarFrameFxProps>> = {
   "moldura-circuito": CircuitoFx,
   "moldura-neon": NeonFx,
   "moldura-radar": RadarFx,
+  "moldura-caixao": CaixaoFx,
+  "moldura-bruxa": BruxaFx,
+  "moldura-lanterna": LanternaFx,
+  "moldura-uivo": UivoFx,
+  "moldura-lacraia": LacraiaFx,
   ...Object.fromEntries(SEASONAL_FX_FRAMES.map((id) => [id, SeasonalFrameFx])),
 };
 

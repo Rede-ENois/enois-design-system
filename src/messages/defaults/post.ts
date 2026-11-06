@@ -6,7 +6,7 @@ const openImage = "Ampliar imagem";
 export const postMessages: PostMessages = {
   caughtUpDivider: { title: "Você está em dia", subline: "Abaixo, posts que você já viu." },
   composerLauncher: {
-    placeholder: "O que você aprendeu hoje?",
+    placeholder: "Começar publicação",
     addMedia: "Adicionar foto ou vídeo",
   },
   spoilerText: { show: "Mostrar spoiler", hide: "Esconder spoiler" },
@@ -223,6 +223,7 @@ export const postMessages: PostMessages = {
   postComments: {
     errors: {
       load: "Não foi possível carregar os comentários.",
+      send: "Não foi possível enviar o comentário. Tente de novo.",
       upload: "Não foi possível enviar a mídia. Tente de novo.",
       mediaLimit: "Máximo de 4 mídias por comentário.",
       micDenied: "Não foi possível usar o microfone. Confira a permissão do navegador.",

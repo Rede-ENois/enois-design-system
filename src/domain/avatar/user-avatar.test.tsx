@@ -71,10 +71,12 @@ describe("UserAvatar com moldura", () => {
       </>,
     );
     const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
-    // Órbita, galáxia, fliperama e a maioria das sazonais não usam filtro nem gradiente: não têm ids.
+    // Órbita, galáxia, lacraia, fliperama e a maioria das sazonais não usam filtro nem gradiente:
+    // não têm ids.
     const withoutIds =
       frame === "moldura-orbita" ||
       frame === "moldura-galaxia" ||
+      frame === "moldura-lacraia" ||
       frame === "moldura-fliperama" ||
       (SEASONAL_FX_FRAMES as readonly string[]).includes(frame);
     if (!withoutIds) {

@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+import { useAdapters } from "../adapters/adapters-context.js";
 import { cn } from "../lib/utils.js";
 import type { CommunityMarkProps } from "../types/components/ui/community-mark-props.js";
 
@@ -29,20 +32,41 @@ function tableColor(seed: string) {
   return `var(--table-${(Math.abs(hash) % TABLE_COLORS) + 1})`;
 }
 
-export function CommunityMark({ name, color, seed, size = "sm", className }: CommunityMarkProps) {
+export function CommunityMark({
+  name,
+  avatar,
+  color,
+  seed,
+  size = "sm",
+  className,
+}: CommunityMarkProps) {
+  const { resolveMediaUrl } = useAdapters();
+  const [failedSrc, setFailedSrc] = useState<string | null | undefined>(null);
+  const resolved = resolveMediaUrl(avatar);
+  const showImage = Boolean(resolved && failedSrc !== resolved);
+
   return (
     <span
       // ponytail: always decorative, the name is always in the text of the same row (the menu label, the
       // notification title); add a label prop if a mark ever stands alone.
       aria-hidden
       className={cn(
-        "inline-grid shrink-0 place-items-center rounded-[34%] font-extrabold text-white",
+        "relative inline-grid shrink-0 place-items-center overflow-hidden rounded-[34%] font-extrabold text-white select-none",
         SIZES[size],
         className,
       )}
       style={{ background: color || (seed ? tableColor(seed) : "var(--color-primary)") }}
     >
-      {initials(name)}
+      {showImage ? (
+        <img
+          src={resolved}
+          alt=""
+          className="h-full w-full object-cover"
+          onError={() => setFailedSrc(resolved)}
+        />
+      ) : (
+        initials(name)
+      )}
     </span>
   );
 }

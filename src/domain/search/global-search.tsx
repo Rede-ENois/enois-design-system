@@ -42,6 +42,18 @@ export function GlobalSearch({ results, isFetching, onQueryChange, onSelect }: G
     if (mobileOpen) inputRef.current?.focus();
   }, [mobileOpen]);
 
+  // Fecha a busca mobile ao scrollar pra baixo.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onScroll = () => {
+      setMobileOpen(false);
+      setOpen(false);
+      setQuery("");
+    };
+    window.addEventListener("scroll", onScroll, { passive: true, once: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileOpen]);
+
   const closeSearch = () => {
     setOpen(false);
     setQuery("");
@@ -60,11 +72,11 @@ export function GlobalSearch({ results, isFetching, onQueryChange, onSelect }: G
           setMobileOpen(true);
           setOpen(true);
         }}
-        className="ml-auto grid h-9 w-9 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary md:hidden"
+        className="relative z-20 ml-auto grid h-10 w-10 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary md:hidden"
         aria-label={messages.action}
         title={messages.action}
       >
-        <Search className="h-4 w-4" />
+        <Search className="h-5 w-5" />
       </button>
 
       <div
