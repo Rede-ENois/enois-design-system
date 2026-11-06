@@ -60,6 +60,7 @@ describe("AccountSettings: what left the account menu", () => {
           sanctions: "/p",
           mutedUsers: "/silenciados",
           notificationPreferences: "/notificacoes/preferencias",
+          feedPreferences: "/feed/preferencias",
           supportUs: "/apoiar",
         }}
         onChangeEmail={() => {}}
@@ -73,11 +74,36 @@ describe("AccountSettings: what left the account menu", () => {
     for (const label of [
       "Pessoas silenciadas",
       "Preferências de aviso",
+      "Preferências de feed",
       "Uso saudável",
       "Apoie o Énóis",
     ]) {
       expect(markup).toContain(label);
     }
     expect(markup).toContain('href="/notificacoes/preferencias"');
+    expect(markup).toContain('href="/feed/preferencias"');
+
+    const feedIndex = markup.indexOf("Preferências de feed");
+    const notificationIndex = markup.indexOf("Preferências de aviso");
+    expect(feedIndex).toBeGreaterThan(notificationIndex);
+  });
+
+  it("hides feed preferences when the app does not give the href", () => {
+    const markup = renderToStaticMarkup(
+      <AccountSettings
+        hrefs={{
+          security: "/s",
+          blockedUsers: "/b",
+          myReports: "/d",
+          sanctions: "/p",
+        }}
+        onChangeEmail={() => {}}
+        onChangePassword={() => {}}
+        onOpenLinkedAccounts={() => {}}
+        onDeleteAccount={() => {}}
+      />,
+    );
+
+    expect(markup).not.toContain("Preferências de feed");
   });
 });
