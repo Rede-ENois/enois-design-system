@@ -20,6 +20,9 @@ Breaking any of these gets the PR closed, whatever else it does well.
 
 1. **Never merge a PR**, yours or anyone's. No `gh pr merge`, no admin bypass, no "merge when ready".
    Merging is a human action by a maintainer (see `.github/CODEOWNERS`), after an approving review.
+   Sole exception: the `kof-agent-worker` app, authorized by the maintainers, may merge, and only with
+   green CI and **no outstanding `CHANGES_REQUESTED` review** from anyone. A change request is cleared
+   by a new review from whoever requested it or by an explicit maintainer dismissal, never overridden.
 2. **Never push to `qa` or `main`, never push a tag, never publish.** No `git push --tags`, no
    `npm publish`, no hand-run publish workflow. Tags and publishing are maintainer actions.
 3. **Never open a feature PR to `main`, and never open `qa` → `main`.** Feature PRs target `qa`;
