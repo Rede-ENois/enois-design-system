@@ -1,8 +1,12 @@
+import { useState } from "react";
+
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import type { CalendarAgendaItemData } from "../../types/domain/calendar/calendar-agenda-item-data.js";
+import { Button } from "../../ui/button.js";
 
 import { CalendarAgenda } from "./calendar-agenda.js";
+import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 
 const meta: Meta = {
   title: "Domain/Calendar",
@@ -161,4 +165,74 @@ export const Loading: StoryObj = {
 
 export const LoadError: StoryObj = {
   render: () => <CalendarAgenda {...base} view="month" error onRetry={() => {}} />,
+};
+
+export const EntryFormCreate: StoryObj = {
+  render: function EntryFormCreateStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <>
+        <Button size="sm" onClick={() => setOpen(true)}>
+          Novo compromisso
+        </Button>
+
+        <CalendarEntryFormDialog
+          open={open}
+          onOpenChange={setOpen}
+          defaultDay="2026-11-10"
+          timeZoneId={ZONE}
+          onSave={() => setOpen(false)}
+        />
+      </>
+    );
+  },
+};
+
+export const EntryFormEdit: StoryObj = {
+  render: function EntryFormEditStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <>
+        <Button size="sm" onClick={() => setOpen(true)}>
+          Editar compromisso
+        </Button>
+
+        <CalendarEntryFormDialog
+          open={open}
+          onOpenChange={setOpen}
+          entry={agenda[0].entry}
+          timeZoneId={ZONE}
+          onSave={() => setOpen(false)}
+        />
+      </>
+    );
+  },
+};
+
+export const EntryFormSaving: StoryObj = {
+  render: () => (
+    <CalendarEntryFormDialog
+      open
+      onOpenChange={() => {}}
+      defaultDay="2026-11-10"
+      timeZoneId={ZONE}
+      savePending
+      onSave={() => {}}
+    />
+  ),
+};
+
+export const EntryFormSaveFailed: StoryObj = {
+  render: () => (
+    <CalendarEntryFormDialog
+      open
+      onOpenChange={() => {}}
+      defaultDay="2026-11-10"
+      timeZoneId={ZONE}
+      saveError="Não foi possível salvar o compromisso. Tente de novo."
+      onSave={() => {}}
+    />
+  ),
 };
