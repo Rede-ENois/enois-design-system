@@ -75,7 +75,7 @@ export function ExploreHub({ sections }: ExploreHubProps) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={messages.searchPlaceholder}
-          className="h-full min-w-0 flex-1 bg-transparent text-[15px] text-text-strong outline-none placeholder:text-text-date"
+          className="h-full min-w-0 flex-1 bg-transparent text-base md:text-[15px] text-text-strong outline-none placeholder:text-text-date"
         />
       </label>
 

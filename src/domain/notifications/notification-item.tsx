@@ -63,6 +63,7 @@ export function NotificationItem({
   ) : notification.place && !notification.actorName ? (
     <CommunityMark
       name={notification.place.name}
+      avatar={notification.place.avatar}
       color={notification.place.color}
       seed={notification.place.id}
       size="md"

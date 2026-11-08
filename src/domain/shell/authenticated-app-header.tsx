@@ -18,9 +18,10 @@ export function AuthenticatedAppHeader({
 
   return (
     <AppHeaderLayout>
+      {/* Mobile: hamburger a esquerda, logo centralizado, acoes a direita */}
       <button
         onClick={onOpenNavigation}
-        className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary lg:hidden"
+        className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary lg:hidden"
         aria-label={messages.openMenu}
         title={messages.openMenu}
       >
@@ -30,10 +31,12 @@ export function AuthenticatedAppHeader({
         )}
       </button>
 
-      <AppBrand href={homeHref} />
+      <div className="flex min-w-0 flex-1 items-center max-md:justify-center md:flex-none md:shrink-0">
+        <AppBrand href={homeHref} />
+      </div>
       {search}
 
-      <div className="ml-auto flex items-center gap-2">{actions}</div>
+      <div className="relative z-20 flex items-center gap-2 md:ml-auto">{actions}</div>
     </AppHeaderLayout>
   );
 }

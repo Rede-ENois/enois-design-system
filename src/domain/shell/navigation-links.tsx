@@ -81,7 +81,13 @@ function CommunityRow({
       onClick={onNavigate}
       className={cn(ROW, "text-text-strong hover:bg-surface-2")}
     >
-      <CommunityMark name={community.name} color={community.color} seed={community.id} size="xs" />
+      <CommunityMark
+        name={community.name}
+        avatar={community.avatar}
+        color={community.color}
+        seed={community.id}
+        size="xs"
+      />
 
       <span className="min-w-0 flex-1 truncate">{community.name}</span>
       {favorite && <Star aria-hidden className="h-3.5 w-3.5 shrink-0 text-primary" />}

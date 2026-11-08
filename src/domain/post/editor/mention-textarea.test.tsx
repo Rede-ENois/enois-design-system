@@ -15,6 +15,18 @@ const render = (showCounter?: boolean) =>
     />,
   );
 
+const renderWithMenu = () =>
+  renderToStaticMarkup(
+    <MentionTextarea
+      value="teste"
+      onChange={() => undefined}
+      toolbar
+      toolbarMenu
+      mentionResults={[]}
+      onMentionQueryChange={() => undefined}
+    />,
+  );
+
 describe("MentionTextarea", () => {
   it("mostra o contador interno por padrão", () => {
     expect(render()).toContain('aria-live="polite"');
@@ -25,5 +37,14 @@ describe("MentionTextarea", () => {
 
     expect(html).not.toContain('aria-live="polite"');
     expect(html).toContain('maxLength="1200"');
+  });
+
+  it("recolhe a formatação atrás do botão de três pontos", () => {
+    const html = renderWithMenu();
+
+    expect(html).toContain('aria-label="Formatação"');
+    expect(html).not.toContain('role="toolbar"');
+    // O texto não passa por baixo do botão no canto superior direito.
+    expect(html).toContain("pr-9");
   });
 });

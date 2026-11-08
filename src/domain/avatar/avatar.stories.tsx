@@ -50,6 +50,27 @@ export const ElementosETecnologia: StoryObj<typeof UserAvatar> = {
   ),
 };
 
+export const Halloween: StoryObj<typeof UserAvatar> = {
+  args: { className: "h-32 w-32" },
+  render: (args) => (
+    <div className="grid grid-cols-2 gap-16 p-12 sm:grid-cols-4">
+      {[
+        ["moldura-caixao", "Caixão"],
+        ["moldura-bruxa", "Voo da bruxa"],
+        ["moldura-lanterna", "Lanterna de abóbora"],
+        ["moldura-uivo", "Lua de lobisomem"],
+        ["moldura-lacraia", "Lacraia"],
+      ].map(([frame, label]) => (
+        <div key={frame} className="flex flex-col items-center gap-10">
+          <UserAvatar {...args} frame={frame} />
+
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
 export const Compacto: StoryObj<typeof UserAvatar> = {
   args: { frame: "moldura-vendaval", frameOverflow: "hidden", className: "h-8 w-8" },
 };

@@ -1,0 +1,521 @@
+{
+  "browser": "156.0.4314.58",
+  "url": "Storybook UI/Form fields/MobileTypography",
+  "measurements": [
+    {
+      "width": 390,
+      "height": 1000,
+      "scrollWidth": 390,
+      "fields": [
+        {
+          "label": "Input xs",
+          "type": "text",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 310,
+          "height": 36,
+          "right": 350
+        },
+        {
+          "label": "Input sm",
+          "type": "text",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 310,
+          "height": 40,
+          "right": 350
+        },
+        {
+          "label": "Input large",
+          "type": "text",
+          "fontSize": 18,
+          "lineHeight": 28,
+          "width": 310,
+          "height": 36,
+          "right": 350
+        },
+        {
+          "label": "Textarea sm",
+          "type": "textarea",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 310,
+          "height": 66,
+          "right": 350
+        },
+        {
+          "label": "MentionTextarea",
+          "type": "textarea",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 310,
+          "height": 64,
+          "right": 350
+        },
+        {
+          "label": "Checkbox",
+          "type": "checkbox",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 16,
+          "height": 16,
+          "right": 56
+        },
+        {
+          "label": "Unrelated input",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 310,
+          "height": 18,
+          "right": 350
+        },
+        {
+          "label": "Unrelated select",
+          "type": "select-one",
+          "fontSize": 14,
+          "lineHeight": null,
+          "width": 310,
+          "height": 20,
+          "right": 350
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "height": 1000,
+      "scrollWidth": 412,
+      "fields": [
+        {
+          "label": "Input xs",
+          "type": "text",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 332,
+          "height": 36,
+          "right": 372
+        },
+        {
+          "label": "Input sm",
+          "type": "text",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 332,
+          "height": 40,
+          "right": 372
+        },
+        {
+          "label": "Input large",
+          "type": "text",
+          "fontSize": 18,
+          "lineHeight": 28,
+          "width": 332,
+          "height": 36,
+          "right": 372
+        },
+        {
+          "label": "Textarea sm",
+          "type": "textarea",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 332,
+          "height": 66,
+          "right": 372
+        },
+        {
+          "label": "MentionTextarea",
+          "type": "textarea",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 332,
+          "height": 64,
+          "right": 372
+        },
+        {
+          "label": "Checkbox",
+          "type": "checkbox",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 16,
+          "height": 16,
+          "right": 56
+        },
+        {
+          "label": "Unrelated input",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 332,
+          "height": 18,
+          "right": 372
+        },
+        {
+          "label": "Unrelated select",
+          "type": "select-one",
+          "fontSize": 14,
+          "lineHeight": null,
+          "width": 332,
+          "height": 20,
+          "right": 372
+        }
+      ]
+    },
+    {
+      "width": 767,
+      "height": 1000,
+      "scrollWidth": 767,
+      "fields": [
+        {
+          "label": "Input xs",
+          "type": "text",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 448,
+          "height": 36,
+          "right": 488
+        },
+        {
+          "label": "Input sm",
+          "type": "text",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 448,
+          "height": 40,
+          "right": 488
+        },
+        {
+          "label": "Input large",
+          "type": "text",
+          "fontSize": 18,
+          "lineHeight": 28,
+          "width": 448,
+          "height": 36,
+          "right": 488
+        },
+        {
+          "label": "Textarea sm",
+          "type": "textarea",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 448,
+          "height": 66,
+          "right": 488
+        },
+        {
+          "label": "MentionTextarea",
+          "type": "textarea",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "width": 448,
+          "height": 64,
+          "right": 488
+        },
+        {
+          "label": "Checkbox",
+          "type": "checkbox",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 16,
+          "height": 16,
+          "right": 56
+        },
+        {
+          "label": "Unrelated input",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 448,
+          "height": 18,
+          "right": 488
+        },
+        {
+          "label": "Unrelated select",
+          "type": "select-one",
+          "fontSize": 14,
+          "lineHeight": null,
+          "width": 448,
+          "height": 20,
+          "right": 488
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1000,
+      "scrollWidth": 768,
+      "fields": [
+        {
+          "label": "Input xs",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 448,
+          "height": 36,
+          "right": 488
+        },
+        {
+          "label": "Input sm",
+          "type": "text",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 448,
+          "height": 40,
+          "right": 488
+        },
+        {
+          "label": "Input large",
+          "type": "text",
+          "fontSize": 18,
+          "lineHeight": 28,
+          "width": 448,
+          "height": 36,
+          "right": 488
+        },
+        {
+          "label": "Textarea sm",
+          "type": "textarea",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 448,
+          "height": 60,
+          "right": 488
+        },
+        {
+          "label": "MentionTextarea",
+          "type": "textarea",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 448,
+          "height": 56,
+          "right": 488
+        },
+        {
+          "label": "Checkbox",
+          "type": "checkbox",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 16,
+          "height": 16,
+          "right": 56
+        },
+        {
+          "label": "Unrelated input",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 448,
+          "height": 18,
+          "right": 488
+        },
+        {
+          "label": "Unrelated select",
+          "type": "select-one",
+          "fontSize": 14,
+          "lineHeight": null,
+          "width": 448,
+          "height": 20,
+          "right": 488
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 1000,
+      "scrollWidth": 1280,
+      "fields": [
+        {
+          "label": "Input xs",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 448,
+          "height": 36,
+          "right": 488
+        },
+        {
+          "label": "Input sm",
+          "type": "text",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 448,
+          "height": 40,
+          "right": 488
+        },
+        {
+          "label": "Input large",
+          "type": "text",
+          "fontSize": 18,
+          "lineHeight": 28,
+          "width": 448,
+          "height": 36,
+          "right": 488
+        },
+        {
+          "label": "Textarea sm",
+          "type": "textarea",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 448,
+          "height": 60,
+          "right": 488
+        },
+        {
+          "label": "MentionTextarea",
+          "type": "textarea",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 448,
+          "height": 56,
+          "right": 488
+        },
+        {
+          "label": "Checkbox",
+          "type": "checkbox",
+          "fontSize": 14,
+          "lineHeight": 20,
+          "width": 16,
+          "height": 16,
+          "right": 56
+        },
+        {
+          "label": "Unrelated input",
+          "type": "text",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "width": 448,
+          "height": 18,
+          "right": 488
+        },
+        {
+          "label": "Unrelated select",
+          "type": "select-one",
+          "fontSize": 14,
+          "lineHeight": null,
+          "width": 448,
+          "height": 20,
+          "right": 488
+        }
+      ]
+    }
+  ],
+  "nativeMeasurements": [
+    {
+      "width": 390,
+      "story": "domain-search--picker",
+      "fields": [
+        {
+          "type": "text",
+          "fontSize": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "story": "domain-explore--hub",
+      "fields": [
+        {
+          "type": "search",
+          "fontSize": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "story": "domain-wallet--shop",
+      "fields": [
+        {
+          "type": "text",
+          "fontSize": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "story": "domain-messages--thread",
+      "fields": [
+        {
+          "type": "textarea",
+          "fontSize": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "story": "domain-moderation--monitoring",
+      "fields": [
+        {
+          "type": "datetime-local",
+          "fontSize": 16
+        },
+        {
+          "type": "datetime-local",
+          "fontSize": 16
+        },
+        {
+          "type": "text",
+          "fontSize": 16
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "story": "domain-search--picker",
+      "fields": [
+        {
+          "type": "text",
+          "fontSize": 14
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "story": "domain-explore--hub",
+      "fields": [
+        {
+          "type": "search",
+          "fontSize": 15
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "story": "domain-wallet--shop",
+      "fields": [
+        {
+          "type": "text",
+          "fontSize": 12
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "story": "domain-messages--thread",
+      "fields": [
+        {
+          "type": "textarea",
+          "fontSize": 14
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "story": "domain-moderation--monitoring",
+      "fields": [
+        {
+          "type": "datetime-local",
+          "fontSize": 12
+        },
+        {
+          "type": "datetime-local",
+          "fontSize": 12
+        },
+        {
+          "type": "text",
+          "fontSize": 12
+        }
+      ]
+    }
+  ],
+  "consoleErrorsAndWarnings": [],
+  "limitations": "Desktop Chromium verifies CSS and layout, not native iOS keyboard focus zoom or manual pinch gestures."
+}

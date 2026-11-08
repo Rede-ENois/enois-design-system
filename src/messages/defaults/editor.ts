@@ -14,6 +14,7 @@ export const editorMessages: EditorMessages = {
       spoiler: "Spoiler",
     },
     emoji: "Emoji",
+    menu: "Formatação",
   },
   htmlEditor: {
     editHtml: "Editar HTML",

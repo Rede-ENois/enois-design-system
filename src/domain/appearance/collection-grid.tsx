@@ -109,7 +109,7 @@ export function CollectionGrid({ activeId, previewId, onPreview, onSelect }: Col
             value={query}
             onChange={(event) => search(event.target.value)}
             placeholder={messages.themeSearchPlaceholder}
-            className="h-9 w-full rounded-full border border-border-soft bg-surface-1 pl-9 pr-3 text-xs outline-none transition focus:border-primary"
+            className="h-9 w-full rounded-full border border-border-soft bg-surface-1 pl-9 pr-3 text-base md:text-xs outline-none transition focus:border-primary"
           />
         </label>
 

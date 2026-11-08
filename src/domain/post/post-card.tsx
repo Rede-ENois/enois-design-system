@@ -1,4 +1,14 @@
-import { BookOpen, CircleCheck, Clock, FileText, Pin, PinOff, Repeat2 } from "lucide-react";
+import {
+  BookOpen,
+  CircleCheck,
+  Clock,
+  FileText,
+  MoreHorizontal,
+  Pin,
+  PinOff,
+  Repeat2,
+  X,
+} from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { inlineMediaIds } from "../../lib/rich-text/inline-media.js";
@@ -19,15 +29,12 @@ import { POST_TYPE_META } from "./post-type-meta.js";
 
 /**
  * Posts acima disso entram compactados na LISTA: o corte é por linhas (8) e o "Ler mais" abre o
- * post inteiro. Na página do post o card é o post (`fullPost`), então não corta nem mostra o link —
- * era o furo: o "Ler mais" levava para a página em que a pessoa já estava e o texto seguia cortado.
+ * post inteiro. Na página do post o card é o post (`fullPost`), então não corta nem mostra o link.
  */
 const POST_COMPACT_THRESHOLD = 400;
 
 /**
- * The post card: author, badges, seals, text, media, page, reactions, tags and the actions row.
- * Data-coupled pieces (rich text with inline media, media grid, actions, comments, owner dialogs)
- * come from the app as render props and slots.
+ * The post card: context, author, badges, seals, text, media, page, reactions, tags and the actions row.
  */
 export function PostCard({
   post,
@@ -49,6 +56,15 @@ export function PostCard({
   onShowSeals,
   onFollowCommunity,
   followPending,
+  authorHeadline,
+  authorBio,
+  authorConnectionDegree,
+  onFollowAuthor,
+  followAuthorPending,
+  isFollowingAuthor,
+  socialContext,
+  onDismiss,
+  onOptionsClick,
   onOpenPost,
   autoplayLinks = false,
   pageHtml,
@@ -64,6 +80,7 @@ export function PostCard({
   renderRichText,
   renderMediaGrid,
   renderAuthorTrigger,
+  renderLinkPreview,
 }: PostCardProps) {
   const messages = useMessages().postCard;
   const sealLabels = useMessages().postSeals;
@@ -74,53 +91,140 @@ export function PostCard({
   const isCompact = !fullPost && post.content.length > POST_COMPACT_THRESHOLD;
   const visibleContent = hideExternalPageUrls(post.content, isOwnMediaUrl);
 
+  const resolvedSocialContext = socialContext ?? post.socialContext;
+
   return (
     <article
       id={anchored ? `feed-post-${post.id}` : undefined}
       tabIndex={anchored ? -1 : undefined}
       className={`min-w-0 bg-surface-card p-4 shadow-[var(--shadow-table)] transition sm:p-5 ${
-        // Post de página: sem canto no card, porque o conteúdo tem de alcançar as bordas — o
-        // arredondamento do card recortava os cantos da página e era o que sobrava de "rounding".
-        post.pageHtml ? "rounded-none" : "overflow-hidden rounded-3xl"
+        post.pageHtml ? "rounded-none" : "overflow-hidden rounded-2xl sm:rounded-3xl"
       } ${
-        // In a list the browser skips layout and paint for offscreen cards; `auto` in the size
-        // keeps the real height after the first paint so the scrollbar does not jump. Left out:
-        // page posts (their iframe measures itself), the post page, and a virtualized list, which
-        // already unmounts far cards and must measure the real height.
         !fullPost && !virtualized && post.type !== "PAGE"
           ? "[contain-intrinsic-size:auto_360px] [content-visibility:auto]"
           : ""
       }`}
     >
-      {/* Repost puro (ponteiro): mostra quem repostou com mini avatar no topo, estilo Twitter. */}
-      {post.repostedByName && !post.repostWithOpinion && hrefs.repostedBy && (
-        <AppLink
-          href={hrefs.repostedBy}
-          className="mb-3 flex items-center gap-2 text-xs text-text-subtle transition hover:text-primary"
-        >
-          <UserAvatar src={post.repostedByAvatar} alt={post.repostedByName} className="h-4 w-4" />
-          <Repeat2 className="h-3 w-3 shrink-0" />
+      {/* 1. Contexto Social (Opcional): no topo com avatar pequeno + texto + botões ... e X + linha divisória */}
+      {resolvedSocialContext ? (
+        <div className="mb-3 flex items-center justify-between gap-2 border-b border-border-soft/60 pb-2.5 text-xs text-text-subtle">
+          <div className="flex min-w-0 items-center gap-2">
+            {resolvedSocialContext.avatar && (
+              <UserAvatar
+                src={resolvedSocialContext.avatar}
+                alt=""
+                className="h-5 w-5 shrink-0 rounded-full"
+              />
+            )}
+            {resolvedSocialContext.href ? (
+              <AppLink
+                href={resolvedSocialContext.href}
+                className="truncate font-medium text-text-subtle transition hover:text-text-strong hover:underline"
+              >
+                {resolvedSocialContext.text}
+              </AppLink>
+            ) : (
+              <span className="truncate font-medium text-text-subtle">
+                {resolvedSocialContext.text}
+              </span>
+            )}
+          </div>
 
-          <span className="min-w-0 truncate">{messages.repostedBy(post.repostedByName)}</span>
-        </AppLink>
-      )}
+          <div className="flex shrink-0 items-center gap-1">
+            {onOptionsClick && (
+              <button
+                type="button"
+                onClick={onOptionsClick}
+                className="rounded-full p-1 text-text-subtle transition hover:bg-surface-elevated hover:text-text-strong"
+                aria-label="Mais opções"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+            )}
+            {onDismiss && (
+              <button
+                type="button"
+                onClick={onDismiss}
+                className="rounded-full p-1 text-text-subtle transition hover:bg-surface-elevated hover:text-text-strong"
+                aria-label="Ocultar post"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      ) : post.repostedByName && !post.repostWithOpinion && hrefs.repostedBy ? (
+        /* Repost puro: mostra quem repostou com mini avatar no topo */
+        <div className="mb-3 flex items-center justify-between gap-2 border-b border-border-soft/60 pb-2 text-xs text-text-subtle">
+          <AppLink
+            href={hrefs.repostedBy}
+            className="flex min-w-0 items-center gap-2 transition hover:text-primary"
+          >
+            <UserAvatar
+              src={post.repostedByAvatar}
+              alt={post.repostedByName}
+              className="h-4 w-4 rounded-full"
+            />
+            <Repeat2 className="h-3 w-3 shrink-0" />
 
-      {/* Repost com opinião ou repost legado (post-cópia). */}
-      {post.repostOf && hrefs.repostOf && !post.repostedByName && (
-        <AppLink
-          href={hrefs.repostOf}
-          className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
-        >
-          <Repeat2 className="h-3.5 w-3.5" />
+            <span className="min-w-0 truncate">{messages.repostedBy(post.repostedByName)}</span>
+          </AppLink>
 
-          <>
-            {post.repostWithOpinion
-              ? messages.repostedWithOpinion
-              : messages.repostedFrom(post.repostOfAuthor)}
-          </>
-        </AppLink>
-      )}
+          <div className="flex shrink-0 items-center gap-1">
+            {onOptionsClick && (
+              <button
+                type="button"
+                onClick={onOptionsClick}
+                className="rounded-full p-1 text-text-subtle transition hover:bg-surface-elevated hover:text-text-strong"
+                aria-label="Mais opções"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+            )}
+            {onDismiss && (
+              <button
+                type="button"
+                onClick={onDismiss}
+                className="rounded-full p-1 text-text-subtle transition hover:bg-surface-elevated hover:text-text-strong"
+                aria-label="Ocultar post"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      ) : null}
 
+      {/* Repost legado (post-cópia, sem opinião): credito ao autor original.
+          Repost com opinião: texto simples sem avatar/badge. */}
+      {post.repostOf &&
+        hrefs.repostOf &&
+        !post.repostedByName &&
+        !resolvedSocialContext &&
+        (post.repostWithOpinion ? (
+          <span className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle">
+            <Repeat2 className="h-3.5 w-3.5" />
+            {messages.repostedWithOpinion}
+          </span>
+        ) : (
+          <AppLink
+            href={hrefs.repostOf}
+            className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
+          >
+            {post.repostOfAvatar && (
+              <UserAvatar
+                src={post.repostOfAvatar}
+                alt={post.repostOfAuthor}
+                className="h-4 w-4 rounded-full"
+              />
+            )}
+            <Repeat2 className="h-3.5 w-3.5" />
+
+            <>{messages.repostedFrom(post.repostOfAuthor)}</>
+          </AppLink>
+        ))}
+
+      {/* 2. Header do Autor + Ações de Menu */}
       <header className="flex flex-wrap items-start justify-between gap-3">
         <AuthorInfo
           authorName={post.authorName}
@@ -141,6 +245,12 @@ export function PostCard({
           fallbackClassName={meta.classAvatar}
           onFollowCommunity={onFollowCommunity}
           followPending={followPending}
+          authorHeadline={authorHeadline ?? post.authorHeadline}
+          authorBio={authorBio ?? post.authorBio}
+          authorConnectionDegree={authorConnectionDegree ?? post.authorConnectionDegree}
+          onFollowAuthor={onFollowAuthor}
+          followAuthorPending={followAuthorPending}
+          isFollowingAuthor={isFollowingAuthor ?? post.isFollowingAuthor}
         />
 
         <div className="ml-auto flex flex-wrap items-center justify-end gap-1.5">
@@ -203,13 +313,37 @@ export function PostCard({
             </span>
           )}
 
+          {/* Se não houver contexto social no topo, os botões ... e X ficam aqui */}
+          {!resolvedSocialContext && !post.repostedByName && (
+            <>
+              {onOptionsClick && (
+                <button
+                  type="button"
+                  onClick={onOptionsClick}
+                  className="rounded-full p-1 text-text-subtle transition hover:bg-surface-elevated hover:text-text-strong"
+                  aria-label="Mais opções"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </button>
+              )}
+              {onDismiss && (
+                <button
+                  type="button"
+                  onClick={onDismiss}
+                  className="rounded-full p-1 text-text-subtle transition hover:bg-surface-elevated hover:text-text-strong"
+                  aria-label="Ocultar post"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </>
+          )}
+
           {isOwner && onEdit && onDelete && <PostOwnerMenu onEdit={onEdit} onDelete={onDelete} />}
         </div>
       </header>
 
-      {/* Selos da comunidade: ficam no topo, acima do conteudo — e os que a pessoa marcou ficam em
-          destaque (anel). Cada selo é um botão: abre a lista de quem marcou, como a contagem de
-          reações abre a de quem reagiu. A contagem aparece sempre (é a resposta de "quantos"). */}
+      {/* Selos da comunidade: ficam no topo, acima do conteudo */}
       {seals && seals.length > 0 && (
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
           {seals.map((item) => {
@@ -240,18 +374,15 @@ export function PostCard({
         </div>
       )}
 
-      {/* Post de pagina pode nao ter texto nenhum: sem paragrafo, so a pagina logo abaixo.
-          Na lista, texto acima de 400 caracteres entra cortado em 8 linhas com o "Ler mais" que
-          abre o post; na propria pagina do post (`fullPost`) nada e cortado — o texto completo mora
-          la. Artigo fica so cortado na lista: o bloco abaixo dele ja e o convite para abrir. */}
+      {/* 3. Corpo do Post: Texto da publicação ocupando a largura total disponível */}
       {visibleContent !== "" && (
-        <>
+        <div className="w-full">
           {renderRichText({
             content: visibleContent,
             mediaIds: post.mediaIds,
             mediaSpoiler,
             className: cn(
-              "mt-4 whitespace-pre-line break-words text-base font-normal leading-relaxed text-text-strong",
+              "mt-3.5 sm:mt-4 w-full whitespace-pre-line break-words text-[15px] sm:text-base font-normal leading-relaxed text-text-strong",
               isCompact && "line-clamp-8",
             ),
           })}
@@ -265,7 +396,7 @@ export function PostCard({
               <>{messages.readMore}</>
             </AppLink>
           )}
-        </>
+        </div>
       )}
 
       {/* Repost COM opinião: o texto acima é o comentário; aqui vai o post original citado. */}
@@ -275,16 +406,26 @@ export function PostCard({
             href={hrefs.repostOf}
             className="inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
           >
+            {post.repostOfAvatar && (
+              <UserAvatar
+                src={post.repostOfAvatar}
+                alt={post.repostOfAuthor}
+                className="h-4 w-4 rounded-full"
+              />
+            )}
             <Repeat2 className="h-3.5 w-3.5" />
 
             <>{messages.quotedFrom(post.repostOfAuthor)}</>
           </AppLink>
 
-          {post.repostOfContent && (
-            <p className="mt-2 line-clamp-6 whitespace-pre-line break-words text-sm text-text-strong">
-              {post.repostOfContent}
-            </p>
-          )}
+          {post.repostOfContent &&
+            renderRichText({
+              content: post.repostOfContent,
+              mediaIds: [],
+              mediaSpoiler: false,
+              className:
+                "mt-2 line-clamp-6 whitespace-pre-line break-words text-sm text-text-strong",
+            })}
 
           {post.repostOfMediaIds && post.repostOfMediaIds.length > 0 && (
             <div className="mt-2">
@@ -301,7 +442,7 @@ export function PostCard({
         </div>
       )}
 
-      {/* Blog: o post-ponteiro so aponta para o cantinho — o conteudo mora la, nao no feed. */}
+      {/* Blog */}
       {post.type === "BLOG" && hrefs.blog && (
         <AppLink
           href={hrefs.blog}
@@ -313,7 +454,7 @@ export function PostCard({
         </AppLink>
       )}
 
-      {/* Artigo tem corpo (completo) na pagina do post; o card mostra o resumo e o convite. */}
+      {/* Artigo */}
       {post.type === "ARTICLE" && (
         <AppLink
           href={hrefs.post}
@@ -334,8 +475,6 @@ export function PostCard({
 
       {post.mediaIds.length > 0 && (
         <div className="mt-4">
-          {/* Mídia inserida no texto aparece NO TEXTO (item 9); a grade do fim é só o que
-              sobrou sem marcador — repetir a mesma mídia duas vezes seria estranho. */}
           {renderMediaGrid({
             mediaIds: post.mediaIds.filter((id) => !inlineMediaIds(post.content).includes(id)),
             mediaSpoiler,
@@ -355,7 +494,11 @@ export function PostCard({
 
       {poll}
       {reactionsSummary}
-      <LinkPreviews content={post.content} autoplay={autoplayLinks} />
+      <LinkPreviews
+        content={post.content}
+        autoplay={autoplayLinks}
+        renderLinkPreview={renderLinkPreview}
+      />
 
       {post.tags.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-1.5">
@@ -373,6 +516,7 @@ export function PostCard({
 
       {notes}
 
+      {/* 4. Rodapé (Ações de Engajamento) */}
       {actions}
 
       {isOwner && ownerDialogs}

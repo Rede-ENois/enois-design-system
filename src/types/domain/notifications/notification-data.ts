@@ -22,7 +22,7 @@ export type NotificationData = {
    * The place it came from when it is not a person (a community or group): drawn as that place's
    * colored table instead of an avatar.
    */
-  place?: { id?: string; name: string; color?: string | null } | null;
+  place?: { id?: string; name: string; avatar?: string | null; color?: string | null } | null;
   /** Day of the month of the event it is about ("03"): drawn as a ticket. */
   eventDay?: string | null;
   /** Day group the row is listed under on the full page ("Hoje", "Ontem", "12 de out."). */

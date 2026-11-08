@@ -25,7 +25,7 @@ export const Hub: StoryObj = {
           title: "Brincar",
           items: [
             {
-              href: "#",
+              href: "/jogos",
               label: "Jogos",
               description: "Jogos indie da comunidade",
               icon: Joystick,
@@ -33,7 +33,7 @@ export const Hub: StoryObj = {
               signal: { kind: "new" },
             },
             {
-              href: "#",
+              href: "/jogos/desafio",
               label: "Desafio do dia",
               description: "8 pessoas jogaram",
               icon: Puzzle,
@@ -47,14 +47,14 @@ export const Hub: StoryObj = {
           title: "Construir",
           items: [
             {
-              href: "#",
+              href: "/projetos",
               label: "Projetos",
               description: "O que a galera tá fazendo",
               icon: FolderKanban,
               color: "#0f766e",
             },
             {
-              href: "#",
+              href: "/carteira",
               label: "Loja",
               description: "Cosméticos com faíscas",
               icon: ShoppingBag,
@@ -67,14 +67,14 @@ export const Hub: StoryObj = {
           title: "Trabalho",
           items: [
             {
-              href: "#",
+              href: "/vagas",
               label: "Vagas",
               description: "Oportunidades da comunidade",
               icon: Briefcase,
               color: "#4338ca",
             },
             {
-              href: "#",
+              href: "/mentorias",
               label: "Mentoria",
               description: "Aprenda com quem já fez",
               icon: GraduationCap,

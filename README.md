@@ -85,6 +85,23 @@ preserving its existing single-skill frontend callbacks. Projects accept pasted
 lists with limits of 10 technologies and 40 characters. No frontend change is
 required to consume these views.
 
+### Mobile text fields
+
+`Input`, `Textarea` and `MentionTextarea` keep compact `text-xs` and `text-sm`
+overrides at 16px below 768px, retaining their requested size on desktop. The
+internal `textFieldClasses` helper merges classes before converting these compact
+sizes. Other unprefixed font sizes are also mirrored at `md:`, so `text-lg`,
+`text-base` and `text-[15px]` override the desktop default too. Explicit responsive
+overrides, colors and line heights remain available. The helper is not part of
+the package's public API. Native text fields in DS views use explicit
+mobile and desktop sizes. Non-text inputs and unrelated app controls are not
+targeted by a global font rule. Manual page zoom remains available.
+
+Use `text-base md:text-sm` (or `md:text-xs`) when adding a compact text field.
+Custom arbitrary sizes and responsive mobile overrides must also stay at least
+16px; `textFieldClasses` only normalizes the unprefixed `text-xs` and `text-sm`
+utilities. It does not inspect inline styles or compute arbitrary CSS values.
+
 ### Input counter
 
 `Input` shows a character counter by default when `maxLength` is set. Use

@@ -68,6 +68,27 @@ describe("NavigationLinks", () => {
     expect(markup).toContain(">BD<");
   });
 
+  it("draws community avatar image previews when available and falls back to initials", () => {
+    const markup = renderToStaticMarkup(
+      <NavigationLinks
+        items={[]}
+        myCommunities={[
+          {
+            id: "c1",
+            name: "Nós axolotes",
+            href: "/c/1",
+            avatar: "https://example.com/axolote.png",
+          },
+          { id: "c2", name: "Bancos de Dados", href: "/c/2" },
+        ]}
+        favoriteCommunities={[]}
+      />,
+    );
+
+    expect(markup).toContain('src="https://example.com/axolote.png"');
+    expect(markup).toContain(">BD<");
+  });
+
   it("keeps the signal on the icon when the rail is collapsed", () => {
     const markup = html(true);
 
