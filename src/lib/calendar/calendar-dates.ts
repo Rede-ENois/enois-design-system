@@ -18,10 +18,10 @@ function formatterFor(timeZoneId: string): Intl.DateTimeFormat {
 }
 
 function requireDay(day: string): number {
-  if (!SHORT_DAY.test(day) || Number.isNaN(Date.parse(`${day}T00:00:00Z`))) {
+  if (!isDay(day)) {
     throw new Error(`day must be YYYY-MM-DD: received ${day}`);
   }
-  return Date.parse(`${day}T00:00:00Z`);
+  return Date.UTC(Number(day.slice(0, 4)), Number(day.slice(5, 7)) - 1, Number(day.slice(8, 10)));
 }
 
 export function pad(value: number): string {
@@ -97,8 +97,22 @@ export function dayOfMonth(day: string): string {
   return String(Number(new Date(requireDay(day)).toISOString().slice(8, 10)));
 }
 
+/**
+ * A real day. The shape check alone is not enough: `Date.parse("2026-02-31T00:00:00Z")` rolls over
+ * to 3 March instead of failing, so a day that does not exist would pass as the next month's.
+ */
 export function isDay(day: string): boolean {
-  return SHORT_DAY.test(day) && !Number.isNaN(Date.parse(`${day}T00:00:00Z`));
+  const match = SHORT_DAY.exec(day);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const dayOfMonth = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, dayOfMonth));
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === dayOfMonth
+  );
 }
 
 /** Sunday first, three letters, the abbreviations the month header shows. */

@@ -26,4 +26,8 @@ export const uiMessages: UiMessages = {
     invalid: "Digite uma data válida no formato dd/mm/aaaa.",
     outOfRange: "Confira a data: ela está fora do intervalo permitido.",
   },
+  timeTextInput: {
+    placeholder: "hh:mm",
+    invalid: "Digite um horário válido no formato hh:mm.",
+  },
 };
