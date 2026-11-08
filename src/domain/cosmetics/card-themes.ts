@@ -1,6 +1,43 @@
 import type { CSSProperties } from "react";
 
+import {
+  contrastRatio,
+  hexToRgb,
+  readableForeground,
+  rgbToHex,
+  rgbToOklch,
+} from "../../lib/theme/color.js";
 import type { CardTheme } from "../../types/domain/cosmetics/card-theme.js";
+
+const AA_TEXT = 4.5;
+
+/**
+ * Ink that reads on the accent. The accent is the theme's own `--primary`, and the appearance
+ * themes range from near-black (`tema-tinta` is `#1a1a1a`) to near-white, so a fixed dark ink
+ * left the button label invisible on the dark ones. Deriving it from the accent keeps the
+ * contrast by construction, whatever accent a new theme brings.
+ *
+ * `readableForeground` picks the better of two fixed inks, and on a mid-tone accent neither
+ * reaches AA (`tema-vinho` tops out at 4.42). When that happens the chosen ink is pushed toward
+ * black or white until it clears AA, the same way `textSafeAccent` does for the page.
+ */
+function inkOn(accent: string): string {
+  const background = hexToRgb(accent);
+  const { hue } = rgbToOklch(background);
+  const chosen = readableForeground(background, hue);
+  if (chosen.ratio >= AA_TEXT) return chosen.css;
+
+  const target = chosen.ratio === contrastRatio(background, { r: 1, g: 1, b: 1 }) ? 1 : 0;
+  let ink = chosen.rgb;
+  for (let i = 0; i < 12 && contrastRatio(background, ink) < AA_TEXT; i += 1) {
+    ink = {
+      r: ink.r + (target - ink.r) * 0.5,
+      g: ink.g + (target - ink.g) * 0.5,
+      b: ink.b + (target - ink.b) * 0.5,
+    };
+  }
+  return rgbToHex(ink);
+}
 
 /** Dark card: light text on the theme colors. */
 function dark(top: string, bottom: string, accent: string): CardTheme {
@@ -12,9 +49,8 @@ function dark(top: string, bottom: string, accent: string): CardTheme {
     muted: "rgba(245,243,255,.7)",
     surface: "rgba(255,255,255,.09)",
     tokens: {
-      // Every dark-theme accent is bright: dark ink on it as a fill, a lighter tint of it as text.
       "--primary": accent,
-      "--primary-foreground": "#1c1917",
+      "--primary-foreground": inkOn(accent),
       "--primary-text": `color-mix(in srgb, ${accent} 30%, #fff)`,
       // The dark palette values of styles.css, whatever mode the page is in.
       "--opportunity-foreground": "oklch(0.94 0.05 60)",

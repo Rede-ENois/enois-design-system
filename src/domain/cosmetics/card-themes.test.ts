@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { contrastRatio, hexToRgb, oklchToRgb } from "../../lib/theme/color.js";
+
 import { CARD_THEMES } from "./card-themes.js";
 
 const AA_TEXT = 4.5;
@@ -33,4 +35,15 @@ describe("card themes", () => {
       }
     },
   );
+
+  it.each(Object.entries(CARD_THEMES))("%s: button label reads on the card accent", (_, theme) => {
+    const ink = theme.tokens["--primary-foreground"];
+    // `light()` leaves the token to the page palette on purpose; there is no card accent to fight.
+    if (!ink) return;
+    const parsed = /^oklch\(([\d.]+) ([\d.]+) ([\d.]+)\)$/.exec(ink);
+    const inkRgb = parsed
+      ? oklchToRgb(Number(parsed[1]), Number(parsed[2]), Number(parsed[3]))
+      : hexToRgb(ink);
+    expect(contrastRatio(inkRgb, hexToRgb(theme.accent))).toBeGreaterThanOrEqual(AA_TEXT);
+  });
 });
