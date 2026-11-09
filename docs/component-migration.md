@@ -78,6 +78,31 @@ All app CSS already lives in `src/styles.css`. Do not edit the front stylesheet.
 - Images used by a view: put them in `src/assets/` and reference them with `new URL("../../assets/x.webp", import.meta.url).href`, never `import x from "./x.webp"`.
 - New comments in English; comments copied from the front stay as they are.
 
+## Lint guardrails
+
+`npm run lint` runs in CI on every pull request and blocks the merge. On top of the
+usual rules, views (`src/**/*.tsx`, except stories and tests) are refused when they have:
+
+- **Words in JSX** (`local/no-jsx-literal-text`): text children and readable attributes (`aria-label`,
+  `title`, `placeholder`, `alt`...) come from `useMessages()` or props.
+- **`style` with anything but CSS variables** (`local/style-only-css-vars`): pass runtime values as
+  `style={{ "--swatch": color }}` and read them from a class (`bg-[var(--swatch)]`).
+- **Hex colors**: use theme tokens. Illustrations (avatar frames, cosmetic art) are exempt.
+- **`dangerouslySetInnerHTML`**: rich text goes through `RichText`, user HTML through
+  `patterns/html-frame`.
+
+Everywhere: `eslint-disable` comments are ignored (`noInlineConfig`; a wrong rule is fixed in
+`eslint.config.js`), and `console.log`/`console.debug` are refused.
+
+Code that predates these rules is frozen in `eslint-suppressions.json` with a count per file, and the
+count **only goes down**:
+
+- Fixed legacy code? Run `npx eslint . --prune-suppressions` and commit the file (lint fails while an
+  unused suppression is left).
+- New violations are never suppressed: CI compares the file with the base branch and fails if any
+  count grows (`scripts/check-lint-suppressions.mjs`). Deleting or renaming a legacy file frees its
+  counts.
+
 ## Validation
 
 - Try a change in the front before publishing: `npm run build && npm pack` here, then `npm i ../enois-design-system/rede-enois-design-system-<version>.tgz` in the front.

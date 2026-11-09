@@ -46,7 +46,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:eslint-rules": "node eslint/rules/jsx-content-spacing.test.js && node eslint/rules/type-boundaries.test.js",
+    "test:eslint-rules": "node eslint/rules/jsx-content-spacing.test.js && node eslint/rules/type-boundaries.test.js && node eslint/rules/view-rules.test.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepublishOnly": "npm run build",

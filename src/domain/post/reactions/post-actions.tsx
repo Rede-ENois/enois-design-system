@@ -50,7 +50,7 @@ export function PostActions<T extends string>({
       setReactionPulse(motionAllowed() ? reactionStatus : null);
     }
     wasReactionPending.current = reactionPending;
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- motionAllowed is read at the transition only
+    // motionAllowed is read at the transition only
   }, [reactionPending, reactionStatus]);
 
   return (

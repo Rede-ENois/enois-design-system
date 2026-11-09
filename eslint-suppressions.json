@@ -1,0 +1,419 @@
+{
+  "src/domain/appearance/appearance-dialog.tsx": {
+    "local/style-only-css-vars": {
+      "count": 9
+    },
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/domain/appearance/collection-grid.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 1
+    },
+    "local/style-only-css-vars": {
+      "count": 1
+    },
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/domain/appearance/collection-preview.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 1
+    },
+    "local/style-only-css-vars": {
+      "count": 17
+    },
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/domain/appearance/preset-row.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/appearance/profile-look-dialog.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/domain/appearance/theme-preview.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/avatar/frames/bat.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/avatar/frames/bruxa.tsx": {
+    "local/style-only-css-vars": {
+      "count": 7
+    }
+  },
+  "src/domain/avatar/frames/buraco-negro.tsx": {
+    "local/style-only-css-vars": {
+      "count": 5
+    }
+  },
+  "src/domain/avatar/frames/caixao.tsx": {
+    "local/style-only-css-vars": {
+      "count": 4
+    }
+  },
+  "src/domain/avatar/frames/circuito.tsx": {
+    "local/style-only-css-vars": {
+      "count": 3
+    }
+  },
+  "src/domain/avatar/frames/fliperama.tsx": {
+    "local/style-only-css-vars": {
+      "count": 7
+    }
+  },
+  "src/domain/avatar/frames/glacial.tsx": {
+    "local/style-only-css-vars": {
+      "count": 5
+    }
+  },
+  "src/domain/avatar/frames/holograma.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/avatar/frames/inferno.tsx": {
+    "local/style-only-css-vars": {
+      "count": 3
+    }
+  },
+  "src/domain/avatar/frames/lanterna.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/avatar/frames/mare.tsx": {
+    "local/style-only-css-vars": {
+      "count": 4
+    }
+  },
+  "src/domain/avatar/frames/nebulosa.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/avatar/frames/neon.tsx": {
+    "local/style-only-css-vars": {
+      "count": 6
+    }
+  },
+  "src/domain/avatar/frames/orbita.tsx": {
+    "local/style-only-css-vars": {
+      "count": 4
+    }
+  },
+  "src/domain/avatar/frames/portal.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/avatar/frames/radar.tsx": {
+    "local/style-only-css-vars": {
+      "count": 3
+    }
+  },
+  "src/domain/avatar/frames/supernova.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/avatar/frames/tempestade.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/avatar/frames/toxica.tsx": {
+    "local/style-only-css-vars": {
+      "count": 6
+    }
+  },
+  "src/domain/avatar/frames/trepadeira.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/avatar/frames/uivo.tsx": {
+    "local/style-only-css-vars": {
+      "count": 5
+    }
+  },
+  "src/domain/avatar/frames/vaga-lumes.tsx": {
+    "local/style-only-css-vars": {
+      "count": 10
+    }
+  },
+  "src/domain/avatar/frames/vendaval.tsx": {
+    "local/style-only-css-vars": {
+      "count": 7
+    }
+  },
+  "src/domain/companies/company-page-view.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/companies/create-company-dialog.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 1
+    }
+  },
+  "src/domain/cosmetics/cosmetic-icons.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 1
+    }
+  },
+  "src/domain/cosmetics/cosmetic-item-art.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 1
+    },
+    "local/style-only-css-vars": {
+      "count": 5
+    }
+  },
+  "src/domain/cosmetics/cosmetic-shop.tsx": {
+    "local/style-only-css-vars": {
+      "count": 3
+    }
+  },
+  "src/domain/cosmetics/nameplate.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/cosmetics/profile-card.tsx": {
+    "local/style-only-css-vars": {
+      "count": 3
+    }
+  },
+  "src/domain/cosmetics/profile-effect.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/cosmetics/saci-halloween-duel.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/explore/explore-hub.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/games/daily/daily-games-panel.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/games/daily/daily-maze.tsx": {
+    "local/style-only-css-vars": {
+      "count": 4
+    }
+  },
+  "src/domain/games/daily/daily-word.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 18
+    },
+    "local/style-only-css-vars": {
+      "count": 3
+    },
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "src/domain/games/game-analytics-card.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 1
+    },
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/games/game-editor-dialog.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 2
+    }
+  },
+  "src/domain/games/game-player.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/jobs/create-external-job-dialog.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 2
+    }
+  },
+  "src/domain/messages/conversation-header.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/messages/conversation-item.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/moderation/monitoring-section.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 5
+    },
+    "local/style-only-css-vars": {
+      "count": 2
+    },
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "src/domain/name/contributor-tag.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    }
+  },
+  "src/domain/name/styled-name.tsx": {
+    "local/style-only-css-vars": {
+      "count": 5
+    }
+  },
+  "src/domain/network/network-requests.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/notifications/notification-item.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/post/author-info.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/post/comments/comment-item.tsx": {
+    "local/style-only-css-vars": {
+      "count": 3
+    }
+  },
+  "src/domain/post/comments/post-comments.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/post/media/inline-media.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/post/media/post-page.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/post/post-card.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 6
+    }
+  },
+  "src/domain/post/post-notes.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/post/reactions/reactions-summary.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/domain/post/rich-text.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/profile/profile-gamification-panel.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/profile/profile-garden-art.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "src/domain/profile/profile-garden.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/profile/profile-network-dialog.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/profile/projects-manager.tsx": {
+    "local/no-jsx-literal-text": {
+      "count": 4
+    }
+  },
+  "src/domain/search/global-search-results.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/domain/support-us/apoie-banner.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/domain/support-us/apoie-card.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    },
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/patterns/app-shell/app-sidebar.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/patterns/html-frame/sandboxed-html-frame.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    },
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "src/ui/community-mark.tsx": {
+    "local/style-only-css-vars": {
+      "count": 1
+    }
+  },
+  "src/ui/event-ticket.tsx": {
+    "local/style-only-css-vars": {
+      "count": 2
+    },
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/ui/tabs.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  }
+}
