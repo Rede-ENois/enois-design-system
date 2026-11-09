@@ -4,6 +4,7 @@ import { Volume2, VolumeX, X } from "lucide-react";
 
 import { useMessages } from "../../../messages/messages-context.js";
 import type { MediaStageProps } from "../../../types/domain/post/media-stage-props.js";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "../../../ui/dialog.js";
 
 import { restoreSuspendedMedia, suspendOffscreenMedia } from "./lite-media.js";
 
@@ -21,8 +22,16 @@ import { restoreSuspendedMedia, suspendOffscreenMedia } from "./lite-media.js";
 export function MediaStage({ src, initialTime = 0, muted = false, onClose }: MediaStageProps) {
   const messages = useMessages().mediaStage;
   const videoRef = useRef<HTMLVideoElement>(null);
+  // The Dialog portal mounts its content in a second commit, so effects keyed on []
+  // would run before the video exists. State from the callback ref keys them correctly.
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
   const closed = useRef(false);
   const [mutedNow, setMutedNow] = useState(muted);
+
+  const attachVideo = useCallback((element: HTMLVideoElement | null) => {
+    videoRef.current = element;
+    setVideoElement(element);
+  }, []);
 
   const close = useCallback(() => {
     if (closed.current) return;
@@ -31,86 +40,87 @@ export function MediaStage({ src, initialTime = 0, muted = false, onClose }: Med
   }, [onClose]);
 
   useEffect(() => {
+    if (!videoElement) return;
+
     // O palco nasce com som. Onde o navegador recusa autoplay com áudio (iOS, sobretudo no PWA),
     // a segunda tentativa é muda — que é permitida — e o botão de som fica a um toque.
-    const video = videoRef.current;
-    const attempt = video?.play();
+    const attempt = videoElement.play();
     attempt?.catch(() => {
-      if (!video || video.muted) return;
-      video.muted = true;
+      if (videoElement.muted) return;
+      videoElement.muted = true;
       setMutedNow(true);
-      void video.play().catch(() => undefined);
+      void videoElement.play().catch(() => undefined);
     });
-  }, []);
+  }, [videoElement]);
 
   useEffect(() => {
-    // O resto da página sai de cena: tudo pausado, e os vídeos fora da tela devolvem a memória.
-    suspendOffscreenMedia(videoRef.current);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    if (!videoElement) return;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
-    };
-    document.addEventListener("keydown", onKeyDown);
+    // O resto da página sai de cena: tudo pausado, e os vídeos fora da tela devolvem a memória.
+    suspendOffscreenMedia(videoElement);
 
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
       restoreSuspendedMedia();
     };
-  }, [close]);
+  }, [videoElement]);
 
+  // The video stage mounts in a Dialog portal: `content-visibility: auto` on the
+  // PostCard makes the card a containing block for `position: fixed` descendants
+  // and would trap this fullscreen overlay. See docs/portal-overlays.md.
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={messages.title}
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black"
-      onClick={close}
+    <Dialog
+      open
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) close();
+      }}
     >
-      <video
-        ref={videoRef}
-        src={src}
-        autoPlay
-        playsInline
-        controls
-        muted={mutedNow}
-        onLoadedMetadata={(event) => {
-          // Continua do ponto onde o card estava (e de onde a pessoa parou da última vez).
-          if (initialTime > 0) event.currentTarget.currentTime = initialTime;
+      <DialogContent
+        hideClose
+        aria-describedby={undefined}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) close();
         }}
-        onClick={(event) => event.stopPropagation()}
-        className="max-h-[100dvh] max-w-full bg-black"
-      />
+        className="flex h-dvh w-screen max-w-none max-h-none items-center justify-center gap-0 overflow-hidden overflow-y-hidden border-0 bg-black p-0 shadow-none duration-0 sm:rounded-none"
+      >
+        <DialogTitle className="sr-only">{messages.title}</DialogTitle>
 
-      <div className="absolute right-3 top-3 flex items-center gap-2">
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            setMutedNow((value) => !value);
+        <video
+          ref={attachVideo}
+          src={src}
+          autoPlay
+          playsInline
+          controls
+          muted={mutedNow}
+          onLoadedMetadata={(event) => {
+            // Continua do ponto onde o card estava (e de onde a pessoa parou da última vez).
+            if (initialTime > 0) event.currentTarget.currentTime = initialTime;
           }}
-          aria-label={mutedNow ? messages.unmute : messages.mute}
-          className="grid h-10 w-10 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:bg-black/80"
-        >
-          {mutedNow ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-        </button>
+          onClick={(event) => event.stopPropagation()}
+          className="max-h-[100dvh] max-w-full bg-black"
+        />
 
-        <button
-          type="button"
-          autoFocus
-          onClick={(event) => {
-            event.stopPropagation();
-            close();
-          }}
-          aria-label={messages.close}
-          title={messages.close}
-          className="grid h-10 w-10 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:bg-black/80"
-        >
-          <X className="h-5 w-5" />
-        </button>
-      </div>
-    </div>
+        <div className="absolute right-3 top-3 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              setMutedNow((value) => !value);
+            }}
+            aria-label={mutedNow ? messages.unmute : messages.mute}
+            className="grid h-10 w-10 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:bg-black/80"
+          >
+            {mutedNow ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+          </button>
+
+          <DialogClose
+            aria-label={messages.close}
+            title={messages.close}
+            className="grid h-10 w-10 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:bg-black/80"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </DialogClose>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
