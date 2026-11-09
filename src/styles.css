@@ -311,6 +311,11 @@
     font: inherit;
   }
 
+  select option {
+    background-color: var(--popover);
+    color: var(--popover-foreground);
+  }
+
   button {
     cursor: pointer;
   }
