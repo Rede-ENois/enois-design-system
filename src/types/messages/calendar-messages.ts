@@ -47,5 +47,34 @@ export type CalendarMessages = {
     responding: string;
     /** Opens the entry detail; used as the accessible name of the row link. */
     openEntry: (title: string) => string;
+    /** The create/edit form. */
+    form: {
+      createTitle: string;
+      editTitle: string;
+      scopeLabel: string;
+      kindLabel: string;
+      titleLabel: string;
+      titlePlaceholder: string;
+      descriptionLabel: string;
+      descriptionPlaceholder: string;
+      dayLabel: string;
+      startLabel: string;
+      endLabel: string;
+      allDayLabel: string;
+      allDayHint: string;
+      zoneLabel: string;
+      /** `zone` is the IANA id; the message decides how to wrap it, e.g. "Horário de {zone}". */
+      zoneHint: (zone: string) => string;
+      /** `max` is the same ceiling the API enforces, so the message cannot drift from the rule. */
+      titleProblem: (max: number) => string;
+      descriptionProblem: (max: number) => string;
+      invalidDay: string;
+      invalidClock: string;
+      endBeforeStart: string;
+      durationTooLong: string;
+      save: string;
+      saving: string;
+      cancel: string;
+    };
   };
 };
