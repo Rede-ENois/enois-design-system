@@ -35,5 +35,8 @@ export type CalendarAgendaProps = {
   /** What the header announces above the period, e.g. the scope name. */
   eyebrow?: string;
   hiddenKinds?: CalendarEntryKind[];
+  /** Label of the header button that opens a blank entry; omitted means no button. */
+  newEntryLabel?: string;
+  onNewEntry?: () => void;
   className?: string;
 };

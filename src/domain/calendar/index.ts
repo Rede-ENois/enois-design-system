@@ -1,4 +1,5 @@
 export { CalendarAgenda } from "./calendar-agenda.js";
+export { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 export { CalendarDayView } from "./calendar-day-view.js";
 export { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 export { CalendarListView } from "./calendar-list-view.js";
@@ -17,6 +18,7 @@ export { todayIn } from "../../lib/calendar/calendar-dates.js";
 export { instantOf, wallClockOf } from "../../lib/calendar/calendar-clock.js";
 export type { CalendarAgendaItemData } from "../../types/domain/calendar/calendar-agenda-item-data.js";
 export type { CalendarAgendaProps } from "../../types/domain/calendar/calendar-agenda-props.js";
+export type { CalendarAgendaSurfaceProps } from "../../types/domain/calendar/calendar-agenda-surface-props.js";
 export type { CalendarAnswer } from "../../types/domain/calendar/calendar-answer.js";
 export type { CalendarDayCell } from "../../types/domain/calendar/calendar-day-cell.js";
 export type { CalendarDayGroup } from "../../types/domain/calendar/calendar-day-group.js";
