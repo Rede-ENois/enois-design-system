@@ -24,6 +24,7 @@ export { EmojiPicker } from "./emoji-picker.js";
 export { EmptyState } from "./empty-state.js";
 export { EventTicket } from "./event-ticket.js";
 export { GithubIcon } from "./github-icon.js";
+export { HumanitySealIcon } from "./humanity-seal-icon.js";
 export { Input } from "./input.js";
 export { Label } from "./label.js";
 export { LoadingState } from "./loading-state.js";

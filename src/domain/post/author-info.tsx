@@ -6,6 +6,7 @@ import { AppLink } from "../../ui/app-link.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { UserBadges } from "../badges/user-badges.js";
 import { ContributorTag } from "../name/contributor-tag.js";
+import { HumanitySeal } from "../name/humanity-seal.js";
 import { StyledName } from "../name/styled-name.js";
 
 /**
@@ -16,6 +17,7 @@ export function AuthorInfo({
   authorName,
   authorStyle,
   authorContributor,
+  authorHumanityVerified,
   authorAvatar,
   authorAvatarFrame,
   authorBadge,
@@ -99,6 +101,8 @@ export function AuthorInfo({
           {authorConnectionDegree && (
             <span className="text-xs font-normal text-text-subtle">• {authorConnectionDegree}</span>
           )}
+
+          {authorHumanityVerified && <HumanitySeal />}
 
           <UserBadges badges={authorBadges} badge={authorBadge} />
         </div>
