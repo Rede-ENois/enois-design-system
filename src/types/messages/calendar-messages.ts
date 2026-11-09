@@ -48,6 +48,8 @@ export type CalendarMessages = {
     /** Opens the entry detail; used as the accessible name of the row link. */
     openEntry: (title: string) => string;
     /** The create/edit form. */
+    /** Opens a blank entry from the agenda header. */
+    newEntry: string;
     form: {
       createTitle: string;
       editTitle: string;

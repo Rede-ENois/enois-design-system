@@ -3,8 +3,10 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import type { CalendarAgendaItemData } from "../../types/domain/calendar/calendar-agenda-item-data.js";
+import type { CalendarEntryData } from "../../types/domain/calendar/calendar-entry-data.js";
 import { Button } from "../../ui/button.js";
 
+import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 
@@ -235,4 +237,68 @@ export const EntryFormSaveFailed: StoryObj = {
       onSave={() => {}}
     />
   ),
+};
+
+export const AgendaWithForm: StoryObj = {
+  render: function AgendaWithFormStory() {
+    const [items, setItems] = useState(agenda);
+
+    return (
+      <CalendarAgendaSurface
+        view="month"
+        onViewChange={() => {}}
+        period="2026-11"
+        onPeriodChange={() => {}}
+        items={items}
+        timeZoneId={ZONE}
+        today={TODAY}
+        selectedDay="2026-11-12"
+        onSave={async (values) => {
+          // Stands in for the app's mutation: the entry keeps the title the reader typed.
+          setItems((current) => [
+            ...current,
+            {
+              entry: {
+                id: `cal_story_${current.length}`,
+                scope: values.scope,
+                kind: values.kind,
+                title: values.title,
+                description: values.description,
+                startsAt: values.startsAt,
+                endsAt: values.endsAt,
+                timeZoneId: values.timeZoneId,
+                allDay: values.allDay,
+                cancelledAt: null,
+              },
+              owner: true,
+              participation: null,
+            },
+          ]);
+          return true;
+        }}
+      />
+    );
+  },
+};
+
+export const AgendaEditRefused: StoryObj = {
+  render: function AgendaEditRefusedStory() {
+    const [editing, setEditing] = useState<CalendarEntryData | null>(agenda[0].entry);
+
+    return (
+      <CalendarAgendaSurface
+        view="month"
+        onViewChange={() => {}}
+        period="2026-11"
+        onPeriodChange={() => {}}
+        items={agenda}
+        timeZoneId={ZONE}
+        today={TODAY}
+        editingEntry={editing}
+        onEditingChange={setEditing}
+        saveError="Não foi possível salvar o compromisso. Tente de novo."
+        onSave={async () => false}
+      />
+    );
+  },
 };

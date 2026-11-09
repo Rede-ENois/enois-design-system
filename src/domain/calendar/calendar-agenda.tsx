@@ -4,6 +4,7 @@ import { periodOfToday, periodTitle, stepPeriod } from "../../lib/calendar/calen
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { CalendarAgendaProps } from "../../types/domain/calendar/calendar-agenda-props.js";
+import { Button } from "../../ui/button.js";
 
 import { CalendarDayView } from "./calendar-day-view.js";
 import { CalendarListView } from "./calendar-list-view.js";
@@ -47,6 +48,8 @@ export function CalendarAgenda({
   error = false,
   eyebrow,
   hiddenKinds,
+  newEntryLabel,
+  onNewEntry,
   className,
 }: CalendarAgendaProps) {
   const messages = useMessages().calendar;
@@ -116,7 +119,15 @@ export function CalendarAgenda({
           </button>
         </div>
 
-        <CalendarViewSwitcher value={view} onChange={onViewChange} />
+        <div className="flex shrink-0 items-center gap-2">
+          <CalendarViewSwitcher value={view} onChange={onViewChange} />
+
+          {newEntryLabel && onNewEntry && (
+            <Button size="sm" className="rounded-full" onClick={onNewEntry}>
+              {newEntryLabel}
+            </Button>
+          )}
+        </div>
       </header>
 
       {view === "month" && (
