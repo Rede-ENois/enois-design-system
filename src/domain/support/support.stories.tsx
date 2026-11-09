@@ -24,6 +24,11 @@ export const Form: StoryObj = {
   ),
 };
 
+export const FormDark: StoryObj = {
+  globals: { theme: "dark" },
+  render: Form.render,
+};
+
 export const Requests: StoryObj = {
   render: () => (
     <div className="max-w-xl">
