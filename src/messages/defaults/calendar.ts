@@ -95,6 +95,10 @@ export const calendarMessages: CalendarMessages = {
       invalidClock: "Informe o horário no formato hh:mm.",
       endBeforeStart: "O fim precisa ser depois do começo.",
       durationTooLong: "Um compromisso não pode durar mais de 7 dias.",
+      conflictWarning: (count) =>
+        count === 1
+          ? "Você já tem um compromisso neste horário."
+          : `Você já tem ${count} compromissos neste horário.`,
       save: "Salvar",
       saving: "Salvando...",
       cancel: "Cancelar",

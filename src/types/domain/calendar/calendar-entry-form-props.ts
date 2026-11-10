@@ -1,3 +1,4 @@
+import type { CalendarAgendaItemData } from "./calendar-agenda-item-data.js";
 import type { CalendarEntryData } from "./calendar-entry-data.js";
 import type { CalendarEntryFormValues } from "./calendar-entry-form-values.js";
 import type { CalendarScope } from "./calendar-scope.js";
@@ -18,6 +19,11 @@ export type CalendarEntryFormProps = {
   defaultDay?: string | null;
   /** IANA id new entries are written in; the app passes the profile's zone. */
   timeZoneId: string;
+  /**
+   * What already occupies the interval being typed (D23: a read, never a block). The form shows
+   * one warning line and keeps the save enabled; the app decides what to do with the values.
+   */
+  conflicts?: CalendarAgendaItemData[] | null;
   savePending?: boolean;
   /** Shown under the title when the server rejected the save. */
   saveError?: string | null;

@@ -9,6 +9,7 @@ import {
   draftToValues,
 } from "../../lib/calendar/calendar-entry-draft.js";
 import { useMessages } from "../../messages/messages-context.js";
+import type { CalendarAgendaItemData } from "../../types/domain/calendar/calendar-agenda-item-data.js";
 import type { CalendarEntryDraftProblem } from "../../types/domain/calendar/calendar-entry-draft-problem.js";
 import type { CalendarEntryFormBodyProps } from "../../types/domain/calendar/calendar-entry-form-body-props.js";
 import type { CalendarEntryFormDraft } from "../../types/domain/calendar/calendar-entry-form-draft.js";
@@ -111,6 +112,7 @@ export function CalendarEntryFormDialog({
   defaultScope,
   defaultDay,
   timeZoneId,
+  conflicts,
   savePending = false,
   saveError,
   onSave,
@@ -140,6 +142,7 @@ export function CalendarEntryFormDialog({
           defaultScope={defaultScope}
           defaultDay={defaultDay}
           timeZoneId={timeZoneId}
+          conflicts={conflicts}
           savePending={savePending}
           saveError={saveError}
           onSave={onSave}
@@ -151,11 +154,18 @@ export function CalendarEntryFormDialog({
   );
 }
 
+function dayAfter(day: string): string | null {
+  const parsed = new Date(`${day}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return new Date(parsed.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
+
 function FormBody({
   entry,
   defaultScope,
   defaultDay,
   timeZoneId,
+  conflicts,
   savePending = false,
   saveError,
   onSave,
@@ -196,6 +206,22 @@ function FormBody({
 
   const startsAt = isDay(draft.day) ? instantOf(draft.day, draft.startTime, draft.timeZoneId) : "";
   const endsAt = isDay(draft.day) ? instantOf(draft.day, draft.endTime, draft.timeZoneId) : "";
+
+  // The warning follows what is on the fields, not what the app fetched: the caller hands the
+  // list for the window (D23) and the form picks the ones the draft actually touches. Half-open:
+  // ending exactly when another begins is not a clash. An all-day entry covers its whole day.
+  const clashes = (conflicts ?? []).filter((item) => {
+    if (item.entry.cancelledAt) return false;
+    if (item.entry.id === entry?.id) return false;
+    if (!startsAt || !endsAt) return false;
+    const from = draft.allDay ? `${draft.day}T00:00:00` : startsAt;
+    const to = draft.allDay ? dayAfter(draft.day) : endsAt;
+    if (!to) return false;
+    return (
+      Date.parse(item.entry.startsAt) < Date.parse(to) &&
+      Date.parse(item.entry.endsAt) > Date.parse(from)
+    );
+  });
 
   return (
     <form
@@ -338,6 +364,15 @@ function FormBody({
           </>
         ) : null}
       </p>
+
+      {clashes.length > 0 ? (
+        <p
+          role="status"
+          className="rounded-lg bg-opportunity/10 px-3 py-2 text-sm text-opportunity"
+        >
+          {form.conflictWarning(clashes.length)}
+        </p>
+      ) : null}
 
       {shownProblem ? (
         <p role="alert" className="text-sm text-destructive">
