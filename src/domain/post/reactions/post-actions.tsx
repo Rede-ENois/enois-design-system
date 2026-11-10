@@ -163,7 +163,7 @@ export function PostActions<T extends string>({
           )}
 
           {/* Enviar / Compartilhar */}
-{shareMenu ? (
+          {shareMenu ? (
             <Popover>
               <PopoverTrigger asChild>
                 <button
