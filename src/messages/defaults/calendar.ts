@@ -52,6 +52,17 @@ export const calendarMessages: CalendarMessages = {
     responding: "Enviando...",
     openEntry: (title) => `Abrir ${title}`,
     newEntry: "Novo compromisso",
+    reminder: {
+      title: "Me avisar antes",
+      none: "Não avisar",
+      minutes: (minutes) =>
+        minutes >= 1440
+          ? minutes / 1440 === 1
+            ? "1 dia antes"
+            : `${minutes / 1440} dias antes`
+          : `${minutes} min antes`,
+      saving: "Salvando...",
+    },
     detail: {
       back: "Voltar à agenda",
       edit: "Editar",
