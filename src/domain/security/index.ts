@@ -3,6 +3,7 @@ export { IdentitySection } from "./identity-section.js";
 export { IdentityVerificationSection } from "./identity-verification-section.js";
 export { LinkedinContactsSection } from "./linkedin-contacts-section.js";
 export { LinkedinImportSection } from "./linkedin-import-section.js";
+export { resolveIdentityReleaseView } from "./resolve-identity-release-view.js";
 export type { GitHubLinkCardProps } from "../../types/domain/security/github-link-card-props.js";
 export type { GitHubLinkStatus } from "../../types/domain/security/github-link-status.js";
 export type { GitHubSyncResult } from "../../types/domain/security/github-sync-result.js";
@@ -11,6 +12,7 @@ export type { IdentityData } from "../../types/domain/security/identity-data.js"
 export type { IdentitySectionProps } from "../../types/domain/security/identity-section-props.js";
 export type { IdentityValues } from "../../types/domain/security/identity-values.js";
 export type { IdentityVerificationSectionProps } from "../../types/domain/security/identity-verification-section-props.js";
+export type { IdentityReleaseView } from "../../types/domain/security/identity-release-view.js";
 export type { IdentityVerificationState } from "../../types/domain/security/identity-verification-state.js";
 export type { IdentityVerificationStatus } from "../../types/domain/security/identity-verification-status.js";
 export type { LinkedinContactsSectionProps } from "../../types/domain/security/linkedin-contacts-section-props.js";

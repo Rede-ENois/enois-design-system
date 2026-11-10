@@ -1,4 +1,4 @@
-import type { IdentityVerificationState } from "../domain/security/identity-verification-state.js";
+import type { IdentityReleaseView } from "../domain/security/identity-release-view.js";
 
 export type SecurityMessages = {
   identitySection: {
@@ -20,8 +20,13 @@ export type SecurityMessages = {
   identityVerificationSection: {
     title: string;
     subtitle: string;
-    states: Record<IdentityVerificationState, string>;
+    /** Os cinco estados do projeto: liberacao progressiva, aberta, em andamento, aprovada, recusada. */
+    states: Record<IdentityReleaseView, string>;
+    /** Quando a vez da pessoa ainda nao chegou: nada de nota, posicao ou prazo. */
+    waitingHint: string;
+    waitingNext: string;
     start: string;
+    starting: string;
     refresh: string;
     revoke: string;
     unavailable: string;
