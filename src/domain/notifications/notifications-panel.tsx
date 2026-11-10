@@ -183,7 +183,7 @@ export function NotificationsPanel({
           <div className="divide-y divide-border-soft">{rows(shown)}</div>
         )}
 
-{/* Sem nada na tela o botao nao tem o que carregar: "Nenhuma notificacao nova" e
+        {/* Sem nada na tela o botao nao tem o que carregar: "Nenhuma notificacao nova" e
             "Carregar mais" juntos dizem coisas contraditorias (o servidor devolve `nextCursor`
             mesmo com a lista filtrada vazia). */}
         {page && shown.length > 0 && hasMore && tab !== "solicitacoes" && onLoadMore && (

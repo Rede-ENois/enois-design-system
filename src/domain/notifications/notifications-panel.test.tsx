@@ -74,7 +74,7 @@ describe("NotificationsPanel (page)", () => {
     expect(panel([base])).not.toContain("Carregar mais");
   });
 
-it("does not offer more pages with nothing on screen to load after", () => {
+  it("does not offer more pages with nothing on screen to load after", () => {
     // O servidor devolve `nextCursor` mesmo quando a lista filtrada veio vazia (a primeira
     // pagina so tinha lidas). Sem esta guarda o rodape dizia "Nenhuma notificacao nova" e
     // "Carregar mais" ao mesmo tempo.
