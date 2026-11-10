@@ -22,6 +22,7 @@ export function CalendarAgendaSurface({
   onEditingChange,
   savePending = false,
   saveError,
+  conflicts,
   onSave,
   ...agenda
 }: CalendarAgendaSurfaceProps) {
@@ -67,6 +68,7 @@ export function CalendarAgendaSurface({
             : null
         }
         timeZoneId={agenda.timeZoneId}
+        conflicts={conflicts}
         savePending={savePending}
         saveError={saveError}
         onSave={(values) => void save(values)}

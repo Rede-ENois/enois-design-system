@@ -8,6 +8,7 @@ import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
+import { Select } from "../../ui/select.js";
 import { Textarea } from "../../ui/textarea.js";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -148,11 +149,10 @@ export function ContributionForm({
         <div className="space-y-1.5">
           <Label htmlFor="contributor-area">{messages.fields.area}</Label>
 
-          <select
+          <Select
             id="contributor-area"
             value={area}
             onChange={(event) => setArea(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           >
             <option value="">{messages.fields.areaPlaceholder}</option>
 
@@ -161,17 +161,16 @@ export function ContributionForm({
                 {label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         <div className="space-y-1.5">
           <Label htmlFor="contributor-experience">{messages.fields.experience}</Label>
 
-          <select
+          <Select
             id="contributor-experience"
             value={experience}
             onChange={(event) => setExperience(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           >
             <option value="">{messages.fields.experiencePlaceholder}</option>
 
@@ -180,7 +179,7 @@ export function ContributionForm({
                 {label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 
