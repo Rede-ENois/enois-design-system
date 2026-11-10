@@ -85,9 +85,9 @@ describe("ProfileEffect", () => {
   it("draws the permanent effects with the Kenney sprites, tinted", async () => {
     await act(async () => root.render(<ProfileEffect effect="efeito-estrelas" />));
 
-    const sprite = host.querySelector<HTMLElement>(".cos-fx-layer__particle span");
+    const sprite = host.querySelector<HTMLElement>(".cos-fx-layer__sprite");
     expect(sprite?.getAttribute("style")).toContain("star-01.webp");
-    expect(sprite?.getAttribute("style")).toContain("background-color");
+    expect(sprite?.getAttribute("style")).toContain("--fx-color");
   });
 });
 
