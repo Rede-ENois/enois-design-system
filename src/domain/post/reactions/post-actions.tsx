@@ -35,6 +35,7 @@ export function PostActions<T extends string>({
   onComments,
   onRepost,
   onShare,
+  shareMenu,
   onReport,
   onSave,
   children,
@@ -151,15 +152,38 @@ export function PostActions<T extends string>({
           )}
 
           {/* Enviar / Compartilhar */}
-          <button
-            type="button"
-            onClick={onShare}
-            title={messages.share}
-            aria-label={messages.share}
-            className="flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground"
-          >
-            <Send className="h-4 w-4" />
-          </button>
+          {shareMenu ? (
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  title={messages.share}
+                  aria-label={messages.share}
+                  className="flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground"
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              </PopoverTrigger>
+
+              <PopoverContent
+                align="start"
+                side="top"
+                className="flex w-48 flex-col gap-0.5 p-1.5"
+              >
+                {shareMenu}
+              </PopoverContent>
+            </Popover>
+          ) : (
+            <button
+              type="button"
+              onClick={onShare}
+              title={messages.share}
+              aria-label={messages.share}
+              className="flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground"
+            >
+              <Send className="h-4 w-4" />
+            </button>
+          )}
 
           {children}
 
