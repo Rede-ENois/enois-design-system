@@ -13,6 +13,12 @@ export type PostCommentsProps<C extends PostCommentNode = PostCommentNode> = {
   loadingMore: boolean;
   hasMore: boolean;
   error: CommentsError | null;
+  /**
+   * Razao da recusa vinda da API (ex.: "Voce ja publicou este conteudo recentemente"). Quando
+   * existe, substitui o texto generico do erro de ENVIO: a pessoa precisa saber o motivo para
+   * poder agir — "tente de novo" num conteudo duplicado vai falhar igual.
+   */
+  sendErrorDetail?: string | null;
   onRetry: () => void;
   onLoadMore: () => void;
   /** Renders one comment row (the app wires its data). */

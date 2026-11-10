@@ -36,6 +36,7 @@ export function PostComments<C extends PostCommentNode>({
   loadingMore,
   hasMore,
   error,
+  sendErrorDetail,
   onRetry,
   onLoadMore,
   renderComment,
@@ -333,7 +334,9 @@ export function PostComments<C extends PostCommentNode>({
             above it stays readable. */}
         {isComposerError(error) && (
           <p className="mt-1.5 pl-[2.625rem] text-xs font-normal text-destructive">
-            {messages.errors[error]}
+            {/* O detalhe da API manda quando existe: "ja publicou este conteudo" e acionavel;
+                "tente de novo" nao e, porque a nova tentativa falha igual. */}
+            {error === "send" && sendErrorDetail ? sendErrorDetail : messages.errors[error]}
           </p>
         )}
 
