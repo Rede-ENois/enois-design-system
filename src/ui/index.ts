@@ -30,6 +30,7 @@ export { Label } from "./label.js";
 export { LoadingState } from "./loading-state.js";
 export { PageHeader } from "./page-header.js";
 export { PasswordInput } from "./password-input.js";
+export { Select } from "./select.js";
 export { Pill } from "./pill.js";
 export { PillRow } from "./pill-row.js";
 export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "./popover.js";
