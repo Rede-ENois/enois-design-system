@@ -52,7 +52,7 @@ export function ProfileEffect({ effect, replayKey, className }: ProfileEffectPro
         <span
           key={i}
           className="cos-fx-layer__particle"
-          style={{ width: particle.size, height: particle.size }}
+          style={{ "--fx-size": particle.size } as CSSProperties}
         >
           {particle.sprite ? (
             <span

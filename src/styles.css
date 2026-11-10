@@ -4358,6 +4358,8 @@ html:not(.dark) .frame-shop-price {
   position: absolute;
   top: 0;
   left: 0;
+  width: var(--fx-size);
+  height: var(--fx-size);
 }
 /* Sprite particle: the PNG is a white silhouette, so it masks a fill of the particle's colour. */
 .cos-fx-layer__sprite {
