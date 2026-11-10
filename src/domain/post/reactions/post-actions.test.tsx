@@ -115,7 +115,7 @@ describe("PostActions — bolinhas do contador de reações", () => {
   it("mostra o top real do post, do mais usado para o menos, limitado a 3", () => {
     render({
       reactionCount: 9,
-      reactionSummary: { ROFL: 2, LOVE: 5, SKULL: 1, LAUGH: 1 },
+      reactionSummary: { ROFL: 2, LOVE: 5, SKULL: 1, INSIGHTFUL: 1 },
     });
 
     expect(pills().map((pill) => pill.textContent)).toEqual(["❤️", "🤣", "💀"]);
