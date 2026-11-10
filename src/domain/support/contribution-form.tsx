@@ -161,7 +161,7 @@ export function ContributionForm({
                 {label}
               </option>
             ))}
-        </Select>
+          </Select>
         </div>
 
         <div className="space-y-1.5">
@@ -179,7 +179,7 @@ export function ContributionForm({
                 {label}
               </option>
             ))}
-        </Select>
+          </Select>
         </div>
       </div>
 

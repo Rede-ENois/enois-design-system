@@ -6,8 +6,8 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { SupportFormProps } from "../../types/domain/support/support-form-props.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
-import { Select } from "../../ui/select.js";
 import { Label } from "../../ui/label.js";
+import { Select } from "../../ui/select.js";
 import { Textarea } from "../../ui/textarea.js";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
