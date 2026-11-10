@@ -107,9 +107,7 @@ describe("PostActions — bolinhas do contador de reações", () => {
 
   const render = (overrides: Partial<PostActionsProps<"LOVE">>) =>
     act(() => root.render(<PostActions {...props(overrides)} />));
-  const pills = () => [
-    ...host.querySelectorAll<HTMLSpanElement>(".-space-x-1 > span"),
-  ];
+  const pills = () => [...host.querySelectorAll<HTMLSpanElement>(".-space-x-1 > span")];
 
   it("mostra o top real do post, do mais usado para o menos, limitado a 3", () => {
     render({
