@@ -183,7 +183,10 @@ export function NotificationsPanel({
           <div className="divide-y divide-border-soft">{rows(shown)}</div>
         )}
 
-        {page && hasMore && tab !== "solicitacoes" && onLoadMore && (
+        {/* "Carregar mais" descreve as linhas desta aba, não o histórico inteiro: com a aba
+            vazia o botão não aparece — antes ficava "Nenhuma notificação nova." seguido de um
+            "Carregar mais" que nada mudava, porque `hasMore` fala do histórico todo. */}
+        {page && hasMore && shown.length > 0 && tab !== "solicitacoes" && onLoadMore && (
           <button
             type="button"
             onClick={onLoadMore}
