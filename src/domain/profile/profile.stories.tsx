@@ -201,6 +201,15 @@ export const Dialogs: StoryObj = {
           onTabChange={setTab}
           onSave={async () => null}
           onUploadBadge={async () => "https://placehold.co/80"}
+          badgeKits={[
+            {
+              id: "bkit_1",
+              badges: [
+                "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='8' fill='%23f59e0b'/></svg>",
+              ],
+              createdAtLabel: "05/11/2026",
+            },
+          ]}
           experiences={[{ id: "x1", title: "Dev", company: "Énóis" } as { id: string }]}
           education={[]}
           certifications={[]}
