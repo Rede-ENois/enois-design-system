@@ -1,6 +1,8 @@
 import type { ProfileEffectParticle } from "../../types/domain/cosmetics/profile-effect-particle.js";
 import type { ProfileEffectSpec } from "../../types/domain/cosmetics/profile-effect-spec.js";
 
+import { KENNEY_SPRITES } from "./kenney-sprites.js";
+
 const FALL_SIZE = 16;
 const CROSS_GAP_MS = 260;
 const SNAKE_DOTS = 16;
@@ -104,6 +106,30 @@ export const PROFILE_EFFECTS: Readonly<Record<string, ProfileEffectSpec>> = {
     size: 32,
     gap: 400,
   },
+  // Permanent Essenciais effects: quiet weather for every season, drawn with Kenney (CC0) sprites.
+  "efeito-estrelas": {
+    icon: "estrela",
+    motion: "fall",
+    icons: ["estrela", "brilho"],
+    sprites: [KENNEY_SPRITES["star-01"], KENNEY_SPRITES["star-04"], KENNEY_SPRITES["magic-05"]],
+    tints: ["#fbbf24", "#a5b4fc", "#fcd34d"],
+    count: 14,
+    size: FALL_SIZE,
+  },
+  "efeito-folhas-calmas": {
+    icon: "folha",
+    motion: "fall",
+    icons: ["folha", "folhaEscura"],
+    sprites: [
+      KENNEY_SPRITES["leaf-01"],
+      KENNEY_SPRITES["leaf-02"],
+      KENNEY_SPRITES["leaf-03"],
+      KENNEY_SPRITES["leaf-04"],
+    ],
+    tints: ["#34d399", "#059669", "#65a30d", "#10b981"],
+    count: 16,
+    size: FALL_SIZE,
+  },
 };
 
 export function profileEffect(id: string | null | undefined): ProfileEffectSpec | null {
@@ -200,6 +226,10 @@ export function profileEffectParticles(
     if (spec.motion === "snake") {
       particle.size = spec.size - i * 0.8;
       particle.color = `hsl(${42 - i * 2} 96% ${58 - i}%)`;
+    } else if (spec.sprites?.length) {
+      const k = i % spec.sprites.length;
+      particle.sprite = spec.sprites[k];
+      particle.color = spec.tints?.length ? spec.tints[k % spec.tints.length] : "#ffffff";
     } else {
       particle.icon = spec.icons[i % spec.icons.length];
     }

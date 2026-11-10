@@ -74,10 +74,14 @@ function light(top: string, bottom: string, accent: string): CardTheme {
 
 /**
  * Card themes of the shop (`CARD_THEME` items): the seasonal collections from the approved
- * prototype, then one for each of the 85 appearance themes, drawn from that theme's own gradient
- * and accent. Every card reads at AA on both stops (`card-themes.test.ts`).
+ * prototype, one for each of the 85 appearance themes — drawn from that theme's own gradient and
+ * accent — plus the permanent Essenciais themes, which stay on sale all year. Every card reads at
+ * AA on both stops (`card-themes.test.ts`).
  */
 export const CARD_THEMES: Readonly<Record<string, CardTheme>> = {
+  "tema-papel": light("#fdf6e3", "#f3e2c0", "#b45309"),
+  "tema-noite-limpa": dark("#1e293b", "#0f172a", "#818cf8"),
+  "tema-jardim": light("#ecfdf5", "#d1fae5", "#059669"),
   "tema-saci": dark("#166534", "#052e16", "#ef4444"),
   "tema-halloween": dark("#1e1b4b", "#0b0a1f", "#f97316"),
   "tema-folclore": dark("#115e59", "#042f2e", "#f59e0b"),

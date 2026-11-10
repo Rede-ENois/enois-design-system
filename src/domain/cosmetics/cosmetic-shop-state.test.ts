@@ -3,10 +3,12 @@ import { describe, expect, it } from "vitest";
 import {
   EMPTY_TRY_ON,
   albumPage,
+  collectionsInSeason,
   countByKind,
   defaultCollection,
   filterShopItems,
   isTryingOn,
+  itemsOnSale,
   lookMissing,
   previewProfile,
   shopTabs,
@@ -44,6 +46,14 @@ describe("filterShopItems", () => {
 
     expect(classic.map((i) => i.id)).toEqual([
       "moldura-ambar",
+      "moldura-violeta",
+      "moldura-trepadeira",
+      "moldura-solar",
+      "moldura-coral",
+      "moldura-esmeralda",
+      "moldura-vaga-lumes",
+      "moldura-glacial",
+      "moldura-nebulosa",
       "garden-cerrado",
       "garden-mata-atlantica",
       "garden-caatinga",
@@ -150,14 +160,35 @@ describe("album and tabs", () => {
 });
 
 describe("shopTabs", () => {
-  it("puts what can be bought first: collections in season, then the classics, then the rest", () => {
+  it("has a tab for each collection in season, then the classics — and nothing else", () => {
     const tabs = shopTabs(SHOP_COLLECTIONS, true).map((c) => c?.id ?? null);
     const inSeason = SHOP_COLLECTIONS.filter((c) => c.available).map((c) => c.id);
-    expect(tabs.slice(0, inSeason.length + 1)).toEqual([...inSeason, null]);
-    expect(tabs).toHaveLength(SHOP_COLLECTIONS.length + 1);
+    expect(tabs).toEqual([...inSeason, null]);
   });
 
   it("has no classics tab when the catalog has no classic item", () => {
     expect(shopTabs(SHOP_COLLECTIONS, false)).not.toContain(null);
+  });
+});
+
+describe("what the shop shows", () => {
+  it("keeps only the collections in season", () => {
+    const ids = collectionsInSeason(SHOP_COLLECTIONS).map((c) => c.id);
+
+    expect(ids).toEqual(SHOP_COLLECTIONS.filter((c) => c.available).map((c) => c.id));
+    expect(ids).not.toContain("natal");
+  });
+
+  it("keeps the pieces on sale and the ones the person owns, and nothing else", () => {
+    const owned = SHOP_ITEMS.map((item) =>
+      item.id === "tema-natal" ? { ...item, owned: true } : item,
+    );
+    const ids = itemsOnSale(owned).map((item) => item.id);
+
+    // A peça comprada continua à mão para equipar depois que a temporada passa.
+    expect(ids).toContain("tema-natal");
+    // Uma peça de fora da temporada que ninguém comprou não aparece.
+    expect(ids).not.toContain("moldura-pisca");
+    expect(ids).toContain("moldura-ambar");
   });
 });
