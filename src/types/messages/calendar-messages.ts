@@ -111,5 +111,29 @@ export type CalendarMessages = {
       saving: string;
       cancel: string;
     };
+    /** Weekly availability editor (D24): the replaceable week the agenda admits commitments in. */
+    availability: {
+      title: string;
+      hint: string;
+      /** `day` is 1 (Monday) … 7 (Sunday); the message decides the word, e.g. "Segunda". */
+      dayLabel: (day: number) => string;
+      addWindow: string;
+      /** Accessible name of the remove button; `label` is the row's own readable name. */
+      removeWindow: (label: string) => string;
+      /** Accessible name of one row: day and hours, already readable. */
+      windowLabel: (day: string, hours: string) => string;
+      startLabel: string;
+      endLabel: string;
+      zoneHint: (zone: string) => string;
+      emptyTitle: string;
+      emptyHint: string;
+      dayProblem: string;
+      clockProblem: string;
+      endBeforeStartProblem: string;
+      overlapsProblem: string;
+      tooManyProblem: (max: number) => string;
+      save: string;
+      saving: string;
+    };
   };
 };

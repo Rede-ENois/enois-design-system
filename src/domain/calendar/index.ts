@@ -1,5 +1,7 @@
 export { CalendarAgenda } from "./calendar-agenda.js";
 export { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
+export { CalendarAvailability } from "./calendar-availability.js";
+export { CalendarAvailabilitySurface } from "./calendar-availability-surface.js";
 export { CalendarDayView } from "./calendar-day-view.js";
 export { CalendarEntryDetail } from "./calendar-entry-detail.js";
 export { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
@@ -22,6 +24,11 @@ export type { CalendarAgendaItemData } from "../../types/domain/calendar/calenda
 export type { CalendarAgendaProps } from "../../types/domain/calendar/calendar-agenda-props.js";
 export type { CalendarAgendaSurfaceProps } from "../../types/domain/calendar/calendar-agenda-surface-props.js";
 export type { CalendarAnswer } from "../../types/domain/calendar/calendar-answer.js";
+export type { CalendarAvailabilityDraft } from "../../types/domain/calendar/calendar-availability-draft.js";
+export type { CalendarAvailabilityProps } from "../../types/domain/calendar/calendar-availability-props.js";
+export type { CalendarAvailabilitySurfaceProps } from "../../types/domain/calendar/calendar-availability-surface-props.js";
+export type { CalendarAvailabilityWindowData } from "../../types/domain/calendar/calendar-availability-window-data.js";
+export type { CalendarAvailabilityWindowInput } from "../../types/domain/calendar/calendar-availability-values.js";
 export type { CalendarDayCell } from "../../types/domain/calendar/calendar-day-cell.js";
 export type { CalendarDayGroup } from "../../types/domain/calendar/calendar-day-group.js";
 export type { CalendarDayViewProps } from "../../types/domain/calendar/calendar-day-view-props.js";
