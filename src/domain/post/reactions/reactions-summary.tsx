@@ -43,8 +43,8 @@ export function ReactionsSummary<T extends string>({
           "inline-flex items-center whitespace-nowrap rounded-full border leading-none transition-colors",
           compact ? "h-6 gap-1 px-2 text-[11px]" : "h-7 gap-1.5 px-2.5 text-xs",
           mine
-            ? "border-[#8b5cf6]/40 bg-[#8b5cf6]/15 text-[#c4b5fd] hover:bg-[#8b5cf6]/25"
-            : "border-white/10 bg-white/[0.06] text-text-subtle hover:bg-white/10",
+            ? "border-primary/40 bg-primary-soft text-text-strong hover:bg-surface-3"
+            : "border-border-soft bg-surface-2 text-text-subtle hover:bg-surface-3 hover:text-text-strong",
         );
         const content = (
           <>

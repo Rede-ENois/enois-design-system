@@ -30,6 +30,7 @@ export type AccountMessages = {
     guardian: string;
     preferences: string;
     notificationPreferences: string;
+    feedPreferences: string;
     healthyUsage: string;
     project: string;
     supportUs: string;

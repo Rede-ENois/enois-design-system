@@ -332,11 +332,6 @@
       "count": 1
     }
   },
-  "src/domain/post/reactions/reactions-summary.tsx": {
-    "no-restricted-syntax": {
-      "count": 1
-    }
-  },
   "src/domain/post/rich-text.tsx": {
     "local/style-only-css-vars": {
       "count": 1
@@ -407,11 +402,6 @@
     "local/style-only-css-vars": {
       "count": 2
     },
-    "no-restricted-syntax": {
-      "count": 1
-    }
-  },
-  "src/ui/tabs.tsx": {
     "no-restricted-syntax": {
       "count": 1
     }
