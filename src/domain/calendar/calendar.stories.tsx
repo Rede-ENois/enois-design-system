@@ -8,6 +8,7 @@ import { Button } from "../../ui/button.js";
 
 import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
+import { CalendarEntryDetail } from "./calendar-entry-detail.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 
 const meta: Meta = {
@@ -301,4 +302,69 @@ export const AgendaEditRefused: StoryObj = {
       />
     );
   },
+};
+
+const detailEntry = {
+  id: "cal_meeting",
+  scope: "PROFESSIONAL" as const,
+  kind: "MEETING" as const,
+  title: "Revisão do trimestre",
+  description: "Trazer os números do mês e a lista do que ficou pendente.",
+  day: "2026-11-10",
+  start: "10:00",
+  end: "11:00",
+  timeZoneId: ZONE,
+  allDay: false,
+  cancelledAt: null,
+};
+
+const detailParticipants = [
+  { id: "p1", username: "ana", state: "ACCEPTED" as const },
+  { id: "p2", username: "bia", state: "INVITED" as const },
+];
+
+export const DetailOrganizer: StoryObj = {
+  render: () => (
+    <CalendarEntryDetail
+      entry={detailEntry}
+      owner
+      participation={null}
+      participants={detailParticipants}
+      backLabel="Voltar à agenda"
+      onBack={() => {}}
+      onEdit={() => {}}
+      onCancel={() => {}}
+      onInvite={async () => true}
+      onRemoveParticipant={() => {}}
+    />
+  ),
+};
+
+export const DetailGuest: StoryObj = {
+  render: () => (
+    <CalendarEntryDetail
+      entry={detailEntry}
+      owner={false}
+      participation="INVITED"
+      participants={null}
+      backLabel="Voltar à agenda"
+      onBack={() => {}}
+      onRespond={() => {}}
+    />
+  ),
+};
+
+export const DetailCancelled: StoryObj = {
+  render: () => (
+    <CalendarEntryDetail
+      entry={{ ...detailEntry, cancelledAt: "2026-11-09T12:00:00Z" }}
+      owner
+      participation={null}
+      participants={detailParticipants}
+      backLabel="Voltar à agenda"
+      onBack={() => {}}
+      onEdit={() => {}}
+      onCancel={() => {}}
+    />
+  ),
 };
