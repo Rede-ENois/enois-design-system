@@ -33,6 +33,7 @@ export { PasswordInput } from "./password-input.js";
 export { Pill } from "./pill.js";
 export { PillRow } from "./pill-row.js";
 export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "./popover.js";
+export { PullIndicator } from "./pull-indicator.js";
 export { ReadMore } from "./read-more.js";
 export {
   Sheet,
@@ -64,6 +65,7 @@ export type { PasswordInputProps } from "../types/components/ui/password-input-p
 export type { PillProps } from "../types/components/ui/pill-props.js";
 export type { PageHeaderProps } from "../types/components/ui/page-header-props.js";
 export type { PillRowProps } from "../types/components/ui/pill-row-props.js";
+export type { PullIndicatorProps } from "../types/components/ui/pull-indicator-props.js";
 export type { SkeletonProps } from "../types/components/ui/skeleton-props.js";
 export type { ReadMoreProps } from "../types/components/ui/read-more-props.js";
 export type { SheetContentProps } from "../types/components/ui/sheet-content-props.js";
