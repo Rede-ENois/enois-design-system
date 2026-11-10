@@ -55,6 +55,7 @@ export const Settings: StoryObj = {
         sanctions: "#",
         mutedUsers: "#",
         notificationPreferences: "#",
+        feedPreferences: "#",
         supportUs: "#",
       }}
       onChangeEmail={() => {}}

@@ -29,10 +29,54 @@ export const Identity: StoryObj = {
   },
 };
 
+export const VerificationWaiting: StoryObj = {
+  render: () => (
+    <IdentityVerificationSection
+      status={{ state: "NOT_VERIFIED", released: false, providerAvailable: true }}
+      onStart={() => {}}
+      onRefresh={() => {}}
+      onRevoke={() => {}}
+    />
+  ),
+};
+
+export const VerificationEligible: StoryObj = {
+  render: () => (
+    <IdentityVerificationSection
+      status={{ state: "NOT_VERIFIED", released: true, providerAvailable: true }}
+      onStart={() => {}}
+      onRefresh={() => {}}
+      onRevoke={() => {}}
+    />
+  ),
+};
+
+export const VerificationInProgress: StoryObj = {
+  render: () => (
+    <IdentityVerificationSection
+      status={{ state: "PENDING", released: true, providerAvailable: true }}
+      onStart={() => {}}
+      onRefresh={() => {}}
+      onRevoke={() => {}}
+    />
+  ),
+};
+
 export const Verification: StoryObj = {
   render: () => (
     <IdentityVerificationSection
-      status={{ state: "VERIFIED", verified: true, provider: "demo", providerAvailable: true }}
+      status={{ state: "VERIFIED", verified: true, released: true, providerAvailable: true }}
+      onStart={() => {}}
+      onRefresh={() => {}}
+      onRevoke={() => {}}
+    />
+  ),
+};
+
+export const VerificationDeclined: StoryObj = {
+  render: () => (
+    <IdentityVerificationSection
+      status={{ state: "REJECTED", released: true, providerAvailable: true }}
       onStart={() => {}}
       onRefresh={() => {}}
       onRevoke={() => {}}
@@ -43,7 +87,7 @@ export const Verification: StoryObj = {
 export const VerificationUnavailable: StoryObj = {
   render: () => (
     <IdentityVerificationSection
-      status={{ state: "NOT_VERIFIED", verified: false, providerAvailable: false }}
+      status={{ state: "NOT_VERIFIED", released: true, providerAvailable: false }}
       onStart={() => {}}
       onRefresh={() => {}}
       onRevoke={() => {}}
