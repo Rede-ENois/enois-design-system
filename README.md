@@ -115,7 +115,7 @@ for a verification code:
 ### Character counters
 
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
-`CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
+`CharCounter` in their own footer can pass `showCounter={false}` while keeping the field limit.
 
 Formatting buttons, keyboard shortcuts, emoji and mention suggestions also respect `maxLength`:
 an insertion that would exceed it leaves the current text unchanged. The `onChange` callback emits
@@ -123,6 +123,42 @@ only selected mention IDs whose complete usernames remain as rendered mentions, 
 Markdown formatting. Literal code does not count as a mention. Removing a mention or
 clearing the controlled `value` removes that recipient from subsequent edits; typing a username
 manually does not restore a previously removed selection.
+
+### Inline stickers in `MentionTextarea`
+
+The field is a `contenteditable` element (`role="textbox"`, `aria-multiline`), not a `<textarea>`:
+tests and app code query `[role="textbox"]`, and there is no `selectionStart`. `value` and
+`onChange(value, mentionedUserIds)` are unchanged and the value stays plain text.
+
+Pass `stickers` (code to `{ url, alt }`) and any whitespace-delimited word equal to a code is drawn
+as an inline image (`url` goes through `useAdapters().resolveMediaUrl`). The image is atomic: the
+caret skips it, Backspace/Delete remove it whole and copy/cut give the code. Without `stickers` the
+field shows text only.
+
+To insert text where the person was writing (for example from a sticker dialog), keep a `ref`:
+
+```tsx
+const field = useRef<MentionTextareaHandle>(null);
+
+<MentionTextarea ref={field} stickers={stickers} {...rest} />;
+
+// when a sticker is picked (the field may have lost the focus to the dialog):
+field.current?.insertAtCaret(code); // " CODE " spacing, respects maxLength, returns false if refused
+// when the dialog closes:
+field.current?.focus();
+```
+
+`insertAtCaret` remembers the caret while the field has no focus, adds spaces around the text when
+its neighbours are not whitespace, goes through the same mention reconciliation as a typed edit and
+does nothing past `maxLength`. It replaces `querySelector("textarea")` plus `selectionStart`.
+
+The field keeps its own history, because redrawing the DOM wipes the browser's undo stack:
+Ctrl/Cmd+Z undoes, Ctrl/Cmd+Shift+Z and Ctrl+Y redo, and the `historyUndo`/`historyRedo` input events
+(Edit menu, phone) do the same. Consecutive typing, or consecutive deleting, is one step; a sticker,
+a mention, an emoji, a paste, a cut and a format each are a step. Undo and redo go through `onChange`
+(with the mentioned ids restored) and never exceed `maxLength`. The history is dropped when the
+parent replaces `value` with something the field did not write (clearing the draft, for example).
+ArrowLeft/ArrowRight (and with Shift) cross a sticker as one character.
 
 ### Profile garden
 

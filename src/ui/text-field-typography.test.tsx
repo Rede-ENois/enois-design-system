@@ -28,7 +28,11 @@ describe("text field typography", () => {
         const html = renderToStaticMarkup(
           <Component className={`h-9 text-${size} text-primary leading-6`} />,
         );
-        const classes = html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ");
+        const classes =
+          html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1]?.split(" ") ??
+          // O editor de stickers trocou o <textarea> por um div contentEditable; o campo continua
+          // sendo o que carrega as classes tipográficas, então a regex cai para o role=textbox.
+          html.match(/<[a-z]+[^>]*role="textbox"[^>]*class="([^"]*)"/)?.[1]?.split(" ");
 
         expect(classes).toContain("text-base");
         expect(classes).toContain(`md:text-${size}`);
@@ -42,7 +46,11 @@ describe("text field typography", () => {
       `preserves an explicit %s size on mobile and desktop (${Component.name})`,
       (size) => {
         const html = renderToStaticMarkup(<Component className={size} />);
-        const classes = html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ");
+        const classes =
+          html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1]?.split(" ") ??
+          // O editor de stickers trocou o <textarea> por um div contentEditable; o campo continua
+          // sendo o que carrega as classes tipográficas, então a regex cai para o role=textbox.
+          html.match(/<[a-z]+[^>]*role="textbox"[^>]*class="([^"]*)"/)?.[1]?.split(" ");
         expect(classes).toContain(size);
         expect(classes).toContain(`md:${size}`);
         expect(classes).not.toContain("md:text-sm");
@@ -53,7 +61,11 @@ describe("text field typography", () => {
       `keeps the explicit desktop override in %s (${Component.name})`,
       (className) => {
         const html = renderToStaticMarkup(<Component className={className} />);
-        const classes = html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ");
+        const classes =
+          html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1]?.split(" ") ??
+          // O editor de stickers trocou o <textarea> por um div contentEditable; o campo continua
+          // sendo o que carrega as classes tipográficas, então a regex cai para o role=textbox.
+          html.match(/<[a-z]+[^>]*role="textbox"[^>]*class="([^"]*)"/)?.[1]?.split(" ");
         expect(classes).toContain("text-lg");
         expect(classes).toContain("md:text-xl");
         expect(classes).not.toContain("md:text-lg");

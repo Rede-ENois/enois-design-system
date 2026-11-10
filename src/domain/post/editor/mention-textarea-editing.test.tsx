@@ -7,13 +7,13 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { MentionTextareaProps } from "../../../types/domain/post/mention-textarea-props.js";
 import type { MentionUser } from "../../../types/domain/post/mention-user.js";
 
+import { fieldIn, selectText, selectionOf, typeInto } from "./editor.fixture.js";
 import { MentionTextarea } from "./mention-textarea.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 const ana: MentionUser = { id: "user-a", username: "ana-silva", name: "Ana Example", avatar: null };
 const bia: MentionUser = { id: "user-b", username: "bia_2", name: "Bia Example", avatar: null };
-const setValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")!.set!;
 const container = document.createElement("div");
 document.body.append(container);
 const root = createRoot(container);
@@ -45,15 +45,11 @@ function Field({ maxLength }: Pick<MentionTextareaProps, "maxLength">) {
 
 function render(maxLength?: number) {
   act(() => root.render(<Field maxLength={maxLength} />));
-  return container.querySelector("textarea")!;
+  return fieldIn(container);
 }
 
-function type(textarea: HTMLTextAreaElement, text: string) {
-  act(() => {
-    setValue.call(textarea, text);
-    textarea.setSelectionRange(text.length, text.length);
-    textarea.dispatchEvent(new Event("input", { bubbles: true }));
-  });
+function type(textarea: HTMLElement, text: string) {
+  typeInto(textarea, text);
 }
 
 function pick(user: MentionUser) {
@@ -66,7 +62,7 @@ function pick(user: MentionUser) {
   );
 }
 
-function bold(textarea: HTMLTextAreaElement, keyboard: boolean) {
+function bold(textarea: HTMLElement, keyboard: boolean) {
   act(() => {
     if (keyboard) {
       textarea.dispatchEvent(
@@ -112,9 +108,9 @@ describe("MentionTextarea confirmed mentions", () => {
     const textarea = render();
     type(textarea, "@an");
     pick(ana);
-    type(textarea, `${textarea.value}@bi`);
+    type(textarea, `${textarea.textContent}@bi`);
     pick(bia);
-    type(textarea, `${textarea.value}@an`);
+    type(textarea, `${textarea.textContent}@an`);
     pick(ana);
     expect(changed).toHaveBeenLastCalledWith("@ana-silva @bia_2 @ana-silva ", [ana.id, bia.id]);
 
@@ -162,14 +158,13 @@ describe("MentionTextarea insertion limits", () => {
     (keyboard) => {
       const textarea = render(12);
       type(textarea, "abcdefghijkl");
-      textarea.setSelectionRange(2, 6);
+      selectText(textarea, 2, 6);
       changed.mockClear();
 
       bold(textarea, keyboard);
 
-      expect(textarea.value).toBe("abcdefghijkl");
-      expect(textarea.selectionStart).toBe(2);
-      expect(textarea.selectionEnd).toBe(6);
+      expect(textarea.textContent).toBe("abcdefghijkl");
+      expect(selectionOf(textarea)).toEqual({ start: 2, end: 6 });
       expect(changed).not.toHaveBeenCalled();
     },
   );
@@ -179,11 +174,11 @@ describe("MentionTextarea insertion limits", () => {
     (keyboard) => {
       const textarea = render(9);
       type(textarea, "short");
-      textarea.setSelectionRange(0, 5);
+      selectText(textarea, 0, 5);
       bold(textarea, keyboard);
       expect(changed).toHaveBeenLastCalledWith("**short**", []);
       type(textarea, "ok");
-      textarea.setSelectionRange(0, 2);
+      selectText(textarea, 0, 2);
       bold(textarea, keyboard);
       expect(changed).toHaveBeenLastCalledWith("**ok**", []);
     },
@@ -194,7 +189,7 @@ describe("MentionTextarea insertion limits", () => {
     type(textarea, "@an");
     changed.mockClear();
     pick(ana);
-    expect(textarea.value).toBe("@an");
+    expect(textarea.textContent).toBe("@an");
     expect(changed).not.toHaveBeenCalled();
     type(textarea, "plain");
     expect(changed).toHaveBeenLastCalledWith("plain", []);
@@ -210,8 +205,8 @@ describe("MentionTextarea insertion limits", () => {
   it("allows formatting when no maximum is supplied", () => {
     const textarea = render();
     type(textarea, "x".repeat(1200));
-    textarea.setSelectionRange(0, 1200);
+    selectText(textarea, 0, 1200);
     bold(textarea, true);
-    expect(textarea.value).toHaveLength(1204);
+    expect(textarea.textContent).toHaveLength(1204);
   });
 });
