@@ -398,12 +398,15 @@ describe("CalendarEntryFormDialog", () => {
   });
 
   it("does not warn before the draft has a usable interval", () => {
-    openDialog({ conflicts: [item()] });
+    // Anchored to a fixed day: without `defaultDay` the opening draft starts at the next full hour
+    // from the real clock, and between 11:00 and 11:59 in São Paulo that instant lands inside the
+    // fixture's 12:00–13:00 entry, warning on open. The clock is not what this test fixes.
+    openDialog({ defaultDay: "2026-11-10", conflicts: [item()] });
 
     expect(statuses()).toHaveLength(0);
 
-    type(field("title"), "Sem dia");
-    type(field("day"), "31/02/2026");
+    type(field("title"), "Sem horário");
+    type(field("start"), "99:99");
 
     expect(statuses()).toHaveLength(0);
   });
