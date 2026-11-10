@@ -22,8 +22,7 @@ export const uiMessages: UiMessages = {
     add: "Adicionar emblema",
     sending: "Enviando...",
     remove: "Remover emblema",
-    hint:
-      "Até 5 imagens pequenas (PNG, JPEG, WEBP ou GIF animado). A primeira acompanha o seu nome em todo o app.",
+    hint: "Até 5 imagens pequenas (PNG, JPEG, WEBP ou GIF animado). A primeira acompanha o seu nome em todo o app.",
     full: "Você já tem 5 emblemas. Remova um para adicionar outro.",
     historyEmpty: "Trocar seus emblemas guarda as combinações anteriores aqui. Nada por enquanto.",
     applyKit: "Usar este kit",
