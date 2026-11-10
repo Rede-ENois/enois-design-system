@@ -5,6 +5,7 @@ export { CalendarEntryDetail } from "./calendar-entry-detail.js";
 export { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 export { CalendarListView } from "./calendar-list-view.js";
 export { CalendarMonthView } from "./calendar-month-view.js";
+export { CalendarReminderSelector } from "./calendar-reminder-selector.js";
 export { CalendarViewSwitcher } from "./calendar-view-switcher.js";
 export { CalendarWeekView } from "./calendar-week-view.js";
 export {
@@ -35,6 +36,8 @@ export type { CalendarEntryKind } from "../../types/domain/calendar/calendar-ent
 export type { CalendarListViewProps } from "../../types/domain/calendar/calendar-list-view-props.js";
 export type { CalendarMonthViewProps } from "../../types/domain/calendar/calendar-month-view-props.js";
 export type { CalendarParticipation } from "../../types/domain/calendar/calendar-participation.js";
+export type { CalendarReminderMinutes } from "../../types/domain/calendar/calendar-reminder-minutes.js";
+export type { CalendarReminderSelectorProps } from "../../types/domain/calendar/calendar-reminder-selector-props.js";
 export type { CalendarScope } from "../../types/domain/calendar/calendar-scope.js";
 export type { CalendarView } from "../../types/domain/calendar/calendar-view.js";
 export type { CalendarViewSwitcherProps } from "../../types/domain/calendar/calendar-view-switcher-props.js";

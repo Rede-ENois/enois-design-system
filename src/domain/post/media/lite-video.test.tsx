@@ -31,7 +31,6 @@ describe("LiteVideo no Modo lite", () => {
     act(() => root?.unmount());
     root = null;
     document.body.replaceChildren();
-    document.body.style.overflow = "";
     vi.restoreAllMocks();
   });
 
@@ -58,8 +57,8 @@ describe("LiteVideo no Modo lite", () => {
     const stageVideo = dialog!.querySelector("video")!;
     expect(stageVideo.controls).toBe(true);
     expect(stageVideo.muted).toBe(false);
-    // A página atrás não rola enquanto o palco está aberto.
-    expect(document.body.style.overflow).toBe("hidden");
+    // A página atrás não rola enquanto o palco está aberto (lock do Radix, não style inline).
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(true);
 
     const close = dialog!.querySelector<HTMLButtonElement>(
       `button[aria-label="${defaultMessages.mediaStage.close}"]`,
@@ -69,6 +68,6 @@ describe("LiteVideo no Modo lite", () => {
     await act(async () => close!.click());
 
     expect(document.querySelector('[role="dialog"]')).toBeNull();
-    expect(document.body.style.overflow).toBe("");
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
   });
 });

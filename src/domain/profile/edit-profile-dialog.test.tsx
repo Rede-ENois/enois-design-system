@@ -25,6 +25,7 @@ const render = (onUploadBadge: (file: File) => Promise<string>) =>
         onTabChange={() => undefined}
         onSave={async () => null}
         onUploadBadge={onUploadBadge}
+        badgeKits={[]}
         experiences={[]}
         education={[]}
         certifications={[]}

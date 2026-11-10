@@ -7,6 +7,14 @@ const SIZES = {
 } as const;
 
 /**
+ * As pílulas desenham 32/36px de altura, abaixo dos 44px de alvo de toque confortável no
+ * celular; o pseudo-elemento infla a área tocável sem mudar o desenho (mesmo recurso das
+ * pílulas de reação).
+ */
+const TOUCH_AREA =
+  "relative before:absolute before:-inset-y-1.5 before:-inset-x-0.5 before:content-['']";
+
+/**
  * Filtro/aba em formato de pílula.
  *
  * Existiam quatro implementações do mesmo controle (feed, filtros de vaga, tópicos de
@@ -22,6 +30,7 @@ export function Pill({ active = false, size = "md", onClick, className, children
       className={cn(
         "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border font-semibold transition",
         SIZES[size],
+        TOUCH_AREA,
         // Active is a soft violet field, not a solid button: a filter is a place you are, not an
         // action to press.
         active

@@ -230,6 +230,7 @@ export function PostCard({
           authorName={post.authorName}
           authorStyle={post.authorStyle}
           authorContributor={post.authorContributor}
+          authorHumanityVerified={post.authorHumanityVerified}
           authorBadge={post.authorBadge}
           authorBadges={post.authorBadges}
           authorAvatar={post.authorAvatar}

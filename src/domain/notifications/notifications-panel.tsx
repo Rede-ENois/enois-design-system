@@ -183,10 +183,10 @@ export function NotificationsPanel({
           <div className="divide-y divide-border-soft">{rows(shown)}</div>
         )}
 
-        {/* "Carregar mais" descreve as linhas desta aba, não o histórico inteiro: com a aba
-            vazia o botão não aparece — antes ficava "Nenhuma notificação nova." seguido de um
-            "Carregar mais" que nada mudava, porque `hasMore` fala do histórico todo. */}
-        {page && hasMore && shown.length > 0 && tab !== "solicitacoes" && onLoadMore && (
+{/* Sem nada na tela o botao nao tem o que carregar: "Nenhuma notificacao nova" e
+            "Carregar mais" juntos dizem coisas contraditorias (o servidor devolve `nextCursor`
+            mesmo com a lista filtrada vazia). */}
+        {page && shown.length > 0 && hasMore && tab !== "solicitacoes" && onLoadMore && (
           <button
             type="button"
             onClick={onLoadMore}

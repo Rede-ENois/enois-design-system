@@ -74,13 +74,13 @@ describe("NotificationsPanel (page)", () => {
     expect(panel([base])).not.toContain("Carregar mais");
   });
 
-  it("hides the load-more footer when the active tab has no rows", () => {
-    // Histórico inteiro tem mais páginas, mas a aba ativa ("Novas") está vazia:
-    // antes o rodapé aparecia sob "Nenhuma notificação nova." sem carregar nada visível.
-    const allRead = [{ ...base, read: true }];
-    const markup = panel(allRead, { hasMore: true, onLoadMore: () => {} });
+it("does not offer more pages with nothing on screen to load after", () => {
+    // O servidor devolve `nextCursor` mesmo quando a lista filtrada veio vazia (a primeira
+    // pagina so tinha lidas). Sem esta guarda o rodape dizia "Nenhuma notificacao nova" e
+    // "Carregar mais" ao mesmo tempo.
+    const markup = panel([], { hasMore: true, onLoadMore: () => {} });
 
-    expect(markup).toContain("Nenhuma notificação nova.");
+    expect(markup).toContain("Nenhuma notifica");
     expect(markup).not.toContain("Carregar mais");
   });
 });

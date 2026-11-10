@@ -25,9 +25,11 @@ export const buttonVariants = cva(
       },
       size: {
         default: "h-auto w-full rounded-full px-8 py-2",
-        sm: "h-8 rounded-lg px-3 text-xs",
+        // `sm` e `icon` desenham 32/40px de altura. No celular o alvo de toque confortável é 44px;
+        // o pseudo-elemento infla a área tocável sem mexer no desenho.
+        sm: "relative h-8 rounded-lg px-3 text-xs before:absolute before:-inset-x-0.5 before:-inset-y-1.5 before:content-['']",
         lg: "h-11 rounded-lg px-8",
-        icon: "h-10 w-10",
+        icon: "relative h-10 w-10 before:absolute before:-inset-0.5 before:content-['']",
       },
     },
     defaultVariants: {

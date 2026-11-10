@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import type { BadgeKit } from "../badges/badge-kit.js";
+
 import type { EditProfileData } from "./edit-profile-data.js";
 import type { EditProfileListItem } from "./edit-profile-list-item.js";
 import type { EditProfileListKind } from "./edit-profile-list-kind.js";
@@ -20,6 +22,10 @@ export type EditProfileDialogProps = {
   onSave: (values: EditProfileValues) => Promise<EditProfileSaveError | null>;
   /** Uploads the badge image and returns its saved address; rejects with an Error whose message is shown to the person. */
   onUploadBadge: (file: File) => Promise<string>;
+  /** The saved badge sets of this profile, most recent first (the history tab). */
+  badgeKits: BadgeKit[];
+  /** The kit history still loading. */
+  kitsLoading?: boolean;
   experiences: EditProfileListItem[];
   education: EditProfileListItem[];
   certifications: EditProfileListItem[];

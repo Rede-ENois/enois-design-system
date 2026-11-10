@@ -15,6 +15,18 @@ export const uiMessages: UiMessages = {
   readMore: { more: "Ler mais", less: "Mostrar menos" },
   toast: { region: "Avisos", dismiss: "Fechar aviso" },
   skeletonList: { loading: "Carregando..." },
+  badgeSelection: {
+    currentTab: "Emblemas",
+    historyTab: "Histórico",
+    usage: (used, max) => `${used} de ${max} em uso`,
+    add: "Adicionar emblema",
+    sending: "Enviando...",
+    remove: "Remover emblema",
+    hint: "Até 5 imagens pequenas (PNG, JPEG, WEBP ou GIF animado). A primeira acompanha o seu nome em todo o app.",
+    full: "Você já tem 5 emblemas. Remova um para adicionar outro.",
+    historyEmpty: "Trocar seus emblemas guarda as combinações anteriores aqui. Nada por enquanto.",
+    applyKit: "Usar este kit",
+  },
   signal: {
     new: "Tem novidade",
     today: "hoje",
