@@ -49,6 +49,14 @@ export type CalendarMessages = {
     openEntry: (title: string) => string;
     /** Opens a blank entry from the agenda header. */
     newEntry: string;
+    /** "Warn me before it starts" — the reminder selector. */
+    reminder: {
+      title: string;
+      none: string;
+      /** `minutes` is one of 5, 15, 30, 60, 1440. */
+      minutes: (minutes: number) => string;
+      saving: string;
+    };
     /** The detail page of one entry. */
     detail: {
       back: string;
@@ -97,6 +105,8 @@ export type CalendarMessages = {
       invalidClock: string;
       endBeforeStart: string;
       durationTooLong: string;
+      /** `count` is how many entries the typed interval already touches (D23). */
+      conflictWarning: (count: number) => string;
       save: string;
       saving: string;
       cancel: string;

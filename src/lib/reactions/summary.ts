@@ -38,6 +38,20 @@ export function buildReactionTabs<T extends string>(
     .map(([type, count]) => ({ type, count }));
 }
 
+/** Quantas bolinhas o contador de reações mostra por padrão. */
+export const TOP_REACTIONS = 3;
+
+/**
+ * As reações mais usadas de uma publicação, do maior para o menor (empate preserva a ordem do
+ * summary), limitadas a `max` — é o que as bolinhas sobrepostas do contador exibem.
+ */
+export function topReactionTabs<T extends string>(
+  summary: ReactionCountSummary<T>,
+  max = TOP_REACTIONS,
+): ReactionTab<T>[] {
+  return buildReactionTabs(summary).slice(0, max);
+}
+
 /**
  * Ordena as abas sem reordenar o que já estava na tela: a ordem anterior é preservada e só as
  * contagens são atualizadas. Tipo novo entra na posição ditada pela contagem e tipo zerado sai.

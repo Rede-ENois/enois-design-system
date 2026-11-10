@@ -1,9 +1,9 @@
-import { type ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-import { Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 
-import { useAdapters } from "../../adapters/adapters-context.js";
 import { useMessages } from "../../messages/messages-context.js";
+import type { BadgeKit } from "../../types/domain/badges/badge-kit.js";
 import type { EditProfileDialogProps } from "../../types/domain/profile/edit-profile-dialog-props.js";
 import type { EditProfileFieldProps } from "../../types/domain/profile/edit-profile-field-props.js";
 import type { EditProfileListItem } from "../../types/domain/profile/edit-profile-list-item.js";
@@ -22,6 +22,7 @@ import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
 import { Switch } from "../../ui/switch.js";
 import { Textarea } from "../../ui/textarea.js";
+import { BadgeSelection } from "../badges/badge-selection.js";
 import { MAX_BADGES } from "../badges/max-badges.js";
 
 import { profileBadges } from "./profile-badges.js";
@@ -37,6 +38,8 @@ export function EditProfileDialog({
   savePending = false,
   onSave,
   onUploadBadge,
+  badgeKits,
+  kitsLoading = false,
   experiences,
   education,
   certifications,
@@ -46,7 +49,6 @@ export function EditProfileDialog({
   onDeleteItem,
 }: EditProfileDialogProps) {
   const messages = useMessages().editProfileDialog;
-  const { resolveMediaUrl } = useAdapters();
 
   const [username, setUsername] = useState(profile.username);
   const [name, setName] = useState(profile.name);
@@ -69,15 +71,10 @@ export function EditProfileDialog({
   const [usernameError, setUsernameError] = useState("");
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [badgeUploading, setBadgeUploading] = useState(false);
-  const badgeRef = useRef<HTMLInputElement>(null);
 
   // Mesmo caminho do avatar na página de perfil: sobe pelo provedor que a API indicar (S3 ou
   // ImageKit) e guarda a URL — ela vai junto no salvar do diálogo, não em um PATCH próprio.
-  const handleBadgeUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    // Limpar o input: o navegador não dispara `change` para o MESMO arquivo escolhido duas vezes.
-    event.target.value = "";
-    if (!file) return;
+  const handleBadgeUpload = async (file: File) => {
     setGeneralError(null);
     if (badges.length >= MAX_BADGES) {
       setGeneralError(messages.badgesFull);
@@ -223,58 +220,22 @@ export function EditProfileDialog({
               </Field>
 
               <Field label={messages.fields.badges}>
-                <div className="flex flex-wrap items-center gap-2">
-                  {badges.map((url, index) => (
-                    <span key={url} className="relative inline-flex shrink-0">
-                      <img
-                        src={resolveMediaUrl(url)}
-                        alt=""
-                        className="h-10 w-10 rounded-full border border-border-soft bg-surface-1 object-cover"
-                      />
-
-                      <button
-                        type="button"
-                        aria-label={`${messages.badgeRemove} ${index + 1}`}
-                        title={`${messages.badgeRemove} ${index + 1}`}
-                        onClick={() =>
-                          setBadges((current) => current.filter((item) => item !== url))
-                        }
-                        className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-surface-1 text-text-subtle ring-1 ring-border-soft transition hover:text-destructive"
-                      >
-                        <X className="h-2.5 w-2.5" />
-                      </button>
-                    </span>
-                  ))}
-
-                  {badges.length < MAX_BADGES ? (
-                    <button
-                      type="button"
-                      onClick={() => badgeRef.current?.click()}
-                      disabled={badgeUploading}
-                      aria-label={messages.badgeUpload}
-                      title={messages.badgeUpload}
-                      className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-dashed border-border-soft text-text-subtle transition hover:border-primary/50 hover:text-foreground disabled:opacity-50"
-                    >
-                      {badgeUploading ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Plus className="h-4 w-4" />
-                      )}
-                    </button>
-                  ) : null}
-
-                  <input
-                    ref={badgeRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleBadgeUpload}
-                  />
-                </div>
-
-                <p className="text-xs font-normal text-text-subtle">
-                  {badges.length >= MAX_BADGES ? messages.badgesFull : messages.badgesHint}
-                </p>
+                <BadgeSelection
+                  badges={badges}
+                  onAddBadge={(file) => void handleBadgeUpload(file)}
+                  onRemoveBadge={(url) =>
+                    setBadges((current) => current.filter((item) => item !== url))
+                  }
+                  badgeKits={badgeKits}
+                  // Nada é salvo na hora aqui: usar um kit só preenche o formulário, que aplica
+                  // tudo no "Salvar" junto com o resto do perfil.
+                  onApplyBadgeKit={(kit: BadgeKit) => {
+                    setGeneralError(null);
+                    setBadges(kit.badges);
+                  }}
+                  uploading={badgeUploading}
+                  kitsLoading={kitsLoading}
+                />
               </Field>
 
               <Field label={messages.fields.headline}>

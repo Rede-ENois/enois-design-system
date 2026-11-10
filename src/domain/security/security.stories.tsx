@@ -14,9 +14,20 @@ const meta: Meta = {
 
 export default meta;
 
+const badgeArt =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='8' fill='%236746f5'/></svg>";
+
+const otherBadgeArt =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='8' fill='%23f59e0b'/></svg>";
+
+const sampleKits = [
+  { id: "bkit_1", badges: [badgeArt, otherBadgeArt], createdAtLabel: "05/11/2026" },
+  { id: "bkit_2", badges: [otherBadgeArt], createdAtLabel: "28/10/2026" },
+];
+
 export const Identity: StoryObj = {
   render: function IdentityStory() {
-    const [badges, setBadges] = useState<string[]>([]);
+    const [badges, setBadges] = useState<string[]>([badgeArt]);
     return (
       <IdentitySection
         identity={{ socialName: "Ana", nickname: null, pronouns: "ela/dela" }}
@@ -24,6 +35,8 @@ export const Identity: StoryObj = {
         badges={badges}
         onAddBadge={() => {}}
         onRemoveBadge={(url) => setBadges(badges.filter((badge) => badge !== url))}
+        badgeKits={sampleKits}
+        onApplyBadgeKit={(kit) => setBadges(kit.badges)}
       />
     );
   },

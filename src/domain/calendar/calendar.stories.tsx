@@ -10,6 +10,7 @@ import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
 import { CalendarEntryDetail } from "./calendar-entry-detail.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
+import { CalendarReminderSelector } from "./calendar-reminder-selector.js";
 
 const meta: Meta = {
   title: "Domain/Calendar",
@@ -365,6 +366,32 @@ export const DetailCancelled: StoryObj = {
       onBack={() => {}}
       onEdit={() => {}}
       onCancel={() => {}}
+    />
+  ),
+};
+
+export const ReminderSelector: StoryObj = {
+  render: () => <ReminderSelectorHarness />,
+};
+
+function ReminderSelectorHarness() {
+  const [minutes, setMinutes] = useState<
+    | import("../../types/domain/calendar/calendar-reminder-minutes.js").CalendarReminderMinutes
+    | null
+  >(30);
+  return <CalendarReminderSelector value={minutes} onChange={setMinutes} />;
+}
+
+export const ReminderSelectorSaving: StoryObj = {
+  render: () => <CalendarReminderSelector value={15} onChange={() => {}} saving />,
+};
+
+export const ReminderSelectorError: StoryObj = {
+  render: () => (
+    <CalendarReminderSelector
+      value={60}
+      onChange={() => {}}
+      error="Compromisso cancelado não aceita lembrete."
     />
   ),
 };
