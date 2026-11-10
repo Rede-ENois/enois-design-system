@@ -3800,7 +3800,8 @@ html[data-batata] .cos-card__banner {
 }
 .frame-shop-action {
   border-radius: 8px;
-  height: 32px;
+  /* 32px ficava abaixo do alvo de toque; 36px cabe na grade e continua discreto. */
+  height: 36px;
   font-size: 11px;
   gap: 7px;
 }
@@ -4088,7 +4089,7 @@ html:not(.dark) .frame-shop-price {
     padding-left: 8px;
     padding-right: 8px;
     gap: 3px;
-    height: 30px;
+    height: 34px;
   }
   .frame-shop-note {
     font-size: 9px;
@@ -4563,7 +4564,10 @@ html:not(.dark) .frame-shop-price {
   padding-bottom: 2px;
 }
 .cos-shop__chips button {
+  display: inline-flex;
+  align-items: center;
   flex: none;
+  min-height: 40px;
   border: 1px solid var(--border);
   background: var(--card);
   padding: 7px 13px;
@@ -4694,7 +4698,9 @@ html:not(.dark) .frame-shop-price {
 }
 /* The footer of an owned look is a switch, so it keeps the text look but behaves like a button. */
 .cos-look__wear {
-  padding: 0;
+  /* Link de 18px de altura: o preenchimento negativo infla o alvo de toque sem deslocar o texto. */
+  padding: 6px 4px;
+  margin: -6px -4px;
   border: 0;
   background: none;
   font: inherit;
