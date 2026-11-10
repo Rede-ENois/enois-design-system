@@ -5,6 +5,7 @@ import { type Root, createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { PostActionsProps } from "../../../types/domain/post/post-actions-props.js";
+import type { TestReaction } from "../../../types/domain/post/test-reaction.js";
 
 import { PostActions } from "./post-actions.js";
 
@@ -13,7 +14,9 @@ import { PostActions } from "./post-actions.js";
 const emojis = { LOVE: "❤️", ROFL: "🤣", SKULL: "💀", LIKE: "👍", INSIGHTFUL: "💡" };
 const REASON = "Páginas ainda não podem ser republicadas: a cópia perderia o conteúdo da página.";
 
-function props(overrides: Partial<PostActionsProps<"LOVE">> = {}): PostActionsProps<"LOVE"> {
+function props(
+  overrides: Partial<PostActionsProps<TestReaction>> = {},
+): PostActionsProps<TestReaction> {
   return {
     emojis,
     reactionStatus: null,
@@ -51,7 +54,7 @@ describe("PostActions — republicar", () => {
     host.remove();
   });
 
-  const render = (overrides: Partial<PostActionsProps<"LOVE">>) =>
+  const render = (overrides: Partial<PostActionsProps<TestReaction>>) =>
     act(() => root.render(<PostActions {...props(overrides)} />));
   const button = (label: string) =>
     host.querySelector<HTMLButtonElement>(`[aria-label="${label}"]`);
@@ -105,7 +108,7 @@ describe("PostActions — bolinhas do contador de reações", () => {
     host.remove();
   });
 
-  const render = (overrides: Partial<PostActionsProps<"LOVE">>) =>
+  const render = (overrides: Partial<PostActionsProps<TestReaction>>) =>
     act(() => root.render(<PostActions {...props(overrides)} />));
   const pills = () => [...host.querySelectorAll<HTMLSpanElement>(".-space-x-1 > span")];
 
