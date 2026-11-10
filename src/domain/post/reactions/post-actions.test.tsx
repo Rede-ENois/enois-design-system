@@ -10,7 +10,7 @@ import { PostActions } from "./post-actions.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const emojis = { LOVE: "❤️" };
+const emojis = { LOVE: "❤️", ROFL: "🤣", SKULL: "💀", LIKE: "👍", INSIGHTFUL: "💡" };
 const REASON = "Páginas ainda não podem ser republicadas: a cópia perderia o conteúdo da página.";
 
 function props(overrides: Partial<PostActionsProps<"LOVE">> = {}): PostActionsProps<"LOVE"> {
@@ -87,5 +87,48 @@ describe("PostActions — republicar", () => {
 
     expect(onRepost).not.toHaveBeenCalled();
     expect(document.body.textContent).toContain(REASON);
+  });
+});
+
+describe("PostActions — bolinhas do contador de reações", () => {
+  let root: Root;
+  let host: HTMLDivElement;
+
+  beforeEach(() => {
+    host = document.createElement("div");
+    document.body.appendChild(host);
+    root = createRoot(host);
+  });
+
+  afterEach(() => {
+    act(() => root.unmount());
+    host.remove();
+  });
+
+  const render = (overrides: Partial<PostActionsProps<"LOVE">>) =>
+    act(() => root.render(<PostActions {...props(overrides)} />));
+  const pills = () => [
+    ...host.querySelectorAll<HTMLSpanElement>(".-space-x-1 > span"),
+  ];
+
+  it("mostra o top real do post, do mais usado para o menos, limitado a 3", () => {
+    render({
+      reactionCount: 9,
+      reactionSummary: { ROFL: 2, LOVE: 5, SKULL: 1, LAUGH: 1 },
+    });
+
+    expect(pills().map((pill) => pill.textContent)).toEqual(["❤️", "🤣", "💀"]);
+  });
+
+  it("mostra menos bolinhas quando o post tem menos tipos", () => {
+    render({ reactionCount: 2, reactionSummary: { LOVE: 2 } });
+
+    expect(pills().map((pill) => pill.textContent)).toEqual(["❤️"]);
+  });
+
+  it("sem summary, mantém o tripé padrão que sempre apareceu", () => {
+    render({ reactionCount: 7 });
+
+    expect(pills().map((pill) => pill.textContent)).toEqual(["👍", "❤️", "💡"]);
   });
 });
