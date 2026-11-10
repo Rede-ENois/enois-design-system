@@ -42,6 +42,7 @@ export function CalendarEntryDetail({
   onRespond,
   onRemoveParticipant,
   onInvite,
+  reminder,
   saving = false,
   responding = false,
   invitePending = false,
@@ -161,6 +162,10 @@ export function CalendarEntryDetail({
           )}
         </div>
       </section>
+
+      {reminder && !cancelled && (
+        <section className="rounded-2xl border border-border-soft bg-card p-5">{reminder}</section>
+      )}
 
       {!owner && participation && onRespond && !cancelled && (
         <section className="flex flex-col gap-2 rounded-2xl border border-border-soft bg-card p-5">
