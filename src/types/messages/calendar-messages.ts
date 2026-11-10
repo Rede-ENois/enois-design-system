@@ -105,6 +105,8 @@ export type CalendarMessages = {
       invalidClock: string;
       endBeforeStart: string;
       durationTooLong: string;
+      /** `count` is how many entries the typed interval already touches (D23). */
+      conflictWarning: (count: number) => string;
       save: string;
       saving: string;
       cancel: string;
