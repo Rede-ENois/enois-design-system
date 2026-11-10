@@ -12,6 +12,7 @@ import type { RichTextProps } from "../../types/domain/post/rich-text-props.js";
 import type { RichNode } from "../../types/lib/rich-text/rich-node.js";
 import { AppLink } from "../../ui/app-link.js";
 
+import { mediaBoxStyle, rememberVideoBox } from "./media/media-box.js";
 import { SpoilerMedia } from "./media/spoiler-media.js";
 import { SpoilerText } from "./media/spoiler-text.js";
 
@@ -318,6 +319,8 @@ function renderMidia(
             src={ctx.resolveMediaOriginalUrl(href)}
             controls
             playsInline
+            style={mediaBoxStyle(href)}
+            onLoadedMetadata={rememberVideoBox(href)}
             className="my-1 max-h-96 w-full rounded-xl border border-border-soft"
           />
         )}

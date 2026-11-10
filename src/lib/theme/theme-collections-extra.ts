@@ -1,6 +1,6 @@
 import type { ThemeCollection } from "../../types/lib/theme/theme-collection.js";
 
-import { palette } from "./theme-collections.js";
+import { palette } from "./theme-palette.js";
 
 /**
  * Coleções Fase 1 (60 temas) — geradas com identidade nos DOIS modos:

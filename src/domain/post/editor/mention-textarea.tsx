@@ -19,7 +19,9 @@ import { applyFormat } from "../../../lib/rich-text/apply-format.js";
 import { insertSnippet } from "../../../lib/rich-text/insert-snippet.js";
 import { parseRichText } from "../../../lib/rich-text/parse.js";
 import { isSubmitShortcut } from "../../../lib/submit-shortcut.js";
+import { textFieldClasses } from "../../../lib/text-field-classes.js";
 import { useMessages } from "../../../messages/messages-context.js";
+import { RichTextToolbarMenu } from "../../../patterns/editor/rich-text-toolbar-menu.js";
 import { RichTextToolbar } from "../../../patterns/editor/rich-text-toolbar.js";
 import type { EditorEditKind } from "../../../types/domain/post/editor-edit-kind.js";
 import type { EditorHistorySnapshot } from "../../../types/domain/post/editor-history-snapshot.js";
@@ -99,6 +101,7 @@ export function MentionTextarea({
   rows,
   toolbar = false,
   toolbarVisible = true,
+  toolbarMenu = false,
   onPasteImages,
   onSubmitShortcut,
   mentionResults: results,
@@ -659,14 +662,24 @@ export function MentionTextarea({
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1">
-      {toolbar && toolbarVisible && (
-        <RichTextToolbar
-          label={messages.toolbar}
-          onFormat={formatSelection}
-          onEmoji={insertEmoji}
-          className="mb-1.5"
-        />
-      )}
+      {toolbar &&
+        toolbarVisible &&
+        (toolbarMenu ? (
+          <RichTextToolbarMenu
+            label={messages.toolbar}
+            onFormat={formatSelection}
+            onEmoji={insertEmoji}
+            // Dentro do campo, no canto: o texto ganha um respiro à direita para não passar por baixo.
+            className="absolute right-1 top-1 z-10"
+          />
+        ) : (
+          <RichTextToolbar
+            label={messages.toolbar}
+            onFormat={formatSelection}
+            onEmoji={insertEmoji}
+            className="mb-1.5"
+          />
+        ))}
 
       <div
         ref={fieldRef}
@@ -692,7 +705,9 @@ export function MentionTextarea({
           composingRef.current = true;
         }}
         onCompositionEnd={endComposition}
-        className={`max-h-[240px] w-full min-w-0 overflow-y-auto whitespace-pre-wrap break-words [overflow-wrap:anywhere] empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)] ${className}`}
+        className={`${
+          toolbarMenu ? "pr-9 " : ""
+        }max-h-[240px] w-full min-w-0 resize-none overflow-y-auto text-base whitespace-pre-wrap break-words [overflow-wrap:anywhere] md:text-sm empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)] ${className}`}
       >
         {firstContent}
       </div>

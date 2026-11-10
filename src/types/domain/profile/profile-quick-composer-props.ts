@@ -1,12 +1,15 @@
 import type { ProfileQuickComposerData } from "./profile-quick-composer-data.js";
-import type { ProfileQuickComposerPublishPayload } from "./profile-quick-composer-publish-payload.js";
 
+/**
+ * The profile composer is a launcher: publishing happens in the app's full composer, where the
+ * post type and topic are chosen. Each shortcut hands off to it.
+ */
 export type ProfileQuickComposerProps = {
   profile: ProfileQuickComposerData;
-  publishPending?: boolean;
-  uploadProgress?: string | null;
-  /** Publica texto + midia; resolve `true` quando deu certo, para o campo limpar. */
-  onPublish: (payload: ProfileQuickComposerPublishPayload) => Promise<boolean>;
+  /** Opens the full composer. */
+  onCompose: () => void;
+  /** Opens the full composer with the photos or the video just picked attached. */
+  onComposeWithMedia: (files: File[]) => void;
   /** Opens the article editor. Without it, the shortcut is not shown. */
   onWriteArticle?: () => void;
 };

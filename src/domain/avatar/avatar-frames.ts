@@ -95,6 +95,11 @@ export const FX_FRAMES = [
   "moldura-circuito",
   "moldura-neon",
   "moldura-radar",
+  "moldura-caixao",
+  "moldura-bruxa",
+  "moldura-lanterna",
+  "moldura-uivo",
+  "moldura-lacraia",
   ...SEASONAL_FX_FRAMES,
 ] as const;
 

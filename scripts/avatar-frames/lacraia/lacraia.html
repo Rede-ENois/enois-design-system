@@ -1,0 +1,607 @@
+<!doctype html>
+<html>
+  <body style="margin: 0; background: transparent">
+    <canvas id="c"></canvas>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const SIZE = +(params.get("size") || 480);
+      const FPS = +(params.get("fps") || 12);
+      const SHADOW = params.get("shadow") !== "0";
+      const canvas = document.getElementById("c");
+      canvas.width = canvas.height = SIZE;
+      const ctx = canvas.getContext("2d");
+      // The drawing area in frame units (the avatar has radius 50); wider than the 160 of the FX box so
+      // raised antennae and legs are never cut by the image edge.
+      const VIEW = +(params.get("view") || 192);
+      const U = SIZE / VIEW;
+
+      const TAU = Math.PI * 2;
+      const INK = "#0b0a0f";
+      const PAPER = "#f3efe6";
+      const PHOTO_R = 50;
+
+      function polar(r, deg) {
+        const a = (deg * Math.PI) / 180;
+        return [r * Math.sin(a), -r * Math.cos(a)];
+      }
+      function smooth(x) {
+        x = Math.min(1, Math.max(0, x));
+        return x * x * (3 - 2 * x);
+      }
+      function hash(n) {
+        n = n ^ 61 ^ (n >>> 16);
+        n = n + (n << 3);
+        n = n ^ (n >>> 4);
+        n = Math.imul(n, 0x27d4eb2d);
+        n = n ^ (n >>> 15);
+        return (n >>> 0) / 4294967296;
+      }
+      // Line boil: every vertex gets a small offset that changes every second frame ("on twos").
+      let boil = 0;
+      let jc = 0;
+      function j(amp) {
+        return (hash(boil * 1000003 + jc++ * 7919 + 17) - 0.5) * 2 * amp;
+      }
+
+      // ---------- the path: from behind the photo, along the rim over the top, back behind ----------
+      const K = 1.35;
+      const R_DEEP = 11,
+        R_RIM = 56;
+      const THA = 214,
+        THB = 258,
+        THC = 438,
+        THD = 482;
+      // Before the rim and after it the path sinks deep behind the photo in one smooth slope, so not
+      // even an antenna tip shows when the loop starts and ends.
+      const TH0 = THA - 600,
+        TH1 = THD + 600;
+      function radiusAt(th) {
+        if (th < THA) return R_DEEP;
+        if (th < THB) return R_DEEP + (R_RIM - R_DEEP) * smooth((th - THA) / (THB - THA));
+        if (th < THC) return R_RIM;
+        if (th < THD) return R_RIM - (R_RIM - R_DEEP) * smooth((th - THC) / (THD - THC));
+        return R_DEEP;
+      }
+      const PATH = [];
+      {
+        let s = 0,
+          prev = null;
+        for (let th = TH0; th <= TH1; th += 0.2) {
+          const [x, y] = polar(radiusAt(th), th);
+          if (prev) s += Math.hypot(x - prev[0], y - prev[1]);
+          PATH.push({ x, y, s, th });
+          prev = [x, y];
+        }
+      }
+      const TOTAL = PATH[PATH.length - 1].s;
+      function at(sq) {
+        sq = Math.min(Math.max(sq, 0), TOTAL);
+        let lo = 0,
+          hi = PATH.length - 1;
+        while (hi - lo > 1) {
+          const m = (lo + hi) >> 1;
+          if (PATH[m].s < sq) lo = m;
+          else hi = m;
+        }
+        const a = PATH[lo],
+          b = PATH[hi];
+        const t = (sq - a.s) / (b.s - a.s || 1);
+        return {
+          x: a.x + (b.x - a.x) * t,
+          y: a.y + (b.y - a.y) * t,
+          ang: Math.atan2(b.y - a.y, b.x - a.x),
+          th: a.th,
+        };
+      }
+      function sAtTheta(th) {
+        return PATH.find((p) => p.th >= th).s;
+      }
+
+      // ---------- body ----------
+      const NSEG = 13,
+        SPACING = 4.5 * K,
+        HEAD_GAP = 6.4 * K;
+      const BODY_LEN = HEAD_GAP + NSEG * SPACING;
+      const MARGIN = 9;
+      const STEP = 15 * K,
+        STANCE = 0.64;
+      const HIP = 3.4 * K,
+        SPREAD = 10.2 * K,
+        FEMUR = 5.4 * K,
+        TIBIA = 6.6 * K;
+      const S_START = sAtTheta(THA);
+      const S_END = sAtTheta(THD) + BODY_LEN + MARGIN;
+      const S_TOP = sAtTheta(360);
+
+      // ---------- timing: crawl, slow down at the top, rear up and snap, crawl on ----------
+      const V0 = 40;
+      const PAUSE = 1.3,
+        RAMP = 0.45;
+      const T_TOP = (S_TOP - S_START) / V0 + RAMP * 0.5;
+      function brake(t) {
+        const a = T_TOP - RAMP,
+          b = T_TOP + PAUSE;
+        if (t < a || t > b + RAMP) return 0;
+        if (t < T_TOP) return smooth((t - a) / RAMP);
+        if (t < b) return 1;
+        return 1 - smooth((t - b) / RAMP);
+      }
+      const DT = 1 / 600;
+      const TAU_OF = [0];
+      {
+        let tau = 0,
+          t = 0;
+        while (tau < (S_END - S_START) / V0) {
+          tau += (1 - brake(t)) * DT;
+          t += DT;
+          TAU_OF.push(tau);
+        }
+      }
+      const LOOP = (TAU_OF.length - 1) * DT;
+      const FRAMES = Math.round(LOOP * FPS);
+      function headS(t) {
+        const k = Math.min(TAU_OF.length - 1, Math.round(t / DT));
+        return S_START + V0 * TAU_OF[k];
+      }
+
+      // ---------- drawing helpers ----------
+      function tapered(pts, w0, w1, extra) {
+        const n = pts.length;
+        const left = [],
+          right = [];
+        for (let i = 0; i < n; i++) {
+          const p = pts[i],
+            q = pts[Math.min(n - 1, i + 1)],
+            o = pts[Math.max(0, i - 1)];
+          const dx = q[0] - o[0],
+            dy = q[1] - o[1];
+          const len = Math.hypot(dx, dy) || 1;
+          const w = (w0 + (w1 - w0) * (i / (n - 1))) / 2 + extra;
+          left.push([p[0] - (dy / len) * w, p[1] + (dx / len) * w]);
+          right.push([p[0] + (dy / len) * w, p[1] - (dx / len) * w]);
+        }
+        ctx.beginPath();
+        ctx.moveTo(left[0][0], left[0][1]);
+        for (const p of left) ctx.lineTo(p[0], p[1]);
+        for (let i = n - 1; i >= 0; i--) ctx.lineTo(right[i][0], right[i][1]);
+        ctx.closePath();
+        ctx.fill();
+      }
+      function curve(p0, p1, p2, n = 8) {
+        const out = [];
+        for (let i = 0; i <= n; i++) {
+          const t = i / n,
+            u = 1 - t;
+          out.push([
+            u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0],
+            u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1],
+          ]);
+        }
+        return out;
+      }
+      function poly(pts) {
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (const p of pts) ctx.lineTo(p[0], p[1]);
+        ctx.closePath();
+      }
+      function superellipse(a, b, e, n, jitter) {
+        const pts = [];
+        for (let k = 0; k < n; k++) {
+          const f = (k / n) * TAU;
+          const c = Math.cos(f),
+            s = Math.sin(f);
+          pts.push([
+            a * Math.sign(c) * Math.abs(c) ** (2 / e) + j(jitter),
+            b * Math.sign(s) * Math.abs(s) ** (2 / e) + j(jitter),
+          ]);
+        }
+        return pts;
+      }
+
+      // Two-bone IK; the knee bends backwards (against the crawl).
+      function knee(h, f, fwd) {
+        const dx = f[0] - h[0],
+          dy = f[1] - h[1];
+        const d = Math.min(Math.hypot(dx, dy), FEMUR + TIBIA - 0.05);
+        const base = Math.atan2(dy, dx);
+        const off = Math.acos(
+          Math.min(1, (FEMUR * FEMUR + d * d - TIBIA * TIBIA) / (2 * FEMUR * d)),
+        );
+        const k1 = [h[0] + Math.cos(base + off) * FEMUR, h[1] + Math.sin(base + off) * FEMUR];
+        const k2 = [h[0] + Math.cos(base - off) * FEMUR, h[1] + Math.sin(base - off) * FEMUR];
+        const p = (k) => (k[0] - h[0]) * fwd[0] + (k[1] - h[1]) * fwd[1];
+        return p(k1) < p(k2) ? k1 : k2;
+      }
+
+      // ---------- the creature at time t, as a list of parts ----------
+      function pose(t) {
+        const sh = headS(t);
+        const rear = brake(t - 0.25);
+        const segs = [];
+        for (let i = 0; i < NSEG; i++) {
+          const s = sh - HEAD_GAP - i * SPACING;
+          const p = at(s);
+          const wave = 1.3 * Math.sin((TAU * s) / (30 * K));
+          const nout = [Math.sin(p.ang), -Math.cos(p.ang)];
+          const c = [p.x + nout[0] * wave, p.y + nout[1] * wave];
+          const taper = i < NSEG - 4 ? 1 : 1 - (i - (NSEG - 5)) * 0.13;
+          segs.push({
+            i,
+            s,
+            c,
+            ang: p.ang,
+            nout,
+            taper,
+            behind: Math.hypot(c[0], c[1]) < PHOTO_R - 1,
+          });
+        }
+        const hp = at(sh);
+        const hn = [Math.sin(hp.ang), -Math.cos(hp.ang)];
+        const head = {
+          c: [
+            hp.x + hn[0] * 3.2 * rear + Math.cos(hp.ang) * 1.6 * rear,
+            hp.y + hn[1] * 3.2 * rear + Math.sin(hp.ang) * 1.6 * rear,
+          ],
+          ang: hp.ang - 0.25 * rear,
+          scale: K * 1.22 * (1 + 0.28 * rear),
+          behind: Math.hypot(hp.x, hp.y) < PHOTO_R - 1,
+          rear,
+        };
+        return { segs, head, t };
+      }
+
+      function legsOf(seg, t) {
+        const out = [];
+        for (const side of [1, -1]) {
+          const g = (((seg.s / STEP + seg.i * 0.137 + (side > 0 ? 0 : 0.5)) % 1) + 1) % 1;
+          let rel,
+            lift = 0;
+          if (g < STANCE) rel = (STANCE * STEP) / 2 - g * STEP;
+          else {
+            const u = (g - STANCE) / (1 - STANCE);
+            rel = (-STANCE * STEP) / 2 + STANCE * STEP * smooth(u);
+            lift = Math.sin(Math.PI * u);
+          }
+          const fp = at(seg.s + rel);
+          const fn = [Math.sin(fp.ang), -Math.cos(fp.ang)];
+          const spread = (SPREAD + lift * 2.6) * seg.taper;
+          const foot = [
+            fp.x + fn[0] * side * spread + j(0.15),
+            fp.y + fn[1] * side * spread + j(0.15),
+          ];
+          const hip = [
+            seg.c[0] + seg.nout[0] * side * HIP * seg.taper,
+            seg.c[1] + seg.nout[1] * side * HIP * seg.taper,
+          ];
+          const fwd = [Math.cos(seg.ang), Math.sin(seg.ang)];
+          out.push({ hip, knee: knee(hip, foot, fwd), foot, lift, side, fwd });
+        }
+        return out;
+      }
+
+      // ---------- painters (each runs twice: a paper halo pass and the ink pass) ----------
+      function tone(mode) {
+        return mode === "shadow" ? "#000" : mode === "halo" ? PAPER : INK;
+      }
+      function paintLeg(L, mode) {
+        const halo = mode !== "ink";
+        ctx.fillStyle = tone(mode);
+        const e = halo ? 0.5 : 0;
+        tapered(
+          curve(
+            L.hip,
+            [(L.hip[0] + L.knee[0]) / 2 + j(0.2), (L.hip[1] + L.knee[1]) / 2 + j(0.2)],
+            L.knee,
+            4,
+          ),
+          1.55,
+          1.15,
+          e,
+        );
+        const claw = [L.foot[0] + L.fwd[0] * 0.9 - L.side * 0.4, L.foot[1] + L.fwd[1] * 0.9];
+        tapered(
+          curve(
+            L.knee,
+            [(L.knee[0] + L.foot[0]) / 2 + j(0.25), (L.knee[1] + L.foot[1]) / 2 + j(0.25)],
+            L.foot,
+            5,
+          ),
+          1.15,
+          0.4,
+          e,
+        );
+        tapered([L.foot, claw], 0.5, 0.15, e);
+        if (!halo) {
+          ctx.fillStyle = PAPER;
+          tapered(curve(L.hip, L.hip, L.knee, 3), 0.32, 0.18, 0);
+        }
+      }
+
+      function paintSegment(sg, mode) {
+        const halo = mode !== "ink";
+        ctx.save();
+        ctx.translate(sg.c[0], sg.c[1]);
+        ctx.rotate(sg.ang);
+        const a = 2.95 * K * sg.taper,
+          b = 4.9 * K * sg.taper;
+        const shape = superellipse(a, b, 2.7, 22, 0.16);
+        if (halo) {
+          ctx.fillStyle = tone(mode);
+          ctx.scale(1 + 1.3 / a, 1 + 1.3 / b);
+          poly(shape);
+          ctx.fill();
+          ctx.restore();
+          return;
+        }
+        ctx.fillStyle = INK;
+        poly(shape);
+        ctx.fill();
+        ctx.strokeStyle = PAPER;
+        ctx.lineCap = "round";
+        ctx.lineWidth = 0.42;
+        ctx.beginPath();
+        const rim = curve(
+          [a * 0.15 + j(0.1), -b * 0.78],
+          [a * 1.05, 0],
+          [a * 0.15 + j(0.1), b * 0.78],
+          10,
+        );
+        ctx.moveTo(rim[0][0], rim[0][1]);
+        for (const p of rim) ctx.lineTo(p[0], p[1]);
+        ctx.stroke();
+        ctx.lineWidth = 0.55;
+        ctx.beginPath();
+        ctx.moveTo(-a * 0.35, -b * 0.55 + j(0.1));
+        ctx.lineTo(a * 0.1, -b * 0.62 + j(0.1));
+        ctx.stroke();
+        ctx.lineWidth = 0.3;
+        ctx.beginPath();
+        ctx.moveTo(-a * 0.7, j(0.08));
+        ctx.lineTo(a * 0.55, j(0.08));
+        for (const side of [1, -1]) {
+          ctx.moveTo(-a * 0.55, side * b * 0.72);
+          ctx.lineTo(-a * 0.1, side * (b * 0.78 + j(0.08)));
+        }
+        ctx.stroke();
+        ctx.fillStyle = PAPER;
+        ctx.beginPath();
+        ctx.arc(-a * 0.25, -b * 0.42, 0.3, 0, TAU);
+        ctx.arc(-a * 0.25, b * 0.42, 0.3, 0, TAU);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function paintTail(sg, mode, t) {
+        const halo = mode !== "ink";
+        ctx.fillStyle = tone(mode);
+        const back = [-Math.cos(sg.ang), -Math.sin(sg.ang)];
+        for (const side of [1, -1]) {
+          const sway = Math.sin(t * TAU * 0.9 + side) * 1.5;
+          const base = [
+            sg.c[0] + back[0] * 2 + sg.nout[0] * side * 1.4,
+            sg.c[1] + back[1] * 2 + sg.nout[1] * side * 1.4,
+          ];
+          const mid = [
+            base[0] + back[0] * 6.5 + sg.nout[0] * side * (3.5 + sway),
+            base[1] + back[1] * 6.5 + sg.nout[1] * side * (3.5 + sway),
+          ];
+          const tip = [
+            base[0] + back[0] * 12 + sg.nout[0] * side * (7.5 + sway),
+            base[1] + back[1] * 12 + sg.nout[1] * side * (7.5 + sway),
+          ];
+          tapered(curve(base, mid, tip, 8), 1, 0.2, halo ? 0.6 : 0);
+        }
+      }
+
+      function halftone(cx0, cy0, rx, ry, angle) {
+        // Screentone: a dot grid whose dots grow toward the shaded side.
+        for (let x = -rx; x <= rx; x += 0.85) {
+          for (let y = -ry; y <= ry; y += 0.85) {
+            const k = (x * Math.cos(angle) + y * Math.sin(angle)) / Math.max(rx, ry);
+            const r = 0.36 * smooth((k + 0.2) / 1.2);
+            if (r < 0.05) continue;
+            ctx.beginPath();
+            ctx.arc(cx0 + x, cy0 + y, r, 0, TAU);
+            ctx.fill();
+          }
+        }
+      }
+
+      function paintHead(h, mode, t) {
+        const halo = mode !== "ink";
+        ctx.save();
+        ctx.translate(h.c[0], h.c[1]);
+        ctx.rotate(h.ang);
+        ctx.scale(h.scale, h.scale);
+        const twitch = h.rear > 0.5 ? 2.2 : 1;
+        const snap = h.rear > 0.6 ? Math.max(0, Math.sin(t * TAU * 2.6)) ** 6 : 0;
+        // Antennae
+        for (const side of [1, -1]) {
+          const w = Math.sin(t * TAU * 1.3 * twitch + side * 0.8) * 1.6;
+          const base = [3.8, side * 2.6];
+          const pts = curve(
+            base,
+            [7 + w * 0.2, side * (9 + w)],
+            [15 + w * 0.5, side * (8.5 + w * 1.6)],
+            16,
+          );
+          pts.push([pts[16][0] + 2.4 + w * 0.2, pts[16][1] - side * (1.2 - w * 0.3)]);
+          ctx.fillStyle = tone(mode);
+          tapered(pts, 0.6, 0.12, halo ? 0.45 : 0);
+          if (!halo) {
+            for (let k = 2; k < pts.length - 2; k += 2) {
+              ctx.beginPath();
+              ctx.arc(pts[k][0], pts[k][1], 0.32 - k * 0.012, 0, TAU);
+              ctx.fill();
+            }
+          }
+        }
+        // Forcipules (the venom fangs), opening and snapping
+        for (const side of [1, -1]) {
+          const open = 0.32 + 0.45 * h.rear * (1 - snap) + 0.12 * Math.sin(t * TAU * 0.8);
+          ctx.save();
+          ctx.translate(3.6, side * 2.3);
+          ctx.rotate(side * open);
+          ctx.fillStyle = tone(mode);
+          tapered(
+            curve([0, 0], [3.2, side * 0.6], [4.8, -side * 1.6], 8),
+            1.7,
+            0.2,
+            halo ? 0.6 : 0,
+          );
+          ctx.restore();
+        }
+        // Skull plate
+        const plate = [];
+        for (let k = 0; k < 28; k++) {
+          const f = (k / 28) * TAU;
+          const c = Math.cos(f),
+            s = Math.sin(f);
+          const x = c > 0 ? 4.6 * c ** 0.8 : 3.8 * c;
+          const y = 5.1 * s * (c > 0.3 ? 1 - 0.25 * (c - 0.3) : 1);
+          plate.push([x + j(0.14), y + j(0.14)]);
+        }
+        if (halo) {
+          ctx.fillStyle = tone(mode);
+          ctx.scale(1.28, 1.24);
+          poly(plate);
+          ctx.fill();
+          ctx.restore();
+          return;
+        }
+        ctx.fillStyle = PAPER;
+        poly(plate);
+        ctx.fill();
+        ctx.save();
+        poly(plate);
+        ctx.clip();
+        ctx.fillStyle = INK;
+        halftone(0, 0, 5.2, 5.4, Math.PI * 0.85);
+        ctx.restore();
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 0.75;
+        ctx.lineJoin = "round";
+        poly(plate);
+        ctx.stroke();
+        // Eye sockets, nose, teeth and a crack
+        ctx.fillStyle = INK;
+        for (const side of [1, -1]) {
+          const socket = [];
+          for (let k = 0; k < 14; k++) {
+            const f = (k / 14) * TAU;
+            const r = 1 + 0.18 * Math.sin(f * 3 + side) + j(0.08);
+            socket.push([0.2 + Math.cos(f) * 1.7 * r, side * 2.25 + Math.sin(f) * 1.9 * r]);
+          }
+          poly(socket);
+          ctx.fill();
+          ctx.fillStyle = PAPER;
+          ctx.beginPath();
+          ctx.arc(0.6, side * 1.8, 0.28 + 0.12 * h.rear, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = INK;
+        }
+        ctx.beginPath();
+        ctx.moveTo(1.9, 0);
+        ctx.lineTo(2.9, -0.55);
+        ctx.lineTo(2.9, 0.55);
+        ctx.closePath();
+        ctx.fill();
+        ctx.lineWidth = 0.32;
+        ctx.beginPath();
+        ctx.moveTo(3.55, -2);
+        ctx.quadraticCurveTo(4.1, 0, 3.55, 2);
+        for (let k = -2; k <= 2; k++) {
+          ctx.moveTo(3.4 + Math.abs(k) * -0.1, k * 0.8);
+          ctx.lineTo(4.25 - Math.abs(k) * 0.15, k * 0.8 + j(0.05));
+        }
+        ctx.moveTo(-3.5, -0.4);
+        ctx.lineTo(-2.4 + j(0.1), 0.2);
+        ctx.lineTo(-1.9, -0.6 + j(0.1));
+        ctx.lineTo(-1.1, 0.1);
+        ctx.lineTo(-1.6 + j(0.1), 1.1);
+        ctx.moveTo(-2.4, 0.2);
+        ctx.lineTo(-2.9, 1.3 + j(0.1));
+        ctx.moveTo(-1.4, -3.6);
+        ctx.quadraticCurveTo(-0.2, -4.6 + j(0.1), 1.6, -4.1);
+        ctx.moveTo(-1.4, 3.6);
+        ctx.quadraticCurveTo(-0.2, 4.6 + j(0.1), 1.6, 4.1);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // ---------- one frame ----------
+      function draw(t, frame) {
+        boil = Math.floor(frame / 2);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, SIZE, SIZE);
+        ctx.setTransform(U, 0, 0, U, SIZE / 2, SIZE / 2);
+        const P = pose(t);
+        const parts = [];
+        P.segs.forEach((sg, k) => {
+          jc = 1000 + k * 97;
+          parts.push({
+            behind: sg.behind,
+            legs: legsOf(sg, t),
+            seg: sg,
+            tail: k === P.segs.length - 1,
+          });
+        });
+
+        const layers = [
+          { behind: true, clip: true },
+          { behind: false, clip: false },
+        ];
+        for (const layer of layers) {
+          const mine = parts.filter((p) => p.behind === layer.behind);
+          const headHere = P.head.behind === layer.behind;
+          if (!mine.length && !headHere) continue;
+          ctx.save();
+          if (layer.clip) {
+            ctx.beginPath();
+            ctx.rect(-VIEW / 2, -VIEW / 2, VIEW, VIEW);
+            ctx.arc(0, 0, PHOTO_R, 0, TAU, true);
+            ctx.clip("evenodd");
+          }
+          // Soft contact shadow on whatever is underneath.
+          if (SHADOW) {
+            ctx.save();
+            ctx.filter = `blur(${1.1 * U}px)`;
+            ctx.globalAlpha = 0.35;
+            ctx.translate(0.9, 1.4);
+            ctx.fillStyle = "#000";
+            for (const p of mine) {
+              jc = 5000 + p.seg.i * 131;
+              for (const L of p.legs) paintLeg(L, "shadow");
+              paintSegment(p.seg, "shadow");
+            }
+            if (headHere) paintHead(P.head, "shadow", t);
+            ctx.restore();
+          }
+          for (const mode of ["halo", "ink"]) {
+            for (const p of [...mine].reverse()) {
+              jc = 9000 + p.seg.i * 173;
+              for (const L of p.legs) paintLeg(L, mode);
+              if (p.tail) paintTail(p.seg, mode, t);
+            }
+            for (const p of [...mine].reverse()) {
+              jc = 20000 + p.seg.i * 191;
+              paintSegment(p.seg, mode);
+            }
+            if (headHere) {
+              jc = 40000;
+              paintHead(P.head, mode, t);
+            }
+          }
+          ctx.restore();
+        }
+      }
+
+      window.LACRAIA = { FRAMES, LOOP, FPS };
+      window.renderFrame = (i) => {
+        draw((i / FRAMES) * LOOP, i);
+        return canvas.toDataURL("image/png");
+      };
+    </script>
+  </body>
+</html>

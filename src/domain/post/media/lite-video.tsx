@@ -6,6 +6,8 @@ import { useMessages } from "../../../messages/messages-context.js";
 import type { LiteVideoProps } from "../../../types/domain/post/lite-video-props.js";
 import type { LiteVideoStage } from "../../../types/domain/post/lite-video-stage.js";
 
+import { firstFrameSrc } from "./first-frame-src.js";
+import { mediaBoxStyle, rememberVideoBox } from "./media-box.js";
 import { MediaStage } from "./media-stage.js";
 
 /**
@@ -22,6 +24,8 @@ import { MediaStage } from "./media-stage.js";
 export function LiteVideo({
   src,
   className = "max-h-96 w-full bg-surface-1",
+  width,
+  height,
   muted = true,
   registerRef,
   lite = false,
@@ -42,16 +46,19 @@ export function LiteVideo({
 
   if (!src) return null;
 
+  const box = { style: mediaBoxStyle(src, width, height), onLoadedMetadata: rememberVideoBox(src) };
+
   if (!lite) {
     return (
       <video
         ref={attach}
-        src={src}
+        src={firstFrameSrc(src)}
         muted={muted}
         playsInline
         preload="metadata"
         controls
         className={className}
+        {...box}
       />
     );
   }
@@ -64,7 +71,15 @@ export function LiteVideo({
         onClick={() => setStage({ time: resumeAt.current })}
         className="relative block w-full text-left"
       >
-        <video ref={attach} src={src} muted playsInline preload="metadata" className={className} />
+        <video
+          ref={attach}
+          src={firstFrameSrc(src)}
+          muted
+          playsInline
+          preload="metadata"
+          className={className}
+          {...box}
+        />
 
         <span className="pointer-events-none absolute inset-0 grid place-items-center">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur">

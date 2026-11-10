@@ -13,15 +13,19 @@ const preview: Preview = {
   },
   initialGlobals: { theme: "light" },
   decorators: [
-    (Story, context) => (
-      <div className={context.globals.theme === "dark" ? "dark" : undefined}>
+    (Story, context) => {
+      // The app puts `.dark` on <html>: the @theme color tokens resolve there, and portaled
+      // overlays (menus, dialogs) live outside any wrapper. Mirror it so stories match the app.
+      document.documentElement.classList.toggle("dark", context.globals.theme === "dark");
+
+      return (
         <div className="min-h-screen bg-background p-6 text-foreground">
           <ToastProvider>
             <Story />
           </ToastProvider>
         </div>
-      </div>
-    ),
+      );
+    },
   ],
 };
 

@@ -13,6 +13,7 @@ import { ProfileBannerDialog } from "./profile-banner-dialog.js";
 import { ProfileBioDialog } from "./profile-bio-dialog.js";
 import { ProfileCityPrivacy } from "./profile-city-privacy.js";
 import { ProfileCommunityShelf } from "./profile-community-shelf.js";
+import { ProfileEditMenu } from "./profile-edit-menu.js";
 import { ProfileExperiencesSection } from "./profile-experiences-section.js";
 import { ProfileExplorePanel } from "./profile-explore-panel.js";
 import { ProfileGamificationPanel } from "./profile-gamification-panel.js";
@@ -154,7 +155,8 @@ export const Sections: StoryObj = {
     <div className="max-w-2xl space-y-4">
       <ProfileQuickComposer
         profile={{ name: "Ana Souza" }}
-        onPublish={async () => true}
+        onCompose={() => undefined}
+        onComposeWithMedia={() => undefined}
         onWriteArticle={() => undefined}
       />
       <ProfileProjectsSection
@@ -277,6 +279,57 @@ export const Dialogs: StoryObj = {
           open={open === "project"}
           onOpenChange={toggle("project")}
           onSave={() => setOpen(null)}
+        />
+      </div>
+    );
+  },
+};
+
+export const StackChips: StoryObj = {
+  parameters: {
+    docs: {
+      description: {
+        story: [
+          "Edit the sample project to try the shared TokenInput with up to 10 technologies",
+          "of 40 characters each. Enter, commas (including mobile input and pasted lists)",
+          "and leaving the field confirm trimmed values; duplicate technologies show inline feedback.",
+          "Remove chips with their labelled buttons, change another field or switch editor modes",
+          "to check that the stack is preserved. Saving also confirms pending text without blur",
+          "and updates the saved stack below. Use a mobile viewport to inspect chip wrapping",
+          "and the existing theme tokens for chip colors, focus rings and feedback.",
+        ].join(" "),
+      },
+    },
+  },
+  render: function StackChipsStory() {
+    const [open, setOpen] = useState(true);
+    const [stack, setStack] = useState([
+      "React",
+      "TypeScript",
+      "Postgres",
+      "Tailwind CSS",
+      "Node.js",
+      "Docker",
+      "Vitest",
+      "Storybook",
+    ]);
+
+    return (
+      <div className="max-w-2xl space-y-3">
+        <Button onClick={() => setOpen(true)}>Gerenciar stack</Button>
+
+        <p className="text-sm text-text-subtle">Stack salva: {stack.join(", ")}</p>
+
+        <ProjectsManager
+          open={open}
+          onOpenChange={setOpen}
+          projects={[{ ...projects[0], stack }]}
+          onSave={async (_id, input) => {
+            setStack(input.stack);
+            return true;
+          }}
+          onDelete={() => setStack([])}
+          renderHtmlFrame={frame}
         />
       </div>
     );
@@ -523,3 +576,26 @@ export const ProfessionalMinimal: StoryObj = {
     />
   ),
 };
+
+const editMenuActions = {
+  onEditInfo: () => {},
+  onEditPhoto: () => {},
+  onEditCover: () => {},
+  onEditStatus: () => {},
+  onEditResume: () => {},
+  onEditBioHtml: () => {},
+  onEditAppearance: () => {},
+  onEditLook: () => {},
+};
+
+/** Every way to change your own profile behind one button. Open it to see the groups. */
+export const EditMenu: StoryObj = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <ProfileEditMenu {...editMenuActions} professional={{ href: "#", setup: false }} />
+      <ProfileEditMenu {...editMenuActions} photoBusy professional={{ href: "#", setup: true }} />
+    </div>
+  ),
+};
+
+export const EditMenuDark: StoryObj = { ...EditMenu, globals: { theme: "dark" } };

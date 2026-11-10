@@ -31,6 +31,7 @@ function render(props: Partial<AppearanceDialogProps> = {}) {
     collectionId: null,
     activeCollection: null,
     onCollectionSelect: () => {},
+    onCollectionPreview: () => {},
     widgetBackground: null,
     onWidgetBackgroundChange: () => {},
     pageBackground: null,
@@ -121,11 +122,53 @@ describe("AppearanceDialog", () => {
     expect(onNameStyleChange).toHaveBeenCalledWith(expect.objectContaining({ theme: "RETRO" }));
   });
 
+  it("separates experimentar (prévia) de aplicar (grava a escolha)", () => {
+    const onCollectionPreview = vi.fn();
+    const onCollectionSelect = vi.fn();
+    render({ onCollectionPreview, onCollectionSelect, collectionId: null });
+
+    const card = [...document.body.querySelectorAll("button")].find((b) =>
+      b.getAttribute("aria-label")?.startsWith(defaultMessages.collectionGrid.tryTheme),
+    )!;
+    const tryButtons = [...document.body.querySelectorAll("button")].filter(
+      (b) => b.textContent === defaultMessages.collectionGrid.tryTheme,
+    );
+    const applyButtons = [...document.body.querySelectorAll("button")].filter(
+      (b) => b.textContent === defaultMessages.collectionGrid.applyTheme,
+    );
+
+    expect(card).toBeDefined();
+    expect(tryButtons.length).toBeGreaterThan(1);
+    expect(applyButtons.length).toBeGreaterThan(1);
+
+    act(() => tryButtons[1].click());
+    expect(onCollectionPreview).toHaveBeenCalled();
+
+    act(() => applyButtons[1].click());
+    expect(onCollectionSelect).toHaveBeenCalled();
+  });
+
   it("hides the contributor tag without its callback", () => {
     render();
     openTab(messages.tabIdentity);
 
     expect(text()).toContain(messages.nameStyleTitle);
     expect(text()).not.toContain(messages.contributorTagTitle);
+  });
+});
+
+describe("AppearanceDialog: owned items tab (#566)", () => {
+  it("shows the Itens tab with the app's content when itemsSlot is given", () => {
+    render({ itemsSlot: <p>Moldura Saci equipada</p> });
+
+    openTab(messages.tabItems);
+    expect(text()).toContain("Moldura Saci equipada");
+  });
+
+  it("hides the tab without itemsSlot", () => {
+    render();
+
+    const tabs = [...document.body.querySelectorAll('[role="tab"]')].map((t) => t.textContent);
+    expect(tabs).not.toContain(messages.tabItems);
   });
 });

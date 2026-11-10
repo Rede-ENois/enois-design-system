@@ -23,4 +23,8 @@ describe("cosmetics styles", () => {
     // The primary depends on the theme tone, so it comes inline from cardThemeStyle.
     expect(themed).not.toContain("--primary:");
   });
+
+  it("keeps each look card at its own height when another one opens its pieces", () => {
+    expect(rule(".cos-shop__look-grid")).toContain("align-items: start");
+  });
 });

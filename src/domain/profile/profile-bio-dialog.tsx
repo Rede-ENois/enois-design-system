@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialo
 export function ProfileBioDialog({
   open,
   onOpenChange,
+  trigger = true,
   initialHtml,
   maxLength,
   savePending = false,
@@ -25,22 +26,27 @@ export function ProfileBioDialog({
 }: ProfileBioDialogProps) {
   const messages = useMessages().profileBioDialog;
   const [html, setHtml] = useState(initialHtml ?? "");
+  // Every opening starts from the saved HTML, whoever opened the dialog.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (open) setHtml(initialHtml ?? "");
+  }
 
   return (
     <>
-      <Button
-        variant="outline"
-        size="sm"
-        className="rounded-full gap-1.5"
-        onClick={() => {
-          setHtml(initialHtml ?? "");
-          onOpenChange(true);
-        }}
-      >
-        <Code2 className="h-4 w-4" />
+      {trigger && (
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full gap-1.5"
+          onClick={() => onOpenChange(true)}
+        >
+          <Code2 className="h-4 w-4" />
 
-        <>{messages.action}</>
-      </Button>
+          <>{messages.action}</>
+        </Button>
+      )}
 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-2xl">

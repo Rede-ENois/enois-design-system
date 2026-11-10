@@ -5,11 +5,10 @@ import { CheckCircle2, X, XCircle } from "lucide-react";
 import { cn } from "../lib/utils.js";
 import { useMessages } from "../messages/messages-context.js";
 import type { ToastAction } from "../types/components/ui/toast-action.js";
-import type { ToastContextValue } from "../types/components/ui/toast-context-value.js";
 import type { ToastItem } from "../types/components/ui/toast-item.js";
 import type { ToastVariant } from "../types/components/ui/toast-variant.js";
 
-const ToastContext = React.createContext<ToastContextValue | null>(null);
+import { ToastContext } from "./toast-context.js";
 
 const AUTO_DISMISS_MS = 4000;
 const ACTION_DISMISS_MS = 8000;
@@ -94,10 +93,4 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       </div>
     </ToastContext.Provider>
   );
-}
-
-export function useToast(): ToastContextValue {
-  const context = React.useContext(ToastContext);
-  // Sem provider (ex.: teste isolado) devolve um no-op em vez de quebrar a tela.
-  return context ?? { toast: () => {} };
 }

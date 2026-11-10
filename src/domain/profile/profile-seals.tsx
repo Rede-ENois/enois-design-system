@@ -13,7 +13,10 @@ export function ProfileSeals({ seals, renderEvidence }: ProfileSealsProps) {
   if (seals.length === 0) return null;
 
   return (
-    <section aria-labelledby="profile-seals-title" className="surface-card space-y-4 p-4 sm:p-5">
+    <section
+      aria-labelledby="profile-seals-title"
+      className="surface-card min-w-0 space-y-4 overflow-hidden p-4 sm:p-5"
+    >
       <h2
         id="profile-seals-title"
         className="text-xs font-semibold uppercase tracking-widest text-text-subtle"

@@ -17,57 +17,69 @@ const root = createRoot(container);
 afterEach(() => act(() => root.render(null)));
 
 const hrefs: AccountMenuHrefs = {
-  profile: "#",
-  corporateProfile: "#",
-  wallet: "#",
-  marketplace: "#",
-  support: "#",
-  security: "#",
-  blockedUsers: "#",
-  myReports: "#",
-  sanctions: "#",
-  guardian: "#",
-  moderator: "#",
-  apoie: "#",
+  profile: "/perfil/ana",
+  wallet: "/carteira",
+  account: "/conta",
+  support: "/suporte",
 };
 
-function render(menuHrefs: AccountMenuHrefs) {
-  const noop = () => {};
+function render(menuHrefs: AccountMenuHrefs = hrefs, extra = {}) {
   act(() =>
     root.render(
       <AccountMenu
-        profile={{ name: "Pessoa Teste", email: "pessoa@example.com", avatar: null }}
+        profile={{ name: "Pessoa Teste", username: "pessoa", avatar: null }}
         hrefs={menuHrefs}
         open
-        onOpenChange={noop}
-        onChangeEmail={noop}
-        onChangePassword={noop}
-        onOpenLinkedAccounts={noop}
-        onOpenHealthyUsage={noop}
-        onDeleteAccount={noop}
-        onLogout={noop}
+        onOpenChange={() => {}}
+        onLogout={() => {}}
         loggingOut={false}
+        {...extra}
       />,
     ),
   );
 }
 
-const preferencesItem = () =>
-  [...document.body.querySelectorAll("a")].find(
-    (a) => a.textContent === "Preferências de notificação",
-  );
+const text = () => document.body.textContent ?? "";
 
-describe("AccountMenu: notification preferences item", () => {
-  it("shows the item when hrefs.notificationPreferences is set", () => {
-    render({ ...hrefs, notificationPreferences: "/configuracoes/notificacoes" });
+describe("AccountMenu", () => {
+  it("keeps only the quick entries and sends the rest to the account page", () => {
+    render();
 
-    expect(preferencesItem()?.getAttribute("href")).toBe("/configuracoes/notificacoes");
+    for (const label of [
+      "Ver meu perfil",
+      "Carteira",
+      "Conta e segurança",
+      "Ajuda e suporte",
+      "Sair",
+    ]) {
+      expect(text()).toContain(label);
+    }
+    for (const gone of ["Excluir conta", "Usuários bloqueados", "Marketplace", "Penalidades"]) {
+      expect(text()).not.toContain(gone);
+    }
+    expect(document.body.querySelector('a[href="/conta"]')).not.toBeNull();
   });
 
-  it("hides the item without the href", () => {
-    render(hrefs);
+  it("shows the username instead of the e-mail", () => {
+    render();
 
-    expect(document.body.textContent).toContain("Ver perfil");
-    expect(preferencesItem()).toBeUndefined();
+    expect(text()).toContain("@pessoa");
+    expect(text()).not.toContain("@example");
+  });
+
+  it("shows role pages only to whoever has the role", () => {
+    render();
+    expect(text()).not.toContain("Painel de moderador");
+    expect(text()).not.toContain("Supervisão parental");
+
+    render({ ...hrefs, moderator: "/moderador" });
+    expect(text()).toContain("Painel de moderador");
+  });
+
+  it("shows the wallet balance and the theme control when given", () => {
+    render(hrefs, { walletLabel: "1.240 faíscas", themeSlot: <span>tema-slot</span> });
+
+    expect(text()).toContain("1.240 faíscas");
+    expect(text()).toContain("tema-slot");
   });
 });

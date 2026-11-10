@@ -24,7 +24,6 @@ export const DateTextInput = React.forwardRef<HTMLInputElement, DateTextInputPro
       if (value !== undefined && value !== emitted(display)) {
         setDisplay(isoToDisplay(value));
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
     const validity = (() => {

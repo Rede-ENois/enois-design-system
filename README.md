@@ -20,6 +20,9 @@ Rules:
 - Components never fetch, route or read app stores. Data comes in through props, actions go out through callbacks.
 - Content (titles, post text, names) is always a prop. Fixed component microcopy (accessible labels, counters, empty states) comes from `useMessages()` with pt-BR defaults.
 
+See [`docs/visual-language.md`](docs/visual-language.md) for the default look: surfaces, semantic
+contours (person, community, event) and the signal vocabulary.
+
 ## Using it in an app
 
 `.npmrc` (GitHub Packages needs a token with `read:packages`, even for public packages):
@@ -55,6 +58,49 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
   </ToastProvider>
 </EnoisProvider>;
 ```
+
+### Token input
+
+`TokenInput` from `@rede-enois/design-system/patterns` provides the same removable
+chips for onboarding skills and profile project technologies. Pass `values`,
+`onAdd`, `onRemove`, `label`, `max` and `maxLength`; suggestions, `duplicateMessage`
+and copy overrides are optional. `allowMultiple` defaults to `true`: callbacks must
+use functional state updates because a pasted list can add several tokens in one
+input event. With `allowMultiple={false}`, a confirmation adds at most one token;
+multi-item text is kept for correction with an accessible message.
+
+Enter, commas (including Android input events), and moving to another input or
+blurring the field confirm pending text. Buttons and links defer confirmation to
+their action handler so a layout change cannot cancel the pointer click.
+Blank tokens and case-insensitive duplicates are ignored. Invalid
+lengths or batches exceeding the item cap leave the text available for correction
+and show an accessible error. IME composition is preserved. Suggestions exclude
+selected values and show at most eight matches.
+
+Forms can pass a `ref` typed as `TokenInputHandle` and call `commit()` before
+saving: it returns the complete list including pending text, or `null` when
+invalid. This avoids depending on a blur state update to build the save payload.
+Onboarding uses `allowMultiple={false}` with limits of 20 skills and 60 characters,
+preserving its existing single-skill frontend callbacks. Projects accept pasted
+lists with limits of 10 technologies and 40 characters. No frontend change is
+required to consume these views.
+
+### Mobile text fields
+
+`Input`, `Textarea` and `MentionTextarea` keep compact `text-xs` and `text-sm`
+overrides at 16px below 768px, retaining their requested size on desktop. The
+internal `textFieldClasses` helper merges classes before converting these compact
+sizes. Other unprefixed font sizes are also mirrored at `md:`, so `text-lg`,
+`text-base` and `text-[15px]` override the desktop default too. Explicit responsive
+overrides, colors and line heights remain available. The helper is not part of
+the package's public API. Native text fields in DS views use explicit
+mobile and desktop sizes. Non-text inputs and unrelated app controls are not
+targeted by a global font rule. Manual page zoom remains available.
+
+Use `text-base md:text-sm` (or `md:text-xs`) when adding a compact text field.
+Custom arbitrary sizes and responsive mobile overrides must also stay at least
+16px; `textFieldClasses` only normalizes the unprefixed `text-xs` and `text-sm`
+utilities. It does not inspect inline styles or compute arbitrary CSS values.
 
 ### Input counter
 
@@ -132,6 +178,13 @@ falls back to the default `quintal`. The owner sees a hint about the part that g
   gardenStyle={gardenStyleOf(equippedGardenItemId)}
 />
 ```
+
+### Card themes
+
+`cardTheme(id)` maps a shop `CARD_THEME` item to the colors of the profile card: the seasonal
+collections plus one theme for each of the 85 appearance themes (`tema-<themeId>`), taken from that
+theme's own gradient and accent. `card-themes.test.ts` keeps every card at AA contrast on both stops.
+An id without a card theme renders no art, so a new item needs its entry here.
 
 ## Migrating components from the front
 

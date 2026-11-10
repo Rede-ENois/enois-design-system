@@ -11,6 +11,7 @@ export type { AuthenticatedAppHeaderProps } from "../../types/domain/shell/authe
 export type { GuestAppHeaderProps } from "../../types/domain/shell/guest-app-header-props.js";
 export type { NavigationCommunityData } from "../../types/domain/shell/navigation-community-data.js";
 export type { NavigationItemData } from "../../types/domain/shell/navigation-item-data.js";
+export type { NavigationSection } from "../../types/domain/shell/navigation-section.js";
 export type { NavigationLinksProps } from "../../types/domain/shell/navigation-links-props.js";
 export type { PlatformSpaceData } from "../../types/domain/shell/platform-space-data.js";
 export type { PlatformSpacesCardProps } from "../../types/domain/shell/platform-spaces-card-props.js";

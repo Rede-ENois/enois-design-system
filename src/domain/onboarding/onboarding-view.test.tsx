@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act } from "react";
+import { act, useState } from "react";
 
 import { type Root, createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -81,6 +81,71 @@ const click = (element: HTMLElement | undefined) => {
 };
 
 describe("OnboardingView", () => {
+  it("rejects multi-skill input without adding items or advancing the step", () => {
+    const all = props();
+    render(all);
+    const input = host.querySelector("input")!;
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(
+        input,
+        "React, Go, Fotografia",
+      );
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    expect(all.onAddSkill).not.toHaveBeenCalled();
+    expect(input.value).toBe("React, Go, Fotografia");
+    expect(host.querySelector('[role="alert"]')!.textContent).toBe(
+      defaultMessages.tokenInput.singleItem,
+    );
+    click(button(messages.next));
+    expect(all.onAddSkill).not.toHaveBeenCalled();
+    expect(all.onStepChange).not.toHaveBeenCalled();
+  });
+
+  it("preserves the original frontend callbacks for commas, removals and a pending skill", () => {
+    const snapshot = vi.fn();
+    const all = props();
+    function OriginalFrontend() {
+      const [skills, setSkills] = useState(["React"]);
+      const [step, setStep] = useState<OnboardingViewProps["step"]>("interests");
+      snapshot(skills);
+      return (
+        <OnboardingView
+          {...all}
+          step={step}
+          skills={skills}
+          onAddSkill={(skill) => setSkills([...skills, skill])}
+          onRemoveSkill={(skill) => setSkills(skills.filter((item) => item !== skill))}
+          onStepChange={setStep}
+        />
+      );
+    }
+    act(() => root.render(<OriginalFrontend />));
+    const typeSkill = (value: string) =>
+      act(() => {
+        const input = host.querySelector("input")!;
+        Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(
+          input,
+          value,
+        );
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+    typeSkill("Go,");
+    typeSkill("Fotografia,");
+    expect(snapshot).toHaveBeenLastCalledWith(["React", "Go", "Fotografia"]);
+    const remove = host.querySelector<HTMLButtonElement>(
+      `[aria-label="${messages.removeSkill("React")}"]`,
+    )!;
+    act(() => remove.click());
+    expect(snapshot).toHaveBeenLastCalledWith(["Go", "Fotografia"]);
+    typeSkill("Rust, Python,");
+    expect(snapshot).toHaveBeenLastCalledWith(["Go", "Fotografia"]);
+    typeSkill("Rust");
+    click(button(messages.next));
+    expect(snapshot).toHaveBeenLastCalledWith(["Go", "Fotografia", "Rust"]);
+    expect(host.querySelector("h1")!.textContent).toBe(messages.packTitle);
+  });
+
   it("toggles topics and adds skills by Enter and by suggestion", () => {
     const all = props();
     render(all);

@@ -7,7 +7,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileResumeDialogProps } from "../../types/domain/profile/profile-resume-dialog-props.js";
 import { Button } from "../../ui/button.js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 /** Teto do arquivo: currículo é texto; acima disso é portfólio disfarçado. */
 const MAX_RESUME_BYTES = 5 * 1024 * 1024;
@@ -22,6 +22,8 @@ const MAX_RESUME_BYTES = 5 * 1024 * 1024;
  * pessoa, e ela decide quando entregar (no envio de uma candidatura, por exemplo).
  */
 export function ProfileResumeDialog({
+  open: controlledOpen,
+  onOpenChange,
   resumeUrl,
   resumeName,
   busy = false,
@@ -31,7 +33,10 @@ export function ProfileResumeDialog({
   const messages = useMessages().profileResumeDialog;
   const { resolveMediaUrl } = useAdapters();
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
+  const [ownOpen, setOwnOpen] = useState(false);
+  const controlled = controlledOpen !== undefined;
+  const open = controlled ? controlledOpen : ownOpen;
+  const setOpen = controlled ? (next: boolean) => onOpenChange?.(next) : setOwnOpen;
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (file: File | undefined) => {
@@ -68,16 +73,18 @@ export function ProfileResumeDialog({
 
   return (
     <>
-      <Button
-        variant="outline"
-        size="sm"
-        className="rounded-full gap-1.5"
-        onClick={() => setOpen(true)}
-      >
-        <FileText className="h-4 w-4" />
+      {!controlled && (
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full gap-1.5"
+          onClick={() => setOpen(true)}
+        >
+          <FileText className="h-4 w-4" />
 
-        <>{messages.action}</>
-      </Button>
+          <>{messages.action}</>
+        </Button>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">

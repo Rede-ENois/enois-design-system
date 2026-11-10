@@ -6,6 +6,7 @@ import type { CommentItemData } from "./comment-item-data.js";
 import type { PostMediaGridProps } from "./post-media-grid-props.js";
 import type { PostRichTextProps } from "./post-rich-text-props.js";
 import type { RenderAuthorTrigger } from "./render-author-trigger.js";
+import type { RenderLinkPreview } from "./render-link-preview.js";
 
 export type CommentItemProps<T extends string = string> = {
   comment: CommentItemData;
@@ -59,4 +60,6 @@ export type CommentItemProps<T extends string = string> = {
   reactionsDialog?: ReactNode;
   /** Avatar e nome abrem o gatilho do app (mini cartão) em vez do link do perfil. */
   renderAuthorTrigger?: RenderAuthorTrigger;
+  /** O cartão de cada link de página; sem ele, o cartão simples do DS. */
+  renderLinkPreview?: RenderLinkPreview;
 };

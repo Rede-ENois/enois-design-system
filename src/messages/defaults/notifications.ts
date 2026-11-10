@@ -2,7 +2,7 @@ import type { NotificationsMessages } from "../../types/messages/notifications-m
 
 export const notificationsMessages: NotificationsMessages = {
   notificationsPopover: {
-    title: "Notificações",
+    title: "Avisos",
     markAllRead: "Ler tudo",
     preferences: "Preferências de notificação",
     overflowCount: "9+",
@@ -14,15 +14,17 @@ export const notificationsMessages: NotificationsMessages = {
     emptyNew: "Nenhuma notificação nova.",
     emptyHistory: "Nenhum histórico ainda.",
     emptyRequests: "Nenhuma solicitação pendente.",
-    unreadLabel: (count) =>
-      `${count} ${count === 1 ? "notificação não lida" : "notificações não lidas"}`,
+    unreadLabel: (count) => `${count} ${count === 1 ? "aviso não lido" : "avisos não lidos"}`,
+    viewAll: "Ver todos os avisos",
+    loadMore: "Carregar mais",
+    loadingMore: "Carregando...",
   },
   notificationItem: {
-    markRead: "Lida",
+    markRead: "Marcar como lida",
     accept: "Aceitar",
     openActorProfile: (name) => `Abrir o perfil de ${name || "quem interagiu"}`,
   },
-  connectionRequestItem: { someone: "Alguém", accept: "Aceitar", reject: "Recusar" },
+  connectionRequestItem: { someone: "Alguém", accept: "Aceitar", reject: "Agora não" },
   notificationPreferences: {
     emailTitle: "E-mail",
     pushTitle: "Avisos no navegador",

@@ -4,6 +4,7 @@ export { ProfessionalProfile } from "./professional-profile.js";
 export { ProfileBannerDialog } from "./profile-banner-dialog.js";
 export { profileBadges } from "./profile-badges.js";
 export { ProfileBioDialog } from "./profile-bio-dialog.js";
+export { ProfileEditMenu } from "./profile-edit-menu.js";
 export { ProfileCityPrivacy } from "./profile-city-privacy.js";
 export { ProfileCommunityShelf } from "./profile-community-shelf.js";
 export { ProfileExperiencesSection } from "./profile-experiences-section.js";
@@ -36,6 +37,7 @@ export type { ProfessionalProfileData } from "../../types/domain/profile/profess
 export type { ProfessionalProfileProps } from "../../types/domain/profile/professional-profile-props.js";
 export type { ProfileBannerDialogProps } from "../../types/domain/profile/profile-banner-dialog-props.js";
 export type { ProfileBioDialogProps } from "../../types/domain/profile/profile-bio-dialog-props.js";
+export type { ProfileEditMenuProps } from "../../types/domain/profile/profile-edit-menu-props.js";
 export type { ProfileCityPrivacyProps } from "../../types/domain/profile/profile-city-privacy-props.js";
 export type { ProfileCommunityItem } from "../../types/domain/profile/profile-community-item.js";
 export type { ProfileCommunityShelfProps } from "../../types/domain/profile/profile-community-shelf-props.js";
@@ -56,7 +58,6 @@ export type { ProfileProject } from "../../types/domain/profile/profile-project.
 export type { ProfileProjectsSectionProps } from "../../types/domain/profile/profile-projects-section-props.js";
 export type { ProfileQuickComposerData } from "../../types/domain/profile/profile-quick-composer-data.js";
 export type { ProfileQuickComposerProps } from "../../types/domain/profile/profile-quick-composer-props.js";
-export type { ProfileQuickComposerPublishPayload } from "../../types/domain/profile/profile-quick-composer-publish-payload.js";
 export type { ProfileResumeDialogProps } from "../../types/domain/profile/profile-resume-dialog-props.js";
 export type { ProfileSeal } from "../../types/domain/profile/profile-seal.js";
 export type { ProfileSealsProps } from "../../types/domain/profile/profile-seals-props.js";

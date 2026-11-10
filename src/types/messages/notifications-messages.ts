@@ -11,6 +11,9 @@ export type NotificationsMessages = {
     emptyHistory: string;
     emptyRequests: string;
     unreadLabel: (count: number) => string;
+    viewAll: string;
+    loadMore: string;
+    loadingMore: string;
   };
   notificationItem: {
     markRead: string;

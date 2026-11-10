@@ -4,7 +4,7 @@ import { Copy, Heart } from "lucide-react";
 import QRCode from "qrcode";
 
 import { useMessages } from "../../messages/messages-context.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 import { PIX_KEY, pixCopiaECola } from "./pix.js";
 

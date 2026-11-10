@@ -1,11 +1,8 @@
 import { createContext, useContext } from "react";
 
 import type { Adapters } from "../types/adapters/adapters.js";
-import type { LinkProps } from "../types/adapters/link-props.js";
 
-function PlainLink({ href, ...props }: LinkProps) {
-  return <a href={href} {...props} />;
-}
+import { PlainLink } from "./plain-link.js";
 
 function isSameHostUrl(url: string): boolean {
   if (!/^https?:\/\//i.test(url)) return true;

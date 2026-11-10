@@ -6,6 +6,7 @@ import type { FormatPlaceholders } from "../lib/rich-text/format-placeholders.js
 
 export type PostMessages = {
   caughtUpDivider: { title: string; subline: string };
+  composerLauncher: { placeholder: string; addMedia: string };
   spoilerText: { show: string; hide: string };
   imageLightbox: { title: string; close: string };
   mediaStage: { title: string; mute: string; unmute: string; close: string };

@@ -4,4 +4,5 @@ export * from "./feedback/index.js";
 export * from "./html-frame/index.js";
 export * from "./location/index.js";
 export * from "./skeletons/index.js";
+export * from "./token-input/index.js";
 export type { SkeletonListProps } from "../types/patterns/skeleton-list-props.js";

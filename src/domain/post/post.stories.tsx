@@ -10,6 +10,7 @@ import { CaughtUpDivider } from "./caught-up-divider.js";
 import { CommentItem } from "./comments/comment-item.js";
 import { orderCommentsWithAccepted } from "./comments/order-comments-with-accepted.js";
 import { PostComments } from "./comments/post-comments.js";
+import { ComposerLauncher } from "./composer-launcher.js";
 import { MentionTextarea } from "./editor/mention-textarea.js";
 import { MediaGrid } from "./media/media-grid.js";
 import { PostCardSkeletons } from "./post-card-skeletons.js";
@@ -55,9 +56,20 @@ const renderMediaGrid = ({ mediaIds, ...props }: PostMediaGridProps) => (
       id,
       mimeType: "image/png",
       cdnUrl: "https://placehold.co/600x400/png",
+      // Known size: a single image reserves its box before it loads.
+      width: 600,
+      height: 400,
     }))}
   />
 );
+
+export const Launcher: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <ComposerLauncher avatar={null} name="Ana Souza" onOpen={() => {}} onAddMedia={() => {}} />
+    </div>
+  ),
+};
 
 export const Card: StoryObj = {
   render: function CardStory() {

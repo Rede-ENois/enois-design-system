@@ -1,18 +1,19 @@
-import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
+import { type ReactNode, useEffect, useId, useRef } from "react";
 
-import { Check, Loader2, Plus, RotateCcw, Users, X } from "lucide-react";
+import { Check, Loader2, RotateCcw, Users } from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
+import { TokenInput } from "../../patterns/token-input/token-input.js";
 import type { OnboardingViewProps } from "../../types/domain/onboarding/onboarding-view-props.js";
+import type { TokenInputHandle } from "../../types/patterns/token-input-handle.js";
 import { Button } from "../../ui/button.js";
 import { Pill } from "../../ui/pill.js";
 import { Skeleton } from "../../ui/skeleton.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 
 const STEPS = ["interests", "pack"] as const;
-const SUGGESTION_LIMIT = 8;
 
 /**
  * Two-step onboarding (interests, then the starter pack) so newcomers never land on an empty
@@ -53,6 +54,7 @@ export function OnboardingView({
 }: OnboardingViewProps) {
   const messages = useMessages().onboardingView;
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const skillsInputRef = useRef<TokenInputHandle>(null);
   const firstRender = useRef(true);
   const index = STEPS.indexOf(step);
 
@@ -134,11 +136,21 @@ export function OnboardingView({
             </div>
           </fieldset>
 
-          <SkillsField
-            skills={skills}
+          <TokenInput
+            ref={skillsInputRef}
+            values={skills}
+            label={messages.skillsLabel}
+            hint={messages.skillsHint}
+            placeholder={messages.skillsPlaceholder}
+            limitMessage={messages.skillsFull}
+            count={messages.skillsCount}
+            removeLabel={messages.removeSkill}
+            suggestionsLabel={messages.suggestionsLabel}
+            disabled={submitting}
             suggestions={skillSuggestions}
             max={maxSkills}
             maxLength={maxSkillLength}
+            allowMultiple={false}
             onAdd={onAddSkill}
             onRemove={onRemoveSkill}
           />
@@ -248,7 +260,13 @@ export function OnboardingView({
 
       <footer className="mt-8 flex flex-col gap-2 border-t border-border-soft pt-5 sm:flex-row-reverse sm:items-center sm:justify-between">
         {step === "interests" ? (
-          <Button className="sm:w-auto" disabled={submitting} onClick={() => onStepChange("pack")}>
+          <Button
+            className="sm:w-auto"
+            disabled={submitting}
+            onClick={() => {
+              if (skillsInputRef.current?.commit() !== null) onStepChange("pack");
+            }}
+          >
             {messages.next}
           </Button>
         ) : (
@@ -282,118 +300,6 @@ export function OnboardingView({
         </div>
       </footer>
     </section>
-  );
-}
-
-/** Skills field: removable tokens, free typing and suggestions supplied by the app. */
-function SkillsField({
-  skills,
-  suggestions,
-  max,
-  maxLength,
-  onAdd,
-  onRemove,
-}: {
-  skills: string[];
-  suggestions: string[];
-  max: number;
-  maxLength: number;
-  onAdd: (skill: string) => void;
-  onRemove: (skill: string) => void;
-}) {
-  const messages = useMessages().onboardingView;
-  const id = useId();
-  const [draft, setDraft] = useState("");
-  const full = skills.length >= max;
-  const taken = new Set(skills.map((skill) => skill.toLocaleLowerCase("pt-BR")));
-  const query = draft.trim().toLocaleLowerCase("pt-BR");
-  const visibleSuggestions = full
-    ? []
-    : suggestions
-        .filter((suggestion) => {
-          const key = suggestion.toLocaleLowerCase("pt-BR");
-          return !taken.has(key) && key.includes(query);
-        })
-        .slice(0, SUGGESTION_LIMIT);
-
-  const add = (raw: string) => {
-    const skill = raw.trim().slice(0, maxLength);
-    if (!skill || full || taken.has(skill.toLocaleLowerCase("pt-BR"))) return;
-    onAdd(skill);
-    setDraft("");
-  };
-
-  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" || event.key === ",") {
-      event.preventDefault();
-      add(draft);
-    } else if (event.key === "Backspace" && draft === "" && skills.length > 0) {
-      onRemove(skills[skills.length - 1]);
-    }
-  };
-
-  return (
-    <div className="space-y-3">
-      <div className="flex items-baseline justify-between gap-3">
-        <label htmlFor={id} className="text-sm font-semibold text-text-strong">
-          {messages.skillsLabel}
-        </label>
-
-        <span aria-live="polite" className="shrink-0 text-xs tabular-nums text-text-subtle">
-          {messages.skillsCount(skills.length, max)}
-        </span>
-      </div>
-
-      <p id={`${id}-hint`} className="text-xs text-text-subtle">
-        {full ? messages.skillsFull : messages.skillsHint}
-      </p>
-
-      <div className="flex min-h-11 flex-wrap items-center gap-1.5 rounded-xl border border-input bg-transparent px-2 py-1.5 transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
-        {skills.map((skill) => (
-          <span
-            key={skill}
-            className="inline-flex min-w-0 max-w-full items-center gap-1 rounded-full bg-surface-2 py-1 pl-3 pr-1 text-sm text-text-strong"
-          >
-            <span className="min-w-0 truncate">{skill}</span>
-
-            <button
-              type="button"
-              aria-label={messages.removeSkill(skill)}
-              onClick={() => onRemove(skill)}
-              className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-3 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-            >
-              <X aria-hidden className="h-3.5 w-3.5" />
-            </button>
-          </span>
-        ))}
-
-        <input
-          id={id}
-          value={draft}
-          maxLength={maxLength}
-          disabled={full}
-          aria-describedby={`${id}-hint`}
-          placeholder={skills.length === 0 ? messages.skillsPlaceholder : undefined}
-          onChange={(event) => setDraft(event.target.value)}
-          onKeyDown={onKeyDown}
-          className="h-8 min-w-[8rem] flex-1 bg-transparent px-1 text-base text-text-strong placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed md:text-sm"
-        />
-      </div>
-
-      {visibleSuggestions.length > 0 && (
-        <div role="group" aria-label={messages.suggestionsLabel} className="flex flex-wrap gap-1.5">
-          {visibleSuggestions.map((suggestion) => (
-            <Pill key={suggestion} size="sm" onClick={() => add(suggestion)}>
-              <span className="inline-flex items-center gap-1">
-                <Plus aria-hidden className="h-3 w-3" />
-
-                <>{suggestion}</>
-              </span>
-            </Pill>
-          ))}
-        </div>
-      )}
-    </div>
   );
 }
 

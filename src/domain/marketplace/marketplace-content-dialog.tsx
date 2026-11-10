@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from "../../ui/dialog.js";
 import { Textarea } from "../../ui/textarea.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 /**
  * Conteúdo de uma compra: o comprador edita os textos aqui mesmo e copia o HTML.

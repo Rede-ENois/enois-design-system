@@ -180,9 +180,9 @@ export function ReactionPicker<T extends string>({
         onOpenAutoFocus={(event) => event.preventDefault()}
         onMouseEnter={cancelHoverTimers}
         onMouseLeave={scheduleHoverClose}
-        className="w-fit max-w-[300px] rounded-2xl border-border p-1.5"
+        className="w-fit rounded-2xl border-border p-1.5"
       >
-        <div className="flex flex-wrap justify-center gap-1">
+        <div className="grid grid-cols-5 gap-1">
           {(Object.entries(emojis) as [T, string][]).map(([type, emoji]) => (
             <button
               key={type}

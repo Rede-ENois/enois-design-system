@@ -9,8 +9,8 @@ import type { EditProfileValues } from "./edit-profile-values.js";
 
 export type EditProfileDialogProps = {
   profile: EditProfileData;
-  /** O gatilho do diálogo (o botão "Editar perfil" da página). */
-  children: ReactNode;
+  /** The dialog trigger. Without one, the app opens it through `open` (e.g. from `ProfileEditMenu`). */
+  children?: ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   tab: EditProfileTab;
@@ -18,7 +18,7 @@ export type EditProfileDialogProps = {
   savePending?: boolean;
   /** Valida e grava as informações; resolve com o erro a mostrar, ou `null` quando salvou. */
   onSave: (values: EditProfileValues) => Promise<EditProfileSaveError | null>;
-  /** Sobe a imagem do emblema e devolve o endereço salvo; rejeita quando falhou. */
+  /** Uploads the badge image and returns its saved address; rejects with an Error whose message is shown to the person. */
   onUploadBadge: (file: File) => Promise<string>;
   experiences: EditProfileListItem[];
   education: EditProfileListItem[];

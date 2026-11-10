@@ -184,21 +184,34 @@ export const Effects: StoryObj = {
 export const Shop: StoryObj = {
   render: function ShopStory() {
     const [items, setItems] = useState(SHOP_ITEMS);
+    const [collections, setCollections] = useState(SHOP_COLLECTIONS);
     const own = (id: string, equipped: boolean) =>
       setItems((list) => list.map((i) => (i.id === id ? { ...i, owned: true, equipped } : i)));
+    const wearLook = (lookId: string, equipped: boolean) =>
+      setCollections((list) =>
+        list.map((collection) => ({
+          ...collection,
+          looks: collection.looks.map((look) =>
+            look.id === lookId ? { ...look, owned: true, equipped } : look,
+          ),
+        })),
+      );
     return (
       <CosmeticShop
         items={items}
-        collections={SHOP_COLLECTIONS}
+        collections={collections}
         user={{ ...person, avatarFrame: "moldura-ambar", badges: ["emblema-cafe"] }}
         onRetry={() => {}}
         onBuy={(id) => own(id, true)}
         onBuyLook={(lookId) => {
-          const look = SHOP_COLLECTIONS.flatMap((c) => c.looks).find((l) => l.id === lookId);
+          const look = collections.flatMap((c) => c.looks).find((l) => l.id === lookId);
           look?.items.forEach((id) => own(id, true));
+          wearLook(lookId, true);
         }}
         onEquip={(id) => own(id, true)}
         onUnequip={(id) => own(id, false)}
+        onEquipLook={(lookId) => wearLook(lookId, true)}
+        onUnequipLook={(lookId) => wearLook(lookId, false)}
         renderCollectionExtra={(id) =>
           id === "saci" ? (
             <SaciHalloweenDuel

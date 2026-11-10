@@ -6,7 +6,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { LinkedinImportSectionProps } from "../../types/domain/security/linkedin-import-section-props.js";
 import { Button } from "../../ui/button.js";
 import { Textarea } from "../../ui/textarea.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 /**
  * Importar o ARQUIVO DE DADOS do LinkedIn (Configurações → "Obter uma cópia dos seus

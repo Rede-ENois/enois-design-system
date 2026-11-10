@@ -1,12 +1,14 @@
 import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Home, Users } from "lucide-react";
+import { Bell, Compass, Home, MessageCircle, Plus, Users } from "lucide-react";
 
 import { AppHeaderLayout } from "./app-header-layout.js";
 import { AppLayout } from "./app-layout.js";
 import { AppSidebar } from "./app-sidebar.js";
+import { MobileDock } from "./mobile-dock.js";
 import { NavigationDrawer } from "./navigation-drawer.js";
+import { ThemeSwitch } from "./theme-switch.js";
 import { ThemeToggle } from "./theme-toggle.js";
 
 const meta: Meta = {
@@ -80,5 +82,43 @@ export const Drawer: StoryObj = {
         </NavigationDrawer>
       </>
     );
+  },
+};
+
+/** The phone's floating dock: two destinations, the publish action, two more, with their signals. */
+export const Dock: StoryObj = {
+  parameters: { viewport: { defaultViewport: "mobile1" } },
+  render: () => (
+    <div className="h-40">
+      <MobileDock
+        items={[
+          { href: "#feed", label: "Início", icon: Home, active: true },
+          { href: "#explorar", label: "Explorar", icon: Compass, active: false },
+          {
+            href: "#mensagens",
+            label: "Mensagens",
+            icon: MessageCircle,
+            active: false,
+            signal: { kind: "messages", count: 2 },
+          },
+          {
+            href: "#avisos",
+            label: "Avisos",
+            icon: Bell,
+            active: false,
+            signal: { kind: "count", count: 5 },
+          },
+        ]}
+        action={{ label: "Publicar", icon: Plus, onClick: () => {} }}
+      />
+    </div>
+  ),
+};
+
+export const ThemeSwitcher: StoryObj = {
+  render: function ThemeSwitcherStory() {
+    const [theme, setTheme] = useState<"light" | "dark">("dark");
+
+    return <ThemeSwitch theme={theme} onChange={setTheme} />;
   },
 };

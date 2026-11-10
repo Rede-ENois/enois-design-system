@@ -12,6 +12,7 @@ import { EyeOff, Image, Loader2, Mic, Plus, Send, Square, X } from "lucide-react
 
 import { cn } from "../../../lib/utils.js";
 import { useMessages } from "../../../messages/messages-context.js";
+import { isComposerError } from "../../../types/domain/post/comments-error.js";
 import type { PostCommentNode } from "../../../types/domain/post/post-comment-node.js";
 import type { PostCommentsProps } from "../../../types/domain/post/post-comments-props.js";
 import { Button } from "../../../ui/button.js";
@@ -232,7 +233,7 @@ export function PostComments<C extends PostCommentNode>({
                 <button
                   type="button"
                   onClick={() => onRemoveMedia(i)}
-                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
+                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-on-foreground shadow"
                   aria-label={messages.removeMedia}
                   title={messages.removeMedia}
                 >
@@ -277,8 +278,10 @@ export function PostComments<C extends PostCommentNode>({
         />
 
         {/* One calm row, like a chat app: "+" for the extras, the field, send. The extras
-              (photo, audio, GIF and the formatting bar) stay out of the way until asked for. */}
-        <div className="flex items-end gap-1.5">
+              (photo, audio, GIF and the formatting bar) stay out of the way until asked for.
+              On a phone the send button drops to its own line: the field keeps the whole width
+              for writing instead of splitting it with the two buttons. */}
+        <div className="flex flex-wrap items-end gap-1.5">
           <button
             type="button"
             onClick={() => setToolsOpen((open) => !open)}
@@ -312,8 +315,9 @@ export function PostComments<C extends PostCommentNode>({
           <Button
             type="submit"
             size="icon"
-            // 36px: big enough for a thumb on the phone.
-            className="h-9 w-9 shrink-0 rounded-full"
+            // 36px: big enough for a thumb on the phone. Below `sm` it takes the whole line, so
+            // the field on the row above is not squeezed by it.
+            className="order-last h-9 w-full shrink-0 rounded-full sm:order-none sm:w-9"
             disabled={!canSend || sending}
             aria-label={messages.send}
           >
@@ -324,6 +328,14 @@ export function PostComments<C extends PostCommentNode>({
             )}
           </Button>
         </div>
+
+        {/* A refused send belongs here, next to the field, wherever the composer is: the thread
+            above it stays readable. */}
+        {isComposerError(error) && (
+          <p className="mt-1.5 pl-[2.625rem] text-xs font-normal text-destructive">
+            {messages.errors[error]}
+          </p>
+        )}
 
         {/* Height animates through grid rows, so the tray slides open without measuring it. */}
         <div
@@ -395,9 +407,11 @@ export function PostComments<C extends PostCommentNode>({
       >
         {loading && <CommentSkeletons />}
 
-        {!loading && error && (
+        {/* Only a failed read takes the list away: a refused send shows under the field and the
+            comments already on screen stay. */}
+        {!loading && error === "load" && (
           <div className="py-4 text-center">
-            <p className="text-sm font-normal text-destructive">{messages.errors[error]}</p>
+            <p className="text-sm font-normal text-destructive">{messages.errors.load}</p>
 
             <Button variant="outline" size="sm" className="mt-2 rounded-full" onClick={onRetry}>
               {messages.retry}
@@ -405,12 +419,12 @@ export function PostComments<C extends PostCommentNode>({
           </div>
         )}
 
-        {!loading && !error && roots.length === 0 && (
+        {!loading && error !== "load" && roots.length === 0 && (
           <p className="py-4 text-center text-sm font-normal text-text-subtle">{messages.empty}</p>
         )}
 
         {!loading &&
-          !error &&
+          error !== "load" &&
           roots.map((comment) => {
             const replies = comments.filter(
               (c) => c.id !== comment.id && rootIdByComment.get(c.id) === comment.id,
@@ -436,7 +450,7 @@ export function PostComments<C extends PostCommentNode>({
 
         {loadingMore && <CommentSkeletons count={1} />}
 
-        {!loading && !error && hasMore && (
+        {!loading && error !== "load" && hasMore && (
           <div className="pt-1 text-center">
             <Button
               variant="ghost"

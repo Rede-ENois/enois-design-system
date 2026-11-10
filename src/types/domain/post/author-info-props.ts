@@ -9,10 +9,18 @@ export type AuthorInfoProps = {
   authorStyle?: AuthorNameStyle | null;
   /** Tag "Contribuinte" quando o autor tem selo ativo; ausente = não é contribuinte. */
   authorContributor?: AuthorContributorTag | null;
+  /** Selo "Humanidade Comprovada"; ausente = perfil sem verificação aprovada. */
+  authorHumanityVerified?: boolean;
   authorAvatar: string | null;
   authorAvatarFrame?: string | null;
   authorBadge?: string | null;
   authorBadges?: string[] | null;
+  authorHeadline?: string | null;
+  authorBio?: string | null;
+  authorConnectionDegree?: string | null;
+  onFollowAuthor?: () => void;
+  followAuthorPending?: boolean;
+  isFollowingAuthor?: boolean;
   /** Perfil da identidade que assinou (social ou profissional). */
   authorHref: string;
   /** Tempo relativo da publicação ("há 5 min"). */

@@ -3,6 +3,7 @@ import type { AppearanceMessages } from "./appearance-messages.js";
 import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
 import type { BlogMessages } from "./blog-messages.js";
+import type { CalendarMessages } from "./calendar-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
 import type { CompaniesMessages } from "./companies-messages.js";
 import type { ConversationsMessages } from "./conversations-messages.js";
@@ -75,4 +76,5 @@ export type Messages = UiMessages &
   StudyPairsMessages &
   CompaniesMessages &
   WhatsNewMessages &
-  ReleaseNotesMessages;
+  ReleaseNotesMessages &
+  CalendarMessages;

@@ -2,8 +2,8 @@ import { cn } from "../lib/utils.js";
 import type { PillProps } from "../types/components/ui/pill-props.js";
 
 const SIZES = {
-  sm: "px-3 py-1 text-xs",
-  md: "px-3.5 py-1.5 text-sm",
+  sm: "h-8 px-3 text-[13px]",
+  md: "h-9 px-4 text-sm",
 } as const;
 
 /**
@@ -20,11 +20,13 @@ export function Pill({ active = false, size = "md", onClick, className, children
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "shrink-0 whitespace-nowrap rounded-full border font-normal transition",
+        "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border font-semibold transition",
         SIZES[size],
+        // Active is a soft violet field, not a solid button: a filter is a place you are, not an
+        // action to press.
         active
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border-soft bg-surface-card text-text-subtle hover:border-primary hover:text-primary",
+          ? "border-transparent bg-primary-soft text-text-strong"
+          : "border-border-soft bg-transparent text-text-subtle hover:bg-surface-2 hover:text-text-strong",
         className,
       )}
     >

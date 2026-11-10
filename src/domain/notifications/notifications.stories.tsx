@@ -9,6 +9,7 @@ import type { NotificationPreferencesSaveStatus } from "../../types/domain/notif
 import type { NotificationPreferencesValues } from "../../types/domain/notifications/notification-preferences-values.js";
 
 import { NotificationPreferences } from "./notification-preferences.js";
+import { NotificationsPanel } from "./notifications-panel.js";
 import { NotificationsPopover } from "./notifications-popover.js";
 
 const meta: Meta = {
@@ -154,4 +155,59 @@ export const PreferencesSaving: StoryObj = {
 
 export const PreferencesSaveFailed: StoryObj = {
   render: () => <NotificationPreferences {...preferencesBase} saveStatus="error" />,
+};
+
+const pageNotifications: NotificationData[] = [
+  { ...notifications[0], dayLabel: "Hoje" },
+  {
+    ...base,
+    id: "n3",
+    kind: "GROUP_NEW_POST",
+    actorId: null,
+    actorName: null,
+    actorHref: null,
+    place: { name: "Bancos de Dados", color: "#0f766e" },
+    title: "Bancos de Dados tem 4 conversas novas",
+    body: "",
+    read: false,
+    dayLabel: "Hoje",
+  },
+  {
+    ...base,
+    id: "n4",
+    kind: "EVENT_NEXT_OCCURRENCE",
+    actorId: null,
+    actorName: null,
+    actorHref: null,
+    eventDay: "03",
+    title: "Live de Kotlin começa amanhã às 19h",
+    body: "",
+    read: true,
+    dayLabel: "Ontem",
+  },
+  { ...notifications[1], dayLabel: "Ontem" },
+];
+
+export const Page: StoryObj = {
+  render: () => (
+    <div className="mx-auto max-w-xl p-4">
+      <NotificationsPanel
+        variant="page"
+        notifications={pageNotifications}
+        requests={[]}
+        requestsLoading={false}
+        acceptingActorId={null}
+        rejectingActorId={null}
+        markAllPending={false}
+        onMarkAllRead={() => {}}
+        onMarkAsRead={() => {}}
+        onAcceptConnection={() => {}}
+        onRejectConnection={() => {}}
+        onOpenNotification={() => {}}
+        preferencesHref="#preferencias"
+        hasMore
+        onLoadMore={() => {}}
+      />
+    </div>
+  ),
 };

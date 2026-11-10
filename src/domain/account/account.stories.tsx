@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { AccountMenu } from "./account-menu.js";
+import { AccountSettings } from "./account-settings.js";
 import { AgeGate } from "./age-gate.js";
 import { BlockUserDialog } from "./block-user-dialog.js";
 import { ChangeEmailDialog } from "./change-email-dialog.js";
@@ -10,7 +11,6 @@ import { ChangePasswordDialog } from "./change-password-dialog.js";
 import { DeleteAccountDialog } from "./delete-account-dialog.js";
 import { LinkedAccountsDialog } from "./linked-accounts-dialog.js";
 import { LinkedInSyncPrompt } from "./linkedin-sync-prompt.js";
-import { PushToggle } from "./push-toggle.js";
 
 const meta: Meta = {
   title: "Domain/Account",
@@ -20,51 +20,51 @@ export default meta;
 
 const hrefs = {
   profile: "#",
-  corporateProfile: "#",
   wallet: "#",
-  marketplace: "#",
+  account: "#",
   support: "#",
-  security: "#",
-  blockedUsers: "#",
-  myReports: "#",
-  sanctions: "#",
-  guardian: "#",
-  moderator: "#",
-  apoie: "#",
-  notificationPreferences: "#",
 };
 
 export const Menu: StoryObj = {
   render: function MenuStory() {
     const [open, setOpen] = useState(true);
-    const [push, setPush] = useState(false);
 
     return (
       <div className="flex justify-end">
         <AccountMenu
-          profile={{ name: "Ana Souza", email: "ana@example.com", avatar: null }}
-          hrefs={hrefs}
+          profile={{ name: "Ana Souza", username: "anasouza", avatar: null }}
+          hrefs={{ ...hrefs, moderator: "#" }}
           open={open}
           onOpenChange={setOpen}
-          onChangeEmail={() => {}}
-          onChangePassword={() => {}}
-          onOpenLinkedAccounts={() => {}}
-          onOpenHealthyUsage={() => {}}
-          onDeleteAccount={() => {}}
+          walletLabel="1.240 faíscas"
           onLogout={() => {}}
           loggingOut={false}
-          pushToggle={
-            <PushToggle
-              active={push}
-              busy={false}
-              error={null}
-              onToggle={() => setPush((value) => !value)}
-            />
-          }
         />
       </div>
     );
   },
+};
+
+export const Settings: StoryObj = {
+  render: () => (
+    <AccountSettings
+      hrefs={{
+        security: "#",
+        blockedUsers: "#",
+        myReports: "#",
+        sanctions: "#",
+        mutedUsers: "#",
+        notificationPreferences: "#",
+        feedPreferences: "#",
+        supportUs: "#",
+      }}
+      onChangeEmail={() => {}}
+      onChangePassword={() => {}}
+      onOpenLinkedAccounts={() => {}}
+      onDeleteAccount={() => {}}
+      onOpenHealthyUsage={() => {}}
+    />
+  ),
 };
 
 const ageGateBase = {

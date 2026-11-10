@@ -24,6 +24,35 @@ export function oklchToRgb(lightness: number, chroma: number, hue: number): RgbC
   };
 }
 
+/** sRGB (0–1 por canal) → oklch. Inverso de `oklchToRgb`, para aceitar cor escolhida em hex. */
+export function rgbToOklch({ r, g, b }: RgbColor): {
+  lightness: number;
+  chroma: number;
+  hue: number;
+} {
+  const decode = (value: number) => {
+    const clamped = Math.min(1, Math.max(0, value));
+    return clamped <= 0.04045 ? clamped / 12.92 : ((clamped + 0.055) / 1.055) ** 2.4;
+  };
+  const lr = decode(r);
+  const lg = decode(g);
+  const lb = decode(b);
+
+  const l = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+
+  const lightness = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+  const a = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const bb = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+
+  return {
+    lightness,
+    chroma: Math.sqrt(a * a + bb * bb),
+    hue: ((Math.atan2(bb, a) * 180) / Math.PI + 360) % 360,
+  };
+}
+
 /** Cor como o CSS espera, mantendo a notação oklch (mais fiel à paleta). */
 export function oklch(lightness: number, chroma: number, hue: number): string {
   return `oklch(${round(lightness)} ${round(chroma)} ${round(hue)})`;

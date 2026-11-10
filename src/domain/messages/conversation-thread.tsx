@@ -305,7 +305,7 @@ export function ConversationThread({
                       <button
                         type="button"
                         onClick={() => removeMediaItem(index)}
-                        className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
+                        className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-on-foreground shadow"
                         aria-label={messages.removeMedia}
                         title={messages.removeMedia}
                       >
@@ -393,7 +393,7 @@ export function ConversationThread({
                   ref={messageInputRef}
                   rows={1}
                   placeholder={messages.inputPlaceholder}
-                  className="max-h-20 min-h-[40px] w-full resize-none rounded-2xl bg-muted px-4 py-2.5 text-sm outline-none"
+                  className="max-h-20 min-h-[40px] w-full resize-none rounded-2xl bg-muted px-4 py-2.5 text-base md:text-sm outline-none"
                 />
 
                 <div className="flex items-center gap-1">

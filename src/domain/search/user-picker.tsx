@@ -80,7 +80,7 @@ export function UserPicker({
           }}
           onKeyDown={teclas}
           placeholder={placeholder ?? messages.placeholder}
-          className="h-10 w-full rounded-lg border border-border-soft bg-transparent pl-9 pr-9 text-sm text-text-strong outline-none transition focus-visible:border-primary"
+          className="h-10 w-full rounded-lg border border-border-soft bg-transparent pl-9 pr-9 text-base md:text-sm text-text-strong outline-none transition focus-visible:border-primary"
           autoComplete="off"
         />
         {isFetching && (
