@@ -47,9 +47,32 @@ export type CalendarMessages = {
     responding: string;
     /** Opens the entry detail; used as the accessible name of the row link. */
     openEntry: (title: string) => string;
-    /** The create/edit form. */
     /** Opens a blank entry from the agenda header. */
     newEntry: string;
+    /** The detail page of one entry. */
+    detail: {
+      back: string;
+      edit: string;
+      cancel: string;
+      cancelling: string;
+      cancelledAt: string;
+      descriptionEmpty: string;
+      zoneHint: (zone: string) => string;
+      /** Both clocks already formatted as `HH:mm`; null means all day. */
+      whenAllDay: string;
+      when: (start: string, end: string) => string;
+      participantsTitle: (count: number) => string;
+      participantEmpty: string;
+      inviteLabel: string;
+      invitePlaceholder: string;
+      inviteAction: string;
+      inviting: string;
+      /** `username` is the @ that was accepted. */
+      invitedOk: (username: string) => string;
+      yourAnswer: string;
+      removeParticipant: (username: string) => string;
+      loadError: string;
+    };
     form: {
       createTitle: string;
       editTitle: string;
