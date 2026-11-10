@@ -4,6 +4,8 @@ import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import type { CommentsError } from "../../../types/domain/post/comments-error.js";
+
 import { PostComments } from "./post-comments.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -28,6 +30,7 @@ const comments = [
 const render = (
   onOpenGifPicker = vi.fn(),
   reply: { replyToId: string | null; onCancelReply?: () => void } = { replyToId: null },
+  error: CommentsError | null = null,
 ) =>
   act(() =>
     root.render(
@@ -37,7 +40,7 @@ const render = (
         loading={false}
         loadingMore={false}
         hasMore={false}
-        error={null}
+        error={error}
         onRetry={() => undefined}
         onLoadMore={() => undefined}
         renderComment={(comment) => <p data-comment={comment.id}>{comment.authorName}</p>}
@@ -79,6 +82,19 @@ describe("PostComments composer", () => {
     expect(textarea().dataset.tools).toBe("open");
   });
 
+  it("gives the field the whole width on a phone: send drops to its own line", () => {
+    render();
+
+    const row = textarea().closest("div.flex")!;
+    expect(row.className).toContain("flex-wrap");
+
+    const send = container.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    // Full width below `sm` (the field keeps the row), icon-sized from `sm` up.
+    expect(send.className).toContain("w-full");
+    expect(send.className).toContain("sm:w-9");
+    expect(send.className).toContain("order-last");
+  });
+
   it("folds the tray when a GIF is picked", () => {
     const onOpenGifPicker = vi.fn();
     render(onOpenGifPicker);
@@ -114,5 +130,24 @@ describe("PostComments composer", () => {
     expect(form.compareDocumentPosition(container.querySelector('[data-comment="c1"]')!)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
+  });
+
+  it("keeps the thread when a comment is refused: the send error shows under the field", () => {
+    render(vi.fn(), { replyToId: null }, "send");
+
+    // O comentário recusado não é a lista falhando: o que já estava carregado continua visível...
+    expect(container.querySelector('[data-comment="c1"]')).not.toBeNull();
+    expect(container.querySelector('[data-comment="c2"]')).not.toBeNull();
+    // ...e o motivo aparece junto do campo, sem o botão de recarregar a lista.
+    expect(container.textContent).toContain("Não foi possível enviar o comentário.");
+    expect(container.textContent).not.toContain("Tentar de novo");
+  });
+
+  it("replaces the list only when the read itself failed", () => {
+    render(vi.fn(), { replyToId: null }, "load");
+
+    expect(container.querySelector('[data-comment="c1"]')).toBeNull();
+    expect(container.textContent).toContain("Não foi possível carregar os comentários.");
+    expect(container.textContent).toContain("Tentar de novo");
   });
 });

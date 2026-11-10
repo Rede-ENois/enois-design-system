@@ -17,6 +17,12 @@ export type MentionTextareaProps = Pick<
    * shortcuts (Ctrl+B, Ctrl+I...) keep working while it is hidden.
    */
   toolbarVisible?: boolean;
+  /**
+   * Recolhe a barra de formatação atrás de um botão de três pontos no canto superior direito,
+   * em vez de gastar uma linha acima do campo. A seleção do texto continua valendo com o menu
+   * aberto.
+   */
+  toolbarMenu?: boolean;
   /** Imagens coladas no campo (Ctrl+V): o dono do campo decide subir e anexar. */
   onPasteImages?: (files: File[]) => void;
   /** Ctrl+Enter (Cmd+Enter no Mac): o dono do campo decide o que é "enviar". Sem ela, não há atalho. */

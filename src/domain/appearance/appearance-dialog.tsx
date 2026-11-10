@@ -73,6 +73,8 @@ export function AppearanceDialog({
   collectionId,
   activeCollection,
   onCollectionSelect,
+  previewCollectionId,
+  onCollectionPreview,
   purchasedThemes,
   widgetBackground,
   onWidgetBackgroundChange,
@@ -86,6 +88,7 @@ export function AppearanceDialog({
   onContributorTagColorChange,
   onReset,
   sellDialog,
+  itemsSlot,
 }: AppearanceDialogProps) {
   const messages = useMessages().appearanceDialog;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -139,6 +142,8 @@ export function AppearanceDialog({
             <TabsTrigger value="global">{messages.tabGlobal}</TabsTrigger>
 
             <TabsTrigger value="identity">{messages.tabIdentity}</TabsTrigger>
+
+            {itemsSlot && <TabsTrigger value="items">{messages.tabItems}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="global" className="space-y-5">
@@ -167,7 +172,12 @@ export function AppearanceDialog({
                 <>
                   <p className="text-xs font-normal text-text-subtle">{messages.collectionsHint}</p>
 
-                  <CollectionGrid activeId={collectionId} onSelect={onCollectionSelect} />
+                  <CollectionGrid
+                    activeId={collectionId}
+                    previewId={previewCollectionId}
+                    onPreview={onCollectionPreview}
+                    onSelect={onCollectionSelect}
+                  />
 
                   {activeCollection && (
                     <p className="text-xs font-normal text-text-subtle">
@@ -605,6 +615,8 @@ export function AppearanceDialog({
               </section>
             )}
           </TabsContent>
+
+          {itemsSlot && <TabsContent value="items">{itemsSlot}</TabsContent>}
         </Tabs>
 
         <div className="flex flex-wrap justify-between gap-2 border-t border-border-soft pt-4">

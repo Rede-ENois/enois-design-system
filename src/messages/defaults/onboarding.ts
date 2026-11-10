@@ -14,7 +14,8 @@ export const onboardingMessages: OnboardingMessages = {
     topicsLabel: "Assuntos",
     topicsHint: "Escolha quantos quiser.",
     skillsLabel: "Habilidades e ferramentas",
-    skillsHint: "O que você faz ou está aprendendo. Aperte Enter pra adicionar.",
+    skillsHint:
+      "O que você faz ou está aprendendo. Aperte Enter ou digite uma vírgula pra adicionar.",
     skillsPlaceholder: "Ex.: React, fotografia, gestão de times",
     skillsFull: "Você chegou ao limite de habilidades.",
     skillsCount: (count, max) => `${count} de ${max}`,

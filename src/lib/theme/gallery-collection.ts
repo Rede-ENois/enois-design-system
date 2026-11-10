@@ -3,7 +3,7 @@ import type { PaletteSpec } from "../../types/lib/theme/theme-collection-palette
 import type { ThemeCollection } from "../../types/lib/theme/theme-collection.js";
 
 import { hexToRgb, readableForeground, rgbToHex } from "./color.js";
-import { palette } from "./theme-collections.js";
+import { palette } from "./theme-palette.js";
 
 /**
  * Temas da COMUNIDADE como coleções do motor de temas.

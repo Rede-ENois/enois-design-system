@@ -5,6 +5,7 @@ import { appearanceMessages } from "./defaults/appearance.js";
 import { authMessages } from "./defaults/auth.js";
 import { avatarMessages } from "./defaults/avatar.js";
 import { blogMessages } from "./defaults/blog.js";
+import { calendarMessages } from "./defaults/calendar.js";
 import { communitiesMessages } from "./defaults/communities.js";
 import { companiesMessages } from "./defaults/companies.js";
 import { conversationsMessages } from "./defaults/conversations.js";
@@ -74,4 +75,5 @@ export const defaultMessages: Messages = {
   ...companiesMessages,
   ...whatsNewMessages,
   ...releaseNotesMessages,
+  ...calendarMessages,
 };

@@ -1,3 +1,4 @@
+import type { ThemeCategory } from "./theme-category.js";
 import type { ThemeCollectionPreview } from "./theme-collection-preview.js";
 import type { ThemeCollectionTokens } from "./theme-collection-tokens.js";
 
@@ -8,8 +9,12 @@ export type ThemeCollection = {
   description: string;
   /** Cor da barra do navegador enquanto o tema está ativo. */
   metaColor: string;
-  /** Categoria no seletor (Fase 1 do plano de temas). */
-  category?: "retro" | "casa" | "jogos" | "maquinas" | "papel";
+  /**
+   * Categoria no seletor. As cinco primeiras nasceram com a coleção; `retro` é o padrão
+   * histórico (tema sem categoria declarada) e `swing`, `web2000`, `arcade` e `sistemas`
+   * são as famílias da nova geração.
+   */
+  category?: ThemeCategory;
   /** Transparência nativa das superfícies do tema (o slider começa nela). */
   surfaceAlpha?: number;
   /** Superfície bruta (sem alpha), para o slider de transparência re-aplicar por cima. */

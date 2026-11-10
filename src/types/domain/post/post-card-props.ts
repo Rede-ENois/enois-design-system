@@ -6,6 +6,7 @@ import type { PostMediaGridProps } from "./post-media-grid-props.js";
 import type { PostRichTextProps } from "./post-rich-text-props.js";
 import type { PostSealCount } from "./post-seal-count.js";
 import type { RenderAuthorTrigger } from "./render-author-trigger.js";
+import type { RenderLinkPreview } from "./render-link-preview.js";
 
 export type PostCardProps = {
   post: PostCardData;
@@ -46,6 +47,25 @@ export type PostCardProps = {
   onShowSeals: () => void;
   onFollowCommunity?: () => void;
   followPending?: boolean;
+  /** Bio ou headline do autor (exibe na segunda linha do header). */
+  authorHeadline?: string | null;
+  authorBio?: string | null;
+  /** Grau de conexão do autor (ex: "2º"). */
+  authorConnectionDegree?: string | null;
+  /** Seguir o autor do post. */
+  onFollowAuthor?: () => void;
+  followAuthorPending?: boolean;
+  isFollowingAuthor?: boolean;
+  /** Contexto social opcional (ex: "Deyse Paiva gostou" com avatar no topo). */
+  socialContext?: {
+    avatar?: string | null;
+    text: string;
+    href?: string | null;
+  } | null;
+  /** Botão 'X' para descartar/ocultar post. */
+  onDismiss?: () => void;
+  /** Botão '...' de mais opções. */
+  onOptionsClick?: () => void;
   /** Chamado ao abrir o post pelo "Ler mais" ou pelo convite do artigo. */
   onOpenPost?: () => void;
   /** Prévia de vídeo dos links toca sozinha (muda) quando entra na tela. */
@@ -73,4 +93,6 @@ export type PostCardProps = {
   renderMediaGrid: (props: PostMediaGridProps) => ReactNode;
   /** Avatar e nome abrem o gatilho do app (mini cartão) em vez do link do perfil. */
   renderAuthorTrigger?: RenderAuthorTrigger;
+  /** O cartão de cada link de página (miniatura, título, descrição); sem ele, o cartão simples. */
+  renderLinkPreview?: RenderLinkPreview;
 };

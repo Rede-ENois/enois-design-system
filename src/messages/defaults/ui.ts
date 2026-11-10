@@ -15,9 +15,19 @@ export const uiMessages: UiMessages = {
   readMore: { more: "Ler mais", less: "Mostrar menos" },
   toast: { region: "Avisos", dismiss: "Fechar aviso" },
   skeletonList: { loading: "Carregando..." },
+  signal: {
+    new: "Tem novidade",
+    today: "hoje",
+    count: (count) => (count === 1 ? "1 pendente" : `${count} pendentes`),
+    messages: (count) => (count === 1 ? "1 mensagem não lida" : `${count} mensagens não lidas`),
+  },
   dateTextInput: {
     placeholder: "dd/mm/aaaa",
     invalid: "Digite uma data válida no formato dd/mm/aaaa.",
     outOfRange: "Confira a data: ela está fora do intervalo permitido.",
+  },
+  timeTextInput: {
+    placeholder: "hh:mm",
+    invalid: "Digite um horário válido no formato hh:mm.",
   },
 };

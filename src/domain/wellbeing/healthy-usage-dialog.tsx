@@ -51,7 +51,6 @@ export function HealthyUsageDialog({
     setCardTilt(device.cardTilt);
     setReducedMotionDevice(device.reducedMotion);
     // Seeds only when the dialog opens, like the device reads it did before.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   useEffect(() => {

@@ -4,6 +4,8 @@ export { CollectionGrid } from "./collection-grid.js";
 export { CollectionPreview } from "./collection-preview.js";
 export { ContrastNotice } from "./contrast-notice.js";
 export { PresetRow } from "./preset-row.js";
+export { ProfileLookDialog } from "./profile-look-dialog.js";
+export { ProfileThemeScope } from "./profile-theme-scope.js";
 export { PurchasedThemes } from "./purchased-themes.js";
 export { RangeField } from "./range-field.js";
 export { ThemePreview } from "./theme-preview.js";
@@ -21,6 +23,7 @@ export {
   withAlpha,
 } from "../../lib/theme/build-background-style.js";
 export { buildCollectionCss } from "../../lib/theme/build-collection-css.js";
+export { buildProfileCss, themeCollectionById } from "../../lib/theme/build-profile-css.js";
 export {
   buildAccentTokens,
   buildThemeColor,
@@ -43,6 +46,7 @@ export {
   readableForeground,
   relativeLuminance,
   rgbToHex,
+  rgbToOklch,
   textSafeAccent,
 } from "../../lib/theme/color.js";
 export {
@@ -78,6 +82,18 @@ export type { BackgroundStylePickerProps } from "../../types/domain/appearance/b
 export type { CollectionGridProps } from "../../types/domain/appearance/collection-grid-props.js";
 export type { CollectionPreviewProps } from "../../types/domain/appearance/collection-preview-props.js";
 export type { ContrastNoticeProps } from "../../types/domain/appearance/contrast-notice-props.js";
+export type { ProfileThemeScopeProps } from "../../types/domain/appearance/profile-theme-scope-props.js";
+export type { LookKey } from "../../types/domain/appearance/look-key.js";
+export type { ProfileLookDialogProps } from "../../types/domain/appearance/profile-look-dialog-props.js";
+export type { ThemeCardLabels } from "../../types/domain/appearance/theme-card-labels.js";
+export type { ThemeCardProps } from "../../types/domain/appearance/theme-card-props.js";
+export type { ProfileLook } from "../../types/lib/theme/profile-look.js";
+export type { ProfileLookBorders } from "../../types/lib/theme/profile-look-borders.js";
+export type { ProfileLookFont } from "../../types/lib/theme/profile-look-font.js";
+export type { ProfileLookHeader } from "../../types/lib/theme/profile-look-header.js";
+export type { ProfileLookPair } from "../../types/lib/theme/profile-look-pair.js";
+export type { ThemeCategory } from "../../types/lib/theme/theme-category.js";
+export { EMPTY_PROFILE_LOOK, hasProfileLook } from "../../types/lib/theme/profile-look.js";
 export type { PresetRowProps } from "../../types/domain/appearance/preset-row-props.js";
 export type { PurchasedTheme } from "../../types/domain/appearance/purchased-theme.js";
 export type { PurchasedThemesProps } from "../../types/domain/appearance/purchased-themes-props.js";

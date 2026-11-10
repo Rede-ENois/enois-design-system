@@ -7,6 +7,7 @@ import { useMessages } from "../../../messages/messages-context.js";
 import type { ReactionRowData } from "../../../types/domain/post/reaction-row-data.js";
 import type { ReactionsDialogProps } from "../../../types/domain/post/reactions-dialog-props.js";
 import type { ReactionTab } from "../../../types/lib/reactions/reaction-tab.js";
+import { AppLink } from "../../../ui/app-link.js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../ui/dialog.js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../ui/tabs.js";
 import { UserAvatar } from "../../avatar/user-avatar.js";
@@ -20,6 +21,7 @@ export function ReactionsDialog<T extends string>({
   users,
   currentUserId,
   emojis,
+  profileHref,
   isLoading,
   isError,
 }: ReactionsDialogProps<T>) {
@@ -36,7 +38,7 @@ export function ReactionsDialog<T extends string>({
   // Se a aba ativa sumiu (a reação zerou com a remoção otimista), volta para "Todas".
   useEffect(() => {
     if (activeTab !== "all" && !tabs.some((tab) => tab.type === activeTab)) setActiveTab("all");
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- tabKey é a identidade estável de tabs
+    // tabKey é a identidade estável de tabs
   }, [activeTab, tabKey]);
 
   const total = reactions.length;
@@ -58,19 +60,41 @@ export function ReactionsDialog<T extends string>({
           const profile = users?.[r.userId];
           const mine = r.userId === currentUserId;
 
+          const href = profile?.username && profileHref ? profileHref(profile.username) : null;
+
+          const avatarEl = (
+            <UserAvatar
+              frame={profile?.avatarFrame}
+              src={profile?.avatar ?? undefined}
+              alt={profile?.name}
+              className="h-8 w-8 shrink-0"
+            />
+          );
+
+          const nameEl = (
+            <span className="min-w-0 flex-1 truncate text-sm font-normal text-text-strong">
+              {profile?.name ?? messages.loading}
+              {mine && <span className="text-text-subtle"> {messages.you}</span>}
+            </span>
+          );
+
           return (
             <li key={`${r.userId}-${r.type}`} className="flex h-12 items-center gap-3 px-3">
-              <UserAvatar
-                frame={profile?.avatarFrame}
-                src={profile?.avatar ?? undefined}
-                alt={profile?.name}
-                className="h-8 w-8 shrink-0"
-              />
-
-              <span className="min-w-0 flex-1 truncate text-sm font-normal text-text-strong">
-                {profile?.name ?? messages.loading}
-                {mine && <span className="text-text-subtle"> {messages.you}</span>}
-              </span>
+              {href ? (
+                <AppLink
+                  href={href}
+                  onClick={() => onOpenChange(false)}
+                  className="flex min-w-0 flex-1 items-center gap-3 hover:opacity-80"
+                >
+                  {avatarEl}
+                  {nameEl}
+                </AppLink>
+              ) : (
+                <>
+                  {avatarEl}
+                  {nameEl}
+                </>
+              )}
 
               <span className="text-base leading-none">{emojis[r.type] ?? r.type}</span>
             </li>

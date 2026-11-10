@@ -8,4 +8,8 @@ export type CosmeticShopLook = {
   statusText?: string | null;
   /** Price of the missing items with the look discount, formatted by the app. */
   priceLabel?: string | null;
+  /** Every piece is the viewer's: the card wears or takes the look off with a click. */
+  owned?: boolean;
+  /** The look is on the profile right now. */
+  equipped?: boolean;
 };

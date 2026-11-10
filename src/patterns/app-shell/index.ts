@@ -1,9 +1,14 @@
 export { AppLayout } from "./app-layout.js";
 export { AppHeaderLayout } from "./app-header-layout.js";
 export { AppSidebar } from "./app-sidebar.js";
+export { MobileDock } from "./mobile-dock.js";
 export { NavigationDrawer } from "./navigation-drawer.js";
+export { ThemeSwitch } from "./theme-switch.js";
 export { ThemeToggle } from "./theme-toggle.js";
 export type { AppSidebarProps } from "../../types/patterns/app-sidebar-props.js";
+export type { MobileDockItem } from "../../types/patterns/mobile-dock-item.js";
+export type { MobileDockProps } from "../../types/patterns/mobile-dock-props.js";
 export type { NavigationDrawerProps } from "../../types/patterns/navigation-drawer-props.js";
 export type { ThemeName } from "../../types/patterns/theme-name.js";
+export type { ThemeSwitchProps } from "../../types/patterns/theme-switch-props.js";
 export type { ThemeToggleProps } from "../../types/patterns/theme-toggle-props.js";

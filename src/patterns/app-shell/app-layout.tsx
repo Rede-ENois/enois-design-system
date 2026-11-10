@@ -1,7 +1,17 @@
 import type { WithRequiredChildren } from "../../types/components/with-required-children.js";
 
 function AppLayoutRoot({ children }: WithRequiredChildren) {
-  return <div className="min-h-screen bg-background">{children}</div>;
+  return (
+    <div className="relative min-h-screen bg-background">
+      {/* Warm lamp light over the top of the page; decorative, never in the way of a click. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[image:var(--lamp)] bg-no-repeat"
+      />
+
+      <div className="relative">{children}</div>
+    </div>
+  );
 }
 
 function AppLayoutHeader({ children }: WithRequiredChildren) {
@@ -10,7 +20,10 @@ function AppLayoutHeader({ children }: WithRequiredChildren) {
 
 function AppLayoutContent({ children }: WithRequiredChildren) {
   return (
-    <div className="mx-auto flex max-w-7xl gap-6 px-3 py-4 sm:px-6 sm:py-6 lg:pb-6">{children}</div>
+    // Bottom room on phones so the last item is never under the flat dock.
+    <div className="mx-auto flex max-w-7xl gap-6 px-3 pb-20 pt-4 sm:px-6 sm:pt-6 lg:pb-6">
+      {children}
+    </div>
   );
 }
 

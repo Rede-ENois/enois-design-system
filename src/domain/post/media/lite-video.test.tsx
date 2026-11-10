@@ -8,6 +8,8 @@ import { defaultMessages } from "../../../messages/default-messages.js";
 
 import { LiteVideo } from "./lite-video.js";
 
+(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+
 /**
  * No Modo lite o vídeo do feed não toca no meio da lista: o card convida ("assistir em tela
  * cheia") e o palco abre com som, pausando o resto. Fechar devolve a pessoa para a mesma tela.
@@ -29,7 +31,6 @@ describe("LiteVideo no Modo lite", () => {
     act(() => root?.unmount());
     root = null;
     document.body.replaceChildren();
-    document.body.style.overflow = "";
     vi.restoreAllMocks();
   });
 
@@ -38,6 +39,8 @@ describe("LiteVideo no Modo lite", () => {
 
     // O player da página fica sem controles (quem manda é o convite) e o quadro não toca.
     const inline = container.querySelector("video")!;
+    // O iOS só pinta o primeiro quadro com o fragmento de mídia.
+    expect(inline.getAttribute("src")).toBe("https://cdn.exemplo/video.mp4#t=0.001");
     expect(inline.controls).toBe(false);
     expect(inline.muted).toBe(true);
 
@@ -54,8 +57,8 @@ describe("LiteVideo no Modo lite", () => {
     const stageVideo = dialog!.querySelector("video")!;
     expect(stageVideo.controls).toBe(true);
     expect(stageVideo.muted).toBe(false);
-    // A página atrás não rola enquanto o palco está aberto.
-    expect(document.body.style.overflow).toBe("hidden");
+    // A página atrás não rola enquanto o palco está aberto (lock do Radix, não style inline).
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(true);
 
     const close = dialog!.querySelector<HTMLButtonElement>(
       `button[aria-label="${defaultMessages.mediaStage.close}"]`,
@@ -65,6 +68,6 @@ describe("LiteVideo no Modo lite", () => {
     await act(async () => close!.click());
 
     expect(document.querySelector('[role="dialog"]')).toBeNull();
-    expect(document.body.style.overflow).toBe("");
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
   });
 });

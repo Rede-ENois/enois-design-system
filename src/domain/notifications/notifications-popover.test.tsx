@@ -52,7 +52,16 @@ describe("NotificationsPopover: preferences link", () => {
   it("renders no link without preferencesHref", () => {
     render();
 
-    expect(document.body.textContent).toContain("Notificações");
+    expect(document.body.textContent).toContain("Avisos");
     expect(preferencesLink()).toBeNull();
+  });
+});
+
+describe("NotificationsPopover: all notices link", () => {
+  it("links to the full page when allHref is set", () => {
+    render({ allHref: "/notificacoes" });
+
+    const link = document.body.querySelector('a[href="/notificacoes"]');
+    expect(link?.textContent).toBe("Ver todos os avisos");
   });
 });

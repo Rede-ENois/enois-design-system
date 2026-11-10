@@ -12,6 +12,7 @@ import { ReadMore } from "../../../ui/read-more.js";
 import { UserAvatar } from "../../avatar/user-avatar.js";
 import { UserBadges } from "../../badges/user-badges.js";
 import { ContributorTag } from "../../name/contributor-tag.js";
+import { HumanitySeal } from "../../name/humanity-seal.js";
 import { StyledName } from "../../name/styled-name.js";
 import { LinkPreviews } from "../media/link-previews.js";
 import { ReactionPicker } from "../reactions/reaction-picker.js";
@@ -51,6 +52,7 @@ export function CommentItem<T extends string>({
   reportDialog,
   reactionsDialog,
   renderAuthorTrigger,
+  renderLinkPreview,
 }: CommentItemProps<T>) {
   const messages = useMessages().commentItem;
   const { isOwnMediaUrl } = useAdapters();
@@ -140,6 +142,8 @@ export function CommentItem<T extends string>({
               <ContributorTag color={comment.authorContributor.color} />
             )}
 
+            {comment.authorHumanityVerified && <HumanitySeal />}
+
             <UserBadges badges={comment.authorBadges} badge={comment.authorBadge} />
             {replyingTo && (
               <span className="text-xs font-normal text-text-subtle">
@@ -219,7 +223,7 @@ export function CommentItem<T extends string>({
                 </div>
               )}
 
-              <LinkPreviews content={content} />
+              <LinkPreviews content={content} compact renderLinkPreview={renderLinkPreview} />
             </>
           )}
         </div>

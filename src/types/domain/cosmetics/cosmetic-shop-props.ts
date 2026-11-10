@@ -19,6 +19,11 @@ export type CosmeticShopProps = {
   onBuyLook: (lookId: string) => void;
   onEquip: (itemId: string) => void;
   onUnequip: (itemId: string) => void;
+  /** Wear or take off a look that is already the viewer's: its card toggles like a switch. */
+  onEquipLook?: (lookId: string) => void;
+  onUnequipLook?: (lookId: string) => void;
+  /** The look wear/take-off in flight: its card ignores clicks until the server answers. */
+  lookPending?: string | null;
   /** Extra content under a collection heading (events such as the Saci × Halloween duel). */
   renderCollectionExtra?: (collectionId: string) => ReactNode;
   /** Collection tab opened first; defaults to the first collection in season. */

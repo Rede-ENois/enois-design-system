@@ -8,6 +8,8 @@ export type CommentItemData = {
   authorStyle?: AuthorNameStyle | null;
   /** Tag "Contribuinte" quando o autor tem selo ativo; ausente = não é contribuinte. */
   authorContributor?: AuthorContributorTag | null;
+  /** Selo "Humanidade Comprovada"; ausente = perfil sem verificação aprovada. */
+  authorHumanityVerified?: boolean;
   authorAvatar: string | null;
   authorAvatarFrame?: string | null;
   authorBadge?: string | null;

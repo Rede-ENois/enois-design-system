@@ -3,9 +3,12 @@ import type { CSSProperties } from "react";
 import type { CollectionPreviewProps } from "../../types/domain/appearance/collection-preview-props.js";
 
 /**
- * Miniatura de um tema da coleção: um cartãozinho desenhado com os dados de
- * preview do próprio tema — fundo, superfície, destaque, borda e o efeito que o
- * define (relevo, vidro, gloss, néon).
+ * Miniatura de um tema da coleção: uma MINIATURA DE PERFIL desenhada com os dados
+ * do próprio tema — fundo, superfície, destaque, borda e o efeito que o define
+ * (relevo, vidro, gloss, pixel, néon).
+ *
+ * Mostrar um perfil, e não só um retângulo de cor, é o que deixa a decisão honesta:
+ * a pessoa vê como o nome, o selo e o cartão de post ficariam antes de aplicar.
  *
  * É o lugar único onde estilo inline é permitido aqui: a galeria existe para
  * *mostrar os valores do tema*, e cada tema tem os seus.
@@ -33,27 +36,50 @@ export function CollectionPreview({ collection }: CollectionPreviewProps) {
               }
             : preview.effect === "terminal"
               ? { textShadow: "0 0 6px currentColor" }
-              : {};
+              : preview.effect === "pixel"
+                ? { boxShadow: `2px 2px 0 ${preview.border}`, borderWidth: 2 }
+                : {};
 
   return (
     <div
-      className="h-16 w-full rounded-md border p-1.5"
+      className="h-20 w-full rounded-md border p-1.5"
       style={{ background: preview.background, borderColor: preview.border }}
     >
       <div
-        className="flex h-full w-full flex-col rounded-sm p-1.5"
+        className="flex h-full w-full flex-col gap-1 rounded-sm p-1.5"
         style={{ background: preview.surface, border: `1px solid ${preview.border}`, ...effect }}
       >
-        <div className="h-1.5 w-2/3 rounded-full" style={{ background: preview.primary }} />
-        <div className="mt-1 h-1 w-full rounded-full" style={{ background: preview.border }} />
-        <div className="mt-0.5 h-1 w-3/5 rounded-full" style={{ background: preview.border }} />
+        {/* Cabeçalho de perfil: avatar, nome e selo. */}
+        <div className="flex items-center gap-1">
+          <span
+            className="h-3.5 w-3.5 shrink-0 rounded-full"
+            style={{ background: preview.primary, opacity: 0.9 }}
+          />
+          <span
+            className="h-1.5 w-1/2 rounded-full"
+            style={{ background: preview.primary, opacity: 0.75 }}
+          />
+          <span
+            className="ml-auto h-2 w-5 rounded-full"
+            style={{ background: preview.primary, opacity: 0.35 }}
+          />
+        </div>
 
-        <span
-          className="mt-auto inline-flex h-4 w-fit items-center self-start px-1.5 text-[9px] leading-none"
-          style={{ background: preview.primary, color: preview.onPrimary }}
+        {/* Cartão de post do perfil. */}
+        <div
+          className="flex flex-1 flex-col gap-1 rounded-sm p-1"
+          style={{ background: preview.background, border: `1px solid ${preview.border}` }}
         >
-          Aa
-        </span>
+          <span className="h-1 w-full rounded-full" style={{ background: preview.border }} />
+          <span className="h-1 w-4/5 rounded-full" style={{ background: preview.border }} />
+
+          <span
+            className="mt-auto inline-flex h-3 w-fit items-center self-start px-1.5 text-[8px] leading-none"
+            style={{ background: preview.primary, color: preview.onPrimary }}
+          >
+            Aa
+          </span>
+        </div>
       </div>
     </div>
   );

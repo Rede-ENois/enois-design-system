@@ -4,7 +4,7 @@ import { Inbox } from "lucide-react";
 import { Button } from "./button.js";
 import { EmptyState } from "./empty-state.js";
 import { LoadingState } from "./loading-state.js";
-import { useToast } from "./toast.js";
+import { useToast } from "./toast-context.js";
 
 const meta: Meta = {
   title: "UI/Feedback",

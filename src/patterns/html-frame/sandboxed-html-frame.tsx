@@ -108,7 +108,7 @@ export function SandboxedHtmlFrame({
     <iframe
       ref={frame}
       title={title}
-      srcDoc={buildDocument(html, innerPadding, clip)}
+      srcDoc={buildDocument(html, innerPadding, clip, !grows)}
       // Por padrão, o HTML colado não recebe scripts e mantém origem legível apenas para a medição.
       // O modo SoundCloud troca a origem legível por origem opaca e libera scripts para o iframe
       // aninhado; a CSP continua bloqueando scripts do documento e restringindo frames ao player.
@@ -163,13 +163,18 @@ const FRAME_CSP = [
  * o que quiser. Fundos e textos usam `light-dark()`: o pai grava `color-scheme` light ou dark no
  * quadro, e a cor acompanha o tema do app em vez do sistema operacional.
  */
-function buildBaseCss(innerPadding: boolean, clip: boolean): string {
+function buildBaseCss(innerPadding: boolean, clip: boolean, fill: boolean): string {
   const padding = innerPadding ? "14px 16px" : "0";
   // Faixa recortada (capa): o que passar da altura do quadro fica escondido em vez de virar barra
   // de rolagem — barra dentro de uma capa denuncia que ali dentro tem uma página, e não uma faixa.
   const overflow = clip ? "overflow:hidden" : "";
+  // A frame with a fixed height (a cover) hands that height down, so an author's `height:100%`
+  // fills the strip instead of collapsing to its content. A frame that grows with its content
+  // must not: the page would measure its own height and feed it back.
+  const height = fill ? "height:100%;" : "";
+  const stretch = fill ? "\nbody>:first-child{min-height:100%}" : "";
   return `*{box-sizing:border-box}
-html,body{margin:0;${overflow}}
+html,body{margin:0;${height}${overflow}}${stretch}
 body{background:transparent;color:light-dark(#1a1a1a,#e8e6ff);color-scheme:light dark;padding:${padding};overflow-wrap:break-word;
 font:400 14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 h1,h2,h3,h4,h5,h6{line-height:1.25;margin:.6em 0 .4em}
@@ -191,7 +196,7 @@ blockquote{margin:.6em 0;padding-left:12px;border-left:3px solid light-dark(#ddd
 border:1px dashed light-dark(#cfcfd6,#4a4860);margin:.8em 0}`;
 }
 
-function buildDocument(html: string, innerPadding: boolean, clip: boolean): string {
+function buildDocument(html: string, innerPadding: boolean, clip: boolean, fill: boolean): string {
   return [
     '<!doctype html><html lang="pt-BR"><head>',
     `<meta http-equiv="Content-Security-Policy" content="${FRAME_CSP}">`,
@@ -199,7 +204,7 @@ function buildDocument(html: string, innerPadding: boolean, clip: boolean): stri
     // telefone (e o print sai inteiro, sem rolagem).
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     '<base target="_blank">',
-    `<style>${buildBaseCss(innerPadding, clip)}</style>`,
+    `<style>${buildBaseCss(innerPadding, clip, fill)}</style>`,
     "</head><body>",
     html,
     "</body></html>",

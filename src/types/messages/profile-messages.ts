@@ -111,6 +111,30 @@ export type ProfileMessages = {
     cancel: string;
     saving: string;
   };
+  profileEditMenu: {
+    trigger: string;
+    sending: string;
+    groups: { profile: string; career: string; look: string };
+    info: string;
+    infoHint: string;
+    photo: string;
+    photoHint: string;
+    cover: string;
+    coverHint: string;
+    status: string;
+    statusHint: string;
+    professional: string;
+    professionalSetup: string;
+    professionalHint: string;
+    resume: string;
+    resumeHint: string;
+    look: string;
+    lookHint: string;
+    appearance: string;
+    appearanceHint: string;
+    bioHtml: string;
+    bioHtmlHint: string;
+  };
   profileResumeDialog: {
     action: string;
     title: string;
@@ -215,14 +239,6 @@ export type ProfileMessages = {
     video: string;
     photo: string;
     article: string;
-    placeholder: string;
-    hint: string;
-    action: string;
-    cancel: string;
-    sending: string;
-    mediaSpoiler: string;
-    mediaSpoilerActive: string;
-    textRequired: string;
   };
   profileProjectsSection: {
     title: string;
@@ -242,6 +258,10 @@ export type ProfileMessages = {
     modeHtml: string;
     titleField: string;
     stackField: string;
+    stackPlaceholder: string;
+    stackHint: string;
+    stackDuplicate: string;
+    stackRemove: (technology: string) => string;
     repoField: string;
     bannerField: string;
     iconField: string;
@@ -250,6 +270,8 @@ export type ProfileMessages = {
     descriptionPlaceholder: string;
     diaryAdd: string;
     diaryText: string;
+    diaryDate: (entry: number) => string;
+    diaryEntryText: (entry: number) => string;
     add: string;
     save: string;
     remove: string;

@@ -5,5 +5,5 @@ export type ThemeCollectionPreview = {
   primary: string;
   onPrimary: string;
   border: string;
-  effect: "bevel" | "glass" | "flat" | "glossy" | "terminal" | "neumorph" | "gradient";
+  effect: "bevel" | "glass" | "flat" | "glossy" | "terminal" | "neumorph" | "gradient" | "pixel";
 };

@@ -14,6 +14,10 @@ const FRAMES = [
   "moldura-circuito",
   "moldura-neon",
   "moldura-radar",
+  "moldura-caixao",
+  "moldura-bruxa",
+  "moldura-lanterna",
+  "moldura-uivo",
 ];
 
 const css = readFileSync("src/styles.css", "utf8");
@@ -22,7 +26,7 @@ const frameCss = css.slice(
   css.indexOf("/* ── Scrollbar"),
 );
 
-describe("Movimento das coleções Elementos e Tecnologia no pacote", () => {
+describe("Movimento das coleções Elementos, Tecnologia e Halloween no pacote", () => {
   let host: HTMLDivElement;
   let styles: HTMLStyleElement;
 

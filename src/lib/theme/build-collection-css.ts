@@ -11,7 +11,7 @@ import { buildAccentTokens } from "./build-theme-tokens.js";
  * sombras e os relevos ficam do tema: é a identidade que continua de pé — o que o
  * usuário pinta é o destaque (e o fundo, pelo plano de fundo).
  */
-const ACCENT_OVERRIDE_KEYS = [
+export const ACCENT_OVERRIDE_KEYS = [
   "--primary",
   "--primary-foreground",
   "--primary-text",

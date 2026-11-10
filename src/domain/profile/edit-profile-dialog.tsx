@@ -88,8 +88,12 @@ export function EditProfileDialog({
       const url = await onUploadBadge(file);
       // Entra no fim da lista: a ordem é a que aparece no perfil, e a primeira acompanha o nome.
       setBadges((current) => [...current, url]);
-    } catch {
-      setGeneralError(messages.imageUploadError);
+    } catch (error) {
+      // The app already turns the API refusal into words for people (wrong type, image refused):
+      // hiding it behind the generic text left people guessing why a normal PNG failed.
+      setGeneralError(
+        error instanceof Error && error.message ? error.message : messages.imageUploadError,
+      );
     } finally {
       setBadgeUploading(false);
     }
@@ -131,7 +135,7 @@ export function EditProfileDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
 
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto p-0">
         <DialogHeader className="sticky top-0 z-10 border-b border-border-soft bg-surface-card px-6 pb-4 pt-6">

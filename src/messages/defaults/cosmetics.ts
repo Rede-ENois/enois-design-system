@@ -13,7 +13,11 @@ export const cosmeticsMessages: CosmeticsMessages = {
     looksDescription:
       "Um clique veste o perfil inteiro: tema do cartão, moldura, nome, emblemas, banner, status e efeito.",
     wearLook: (title) => `Vestir o look ${title}`,
+    equipLook: (title) => `Vestir o meu look ${title}`,
+    unequipLook: (title) => `Tirar o look ${title} do meu perfil`,
     lookOwned: "Seu",
+    lookWearing: "Vestindo",
+    lookWear: "Vestir",
     lookDiscount: (missing) => `${missing} ${missing === 1 ? "peça" : "peças"}, 25% mais barato`,
     search: "Buscar em todas as coleções: saci, pipa, fogos...",
     searchLabel: "Buscar itens",

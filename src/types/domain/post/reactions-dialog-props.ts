@@ -12,6 +12,7 @@ export type ReactionsDialogProps<T extends string = string> = {
   users?: Record<string, ReactionUserData>;
   currentUserId: string | null;
   emojis: Record<T, string>;
+  profileHref?: (username: string) => string;
   isLoading: boolean;
   isError: boolean;
 };

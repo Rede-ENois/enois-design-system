@@ -1,9 +1,21 @@
 import type { CityStateErrorCode } from "../patterns/city-state-error-code.js";
 
 export type PatternsMessages = {
+  tokenInput: {
+    hint: string;
+    full: string;
+    count: (count: number, max: number) => string;
+    remove: (token: string) => string;
+    suggestions: string;
+    tooLong: (maxLength: number) => string;
+    tooMany: (max: number) => string;
+    singleItem: string;
+  };
   appSidebar: { expandMenu: string; collapseMenu: string };
   navigationDrawer: { title: string };
+  mobileDock: { label: string };
   themeToggle: { light: string; dark: string };
+  themeSwitch: { label: string; light: string; dark: string };
   errorBanner: {
     show: string;
     hide: string;

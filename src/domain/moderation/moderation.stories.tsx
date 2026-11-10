@@ -7,6 +7,7 @@ import { ContributorsSection } from "./contributors-section.js";
 import { DisputesSection } from "./disputes-section.js";
 import { EmailLogSection } from "./email-log-section.js";
 import { GamesReviewSection } from "./games-review-section.js";
+import { IdentityReleaseSection } from "./identity-release-section.js";
 import { MonitoringSection } from "./monitoring-section.js";
 import { NotesSection } from "./notes-section.js";
 import { PanicModeSection } from "./panic-mode-section.js";
@@ -505,5 +506,99 @@ export const Monitoring: StoryObj = {
       ]}
       onLoadMore={noop}
     />
+  ),
+};
+
+export const IdentityRelease: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl space-y-8">
+      <IdentityReleaseSection
+        onRefresh={noop}
+        onRunRound={resolved}
+        onSavePolicy={() => {}}
+        rounds={[
+          {
+            id: "r2",
+            executedAtLabel: "09/11/2026, 10:00",
+            eligibleCount: 14,
+            releasedCount: 10,
+            minReputation: 50,
+            rankStart: 11,
+            rankEnd: 20,
+            state: "COMPLETED",
+            reservedCapacityUsed: 2,
+            note: null,
+          },
+          {
+            id: "r1",
+            executedAtLabel: "08/11/2026, 10:00",
+            eligibleCount: 10,
+            releasedCount: 10,
+            minReputation: 70,
+            rankStart: 1,
+            rankEnd: 10,
+            state: "PAUSED",
+            reservedCapacityUsed: 3,
+            note: "Pausada ao bater o teto de verificações simultâneas.",
+          },
+        ]}
+        overview={{
+          totalUsers: 3200,
+          releasedUsers: 25,
+          inFlight: 3,
+          startedThisCycle: 12,
+          remainingCapacity: 13,
+          estimatedSpentUsdLabel: "3,96",
+          budgetUsdLabel: "10,00",
+          monthlyLimit: 25,
+          lastRound: null,
+          providerAvailable: true,
+          policy: {
+            usersPerRound: 10,
+            intervalMinutes: 1440,
+            minReputation: 50,
+            reservedQuotaPercent: 20,
+            maxSimultaneous: 5,
+            paused: false,
+            nextRoundAtLabel: "10/11/2026, 10:00",
+          },
+        }}
+      />
+    </div>
+  ),
+};
+
+export const IdentityReleaseBlocked: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl space-y-8">
+      <IdentityReleaseSection
+        overview={{
+          totalUsers: 3200,
+          releasedUsers: 25,
+          inFlight: 0,
+          startedThisCycle: 25,
+          remainingCapacity: 0,
+          estimatedSpentUsdLabel: "8,25",
+          budgetUsdLabel: "10,00",
+          monthlyLimit: 25,
+          lastRound: null,
+          providerAvailable: false,
+          policy: {
+            usersPerRound: 10,
+            intervalMinutes: 1440,
+            minReputation: 50,
+            reservedQuotaPercent: 20,
+            maxSimultaneous: 0,
+            paused: true,
+            nextRoundAtLabel: null,
+          },
+        }}
+        rounds={[]}
+        error
+        onRefresh={noop}
+        onRunRound={resolved}
+        onSavePolicy={() => {}}
+      />
+    </div>
   ),
 };

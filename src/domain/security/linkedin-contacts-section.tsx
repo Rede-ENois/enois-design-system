@@ -4,7 +4,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { LinkedinContactsSectionProps } from "../../types/domain/security/linkedin-contacts-section-props.js";
 import { Button } from "../../ui/button.js";
 import { Switch } from "../../ui/switch.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 /** Mesmo teto do serviço (LinkedinImportService.MAX_CONTACTS_BYTES / 5 MB no ZIP). */
 const CONTACTS_MAX_MB = 5;

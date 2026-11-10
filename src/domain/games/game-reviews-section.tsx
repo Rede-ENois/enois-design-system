@@ -59,7 +59,6 @@ export function GameReviewsSection({
     setBody(myReview.body ?? "");
     // Só quando a avaliação do usuário chega/muda; incluir o objeto inteiro resetaria o texto
     // enquanto a pessoa digita.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myReview?.id]);
 
   return (

@@ -53,3 +53,17 @@ describe("batata mode styles", () => {
     expect(tokens).toContain("--gradient-primary: none");
   });
 });
+
+// The profile theme tokens live on the profile container, not on `<html>`: without
+// repeating the flattening there, a profile dressed in a dark preset would keep its own
+// radius and the brand font inside BATATA.
+describe("batata mode inside a themed profile", () => {
+  it("flattens the radius and the typography of the profile container too", () => {
+    const start = css.indexOf("html[data-batata] .profile-scope {");
+    expect(start).toBeGreaterThan(-1);
+    const rule = css.slice(start, css.indexOf("}", start));
+    expect(rule).toContain("--radius: 0px");
+    expect(rule).toContain("--radius-3xl: 0px");
+    expect(rule).toContain("--font-sans: system-ui");
+  });
+});

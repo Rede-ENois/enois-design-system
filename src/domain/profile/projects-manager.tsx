@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useId, useRef, useState } from "react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import { HtmlEditor } from "../../patterns/editor/html-editor.js";
+import { TokenInput } from "../../patterns/token-input/token-input.js";
 import type { EditingProject } from "../../types/domain/profile/editing-project.js";
 import type { ProjectCardMode } from "../../types/domain/profile/project-card-mode.js";
 import type { ProjectInput } from "../../types/domain/profile/project-input.js";
 import type { ProjectsManagerProps } from "../../types/domain/profile/projects-manager-props.js";
+import type { TokenInputHandle } from "../../types/patterns/token-input-handle.js";
 import { Button } from "../../ui/button.js";
 import {
   Dialog,
@@ -33,9 +35,21 @@ const vazio = (): ProjectInput => ({
 });
 
 /**
- * Gerenciador de projetos (dono do perfil): lista + editor, com a dualidade da
- * casa — preencher o formulário estruturado OU escrever o HTML do card (que o
- * backend sanitiza e o quadro isolado renderiza, como a bio e a capa).
+ * Profile owner's project list and editor, with structured fields or a custom
+ * HTML card that the backend sanitizes and an isolated frame renders.
+ *
+ * Confirmed technologies live in the project's stack array. TokenInput keeps
+ * only the pending draft: Enter, comma input (including mobile and pasted lists)
+ * and leaving the field commit trimmed values. Action buttons commit through
+ * the input handle so a layout change cannot cancel their click. Saving includes
+ * the remaining draft even without blur, with at most 10 technologies of 40
+ * characters each. Case-insensitive duplicates show inline feedback.
+ *
+ * Chips wrap inside the field and have labelled removal buttons. Updating other
+ * fields preserves the stack and the selected structured/HTML mode. The
+ * Domain/Profile StackChips story demonstrates editing, saving and mobile wrapping.
+ * Each editor instance owns unique field IDs, including its diary rows; status
+ * choices are grouped under a legend and every input has an associated label.
  */
 export function ProjectsManager({
   open,
@@ -47,29 +61,22 @@ export function ProjectsManager({
   renderHtmlFrame,
 }: ProjectsManagerProps) {
   const messages = useMessages().projectsManager;
+  const formId = useId();
 
   const [editando, setEditando] = useState<EditingProject>(null);
   const [modo, setModo] = useState<ProjectCardMode>("estruturado");
-  const [stackTexto, setStackTexto] = useState("");
-
-  useEffect(() => {
-    if (editando) {
-      setStackTexto(editando.stack.join(", "));
-      setModo(editando.html ? "html" : "estruturado");
-    }
-  }, [editando]);
+  const stackInputRef = useRef<TokenInputHandle>(null);
 
   const salvar = async () => {
     if (!editando) return;
+    const stack = stackInputRef.current ? stackInputRef.current.commit() : editando.stack;
+    if (!stack) return;
     const input: ProjectInput = {
       title: editando.title.trim(),
       description: editando.description?.trim() || null,
       banner: editando.banner?.trim() || null,
       icon: editando.icon?.trim() || null,
-      stack: stackTexto
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
+      stack,
       repoUrl: editando.repoUrl?.trim() || null,
       status: modo === "estruturado" ? editando.status?.trim() || null : null,
       diary: modo === "estruturado" ? editando.diary : [],
@@ -113,14 +120,15 @@ export function ProjectsManager({
                     size="sm"
                     variant="outline"
                     className="rounded-full"
-                    onClick={() =>
+                    onClick={() => {
+                      setModo(project.html ? "html" : "estruturado");
                       setEditando({
                         ...project,
                         html: project.html ?? null,
                         banner: project.banner ?? null,
                         icon: project.icon ?? null,
-                      })
-                    }
+                      });
+                    }}
                   >
                     {messages.edit}
                   </Button>
@@ -143,7 +151,6 @@ export function ProjectsManager({
               className="rounded-full gap-1.5"
               onClick={() => {
                 setModo("estruturado");
-                setStackTexto("");
                 setEditando(vazio());
               }}
             >
@@ -160,7 +167,10 @@ export function ProjectsManager({
                   key={option}
                   type="button"
                   aria-pressed={modo === option}
-                  onClick={() => setModo(option)}
+                  onClick={() => {
+                    if (stackInputRef.current?.commit() === null) return;
+                    setModo(option);
+                  }}
                   className={
                     modo === option
                       ? "rounded-full border border-primary bg-primary-soft px-3 py-1.5 text-xs text-primary"
@@ -173,9 +183,12 @@ export function ProjectsManager({
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground">{messages.titleField}</Label>
+              <Label htmlFor={`${formId}-title`} className="text-xs text-muted-foreground">
+                {messages.titleField}
+              </Label>
 
               <Input
+                id={`${formId}-title`}
                 value={editando.title}
                 maxLength={120}
                 onChange={(event) => setEditando({ ...editando, title: event.target.value })}
@@ -185,11 +198,15 @@ export function ProjectsManager({
             {modo === "estruturado" ? (
               <>
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">
+                  <Label
+                    htmlFor={`${formId}-description`}
+                    className="text-xs text-muted-foreground"
+                  >
                     {messages.descriptionField}
                   </Label>
 
                   <Input
+                    id={`${formId}-description`}
                     value={editando.description ?? ""}
                     maxLength={500}
                     placeholder={messages.descriptionPlaceholder}
@@ -199,8 +216,10 @@ export function ProjectsManager({
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">{messages.statusField}</Label>
+                <fieldset className="space-y-1.5">
+                  <legend className="text-xs font-medium leading-none text-muted-foreground">
+                    {messages.statusField}
+                  </legend>
 
                   <div className="flex flex-wrap gap-2">
                     {STATUS_PRESETS.map((preset) => (
@@ -219,24 +238,44 @@ export function ProjectsManager({
                       </button>
                     ))}
                   </div>
-                </div>
+                </fieldset>
 
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">{messages.stackField}</Label>
-
-                  <Input
-                    value={stackTexto}
-                    maxLength={400}
-                    placeholder="Java, React, Postgres"
-                    onChange={(event) => setStackTexto(event.target.value)}
-                  />
-                </div>
+                <TokenInput
+                  ref={stackInputRef}
+                  id={`${formId}-stack`}
+                  label={messages.stackField}
+                  placeholder={messages.stackPlaceholder}
+                  removeLabel={messages.stackRemove}
+                  hint={messages.stackHint}
+                  duplicateMessage={messages.stackDuplicate}
+                  values={editando.stack}
+                  max={10}
+                  maxLength={40}
+                  disabled={savePending}
+                  onAdd={(token) =>
+                    setEditando(
+                      (project) => project && { ...project, stack: [...project.stack, token] },
+                    )
+                  }
+                  onRemove={(token) =>
+                    setEditando(
+                      (project) =>
+                        project && {
+                          ...project,
+                          stack: project.stack.filter((item) => item !== token),
+                        },
+                    )
+                  }
+                />
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label className="text-xs text-muted-foreground">{messages.bannerField}</Label>
+                    <Label htmlFor={`${formId}-banner`} className="text-xs text-muted-foreground">
+                      {messages.bannerField}
+                    </Label>
 
                     <Input
+                      id={`${formId}-banner`}
                       value={editando.banner ?? ""}
                       maxLength={500}
                       placeholder="https://…"
@@ -245,9 +284,12 @@ export function ProjectsManager({
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label className="text-xs text-muted-foreground">{messages.iconField}</Label>
+                    <Label htmlFor={`${formId}-icon`} className="text-xs text-muted-foreground">
+                      {messages.iconField}
+                    </Label>
 
                     <Input
+                      id={`${formId}-icon`}
                       value={editando.icon ?? ""}
                       maxLength={500}
                       placeholder="https://…"
@@ -257,9 +299,12 @@ export function ProjectsManager({
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">{messages.repoField}</Label>
+                  <Label htmlFor={`${formId}-repo`} className="text-xs text-muted-foreground">
+                    {messages.repoField}
+                  </Label>
 
                   <Input
+                    id={`${formId}-repo`}
                     value={editando.repoUrl ?? ""}
                     maxLength={500}
                     placeholder="https://github.com/…"
@@ -269,7 +314,9 @@ export function ProjectsManager({
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs text-muted-foreground">{messages.diary}</Label>
+                    <h3 className="text-xs font-medium leading-none text-muted-foreground">
+                      {messages.diary}
+                    </h3>
 
                     <Button
                       size="sm"
@@ -291,7 +338,12 @@ export function ProjectsManager({
 
                   {editando.diary.map((entry, index) => (
                     <div key={index} className="flex gap-2">
+                      <Label htmlFor={`${formId}-diary-${index}-date`} className="sr-only">
+                        {messages.diaryDate(index + 1)}
+                      </Label>
+
                       <Input
+                        id={`${formId}-diary-${index}-date`}
                         type="date"
                         value={entry.date}
                         className="w-36 shrink-0"
@@ -301,7 +353,13 @@ export function ProjectsManager({
                           setEditando({ ...editando, diary });
                         }}
                       />
+
+                      <Label htmlFor={`${formId}-diary-${index}-text`} className="sr-only">
+                        {messages.diaryEntryText(index + 1)}
+                      </Label>
+
                       <Textarea
+                        id={`${formId}-diary-${index}-text`}
                         value={entry.text}
                         maxLength={400}
                         placeholder={messages.diaryText}
@@ -332,10 +390,8 @@ export function ProjectsManager({
               </>
             ) : (
               <div className="space-y-1.5">
-                <Label className="text-xs text-muted-foreground">{messages.modeHtml}</Label>
-
                 <HtmlEditor
-                  id="projeto-html"
+                  id={`${formId}-html`}
                   value={editando.html ?? ""}
                   onChange={(value) => setEditando({ ...editando, html: value })}
                   label={messages.modeHtml}

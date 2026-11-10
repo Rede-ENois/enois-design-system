@@ -15,8 +15,6 @@ beforeEach(() => {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
-  URL.createObjectURL = vi.fn(() => "blob:preview");
-  URL.revokeObjectURL = vi.fn();
 });
 
 afterEach(() => {
@@ -25,17 +23,17 @@ afterEach(() => {
 });
 
 function render(onWriteArticle?: () => void) {
-  const onPublish = vi.fn(async () => true);
+  const handlers = { onCompose: vi.fn(), onComposeWithMedia: vi.fn() };
   act(() =>
     root.render(
       <ProfileQuickComposer
         profile={{ name: "Pessoa Teste" }}
-        onPublish={onPublish}
+        {...handlers}
         onWriteArticle={onWriteArticle}
       />,
     ),
   );
-  return onPublish;
+  return handlers;
 }
 
 function button(label: string) {
@@ -46,75 +44,87 @@ function button(label: string) {
   return found;
 }
 
-function hasButton(label: string) {
-  return [...container.querySelectorAll("button")].some((candidate) =>
-    candidate.textContent?.includes(label),
-  );
-}
-
-function selectPhoto() {
-  act(() => button("Foto").click());
+function fileInput() {
   const input = container.querySelector<HTMLInputElement>('input[type="file"]');
   if (!input) throw new Error("file input not found");
-  const file = new File(["x"], "foto.png", { type: "image/png" });
-  Object.defineProperty(input, "files", { configurable: true, value: [file] });
+  return input;
+}
+
+function pick(files: File[]) {
+  const input = fileInput();
+  Object.defineProperty(input, "files", { configurable: true, value: files });
   act(() => {
     input.dispatchEvent(new Event("change", { bubbles: true }));
   });
 }
 
-function type(text: string) {
-  const textarea = container.querySelector("textarea");
-  if (!textarea) throw new Error("textarea not found");
-  const setValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")?.set;
-  act(() => {
-    setValue?.call(textarea, text);
-    textarea.dispatchEvent(new Event("input", { bubbles: true }));
-  });
-}
-
 describe("ProfileQuickComposer", () => {
-  it("hands the article shortcut to the app instead of opening the text field", () => {
+  it("never publishes inline: starting a post opens the full composer", () => {
+    const { onCompose } = render();
+
+    act(() => button("Começar publicação").click());
+
+    expect(onCompose).toHaveBeenCalledOnce();
+    expect(container.querySelector("textarea")).toBeNull();
+  });
+
+  it("hands the picked photos to the full composer", () => {
+    const { onComposeWithMedia } = render();
+    const click = vi.spyOn(fileInput(), "click").mockImplementation(() => undefined);
+
+    act(() => button("Foto").click());
+    expect(click).toHaveBeenCalledOnce();
+    expect(fileInput().accept).toBe("image/*");
+    expect(fileInput().multiple).toBe(true);
+
+    const photo = new File(["x"], "foto.png", { type: "image/png" });
+    pick([photo]);
+
+    expect(onComposeWithMedia).toHaveBeenCalledWith([photo]);
+  });
+
+  it("asks for a single video", () => {
+    render();
+    vi.spyOn(fileInput(), "click").mockImplementation(() => undefined);
+
+    act(() => button("Vídeo").click());
+
+    expect(fileInput().accept).toBe("video/*");
+    expect(fileInput().multiple).toBe(false);
+  });
+
+  it("does nothing when the picker is dismissed", () => {
+    const { onComposeWithMedia } = render();
+
+    pick([]);
+
+    expect(onComposeWithMedia).not.toHaveBeenCalled();
+  });
+
+  it("hands the article shortcut to the app", () => {
     const onWriteArticle = vi.fn();
     render(onWriteArticle);
 
     act(() => button("Escrever artigo").click());
 
     expect(onWriteArticle).toHaveBeenCalledOnce();
-    expect(container.querySelector("textarea")).toBeNull();
+  });
+
+  it("draws the dividers on square cells, not on the rounded buttons", () => {
+    render(() => undefined);
+
+    const row = button("Foto").closest("div.divide-x");
+    expect(row).not.toBeNull();
+    for (const cell of row?.children ?? []) {
+      expect(cell.tagName).toBe("DIV");
+      expect(cell.className).not.toMatch(/rounded/);
+    }
   });
 
   it("hides the article shortcut when the app has no editor to open", () => {
     render();
 
-    expect(hasButton("Escrever artigo")).toBe(false);
-    expect(hasButton("Foto")).toBe(true);
-  });
-
-  it("keeps publish disabled for media without text, which the API refuses", () => {
-    render();
-    selectPhoto();
-
-    expect(container.querySelector("img")).not.toBeNull();
-    expect(button("Publicar").disabled).toBe(true);
-    expect(container.textContent).toContain("Escreva uma legenda para publicar.");
-    expect(button("Publicar").getAttribute("aria-describedby")).toBeTruthy();
-  });
-
-  it("publishes media once there is text", async () => {
-    const onPublish = render();
-    selectPhoto();
-    type("Legenda");
-
-    expect(button("Publicar").disabled).toBe(false);
-    expect(container.textContent).not.toContain("Escreva uma legenda para publicar.");
-    await act(async () => button("Publicar").click());
-
-    expect(onPublish).toHaveBeenCalledWith(
-      expect.objectContaining({
-        content: "Legenda",
-        files: [expect.objectContaining({ name: "foto.png" })],
-      }),
-    );
+    expect(container.textContent).not.toContain("Escrever artigo");
+    expect(container.textContent).toContain("Foto");
   });
 });

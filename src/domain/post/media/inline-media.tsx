@@ -4,6 +4,7 @@ import type { InlineMediaProps } from "../../../types/domain/post/inline-media-p
 
 import { ImageLightbox } from "./image-lightbox.js";
 import { LiteVideo } from "./lite-video.js";
+import { mediaBoxStyle, rememberImageBox } from "./media-box.js";
 import { SpoilerMedia } from "./spoiler-media.js";
 
 /**
@@ -19,6 +20,7 @@ export function InlineMedia({ media, mediaSpoiler = false, lite = false }: Inlin
   const { resolveMediaUrl, resolveMediaOriginalUrl } = useAdapters();
 
   if (!media?.cdnUrl) return null;
+  const imageSrc = resolveMediaUrl(media.cdnUrl);
 
   if (media.mimeType.startsWith("audio/")) {
     return (
@@ -37,7 +39,14 @@ export function InlineMedia({ media, mediaSpoiler = false, lite = false }: Inlin
     return (
       <div className="my-2 overflow-hidden rounded-xl border border-border-soft">
         <SpoilerMedia active={mediaSpoiler} label={messages.spoilerReveal}>
-          {() => <LiteVideo src={resolveMediaOriginalUrl(media.cdnUrl)} lite={lite} />}
+          {() => (
+            <LiteVideo
+              src={resolveMediaOriginalUrl(media.cdnUrl)}
+              width={media.width}
+              height={media.height}
+              lite={lite}
+            />
+          )}
         </SpoilerMedia>
       </div>
     );
@@ -48,16 +57,18 @@ export function InlineMedia({ media, mediaSpoiler = false, lite = false }: Inlin
       <div className="my-2 overflow-hidden rounded-xl border border-border-soft">
         <SpoilerMedia active={mediaSpoiler} label={messages.spoilerReveal}>
           {() => (
-            <ImageLightbox src={resolveMediaUrl(media.cdnUrl)}>
+            <ImageLightbox src={imageSrc}>
               <button
                 type="button"
                 className="block w-full cursor-zoom-in"
                 aria-label={messages.openImage}
               >
                 <img
-                  src={resolveMediaUrl(media.cdnUrl)}
+                  src={imageSrc}
                   alt=""
                   loading="lazy"
+                  style={mediaBoxStyle(imageSrc, media.width, media.height)}
+                  onLoad={rememberImageBox(imageSrc)}
                   className="h-auto max-h-96 w-full bg-surface-1 object-contain"
                 />
               </button>

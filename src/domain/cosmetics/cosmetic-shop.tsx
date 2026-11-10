@@ -60,6 +60,9 @@ export function CosmeticShop({
   onBuyLook,
   onEquip,
   onUnequip,
+  onEquipLook,
+  onUnequipLook,
+  lookPending = null,
   renderCollectionExtra,
   initialCollection,
 }: CosmeticShopProps) {
@@ -116,6 +119,20 @@ export function CosmeticShop({
     setReplay((n) => n + 1);
   };
 
+  /**
+   * A look that is already the viewer's is not a try-on: the click wears it on the profile, and
+   * the next click takes it off. A look with a piece missing still only tries on — nothing is
+   * bought by clicking a card.
+   */
+  const toggleLook = (look: CosmeticShopLook) => {
+    if (!look.owned) {
+      wearLook(look);
+      return;
+    }
+    if (look.equipped) onUnequipLook?.(look.id);
+    else onEquipLook?.(look.id);
+  };
+
   const action = (item: CosmeticShopItem) => {
     if (item.owned) {
       return (
@@ -146,10 +163,19 @@ export function CosmeticShop({
     const ofKind = (k: CosmeticKind) => entry.items.find((id) => itemsById.get(id)?.kind === k);
     const nameTheme = ofKind("NAME_STYLE");
     const on = tryOn.look === entry.id;
+    // The server says whether every piece is the viewer's; without that answer the pieces decide.
+    const owned = entry.owned ?? missing.length === 0;
+    const worn = owned && entry.equipped === true;
+    const pending = lookPending === entry.id;
+    const label = !owned
+      ? messages.wearLook(entry.title)
+      : worn
+        ? messages.unequipLook(entry.title)
+        : messages.equipLook(entry.title);
     return (
       <li
         key={entry.id}
-        className={cn("cos-look", on ? "is-on" : "cos-still")}
+        className={cn("cos-look", on ? "is-on" : "cos-still", worn && "is-worn")}
         style={
           theme
             ? ({ "--lt": theme.top, "--lb": theme.bottom, color: theme.fg } as CSSProperties)
@@ -159,9 +185,10 @@ export function CosmeticShop({
         <button
           type="button"
           className="cos-look__stage"
-          aria-pressed={on}
-          aria-label={messages.wearLook(entry.title)}
-          onClick={() => wearLook(entry)}
+          aria-pressed={worn}
+          aria-label={label}
+          disabled={pending}
+          onClick={() => toggleLook(entry)}
         >
           <LookScene lookId={entry.id} />
           <UserAvatar
@@ -185,9 +212,20 @@ export function CosmeticShop({
 
         <div className="cos-look__foot">
           <span>{collectionName}</span>
-          {missing.length === 0 ? (
-            <span className="cos-shop__owned">{messages.lookOwned}</span>
+          {worn ? (
+            <span className="cos-shop__owned">{messages.lookWearing}</span>
+          ) : owned ? (
+            <button
+              type="button"
+              className="cos-shop__owned cos-look__wear"
+              disabled={pending}
+              onClick={() => toggleLook(entry)}
+            >
+              {messages.lookWear}
+            </button>
           ) : (
+            /* Sem o ramo de fora de temporada: a loja só lista as coleções da estação, então o
+               que chega aqui ou é do usuário (ramo de cima) ou está à venda. */
             <Button
               size="sm"
               disabled={actionPending}

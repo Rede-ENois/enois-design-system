@@ -53,6 +53,7 @@ export const Dialog: StoryObj = {
         collectionId={collectionId}
         activeCollection={null}
         onCollectionSelect={setCollectionId}
+        onCollectionPreview={setCollectionId}
         purchasedThemes={{
           themes: PURCHASED,
           applyingItemId: applying,
@@ -81,6 +82,11 @@ export const Dialog: StoryObj = {
             formatPrice={(value) => String(value / 1000)}
             onSubmit={() => setSellOpen(false)}
           />
+        }
+        itemsSlot={
+          <p className="text-sm text-text-subtle">
+            Molduras, emblemas e banners que a pessoa já tem, para equipar aqui.
+          </p>
         }
       />
     );

@@ -26,7 +26,7 @@ import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { GamePlayerProps } from "../../types/domain/games/game-player-props.js";
 import { Button } from "../../ui/button.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 const subscribeNothing = () => () => {};
 const MOBILE_HINT_MS = 3000;

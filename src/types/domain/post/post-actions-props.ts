@@ -28,6 +28,8 @@ export type PostActionsProps<T extends string = string> = {
   onComments: () => void;
   onRepost: () => void;
   onShare: () => void;
+  /** Conteudo do menu de compartilhamento. Quando presente, o botao abre um popover com estas opcoes. */
+  shareMenu?: ReactNode;
   onReport: () => void;
   onSave: () => void;
   /** Ações extras no fim da fileira (os selos do feed, por exemplo). */

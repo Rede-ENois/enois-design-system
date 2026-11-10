@@ -1,20 +1,14 @@
+import type { ReactNode } from "react";
+
 import {
-  Flag,
+  ChevronRight,
+  CircleUserRound,
   Gavel,
-  Heart,
-  HeartPulse,
-  KeyRound,
   LifeBuoy,
-  Link2,
   LogOut,
-  Mail,
+  Palette,
   Settings2,
-  ShieldAlert,
   ShieldCheck,
-  ShieldOff,
-  Store,
-  Trash2,
-  User,
   Zap,
 } from "lucide-react";
 
@@ -27,20 +21,24 @@ import { UserAvatar } from "../avatar/user-avatar.js";
 
 import { ACCOUNT_MENU_ITEM_CLASS as ITEM_CLASS } from "./account-menu-item-class.js";
 
+function Group({ children }: { children: ReactNode }) {
+  return <div className="rounded-[1.375rem] bg-surface-2/60 p-1">{children}</div>;
+}
+
+/**
+ * The account menu: who you are, which interface you are in, and six quick entries. Account,
+ * privacy and preference items live on the "Conta e segurança" page, so the menu never grows.
+ */
 export function AccountMenu({
   profile,
   hrefs,
   open,
   onOpenChange,
-  onChangeEmail,
-  onChangePassword,
-  onOpenLinkedAccounts,
-  onOpenHealthyUsage,
-  onDeleteAccount,
+  walletLabel,
   onLogout,
   loggingOut,
-  pushToggle,
   identitySlot,
+  themeSlot,
 }: AccountMenuProps) {
   const messages = useMessages().accountMenu;
   const close = () => onOpenChange(false);
@@ -49,181 +47,114 @@ export function AccountMenu({
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <button
-          className="flex items-center gap-2 rounded-full pr-3 transition hover:bg-surface-2"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full transition hover:bg-surface-2"
           aria-label={messages.trigger}
         >
-          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-visible">
-            <UserAvatar
-              frame={profile.avatarFrame}
-              src={profile.avatar}
-              alt={profile.name}
-              className="h-8 w-8"
-            />
-          </span>
-
-          <span className="hidden text-sm font-normal text-text-strong sm:inline">
-            {messages.triggerLabel}
-          </span>
-        </button>
-      </PopoverTrigger>
-
-      {/* A aba já tem MUITAS opções: a lista rola por dentro (flex + min-h-0), com o cabeçalho
-          e as ações destrutivas sempre à vista. Sem isso o fim do menu ficava fora da tela. */}
-      <PopoverContent
-        align="end"
-        className="flex max-h-[min(80dvh,44rem)] w-[min(calc(100vw-2rem),17rem)] flex-col overflow-hidden rounded-2xl border-border-soft bg-surface-card p-0 shadow-card"
-      >
-        <div className="flex shrink-0 items-center gap-3 border-b border-border-soft px-4 py-3">
           <UserAvatar
             frame={profile.avatarFrame}
             src={profile.avatar}
             alt={profile.name}
             className="h-9 w-9"
           />
+        </button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="end"
+        className="flex max-h-[min(85dvh,40rem)] w-[min(calc(100vw-1.5rem),20rem)] flex-col gap-2.5 overflow-y-auto overscroll-contain rounded-[1.75rem] border-border-soft bg-surface-card p-2.5 shadow-[var(--shadow-float)]"
+      >
+        <AppLink
+          href={hrefs.profile}
+          onClick={close}
+          className="flex items-center gap-3 rounded-2xl px-2 py-2 transition hover:bg-surface-2"
+        >
+          <UserAvatar
+            frame={profile.avatarFrame}
+            src={profile.avatar}
+            alt={profile.name}
+            className="h-12 w-12"
+          />
 
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-text-strong">{profile.name}</p>
-
-            <p className="truncate text-xs text-text-subtle">{profile.email}</p>
+            <p className="truncate text-base font-extrabold text-text-strong">{profile.name}</p>
+            {profile.username && (
+              <p className="truncate text-[13px] text-text-date">@{profile.username}</p>
+            )}
           </div>
-        </div>
+        </AppLink>
 
-        {identitySlot && (
-          <div className="border-b border-border-soft px-4 py-2">{identitySlot}</div>
-        )}
+        {identitySlot}
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-1">
+        <Group>
           <AppLink href={hrefs.profile} onClick={close} className={ITEM_CLASS}>
-            <User className="h-4 w-4" />
+            <CircleUserRound aria-hidden />
 
-            <>{messages.profile}</>
-          </AppLink>
-
-          <AppLink href={hrefs.corporateProfile} onClick={close} className={ITEM_CLASS}>
-            <User className="h-4 w-4" />
-
-            <>{messages.corporateProfile}</>
+            <span className="min-w-0 flex-1 truncate">{messages.profile}</span>
           </AppLink>
 
           <AppLink href={hrefs.wallet} onClick={close} className={ITEM_CLASS}>
-            <Zap className="h-4 w-4" />
+            <Zap aria-hidden />
 
-            <>{messages.wallet}</>
+            <span className="min-w-0 flex-1 truncate">{messages.wallet}</span>
+            {walletLabel && (
+              <span className="shrink-0 text-sm font-extrabold tabular-nums text-signal-today">
+                {walletLabel}
+              </span>
+            )}
           </AppLink>
 
-          <AppLink href={hrefs.marketplace} onClick={close} className={ITEM_CLASS}>
-            <Store className="h-4 w-4" />
+          <AppLink href={hrefs.account} onClick={close} className={ITEM_CLASS}>
+            <Settings2 aria-hidden />
 
-            <>{messages.marketplace}</>
+            <span className="min-w-0 flex-1 truncate">{messages.account}</span>
+
+            <ChevronRight aria-hidden className="!h-4 !w-4 text-text-date" />
           </AppLink>
-
-          <button type="button" onClick={onChangeEmail} className={ITEM_CLASS}>
-            <Mail className="h-4 w-4" />
-
-            <>{messages.changeEmail}</>
-          </button>
 
           <AppLink href={hrefs.support} onClick={close} className={ITEM_CLASS}>
-            <LifeBuoy className="h-4 w-4" />
+            <LifeBuoy aria-hidden />
 
-            <>{messages.support}</>
+            <span className="min-w-0 flex-1 truncate">{messages.support}</span>
           </AppLink>
 
-          <AppLink href={hrefs.security} onClick={close} className={ITEM_CLASS}>
-            <ShieldCheck className="h-4 w-4" />
+          {hrefs.guardian && (
+            <AppLink href={hrefs.guardian} onClick={close} className={ITEM_CLASS}>
+              <ShieldCheck aria-hidden />
 
-            <>{messages.security}</>
-          </AppLink>
-
-          <AppLink href={hrefs.blockedUsers} onClick={close} className={ITEM_CLASS}>
-            <ShieldOff className="h-4 w-4" />
-
-            <>{messages.blockedUsers}</>
-          </AppLink>
-
-          <AppLink href={hrefs.myReports} onClick={close} className={ITEM_CLASS}>
-            <Flag className="h-4 w-4" />
-
-            <>{messages.myReports}</>
-          </AppLink>
-
-          <AppLink href={hrefs.sanctions} onClick={close} className={ITEM_CLASS}>
-            <ShieldAlert className="h-4 w-4" />
-
-            <>{messages.sanctions}</>
-          </AppLink>
-
-          <button type="button" onClick={onChangePassword} className={ITEM_CLASS}>
-            <KeyRound className="h-4 w-4" />
-
-            <>{messages.changePassword}</>
-          </button>
-
-          <button type="button" onClick={onOpenLinkedAccounts} className={ITEM_CLASS}>
-            <Link2 className="h-4 w-4" />
-
-            <>{messages.linkedAccounts}</>
-          </button>
-
-          <button type="button" onClick={onOpenHealthyUsage} className={ITEM_CLASS}>
-            <HeartPulse className="h-4 w-4" />
-
-            <>{messages.healthyUsage}</>
-          </button>
-
-          <AppLink href={hrefs.guardian} onClick={close} className={ITEM_CLASS}>
-            <ShieldCheck className="h-4 w-4" />
-
-            <>{messages.guardian}</>
-          </AppLink>
-
-          <AppLink href={hrefs.moderator} onClick={close} className={ITEM_CLASS}>
-            <Gavel className="h-4 w-4" />
-
-            <>{messages.moderator}</>
-          </AppLink>
-
-          {pushToggle}
-
-          {hrefs.notificationPreferences && (
-            <AppLink href={hrefs.notificationPreferences} onClick={close} className={ITEM_CLASS}>
-              <Settings2 className="h-4 w-4" />
-
-              <>{messages.notificationPreferences}</>
+              <span className="min-w-0 flex-1 truncate">{messages.guardian}</span>
             </AppLink>
           )}
 
-          <AppLink href={hrefs.apoie} onClick={close} className={ITEM_CLASS}>
-            <Heart className="h-4 w-4 text-primary" />
+          {hrefs.moderator && (
+            <AppLink href={hrefs.moderator} onClick={close} className={ITEM_CLASS}>
+              <Gavel aria-hidden />
 
-            <span className="text-primary">{messages.apoie}</span>
-          </AppLink>
-        </div>
+              <span className="min-w-0 flex-1 truncate">{messages.moderator}</span>
+            </AppLink>
+          )}
+        </Group>
 
-        <div className="shrink-0 border-t border-border-soft py-1">
-          <button
-            type="button"
-            onClick={onDeleteAccount}
-            className={cn(ITEM_CLASS, "text-destructive hover:text-destructive")}
-          >
-            <Trash2 className="h-4 w-4" />
+        <Group>
+          {themeSlot && (
+            <div className={cn(ITEM_CLASS, "hover:bg-transparent")}>
+              <Palette aria-hidden />
 
-            <>{messages.deleteAccount}</>
-          </button>
-        </div>
+              <span className="min-w-0 flex-1 truncate">{messages.theme}</span>
+              {themeSlot}
+            </div>
+          )}
 
-        <div className="shrink-0 border-t border-border-soft py-1">
           <button
             type="button"
             onClick={onLogout}
             disabled={loggingOut}
-            className={cn(ITEM_CLASS, "text-destructive hover:text-destructive")}
+            className={cn(ITEM_CLASS, "text-signal-love [&>svg]:text-signal-love")}
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut aria-hidden />
 
-            <>{loggingOut ? messages.loggingOut : messages.logout}</>
+            <span>{loggingOut ? messages.loggingOut : messages.logout}</span>
           </button>
-        </div>
+        </Group>
       </PopoverContent>
     </Popover>
   );

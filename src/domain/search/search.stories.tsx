@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Wallet } from "lucide-react";
 
 import { GlobalSearch } from "./global-search.js";
 import { UserPicker } from "./user-picker.js";
@@ -27,6 +28,16 @@ const people = [
     subtitle: "@bruno",
     image: null,
     href: "/users/bruno",
+  },
+  {
+    id: "carteira",
+    type: "feature",
+    title: "Carteira",
+    subtitle: "Faíscas, extrato e loja",
+    image: null,
+    href: "/carteira",
+    icon: Wallet,
+    color: "var(--table-6)",
   },
 ];
 
