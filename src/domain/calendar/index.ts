@@ -1,6 +1,7 @@
 export { CalendarAgenda } from "./calendar-agenda.js";
 export { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 export { CalendarDayView } from "./calendar-day-view.js";
+export { CalendarEntryDetail } from "./calendar-entry-detail.js";
 export { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 export { CalendarListView } from "./calendar-list-view.js";
 export { CalendarMonthView } from "./calendar-month-view.js";
@@ -24,6 +25,9 @@ export type { CalendarDayCell } from "../../types/domain/calendar/calendar-day-c
 export type { CalendarDayGroup } from "../../types/domain/calendar/calendar-day-group.js";
 export type { CalendarDayViewProps } from "../../types/domain/calendar/calendar-day-view-props.js";
 export type { CalendarEntryData } from "../../types/domain/calendar/calendar-entry-data.js";
+export type { CalendarEntryDetailData } from "../../types/domain/calendar/calendar-entry-detail-data.js";
+export type { CalendarEntryDetailParticipant } from "../../types/domain/calendar/calendar-entry-detail-participant.js";
+export type { CalendarEntryDetailProps } from "../../types/domain/calendar/calendar-entry-detail-props.js";
 export type { CalendarEntryFormDraft } from "../../types/domain/calendar/calendar-entry-form-draft.js";
 export type { CalendarEntryFormProps } from "../../types/domain/calendar/calendar-entry-form-props.js";
 export type { CalendarEntryFormValues } from "../../types/domain/calendar/calendar-entry-form-values.js";
