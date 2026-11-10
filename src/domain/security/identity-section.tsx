@@ -1,14 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { X } from "lucide-react";
-
-import { useAdapters } from "../../adapters/adapters-context.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { IdentitySectionProps } from "../../types/domain/security/identity-section-props.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
-import { MAX_BADGES } from "../badges/max-badges.js";
+import { BadgeSelection } from "../badges/badge-selection.js";
 
 /**
  * Nome e identidade: nome social (substitui o de cadastro para todo mundo), apelido
@@ -24,12 +21,13 @@ export function IdentitySection({
   badges,
   onAddBadge,
   onRemoveBadge,
+  badgeKits,
+  onApplyBadgeKit,
   badgesPending = false,
   uploading = false,
+  kitsLoading = false,
 }: IdentitySectionProps) {
   const messages = useMessages().identitySection;
-  const { resolveMediaUrl } = useAdapters();
-  const badgeInputRef = useRef<HTMLInputElement>(null);
 
   const [socialName, setSocialName] = useState("");
   const [nickname, setNickname] = useState("");
@@ -94,68 +92,21 @@ export function IdentitySection({
         {messages.save}
       </Button>
 
-      {/* Emblemas: até 5 PNGs pequenos. O primeiro acompanha o nome em todo o app. */}
+      {/* Emblemas: até 5, com o histórico dos últimos 3 kits ao lado. Aqui cada troca salva na
+          hora (endpoint próprio), diferente do diálogo de editar perfil que aplica no "Salvar". */}
       <div className="space-y-2 border-t border-border-soft pt-3">
         <p className="text-xs font-medium text-text-strong">{messages.badgesTitle}</p>
 
-        <p className="text-xs font-normal text-text-subtle">{messages.badgesHint}</p>
-
-        {badges.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2">
-            {badges.map((badge) => (
-              <span
-                key={badge}
-                className="inline-flex items-center gap-1 rounded-full bg-surface-2 py-1 pl-1 pr-2"
-              >
-                <img
-                  src={resolveMediaUrl(badge)}
-                  alt=""
-                  className="h-6 w-6 rounded-full object-cover"
-                />
-
-                <button
-                  type="button"
-                  aria-label={`${messages.badgesRemove} ${badges.indexOf(badge) + 1}`}
-                  title={`${messages.badgesRemove} ${badges.indexOf(badge) + 1}`}
-                  disabled={badgesPending}
-                  onClick={() => onRemoveBadge(badge)}
-                  className="text-muted-foreground transition hover:text-destructive disabled:opacity-50"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </span>
-            ))}
-          </div>
-        )}
-
-        {badges.length < MAX_BADGES && (
-          <>
-            <input
-              ref={badgeInputRef}
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              className="hidden"
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                if (file) onAddBadge(file);
-                event.target.value = "";
-              }}
-            />
-
-            <Button
-              variant="outline"
-              className="rounded-full"
-              disabled={uploading || badgesPending}
-              onClick={() => badgeInputRef.current?.click()}
-            >
-              {uploading ? messages.sending : messages.badgesAdd}
-            </Button>
-          </>
-        )}
-
-        {badges.length >= MAX_BADGES && (
-          <p className="text-xs font-normal text-text-date">{messages.badgesFull}</p>
-        )}
+        <BadgeSelection
+          badges={badges}
+          onAddBadge={onAddBadge}
+          onRemoveBadge={onRemoveBadge}
+          badgeKits={badgeKits}
+          onApplyBadgeKit={onApplyBadgeKit}
+          uploading={uploading}
+          badgesPending={badgesPending}
+          kitsLoading={kitsLoading}
+        />
       </div>
     </section>
   );

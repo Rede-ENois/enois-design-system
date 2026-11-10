@@ -11,6 +11,7 @@ import {
   Link2,
   type LucideIcon,
   Mail,
+  Rss,
   ShieldAlert,
   ShieldCheck,
   ShieldOff,
@@ -63,7 +64,7 @@ export function AccountSettings({
         )}
       </Section>
 
-      {(hrefs.notificationPreferences || onOpenHealthyUsage) && (
+      {(hrefs.notificationPreferences || hrefs.feedPreferences || onOpenHealthyUsage) && (
         <Section title={messages.preferences}>
           {hrefs.notificationPreferences && (
             <Row
@@ -71,6 +72,9 @@ export function AccountSettings({
               label={messages.notificationPreferences}
               href={hrefs.notificationPreferences}
             />
+          )}
+          {hrefs.feedPreferences && (
+            <Row icon={Rss} label={messages.feedPreferences} href={hrefs.feedPreferences} />
           )}
           {onOpenHealthyUsage && (
             <Row icon={HeartPulse} label={messages.healthyUsage} onClick={onOpenHealthyUsage} />

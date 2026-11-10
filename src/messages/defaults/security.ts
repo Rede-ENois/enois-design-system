@@ -18,30 +18,39 @@ export const securityMessages: SecurityMessages = {
     sending: "Enviando...",
   },
   identityVerificationSection: {
-    title: "Identidade verificada",
+    title: "Verificação de identidade",
     subtitle:
-      "Comprove que você é uma pessoa real usando um provedor de identidade. Énóis não guarda documento, selfie nem biometria: só o resultado e a validade.",
+      "Comprove que você é uma pessoa real usando um provedor especializado. O Énóis não guarda documento, selfie nem biometria: só o resultado.",
+    /**
+     * Os cinco estados do projeto. O "esta chegando" segue a mensagem oficial da liberação
+     * progressiva, palavra por palavra: nada de nota, posição no ranking ou prazo.
+     */
     states: {
-      NOT_VERIFIED: "Ainda não verificada",
-      PENDING: "Verificação em andamento",
-      VERIFIED: "Identidade verificada",
-      REJECTED: "Verificação recusada",
-      EXPIRED: "Verificação expirada",
-      REVOKED: "Verificação desvinculada",
-      ERROR: "Falha técnica na verificação",
+      WAITING: "A verificação de identidade está chegando!",
+      ELIGIBLE:
+        "Sua vez chegou! Agora você pode comprovar sua identidade e receber o selo Humanidade Comprovada.",
+      IN_PROGRESS: "Você possui uma verificação em andamento.",
+      APPROVED: "Humanidade Comprovada ✓",
+      DECLINED:
+        "Não foi possível aprovar sua verificação. Consulte as condições para uma nova tentativa.",
     },
-    start: "Verificar identidade",
+    waitingHint:
+      "Estamos liberando o acesso progressivamente, começando pelos membros que mais contribuíram para nossa comunidade.",
+    waitingNext:
+      "Continue participando do Énóis. Assim que sua vez chegar, você poderá comprovar sua identidade e receber o selo Humanidade Comprovada.",
+    start: "Verificar minha identidade",
+    starting: "Abrindo a verificação",
     refresh: "Atualizar estado",
     revoke: "Desvincular identidade",
     unavailable:
-      "A verificação de identidade ainda não está disponível: o Énóis precisa de um provedor autorizado. Assim que houver, o botão fica ativo aqui.",
+      "A verificação de identidade não está disponível no momento. Tente novamente mais tarde.",
     whatWeStore:
-      "O que o Énóis guarda: o estado da verificação, o provedor e as datas. Nunca CPF, documento, selfie, biometria ou tokens do provedor.",
+      "O que o Énóis guarda: o estado da verificação e as datas. Nunca CPF, documento, selfie, biometria ou dados sensíveis.",
     whoProcesses:
-      "Quem processa os dados é o provedor de identidade. O Énóis recebe apenas a confirmação do resultado.",
-    badgeLabel: "Identidade verificada",
+      "Quem faz a verificação é um provedor especializado. O Énóis recebe apenas a confirmação do resultado.",
+    badgeLabel: "Humanidade Comprovada",
     badgeHint:
-      "Identidade confirmada por um provedor. Não significa que a pessoa é confiável em tudo.",
+      "Este perfil passou por um processo de verificação de identidade realizado por um provedor especializado.",
   },
   linkedinImportSection: {
     semEstrutura: (lista) =>

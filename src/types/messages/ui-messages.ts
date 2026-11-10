@@ -18,6 +18,22 @@ export type UiMessages = {
   dateTextInput: { placeholder: string; invalid: string; outOfRange: string };
   timeTextInput: { placeholder: string; invalid: string };
   skeletonList: { loading: string };
+  badgeSelection: {
+    /** "Emblemas" / "Histórico": the two tabs of the badge picker. */
+    currentTab: string;
+    historyTab: string;
+    /** "2 de 5 em uso": the counter next to the section title. */
+    usage: (used: number, max: number) => string;
+    add: string;
+    sending: string;
+    remove: string;
+    hint: string;
+    full: string;
+    /** The history tab before any set has been replaced. */
+    historyEmpty: string;
+    /** Puts a saved set back on the profile. */
+    applyKit: string;
+  };
   signal: {
     new: string;
     today: string;

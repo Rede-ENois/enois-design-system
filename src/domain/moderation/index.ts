@@ -1,5 +1,6 @@
 export { AppealsSection } from "./appeals-section.js";
 export { ContributionsSection } from "./contributions-section.js";
+export { IdentityReleaseSection } from "./identity-release-section.js";
 export { ContributorCard } from "./contributor-card.js";
 export { ContributorsSection } from "./contributors-section.js";
 export { DisputesSection } from "./disputes-section.js";
@@ -58,3 +59,8 @@ export type { SuspiciousUsersSectionProps } from "../../types/domain/moderation/
 export type { TicketMessageData } from "../../types/domain/moderation/ticket-message-data.js";
 export type { TicketReplyProps } from "../../types/domain/moderation/ticket-reply-props.js";
 export type { TicketThreadProps } from "../../types/domain/moderation/ticket-thread-props.js";
+export type { IdentityReleaseOverview } from "../../types/domain/moderation/identity-release-overview.js";
+export type { IdentityReleasePolicy } from "../../types/domain/moderation/identity-release-policy.js";
+export type { IdentityReleaseRound } from "../../types/domain/moderation/identity-release-round.js";
+export type { IdentityReleaseRoundState } from "../../types/domain/moderation/identity-release-round-state.js";
+export type { IdentityReleaseSectionProps } from "../../types/domain/moderation/identity-release-section-props.js";

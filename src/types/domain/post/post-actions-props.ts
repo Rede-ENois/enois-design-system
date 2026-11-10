@@ -1,9 +1,13 @@
 import type { ReactNode } from "react";
 
+import type { ReactionCountSummary } from "../../lib/reactions/reaction-count-summary.js";
+
 export type PostActionsProps<T extends string = string> = {
   emojis: Record<T, string>;
   /** Reação de quem lê. */
   reactionStatus: T | null;
+  /** Contagem por tipo: as bolinhas do contador mostram o top real do post (até 3). */
+  reactionSummary?: ReactionCountSummary<T>;
   onReact: (type: T) => void;
   /** Reação em andamento: a transição para `true` dispara o pulso do ícone. */
   reactionPending: boolean;
@@ -28,6 +32,8 @@ export type PostActionsProps<T extends string = string> = {
   onComments: () => void;
   onRepost: () => void;
   onShare: () => void;
+  /** Conteudo do menu de compartilhamento. Quando presente, o botao abre um popover com estas opcoes. */
+  shareMenu?: ReactNode;
   onReport: () => void;
   onSave: () => void;
   /** Ações extras no fim da fileira (os selos do feed, por exemplo). */

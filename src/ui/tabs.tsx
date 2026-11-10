@@ -21,8 +21,9 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      // Aba ativa no roxo das reações (validado no protótipo); inativa discreta.
-      "flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-xs font-normal text-muted-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/40 data-[state=active]:bg-[#8b5cf6]/15 data-[state=active]:text-[#c4b5fd] data-[state=active]:ring-1 data-[state=active]:ring-inset data-[state=active]:ring-[#8b5cf6]/40",
+      // Ativa nos tokens (mesmo padrão do Pill): os hex do protótipo de reações davam
+      // contraste 1,1–1,5:1 no tema claro, abaixo da aba inativa.
+      "flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-xs font-normal text-muted-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 data-[state=active]:bg-primary-soft data-[state=active]:text-primary-text data-[state=active]:ring-1 data-[state=active]:ring-inset data-[state=active]:ring-primary/40",
       className,
     )}
     {...props}

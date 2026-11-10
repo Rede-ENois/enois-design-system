@@ -52,6 +52,17 @@ export const calendarMessages: CalendarMessages = {
     responding: "Enviando...",
     openEntry: (title) => `Abrir ${title}`,
     newEntry: "Novo compromisso",
+    reminder: {
+      title: "Me avisar antes",
+      none: "Não avisar",
+      minutes: (minutes) =>
+        minutes >= 1440
+          ? minutes / 1440 === 1
+            ? "1 dia antes"
+            : `${minutes / 1440} dias antes`
+          : `${minutes} min antes`,
+      saving: "Salvando...",
+    },
     detail: {
       back: "Voltar à agenda",
       edit: "Editar",
@@ -95,6 +106,10 @@ export const calendarMessages: CalendarMessages = {
       invalidClock: "Informe o horário no formato hh:mm.",
       endBeforeStart: "O fim precisa ser depois do começo.",
       durationTooLong: "Um compromisso não pode durar mais de 7 dias.",
+      conflictWarning: (count) =>
+        count === 1
+          ? "Você já tem um compromisso neste horário."
+          : `Você já tem ${count} compromissos neste horário.`,
       save: "Salvar",
       saving: "Salvando...",
       cancel: "Cancelar",
