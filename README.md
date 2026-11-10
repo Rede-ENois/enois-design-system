@@ -112,6 +112,20 @@ for a verification code:
 <Input maxLength={6} showCounter={false} inputMode="numeric" autoComplete="one-time-code" />
 ```
 
+### Comment composer
+
+`PostComments` owns the responsive composer layout and its single submit button.
+The `composerField` slot supplies only the writing field; applications continue
+to supply `canSend`, `sending`, media and submission/upload callbacks. On mobile,
+the field spans the first row. The footer places the tools toggle on the left
+and the 36px submit control on the right. The closed footer shows "Comentar";
+opening the tools switches the submit to an accessible icon. Photo, audio and
+GIF share the remaining space, wrapping when a recording label needs more room.
+Composer errors stay directly below the field in the same grid, above the mobile
+footer, without hiding loaded comments. Desktop aligns the error with the field
+and keeps the icon beside the field and the tools below it. Fixed submit
+copy comes from `postComments.submit` and `postComments.sending` messages.
+
 ### Character counters
 
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same

@@ -187,6 +187,8 @@ export type PostMessages = {
     recording: (minutes: number, seconds: number) => string;
     gif: string;
     send: string;
+    submit: string;
+    sending: string;
   };
   postNotes: {
     title: string;
