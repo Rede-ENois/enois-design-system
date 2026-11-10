@@ -13,7 +13,7 @@ function DockLink({ item }: { item: MobileDockItem }) {
       href={item.href}
       aria-current={item.active ? "page" : undefined}
       className={cn(
-        "flex min-w-0 flex-col items-center gap-0.5 py-1 text-[11px] font-semibold transition",
+        "flex h-full min-w-0 flex-col items-center justify-center gap-0.5 text-xs font-semibold transition",
         item.active ? "text-text-strong" : "text-text-date hover:text-text-strong",
       )}
     >
@@ -68,7 +68,7 @@ export function MobileDock({ items, action }: MobileDockProps) {
         onClick={action.onClick}
         aria-label={action.label}
         title={action.label}
-        className="grid h-9 w-9 place-items-center justify-self-center rounded-full bg-primary text-primary-foreground transition active:scale-95"
+        className="grid h-11 w-11 place-items-center justify-self-center rounded-full bg-primary text-primary-foreground transition active:scale-95"
       >
         <ActionIcon className="h-5 w-5" />
       </button>

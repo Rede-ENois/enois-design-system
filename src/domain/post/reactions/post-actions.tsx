@@ -9,6 +9,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover.js"
 import { ReactionPicker } from "./reaction-picker.js";
 
 /**
+ * Botões da fileira medem ~28×32px: o pseudo-elemento infla o alvo de toque até 44px sem mudar
+ * o desenho (mesmo recurso das pílulas de reação).
+ */
+const HIT_AREA = "relative before:absolute before:-inset-y-2 before:-inset-x-1 before:content-['']";
+
+/**
  * A fileira de ações de um post: reagir, ver quem reagiu, comentar, compartilhar, salvar e
  * denunciar.
  *
@@ -62,7 +68,7 @@ export function PostActions<T extends string>({
             emojis={emojis}
             activeType={reactionStatus}
             onReact={onReact}
-            buttonClassName={`flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition hover:text-foreground ${
+            buttonClassName={`flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition hover:text-foreground ${HIT_AREA} ${
               reactionStatus ? "text-primary font-semibold" : "text-muted-foreground"
             }`}
             buttonTitle={
@@ -96,7 +102,7 @@ export function PostActions<T extends string>({
             onClick={onComments}
             title={messages.comments}
             aria-label={messages.comments}
-            className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground"
+            className={`flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground ${HIT_AREA}`}
           >
             <MessageSquare className="h-4 w-4" />
 
@@ -113,7 +119,7 @@ export function PostActions<T extends string>({
               title={reposted ? messages.reposted : messages.repost}
               aria-label={reposted ? messages.reposted : messages.repost}
               aria-pressed={reposted}
-              className={`flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition ${
+              className={`flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition ${HIT_AREA} ${
                 reposted
                   ? "text-primary font-semibold"
                   : "text-muted-foreground hover:text-foreground"
@@ -136,7 +142,7 @@ export function PostActions<T extends string>({
                   aria-disabled="true"
                   aria-label={messages.repostUnavailable}
                   title={repostUnavailableReason}
-                  className="flex cursor-not-allowed items-center rounded-lg px-2 py-1.5 opacity-40 transition text-muted-foreground"
+                  className={`flex cursor-not-allowed items-center rounded-lg px-2 py-1.5 opacity-40 transition text-muted-foreground ${HIT_AREA}`}
                 >
                   <Repeat2 className="h-4 w-4" />
                 </button>
@@ -156,7 +162,7 @@ export function PostActions<T extends string>({
             onClick={onShare}
             title={messages.share}
             aria-label={messages.share}
-            className="flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground"
+            className={`flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground ${HIT_AREA}`}
           >
             <Send className="h-4 w-4" />
           </button>
@@ -168,7 +174,7 @@ export function PostActions<T extends string>({
             onClick={onReport}
             title={messages.report}
             aria-label={messages.report}
-            className="flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground"
+            className={`flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground ${HIT_AREA}`}
           >
             <Flag className="h-4 w-4" />
           </button>
@@ -183,7 +189,7 @@ export function PostActions<T extends string>({
               title={messages.seeWho(reactionCount)}
               aria-label={messages.seeWho(reactionCount)}
               aria-haspopup="dialog"
-              className="flex items-center gap-1 rounded-lg py-1 px-1 transition hover:opacity-80"
+              className={`flex items-center gap-1 rounded-lg py-1 px-1 transition hover:opacity-80 ${HIT_AREA}`}
             >
               <div className="flex -space-x-1 items-center">
                 <span className="grid h-4 w-4 place-items-center rounded-full bg-blue-500 text-[9px] text-white ring-1.5 ring-surface-card shadow-sm select-none">
@@ -207,7 +213,7 @@ export function PostActions<T extends string>({
             title={saved ? messages.unsave : messages.save}
             aria-label={saved ? messages.unsave : messages.save}
             aria-pressed={saved}
-            className={`flex items-center gap-1 rounded-lg px-2 py-1.5 transition-colors ${
+            className={`flex items-center gap-1 rounded-lg px-2 py-1.5 transition-colors ${HIT_AREA} ${
               saved ? "text-primary" : "text-muted-foreground hover:text-foreground"
             }`}
           >
