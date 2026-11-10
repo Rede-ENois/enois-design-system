@@ -705,9 +705,12 @@ export function MentionTextarea({
           composingRef.current = true;
         }}
         onCompositionEnd={endComposition}
-        className={`${
-          toolbarMenu ? "pr-9 " : ""
-        }max-h-[240px] w-full min-w-0 resize-none overflow-y-auto text-base whitespace-pre-wrap break-words [overflow-wrap:anywhere] md:text-sm empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)] ${className}`}
+        className={textFieldClasses(
+          `max-h-[240px] w-full min-w-0 resize-none overflow-y-auto text-base md:text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere] empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)] ${
+            toolbarMenu ? "pr-9" : ""
+          }`,
+          className,
+        )}
       >
         {firstContent}
       </div>
