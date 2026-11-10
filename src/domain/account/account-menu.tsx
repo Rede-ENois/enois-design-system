@@ -95,9 +95,15 @@ export function AccountMenu({
           <AppLink href={hrefs.wallet} onClick={close} className={ITEM_CLASS}>
             <Zap aria-hidden />
 
-            <span className="min-w-0 flex-1 truncate">{messages.wallet}</span>
+            {/* O rótulo é texto fixo e conhecido; o saldo vem formatado pelo app e cresce com a
+                conta. Quem cede espaço é o valor (trunca), nunca o rótulo — antes era o contrário
+                e o menu mostrava "C…" com o saldo inteiro ao lado. */}
+            <span className="shrink-0">{messages.wallet}</span>
             {walletLabel && (
-              <span className="shrink-0 text-sm font-extrabold tabular-nums text-signal-today">
+              <span
+                title={walletLabel}
+                className="ml-auto min-w-0 truncate text-sm font-extrabold tabular-nums text-signal-today"
+              >
                 {walletLabel}
               </span>
             )}

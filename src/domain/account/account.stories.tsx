@@ -45,6 +45,27 @@ export const Menu: StoryObj = {
   },
 };
 
+/** Saldo grande: o rótulo "Carteira" continua inteiro e é o valor que trunca (issue #170). */
+export const MenuLongWalletBalance: StoryObj = {
+  render: function MenuLongWalletStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <div className="flex justify-end">
+        <AccountMenu
+          profile={{ name: "Ana Souza", username: "anasouza", avatar: null }}
+          hrefs={{ ...hrefs, moderator: "#" }}
+          open={open}
+          onOpenChange={setOpen}
+          walletLabel="1.240.000.000 faíscas 999 fagulhas"
+          onLogout={() => {}}
+          loggingOut={false}
+        />
+      </div>
+    );
+  },
+};
+
 export const Settings: StoryObj = {
   render: () => (
     <AccountSettings
