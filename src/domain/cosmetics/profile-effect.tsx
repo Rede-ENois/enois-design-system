@@ -56,17 +56,10 @@ export function ProfileEffect({ effect, replayKey, className }: ProfileEffectPro
         >
           {particle.sprite ? (
             <span
-              className="block h-full w-full"
+              className="cos-fx-layer__sprite block h-full w-full"
               style={{
-                backgroundColor: particle.color,
-                maskImage: `url("${particle.sprite}")`,
-                WebkitMaskImage: `url("${particle.sprite}")`,
-                maskSize: "contain",
-                WebkitMaskSize: "contain",
-                maskRepeat: "no-repeat",
-                WebkitMaskRepeat: "no-repeat",
-                maskPosition: "center",
-                WebkitMaskPosition: "center",
+                "--fx-sprite": `url("${particle.sprite}")`,
+                "--fx-color": particle.color,
               }}
             />
           ) : particle.icon ? (

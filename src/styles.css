@@ -4359,6 +4359,18 @@ html:not(.dark) .frame-shop-price {
   top: 0;
   left: 0;
 }
+/* Sprite particle: the PNG is a white silhouette, so it masks a fill of the particle's colour. */
+.cos-fx-layer__sprite {
+  background-color: var(--fx-color);
+  mask-image: var(--fx-sprite);
+  -webkit-mask-image: var(--fx-sprite);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+}
 
 /* Nameplate: the name over the plate, its icons at the right edge. */
 .cos-plate {
