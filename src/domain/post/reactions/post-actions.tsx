@@ -165,7 +165,12 @@ export function PostActions<T extends string>({
                 </button>
               </PopoverTrigger>
 
-              <PopoverContent align="start" side="top" className="flex w-48 flex-col gap-0.5 p-1.5">
+              <PopoverContent
+                align="end"
+                side="top"
+                sideOffset={8}
+                className="flex w-52 flex-col gap-0.5 rounded-xl border-border-soft p-1.5 shadow-card"
+              >
                 {shareMenu}
               </PopoverContent>
             </Popover>
