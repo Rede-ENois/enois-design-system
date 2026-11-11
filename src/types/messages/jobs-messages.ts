@@ -102,6 +102,26 @@ export type JobsMessages = {
     /** Screen names of the employment types, by API code. */
     employmentTypes: Record<string, string>;
   };
+  externalJobOrigin: {
+    /** "Vaga externa · Adzuna" — a origem sempre visível, nunca escondida atrás de um clique. */
+    from: (platform: string) => string;
+    /** "Publicada em 3 de novembro" ou "Data de publicação não informada pela fonte". */
+    published: (date: string) => string;
+    publishedUnknown: string;
+    /** "Verificada na fonte há 2 dias" — a última confirmação, não a publicação. */
+    lastSeen: (when: string) => string;
+    lastSeenUnknown: string;
+    /** A fonte já não lista a vaga: não é mais uma oportunidade disponível. */
+    removed: string;
+    /** A vaga expirou pela própria fonte. */
+    expired: string;
+    /** Link para a publicação original. */
+    openSource: string;
+    /** "hoje", "ontem", "há 3 dias", "há 2 meses". */
+    relative: (days: number) => string;
+    today: string;
+    yesterday: string;
+  };
   /** Field labels shared by the job forms (edit and external registration). */
   jobFields: {
     title: string;

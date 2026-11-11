@@ -8,6 +8,7 @@ export { CompanyTeamSection } from "./company-team-section.js";
 export { CompanyWebsiteLink } from "./company-website-link.js";
 export { CreateExternalJobDialog } from "./create-external-job-dialog.js";
 export { ExternalJobFilters } from "./external-job-filters.js";
+export { ExternalJobOriginLine } from "./external-job-origin-line.js";
 export { JobCardSkeletons } from "./job-card-skeletons.js";
 export { JobEditDialog } from "./job-edit-dialog.js";
 export type { ApplicationFeedbackDialogProps } from "../../types/domain/jobs/application-feedback-dialog-props.js";
@@ -25,6 +26,8 @@ export type { CompanyMemberCandidate } from "../../types/domain/jobs/company-mem
 export type { CompanyTeamSectionProps } from "../../types/domain/jobs/company-team-section-props.js";
 export type { CompanyWebsiteLinkProps } from "../../types/domain/jobs/company-website-link-props.js";
 export type { CreateExternalJobDialogProps } from "../../types/domain/jobs/create-external-job-dialog-props.js";
+export type { ExternalJobOrigin } from "../../types/domain/jobs/external-job-origin.js";
+export type { ExternalJobOriginLineProps } from "../../types/domain/jobs/external-job-origin-line-props.js";
 export type { ExternalJobValues } from "../../types/domain/jobs/external-job-values.js";
 export type { JobApplicationFieldData } from "../../types/domain/jobs/job-application-field-data.js";
 export type { JobApplicationPrefill } from "../../types/domain/jobs/job-application-prefill.js";
