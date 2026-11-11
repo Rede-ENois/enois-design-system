@@ -108,6 +108,26 @@ export type CalendarMessages = {
       resultEmpty: string;
       done: string;
     };
+    /** The interview dialog (fase 5): the employer picks when the conversation happens. */
+    interviewDialog: {
+      createTitle: string;
+      /** `name` is the candidate's display name, already readable. */
+      editTitle: (name: string) => string;
+      description: string;
+      dayLabel: string;
+      startLabel: string;
+      endLabel: string;
+      notesLabel: string;
+      notesPlaceholder: string;
+      zoneHint: (zone: string) => string;
+      invalidDay: string;
+      invalidClock: string;
+      endBeforeStart: string;
+      durationTooLong: string;
+      save: string;
+      saving: string;
+      cancel: string;
+    };
     /** The private `.ics` subscription card (fase 9): the link an external calendar reads. */
     subscription: {
       title: string;
