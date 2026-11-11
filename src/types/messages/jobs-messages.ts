@@ -69,6 +69,39 @@ export type JobsMessages = {
     openMailClient: string;
     openMailClientHint: string;
   };
+  externalJobFilters: {
+    title: string;
+    level: string;
+    workModel: string;
+    employmentType: string;
+    location: string;
+    city: string;
+    cityPlaceholder: string;
+    state: string;
+    statePlaceholder: string;
+    country: string;
+    countryPlaceholder: string;
+    salaryMin: string;
+    salaryMinPlaceholder: string;
+    remoteOnly: string;
+    publishedAfter: string;
+    publishedAny: string;
+    publishedLast7: string;
+    publishedLast30: string;
+    sort: string;
+    sortRecent: string;
+    sortSalary: string;
+    sortRelevance: string;
+    clear: string;
+    clearAll: string;
+    activeCount: (count: number) => string;
+    /** Screen names of the levels, by API code; unknown codes show as they come. */
+    levels: Record<string, string>;
+    /** Screen names of the work models, by API code. */
+    workModels: Record<string, string>;
+    /** Screen names of the employment types, by API code. */
+    employmentTypes: Record<string, string>;
+  };
   /** Field labels shared by the job forms (edit and external registration). */
   jobFields: {
     title: string;
