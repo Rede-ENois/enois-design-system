@@ -9,6 +9,8 @@ import { Button } from "../../ui/button.js";
 import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
+import { CalendarImportDialog } from "./calendar-import-dialog.js";
+import { CalendarSubscriptionCard } from "./calendar-subscription-card.js";
 
 const meta: Meta = {
   title: "Domain/Calendar",
@@ -301,4 +303,108 @@ export const AgendaEditRefused: StoryObj = {
       />
     );
   },
+};
+export const SubscriptionEmpty: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={null}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+    />
+  ),
+};
+
+export const SubscriptionFresh: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={{ scope: "SOCIAL", createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl="https://enois.example/calendar/subscribe/abc123.ics"
+      scope="SOCIAL"
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+      copied
+    />
+  ),
+};
+
+export const SubscriptionActive: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={{ scope: null, createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+    />
+  ),
+};
+
+export const SubscriptionError: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={{ scope: null, createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+      error="Não foi possível gerar outro link. Tente de novo."
+    />
+  ),
+};
+
+export const ImportDialogEmpty: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope={null}
+      onScopeChange={() => {}}
+      file={null}
+      onFileChange={() => {}}
+      onImport={async () => null}
+    />
+  ),
+};
+
+export const ImportDialogWithFile: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope="SOCIAL"
+      onScopeChange={() => {}}
+      file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
+      onFileChange={() => {}}
+      onImport={async () => ({ received: 12, created: 9, moved: 2, cancelled: 1, skipped: 0 })}
+    />
+  ),
+};
+
+export const ImportDialogError: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope={null}
+      onScopeChange={() => {}}
+      file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
+      onFileChange={() => {}}
+      onImport={async () => null}
+      error="Não foi possível importar o arquivo. Tente de novo."
+    />
+  ),
 };

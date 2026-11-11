@@ -78,5 +78,65 @@ export type CalendarMessages = {
       saving: string;
       cancel: string;
     };
+    /** The `.ics` import dialog (fase 8, D23): pick a file, choose the agenda, see what entered. */
+    importDialog: {
+      title: string;
+      description: string;
+      fileLabel: string;
+      /** Shown in the drop area before a file is chosen. */
+      chooseFile: string;
+      /** The chosen file's name, already readable. */
+      chosenFile: (name: string) => string;
+      clearFile: string;
+      scopeLabel: string;
+      /** The consolidated-agenda pill, next to the two scopes. */
+      scopeAll: string;
+      /** `max` is the server's ceiling in MB. */
+      tooLarge: (max: number) => string;
+      wrongFormat: string;
+      import: string;
+      importing: string;
+      cancel: string;
+      /** The result block after a successful import. */
+      resultTitle: string;
+      resultReceived: (count: number) => string;
+      resultCreated: (count: number) => string;
+      resultMoved: (count: number) => string;
+      resultCancelled: (count: number) => string;
+      resultSkipped: (count: number) => string;
+      /** Nothing entered at all: the file had no usable event. */
+      resultEmpty: string;
+      done: string;
+    };
+    /** The private `.ics` subscription card (fase 9): the link an external calendar reads. */
+    subscription: {
+      title: string;
+      /** `null` scope is the consolidated agenda; this is its pill, next to the two scopes. */
+      scopeAll: string;
+      emptyTitle: string;
+      emptyHint: string;
+      create: string;
+      creating: string;
+      /** When the link exists but the token is gone (the server keeps only the hash). */
+      activeTitle: string;
+      activeSince: (date: string) => string;
+      activeTokenGone: string;
+      regenerate: string;
+      regenerateConfirmTitle: string;
+      regenerateConfirmDescription: string;
+      regenerateConfirmAction: string;
+      revoke: string;
+      revokeConfirmTitle: string;
+      revokeConfirmDescription: string;
+      revokeConfirmAction: string;
+      /** Accessible name of the copy button. */
+      copyLink: string;
+      copied: string;
+      copyFailed: string;
+      /** The fresh link, right after create/regenerate; `url` is the full address. */
+      freshTitle: string;
+      freshHint: string;
+      saving: string;
+    };
   };
 };
