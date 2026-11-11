@@ -12,6 +12,7 @@ import { CompanyEditDialog } from "./company-edit-dialog.js";
 import { CompanyTeamSection } from "./company-team-section.js";
 import { CreateExternalJobDialog } from "./create-external-job-dialog.js";
 import { ExternalJobFilters } from "./external-job-filters.js";
+import { ExternalJobOriginLine } from "./external-job-origin-line.js";
 import { JobCardSkeletons } from "./job-card-skeletons.js";
 import { JobEditDialog } from "./job-edit-dialog.js";
 import { ProfessionalSignature } from "./professional-signature.js";
@@ -184,6 +185,46 @@ export const ExternalJobFiltersBar: StoryObj = {
   render: () => (
     <div className="max-w-3xl">
       <ExternalJobFilters value={filtersValue} onChange={noop} onClear={noop} activeCount={4} />
+    </div>
+  ),
+};
+
+export const ExternalJobOrigin: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl space-y-3">
+      <ExternalJobOriginLine
+        origin={{
+          platform: "Adzuna",
+          sourceUrl: "https://exemplo.com/vaga/42",
+          publishedAt: "2026-11-03T09:00:00Z",
+          lastSeenAt: "2026-11-09T09:00:00Z",
+          removedAt: null,
+          expiresAt: null,
+        }}
+        now={new Date("2026-11-10T12:00:00Z")}
+      />
+      <ExternalJobOriginLine
+        origin={{
+          platform: "Arbeitnow",
+          sourceUrl: null,
+          publishedAt: null,
+          lastSeenAt: null,
+          removedAt: null,
+          expiresAt: null,
+        }}
+        now={new Date("2026-11-10T12:00:00Z")}
+      />
+      <ExternalJobOriginLine
+        origin={{
+          platform: "Remotive",
+          sourceUrl: "https://exemplo.com/vaga/99",
+          publishedAt: "2026-10-01T09:00:00Z",
+          lastSeenAt: "2026-11-09T09:00:00Z",
+          removedAt: "2026-11-09T09:00:00Z",
+          expiresAt: null,
+        }}
+        now={new Date("2026-11-10T12:00:00Z")}
+      />
     </div>
   ),
 };
