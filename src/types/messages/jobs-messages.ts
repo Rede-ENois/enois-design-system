@@ -42,6 +42,33 @@ export type JobsMessages = {
     send: string;
     cancel: string;
   };
+  applyExternalJobDialog: {
+    title: (job: string) => string;
+    intro: string;
+    loading: string;
+    loadError: string;
+    retry: string;
+    to: string;
+    subject: string;
+    body: string;
+    message: string;
+    messagePlaceholder: string;
+    resumeAttached: (name: string) => string;
+    resumeMissing: string;
+    resumeMissingHint: string;
+    /** Aviso de que o envio sai pelo Énóis, não pelo cliente de e-mail da pessoa. */
+    sendingThrough: string;
+    confirmHint: string;
+    confirm: string;
+    sending: string;
+    cancel: string;
+    success: string;
+    successWithResume: (name: string) => string;
+    successWithoutResume: string;
+    close: string;
+    openMailClient: string;
+    openMailClientHint: string;
+  };
   /** Field labels shared by the job forms (edit and external registration). */
   jobFields: {
     title: string;

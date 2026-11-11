@@ -55,6 +55,37 @@ export const jobsMessages: JobsMessages = {
     send: "Enviar retorno",
     cancel: "Cancelar",
   },
+  applyExternalJobDialog: {
+    title: (job) => `Candidatar-se a ${job}`,
+    intro:
+      "Esta vaga foi publicada em outra plataforma. O Énóis envia a candidatura por e-mail com o seu currículo anexado. Revise o que vai sair antes de confirmar.",
+    loading: "Preparando a candidatura...",
+    loadError: "Não foi possível preparar a candidatura.",
+    retry: "Tentar de novo",
+    to: "Para",
+    subject: "Assunto",
+    body: "Mensagem que vai no e-mail",
+    message: "Acrescentar uma mensagem (opcional)",
+    messagePlaceholder: "Algo específico para esta vaga, se quiser.",
+    resumeAttached: (name) => `Currículo anexado: ${name}`,
+    resumeMissing: "Sem currículo no perfil",
+    resumeMissingHint:
+      "O e-mail sai sem anexo. Cadastre o currículo no seu perfil para que ele vá junto.",
+    sendingThrough:
+      "O envio é feito pelo Énóis, com o seu e-mail como resposta. Nada sai sem a sua confirmação.",
+    confirmHint: "Confira o destinatário e o texto: depois de enviar, não dá para desfazer.",
+    confirm: "Confirmar e enviar",
+    sending: "Enviando...",
+    cancel: "Cancelar",
+    success: "Candidatura enviada.",
+    successWithResume: (name) => `O e-mail saiu com o currículo anexado (${name}).`,
+    successWithoutResume:
+      "O e-mail saiu, mas sem o currículo: o arquivo do perfil não pôde ser baixado. Se a vaga pede currículo, envie por conta própria.",
+    close: "Fechar",
+    openMailClient: "Abrir no meu e-mail",
+    openMailClientHint:
+      "Prefere enviar do seu próprio e-mail? O texto vai pronto, mas o currículo precisa ser anexado por você.",
+  },
   jobFields: {
     title: "Título da vaga",
     titlePlaceholder: "Ex.: Pessoa Desenvolvedora Back-end",

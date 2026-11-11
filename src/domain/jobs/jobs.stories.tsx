@@ -4,6 +4,7 @@ import { Button } from "../../ui/button.js";
 
 import { ApplicationFeedbackDialog } from "./application-feedback-dialog.js";
 import { ApplyByEmailButton } from "./apply-by-email-button.js";
+import { ApplyExternalJobDialog } from "./apply-external-job-dialog.js";
 import { ApplyFreelanceDialog } from "./apply-freelance-dialog.js";
 import { ApplyJobDialog } from "./apply-job-dialog.js";
 import { CompanyEditDialog } from "./company-edit-dialog.js";
@@ -86,6 +87,81 @@ export const ApplyFreelance: StoryObj = {
       onSend={noop}
       onOpenChat={noop}
     />
+  ),
+};
+
+const externalDraft = {
+  recipientEmail: "vagas@empresa.com",
+  subject: "Candidatura — Pessoa Desenvolvedora Java Sênior (ID 42)",
+  body: "Olá!\n\nMe chamo Mel Santos e tenho interesse na vaga de Pessoa Desenvolvedora Java Sênior.\n\nAbraço,\nMel Santos",
+  resumeAvailable: true,
+  resumeName: "curriculo-mel-santos.pdf",
+  jobTitle: "Pessoa Desenvolvedora Java Sênior",
+  company: "Empresa Exemplo",
+  jobUrl: "https://exemplo.com/vagas/42",
+};
+
+export const ApplyExternalJob: StoryObj = {
+  render: () => (
+    <ApplyExternalJobDialog
+      onOpenChange={noop}
+      draft={externalDraft}
+      loading={false}
+      loadError={null}
+      pending={false}
+      error={null}
+      result={null}
+      onConfirm={noop}
+      onOpenMailClient={noop}
+      onRetry={noop}
+    >
+      <Button className="rounded-full">Candidatar-se</Button>
+    </ApplyExternalJobDialog>
+  ),
+};
+
+export const ApplyExternalJobWithoutResume: StoryObj = {
+  render: () => (
+    <ApplyExternalJobDialog
+      onOpenChange={noop}
+      draft={{ ...externalDraft, resumeAvailable: false, resumeName: null }}
+      loading={false}
+      loadError={null}
+      pending={false}
+      error={null}
+      result={null}
+      onConfirm={noop}
+      onOpenMailClient={noop}
+      onRetry={noop}
+    >
+      <Button className="rounded-full">Candidatar-se</Button>
+    </ApplyExternalJobDialog>
+  ),
+};
+
+export const ApplyExternalJobSentWithoutAttachment: StoryObj = {
+  render: () => (
+    <ApplyExternalJobDialog
+      onOpenChange={noop}
+      draft={externalDraft}
+      loading={false}
+      loadError={null}
+      pending={false}
+      error={null}
+      result={{
+        recipientEmail: "vagas@empresa.com",
+        subject: externalDraft.subject,
+        resumeAttached: false,
+        resumeName: null,
+        status: "SENT",
+        appliedAt: "2026-11-10T12:00:00Z",
+      }}
+      onConfirm={noop}
+      onOpenMailClient={noop}
+      onRetry={noop}
+    >
+      <Button className="rounded-full">Candidatar-se</Button>
+    </ApplyExternalJobDialog>
   ),
 };
 
