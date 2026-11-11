@@ -11,7 +11,7 @@ import { UserAvatar } from "../avatar/user-avatar.js";
 // followed its corners and drew curved lines between the shortcuts.
 const cellClass = "min-w-0 px-1";
 const shortcutClass =
-  "flex w-full items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+  "flex w-full items-center justify-center gap-1.5 truncate rounded-lg px-1 py-2 text-xs sm:text-sm sm:gap-2 sm:px-2 font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
 /**
  * Launcher for the app's full composer. It never publishes by itself: a post made here used to skip
