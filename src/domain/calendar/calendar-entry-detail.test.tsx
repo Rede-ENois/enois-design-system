@@ -209,3 +209,30 @@ describe("detalhe do compromisso", () => {
     expect(text()).toContain("Não deu para salvar.");
   });
 });
+
+describe("detalhe do compromisso — lembrete", () => {
+  it("desenha o lembrete que o app manda, na própria caixa", () => {
+    render({ reminder: <strong>aviso em 15 min</strong> });
+
+    expect(text()).toContain("aviso em 15 min");
+  });
+
+  it("sem lembrete do app, não sobra seção vazia", () => {
+    render();
+    const withoutReminder = document.body.querySelectorAll("section").length;
+
+    render({ reminder: <strong>aviso em 15 min</strong> });
+
+    // O slot acrescenta exatamente uma caixa; sem ele, nenhuma.
+    expect(document.body.querySelectorAll("section").length).toBe(withoutReminder + 1);
+  });
+
+  it("compromisso cancelado esconde o lembrete", () => {
+    render({
+      reminder: <strong>aviso em 15 min</strong>,
+      entry: { ...entry, cancelledAt: "2026-11-09T00:00:00Z" },
+    });
+
+    expect(text()).not.toContain("aviso em 15 min");
+  });
+});

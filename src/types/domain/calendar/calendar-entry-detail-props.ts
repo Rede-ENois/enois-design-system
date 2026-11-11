@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type { CalendarAnswer } from "./calendar-answer.js";
 import type { CalendarEntryDetailData } from "./calendar-entry-detail-data.js";
 import type { CalendarEntryDetailParticipant } from "./calendar-entry-detail-participant.js";
@@ -31,6 +33,12 @@ export type CalendarEntryDetailProps = {
   onRemoveParticipant?: (participantId: string) => void;
   /** Convidar pelo @; ausente esconde o campo. Resolve `true` quando o servidor aceitou. */
   onInvite?: (username: string) => Promise<boolean>;
+  /**
+   * O seletor de lembrete, já preenchido pelo app (`CalendarReminderSelector`). Fica na tela em vez
+   * de dentro deste componente porque quem sabe qual lembrete existe é o app, e o detalhe não
+   * precisa conhecer o contrato de lembretes. Ausente esconde a seção; cancelado não mostra.
+   */
+  reminder?: ReactNode;
   /** Há uma edição/cancelamento em voo. */
   saving?: boolean;
   /** Há uma resposta em voo. */
