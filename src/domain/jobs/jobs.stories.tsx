@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import type { ExternalJobFilterValues } from "../../types/domain/jobs/external-job-filter-values.js";
 import { Button } from "../../ui/button.js";
 
 import { ApplicationFeedbackDialog } from "./application-feedback-dialog.js";
@@ -10,6 +11,7 @@ import { ApplyJobDialog } from "./apply-job-dialog.js";
 import { CompanyEditDialog } from "./company-edit-dialog.js";
 import { CompanyTeamSection } from "./company-team-section.js";
 import { CreateExternalJobDialog } from "./create-external-job-dialog.js";
+import { ExternalJobFilters } from "./external-job-filters.js";
 import { JobCardSkeletons } from "./job-card-skeletons.js";
 import { JobEditDialog } from "./job-edit-dialog.js";
 import { ProfessionalSignature } from "./professional-signature.js";
@@ -162,6 +164,27 @@ export const ApplyExternalJobSentWithoutAttachment: StoryObj = {
     >
       <Button className="rounded-full">Candidatar-se</Button>
     </ApplyExternalJobDialog>
+  ),
+};
+
+const filtersValue: ExternalJobFilterValues = {
+  level: "SENIOR",
+  workModel: "REMOTE",
+  employmentType: null,
+  city: "",
+  state: "SP",
+  country: "Brasil",
+  salaryMin: 15000,
+  remoteOnly: false,
+  publishedAfter: null,
+  sort: "recent",
+};
+
+export const ExternalJobFiltersBar: StoryObj = {
+  render: () => (
+    <div className="max-w-3xl">
+      <ExternalJobFilters value={filtersValue} onChange={noop} onClear={noop} activeCount={4} />
+    </div>
   ),
 };
 

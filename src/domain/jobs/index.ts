@@ -7,6 +7,7 @@ export { CompanyEditDialog } from "./company-edit-dialog.js";
 export { CompanyTeamSection } from "./company-team-section.js";
 export { CompanyWebsiteLink } from "./company-website-link.js";
 export { CreateExternalJobDialog } from "./create-external-job-dialog.js";
+export { ExternalJobFilters } from "./external-job-filters.js";
 export { JobCardSkeletons } from "./job-card-skeletons.js";
 export { JobEditDialog } from "./job-edit-dialog.js";
 export type { ApplicationFeedbackDialogProps } from "../../types/domain/jobs/application-feedback-dialog-props.js";
