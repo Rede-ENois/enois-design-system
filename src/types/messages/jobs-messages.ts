@@ -35,6 +35,13 @@ export type JobsMessages = {
     resumeMissingField: string;
     close: string;
   };
+  jobInterviewActions: {
+    schedule: string;
+    reschedule: string;
+    cancel: string;
+    /** "Entrevista marcada para 18/10/2026, 14:00" — the clock is the one the employer scheduled in. */
+    scheduledFor: (when: string) => string;
+  };
   applicationFeedbackDialog: {
     title: string;
     hint: string;

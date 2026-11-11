@@ -10,6 +10,7 @@ import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 import { CalendarImportDialog } from "./calendar-import-dialog.js";
+import { CalendarInterviewDialog } from "./calendar-interview-dialog.js";
 import { CalendarSubscriptionCard } from "./calendar-subscription-card.js";
 
 const meta: Meta = {
@@ -405,6 +406,43 @@ export const ImportDialogError: StoryObj = {
       onFileChange={() => {}}
       onImport={async () => null}
       error="Não foi possível importar o arquivo. Tente de novo."
+    />
+  ),
+};
+
+export const InterviewDialogNew: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog open onOpenChange={() => {}} timeZoneId={ZONE} onSave={() => {}} />
+  ),
+};
+
+export const InterviewDialogReschedule: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog
+      open
+      onOpenChange={() => {}}
+      timeZoneId={ZONE}
+      candidateName="Ana Souza"
+      interview={{
+        id: "jint_1",
+        startsAt: "2026-11-12T17:00:00Z",
+        endsAt: "2026-11-12T18:00:00Z",
+        timeZoneId: ZONE,
+        notes: "Leve seu portfólio.",
+      }}
+      onSave={() => {}}
+    />
+  ),
+};
+
+export const InterviewDialogError: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog
+      open
+      onOpenChange={() => {}}
+      timeZoneId={ZONE}
+      saveError="A entrevista precisa ser marcada para o futuro."
+      onSave={() => {}}
     />
   ),
 };

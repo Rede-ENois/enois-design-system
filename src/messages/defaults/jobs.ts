@@ -48,6 +48,12 @@ export const jobsMessages: JobsMessages = {
     resumeMissingField: " (o currículo não trouxe este campo)",
     close: "Fechar",
   },
+  jobInterviewActions: {
+    schedule: "Marcar entrevista",
+    reschedule: "Reagendar",
+    cancel: "Cancelar entrevista",
+    scheduledFor: (when) => `Entrevista marcada para ${when}`,
+  },
   applicationFeedbackDialog: {
     title: "Por que essa candidatura não seguiu?",
     hint: 'O candidato recebe este retorno. Um motivo concreto ajuda mais do que um "não selecionado" seco.',
