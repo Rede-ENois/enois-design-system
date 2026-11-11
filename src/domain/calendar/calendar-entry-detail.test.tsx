@@ -228,7 +228,10 @@ describe("detalhe do compromisso — lembrete", () => {
   });
 
   it("compromisso cancelado esconde o lembrete", () => {
-    render({ reminder: <strong>aviso em 15 min</strong>, entry: { ...entry, cancelledAt: "2026-11-09T00:00:00Z" } });
+    render({
+      reminder: <strong>aviso em 15 min</strong>,
+      entry: { ...entry, cancelledAt: "2026-11-09T00:00:00Z" },
+    });
 
     expect(text()).not.toContain("aviso em 15 min");
   });
