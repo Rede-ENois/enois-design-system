@@ -21,4 +21,7 @@ export type SeasonalNameTheme =
   | "nome-terminal"
   | "nome-8bit"
   | "nome-fosforo"
-  | "nome-giz";
+  | "nome-giz"
+  | "nome-papel"
+  | "nome-noite-limpa"
+  | "nome-jardim";

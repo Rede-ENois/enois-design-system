@@ -95,6 +95,8 @@ export default tseslint.config(
       "src/domain/avatar/frames/**/*.tsx",
       "src/domain/cosmetics/cosmetic-icons.tsx",
       "src/domain/cosmetics/official-banners.tsx",
+      // KenneyBannerSprite paints a fixed-palette sprite inside the banners above.
+      "src/domain/cosmetics/kenney-banner-sprite.tsx",
     ],
     rules: { "no-restricted-syntax": ["error", NO_INNER_HTML] },
   },

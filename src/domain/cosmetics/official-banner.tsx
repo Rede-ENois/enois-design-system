@@ -4,6 +4,7 @@ import { round, seededRandom } from "../avatar/avatar-frames.js";
 import { keyed, place } from "../avatar/frames/seasonal/frame-kit.js";
 import { useFxId } from "../avatar/frames/use-fx-id.js";
 
+import { KenneyBannerSprite } from "./kenney-banner-sprite.js";
 import { OFFICIAL_BANNERS } from "./official-banners.js";
 
 const GROUND = "M0 84 C60 72 110 94 170 82 C220 72 260 88 300 80 V100 H0Z";
@@ -21,6 +22,7 @@ export function OfficialBanner({ banner, className }: OfficialBannerProps) {
     y = [18, 64],
     scale = [0.9, 1.6],
     extra,
+    sprites = [],
   } = OFFICIAL_BANNERS[banner];
   const rnd = seededRandom(seed);
   const scattered = Array.from({ length: count }, (_, i) =>
@@ -48,7 +50,17 @@ export function OfficialBanner({ banner, className }: OfficialBannerProps) {
 
       <rect width={300} height={100} fill={`url(#${id}-sky)`} />
       {extra}
+      {sprites
+        .filter((sprite) => !sprite.front)
+        .map((sprite, i) => (
+          <KenneyBannerSprite key={i} {...sprite} />
+        ))}
       {ground && <path d={GROUND} fill={ground} />}
+      {sprites
+        .filter((sprite) => sprite.front)
+        .map((sprite, i) => (
+          <KenneyBannerSprite key={`front-${i}`} {...sprite} />
+        ))}
       {keyed(scattered)}
     </svg>
   );

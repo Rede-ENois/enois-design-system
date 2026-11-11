@@ -8,9 +8,10 @@ import { Button } from "../../ui/button.js";
 
 import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
-import { CalendarEntryDetail } from "./calendar-entry-detail.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
-import { CalendarReminderSelector } from "./calendar-reminder-selector.js";
+import { CalendarImportDialog } from "./calendar-import-dialog.js";
+import { CalendarInterviewDialog } from "./calendar-interview-dialog.js";
+import { CalendarSubscriptionCard } from "./calendar-subscription-card.js";
 
 const meta: Meta = {
   title: "Domain/Calendar",
@@ -304,94 +305,144 @@ export const AgendaEditRefused: StoryObj = {
     );
   },
 };
-
-const detailEntry = {
-  id: "cal_meeting",
-  scope: "PROFESSIONAL" as const,
-  kind: "MEETING" as const,
-  title: "Revisão do trimestre",
-  description: "Trazer os números do mês e a lista do que ficou pendente.",
-  day: "2026-11-10",
-  start: "10:00",
-  end: "11:00",
-  timeZoneId: ZONE,
-  allDay: false,
-  cancelledAt: null,
-};
-
-const detailParticipants = [
-  { id: "p1", username: "ana", state: "ACCEPTED" as const },
-  { id: "p2", username: "bia", state: "INVITED" as const },
-];
-
-export const DetailOrganizer: StoryObj = {
+export const SubscriptionEmpty: StoryObj = {
   render: () => (
-    <CalendarEntryDetail
-      entry={detailEntry}
-      owner
-      participation={null}
-      participants={detailParticipants}
-      backLabel="Voltar à agenda"
-      onBack={() => {}}
-      onEdit={() => {}}
-      onCancel={() => {}}
-      onInvite={async () => true}
-      onRemoveParticipant={() => {}}
+    <CalendarSubscriptionCard
+      subscription={null}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
     />
   ),
 };
 
-export const DetailGuest: StoryObj = {
+export const SubscriptionFresh: StoryObj = {
   render: () => (
-    <CalendarEntryDetail
-      entry={detailEntry}
-      owner={false}
-      participation="INVITED"
-      participants={null}
-      backLabel="Voltar à agenda"
-      onBack={() => {}}
-      onRespond={() => {}}
+    <CalendarSubscriptionCard
+      subscription={{ scope: "SOCIAL", createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl="https://enois.example/calendar/subscribe/abc123.ics"
+      scope="SOCIAL"
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+      copied
     />
   ),
 };
 
-export const DetailCancelled: StoryObj = {
+export const SubscriptionActive: StoryObj = {
   render: () => (
-    <CalendarEntryDetail
-      entry={{ ...detailEntry, cancelledAt: "2026-11-09T12:00:00Z" }}
-      owner
-      participation={null}
-      participants={detailParticipants}
-      backLabel="Voltar à agenda"
-      onBack={() => {}}
-      onEdit={() => {}}
-      onCancel={() => {}}
+    <CalendarSubscriptionCard
+      subscription={{ scope: null, createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
     />
   ),
 };
 
-export const ReminderSelector: StoryObj = {
-  render: () => <ReminderSelectorHarness />,
-};
-
-function ReminderSelectorHarness() {
-  const [minutes, setMinutes] = useState<
-    | import("../../types/domain/calendar/calendar-reminder-minutes.js").CalendarReminderMinutes
-    | null
-  >(30);
-  return <CalendarReminderSelector value={minutes} onChange={setMinutes} />;
-}
-
-export const ReminderSelectorSaving: StoryObj = {
-  render: () => <CalendarReminderSelector value={15} onChange={() => {}} saving />,
-};
-
-export const ReminderSelectorError: StoryObj = {
+export const SubscriptionError: StoryObj = {
   render: () => (
-    <CalendarReminderSelector
-      value={60}
-      onChange={() => {}}
-      error="Compromisso cancelado não aceita lembrete."
+    <CalendarSubscriptionCard
+      subscription={{ scope: null, createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+      error="Não foi possível gerar outro link. Tente de novo."
+    />
+  ),
+};
+
+export const ImportDialogEmpty: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope={null}
+      onScopeChange={() => {}}
+      file={null}
+      onFileChange={() => {}}
+      onImport={async () => null}
+    />
+  ),
+};
+
+export const ImportDialogWithFile: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope="SOCIAL"
+      onScopeChange={() => {}}
+      file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
+      onFileChange={() => {}}
+      onImport={async () => ({ received: 12, created: 9, moved: 2, cancelled: 1, skipped: 0 })}
+    />
+  ),
+};
+
+export const ImportDialogError: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope={null}
+      onScopeChange={() => {}}
+      file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
+      onFileChange={() => {}}
+      onImport={async () => null}
+      error="Não foi possível importar o arquivo. Tente de novo."
+    />
+  ),
+};
+
+export const InterviewDialogNew: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog open onOpenChange={() => {}} timeZoneId={ZONE} onSave={() => {}} />
+  ),
+};
+
+export const InterviewDialogReschedule: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog
+      open
+      onOpenChange={() => {}}
+      timeZoneId={ZONE}
+      candidateName="Ana Souza"
+      interview={{
+        id: "jint_1",
+        startsAt: "2026-11-12T17:00:00Z",
+        endsAt: "2026-11-12T18:00:00Z",
+        timeZoneId: ZONE,
+        notes: "Leve seu portfólio.",
+      }}
+      onSave={() => {}}
+    />
+  ),
+};
+
+export const InterviewDialogError: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog
+      open
+      onOpenChange={() => {}}
+      timeZoneId={ZONE}
+      saveError="A entrevista precisa ser marcada para o futuro."
+      onSave={() => {}}
     />
   ),
 };

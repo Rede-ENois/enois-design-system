@@ -176,17 +176,30 @@ export function defaultCollection(
 }
 
 /**
- * The collection tabs in shop order: what can be bought today comes first (collections in
- * season, then the year-round classics, `null`), and out-of-season collections close the row.
- * The row scrolls sideways, so a tab at its end is easy to miss.
+ * The collections in season: the ones the shop can show, in catalog order. A collection before
+ * or after its window is not here at all, so the shop never shows a season it is not in.
+ */
+export function collectionsInSeason(
+  collections: readonly CosmeticShopCollection[],
+): CosmeticShopCollection[] {
+  return collections.filter((c): boolean => c.available);
+}
+
+/**
+ * What the shop may show: the pieces on sale today and the ones the person already owns — a
+ * bought piece stays at hand to be equipped after its season ends. A piece out of season that
+ * nobody owns is not in the shop, so it never shows up as a locked card.
+ */
+export function itemsOnSale(items: readonly CosmeticShopItem[]): CosmeticShopItem[] {
+  return items.filter((item): boolean => item.available || Boolean(item.owned));
+}
+
+/**
+ * The collection tabs: the collections in season, then the year-round classics (`null`).
  */
 export function shopTabs(
   collections: readonly CosmeticShopCollection[],
   hasClassics: boolean,
 ): (CosmeticShopCollection | null)[] {
-  return [
-    ...collections.filter((c): boolean => c.available),
-    ...(hasClassics ? [null] : []),
-    ...collections.filter((c): boolean => !c.available),
-  ];
+  return [...collectionsInSeason(collections), ...(hasClassics ? [null] : [])];
 }

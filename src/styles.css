@@ -4359,6 +4359,20 @@ html:not(.dark) .frame-shop-price {
   position: absolute;
   top: 0;
   left: 0;
+  width: var(--fx-size);
+  height: var(--fx-size);
+}
+/* Sprite particle: the PNG is a white silhouette, so it masks a fill of the particle's colour. */
+.cos-fx-layer__sprite {
+  background-color: var(--fx-color);
+  mask-image: var(--fx-sprite);
+  -webkit-mask-image: var(--fx-sprite);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
 }
 
 /* Nameplate: the name over the plate, its icons at the right edge. */
@@ -4487,6 +4501,7 @@ html:not(.dark) .frame-shop-price {
   box-shadow: 0 0 0 1px var(--growth);
 }
 .cos-look__stage {
+  position: relative;
   display: grid;
   justify-items: center;
   gap: 2px;
@@ -4495,6 +4510,17 @@ html:not(.dark) .frame-shop-price {
   padding: 26px 8px 12px;
   background: linear-gradient(180deg, var(--lt), var(--lb));
   color: inherit;
+}
+/* A cena do look (sprites Kenney) fica atrás do avatar e do nome, sem capturar o clique. */
+.cos-look__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.cos-look__stage > :not(.cos-look__scene) {
+  position: relative;
 }
 .cos-look__avatar {
   width: 64px;

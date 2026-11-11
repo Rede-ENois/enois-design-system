@@ -63,6 +63,22 @@ export const NAMEPLATES: Readonly<Record<string, NameplateArt>> = {
     color: "#1c1917",
     icons: ["ipe", "arara"],
   },
+  // Permanent Essenciais plates.
+  "placa-papel": {
+    background: "linear-gradient(90deg,#fef3c7,#fde68a)",
+    color: "#78350f",
+    icons: ["folha", "estrela"],
+  },
+  "placa-noite-limpa": {
+    background: "linear-gradient(90deg,#1e293b,#312e81)",
+    color: "#e0e7ff",
+    icons: ["estrela", "lua"],
+  },
+  "placa-jardim": {
+    background: "linear-gradient(90deg,#065f46,#15803d)",
+    color: "#ecfdf5",
+    icons: ["folha", "folhaEscura"],
+  },
   "placa-terminal": {
     background: "linear-gradient(90deg,#020617,#0f172a)",
     color: "#4ade80",
