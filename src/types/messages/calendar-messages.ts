@@ -47,6 +47,12 @@ export type CalendarMessages = {
     responding: string;
     /** Opens the entry detail; used as the accessible name of the row link. */
     openEntry: (title: string) => string;
+    /** Invitations still waiting for the reader, shown above the agenda. */
+    pendingInvitations: {
+      title: string;
+      /** `day` is already formatted, e.g. `sex., 14 de nov`; `when` is the time or "Dia inteiro". */
+      when: (day: string, when: string) => string;
+    };
     /** The create/edit form. */
     /** Opens a blank entry from the agenda header. */
     newEntry: string;

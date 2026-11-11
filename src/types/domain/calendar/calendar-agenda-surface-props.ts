@@ -1,6 +1,8 @@
+import type { CalendarAgendaItemData } from "./calendar-agenda-item-data.js";
 import type { CalendarAgendaProps } from "./calendar-agenda-props.js";
 import type { CalendarEntryData } from "./calendar-entry-data.js";
 import type { CalendarEntryFormValues } from "./calendar-entry-form-values.js";
+import type { CalendarPendingInvitationData } from "./calendar-pending-invitation-data.js";
 import type { CalendarScope } from "./calendar-scope.js";
 
 /**
@@ -21,6 +23,18 @@ export type CalendarAgendaSurfaceProps = CalendarAgendaProps & {
   savePending?: boolean;
   /** Message the app got from the server, shown inside the form without clearing the fields. */
   saveError?: string | null;
+  /**
+   * What already occupies the interval being typed (D23: a read, never a block). The surface hands
+   * the list to the form, which picks the entries the draft actually touches.
+   */
+  conflicts?: CalendarAgendaItemData[] | null;
+  /**
+   * Invitations still waiting for an answer, drawn above the agenda. They come from the server's
+   * own list, not from the window on screen: an invitation for next month is exactly the one the
+   * agenda would not show. The answer reuses `onRespond`/`respondingId`/`respondError`, since it
+   * is the same mutation as the day view's quick answer.
+   */
+  pendingInvitations?: CalendarPendingInvitationData[] | null;
   /**
    * Runs the mutation. Resolve `true` when it was saved, so the form closes; `false` keeps it open
    * with what the reader typed.
