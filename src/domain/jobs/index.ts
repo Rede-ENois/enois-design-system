@@ -1,5 +1,6 @@
 export { ApplicationFeedbackDialog } from "./application-feedback-dialog.js";
 export { ApplyByEmailButton } from "./apply-by-email-button.js";
+export { ApplyExternalJobDialog } from "./apply-external-job-dialog.js";
 export { ApplyFreelanceDialog } from "./apply-freelance-dialog.js";
 export { ApplyJobDialog } from "./apply-job-dialog.js";
 export { CompanyEditDialog } from "./company-edit-dialog.js";
@@ -10,6 +11,9 @@ export { JobCardSkeletons } from "./job-card-skeletons.js";
 export { JobEditDialog } from "./job-edit-dialog.js";
 export type { ApplicationFeedbackDialogProps } from "../../types/domain/jobs/application-feedback-dialog-props.js";
 export type { ApplyByEmailButtonProps } from "../../types/domain/jobs/apply-by-email-button-props.js";
+export type { ApplyExternalJobDialogProps } from "../../types/domain/jobs/apply-external-job-dialog-props.js";
+export type { ExternalApplicationDraft } from "../../types/domain/jobs/external-application-draft.js";
+export type { ExternalApplicationResult } from "../../types/domain/jobs/external-application-result.js";
 export type { ApplyFreelanceDialogProps } from "../../types/domain/jobs/apply-freelance-dialog-props.js";
 export type { ApplyJobDialogProps } from "../../types/domain/jobs/apply-job-dialog-props.js";
 export type { CompanyEditData } from "../../types/domain/jobs/company-edit-data.js";
