@@ -75,5 +75,14 @@ export type NetworkMessages = {
     approved: string;
     statusChanged: string;
     actionError: string;
+    healthLabel: string;
+    healthOk: string;
+    healthDegraded: string;
+    healthDegradedReason: (reason: string) => string;
+    latencyLabel: string;
+    latency: (ms: number) => string;
+    latencyUnknown: string;
+    failureStreakLabel: string;
+    failureStreak: (count: number) => string;
   };
 };

@@ -17,6 +17,11 @@ const node: NetworkNodeData = {
   lastSeenAtLabel: null,
   keyPrefix: null,
   keyUsed: false,
+  operable: false,
+  degraded: false,
+  latencyMs: null,
+  failureStreak: 0,
+  quarantineReason: null,
 };
 
 function render(props: Partial<Parameters<typeof NetworkNodesSection>[0]> = {}) {
@@ -79,5 +84,62 @@ describe("NetworkNodesSection", () => {
     const html = render({ nodes: [] });
 
     expect(html).toContain("Nenhum nó cadastrado");
+  });
+
+  it("mostra a saúde medida separada do estado administrativo: ativo e degradado ao mesmo tempo", () => {
+    const html = render({
+      nodes: [
+        {
+          ...node,
+          status: "ACTIVE",
+          keyPrefix: "enk_nd_abc",
+          keyUsed: true,
+          operable: true,
+          degraded: true,
+          quarantineReason: null,
+          latencyMs: 41200,
+          failureStreak: 3,
+        },
+      ],
+    });
+
+    expect(html).toContain("Ativo");
+    expect(html).toContain("Degradado");
+    expect(html).toContain("41200 ms");
+    expect(html).toContain("3 falhas seguidas");
+  });
+
+  it("nó saudável mostra Operando e latência medida", () => {
+    const html = render({
+      nodes: [
+        {
+          ...node,
+          status: "ACTIVE",
+          operable: true,
+          degraded: false,
+          latencyMs: 120,
+          failureStreak: 0,
+        },
+      ],
+    });
+
+    expect(html).toContain("Operando");
+    expect(html).toContain("120 ms");
+    expect(html).not.toContain("Degradado");
+  });
+
+  it("quarentena vigente explica o motivo na faixa de saúde", () => {
+    const html = render({
+      nodes: [
+        {
+          ...node,
+          status: "QUARANTINED",
+          degraded: true,
+          quarantineReason: "Falha repetida em tarefas designadas",
+        },
+      ],
+    });
+
+    expect(html).toContain("Degradado: Falha repetida em tarefas designadas");
   });
 });

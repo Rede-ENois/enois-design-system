@@ -18,4 +18,17 @@ export type NetworkNodeData = {
   keyPrefix: string | null;
   /** A chave vigente foi usada alguma vez; sem isso o admin não sabe se o nó já conectou. */
   keyUsed: boolean;
+  /** O nó pode operar agora (ativo, não suspenso, fora de quarentena). */
+  operable: boolean;
+  /**
+   * Saúde medida, que não é `status`: um nó ACTIVE pode estar fora do balanceamento por falha
+   * ou lentidão. Sem esta faixa o admin veria "ativo" sem entender por que a fila não anda.
+   */
+  degraded: boolean;
+  /** Latência do último heartbeat, em ms; `null` quando o nó nunca reportou. */
+  latencyMs: number | null;
+  /** Falhas consecutivas na linha da tarefa; 0 é saudável. */
+  failureStreak: number;
+  /** Motivo da quarentena vigente, já traduzido pelo frontend; `null` fora dela. */
+  quarantineReason: string | null;
 };

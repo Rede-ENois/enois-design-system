@@ -86,5 +86,15 @@ export const networkMessages: NetworkMessages = {
     approved: "Nó aprovado.",
     statusChanged: "Estado do nó atualizado.",
     actionError: "Não foi possível concluir a ação.",
+    healthLabel: "Saúde",
+    healthOk: "Operando",
+    healthDegraded: "Degradado",
+    healthDegradedReason: (reason) => `Degradado: ${reason}`,
+    latencyLabel: "Latência",
+    latency: (ms) => `${ms} ms`,
+    latencyUnknown: "Sem medição",
+    failureStreakLabel: "Falhas seguidas",
+    failureStreak: (count) =>
+      `${count} falha${count === 1 ? "" : "s"} seguida${count === 1 ? "" : "s"}`,
   },
 };

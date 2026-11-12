@@ -197,6 +197,47 @@ export function NetworkNodesSection({
                       : messages.neverSeen}
                   </dd>
                 </div>
+
+                <div>
+                  <dt className="text-text-subtle">{messages.healthLabel}</dt>
+
+                  <dd>
+                    <span
+                      className={cn(
+                        "rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                        node.degraded
+                          ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                          : "bg-growth/10 text-growth",
+                      )}
+                    >
+                      {node.degraded
+                        ? node.quarantineReason
+                          ? messages.healthDegradedReason(node.quarantineReason)
+                          : messages.healthDegraded
+                        : messages.healthOk}
+                    </span>
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="text-text-subtle">{messages.latencyLabel}</dt>
+
+                  <dd className="text-text-strong">
+                    {node.latencyMs === null
+                      ? messages.latencyUnknown
+                      : messages.latency(node.latencyMs)}
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="text-text-subtle">{messages.failureStreakLabel}</dt>
+
+                  <dd
+                    className={cn("text-text-strong", node.failureStreak > 0 && "text-destructive")}
+                  >
+                    {messages.failureStreak(node.failureStreak)}
+                  </dd>
+                </div>
               </dl>
 
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border-soft pt-3">
