@@ -33,11 +33,28 @@ export const networkMessages: NetworkMessages = {
     loadError: "Não foi possível carregar os convites.",
     retry: "Tentar de novo",
   },
+  networkJoinDialog: {
+    title: "Ingressar na rede Énóis",
+    description:
+      "Declara o servidor que você vai disponibilizar. A rede gera um token de uso único para o instalador; a aprovação fica com a administração, e o que o nó pode executar é definido nela.",
+    serverNameLabel: "Nome do servidor",
+    serverNamePlaceholder: "vps-da-minha-casa",
+    submit: "Pedir ingresso",
+    cancel: "Cancelar",
+    close: "Fechar",
+    tokenTitle: "Token de ingresso gerado",
+    tokenDescription: "Este token instala o runtime no seu servidor. Ele funciona uma única vez.",
+    tokenWarning: (expiresAt) => `Vale até ${expiresAt}. Copie agora: ele não é mostrado de novo.`,
+    copy: "Copiar token",
+    copied: "Token copiado",
+    done: "Já copiei, fechar",
+  },
   myNetworkNodes: {
     title: "Meus servidores",
     description:
       "Os servidores que você disponibilizou para a rede. A rede respeita os limites que você cedeu e nunca mostra os servidores de outro participante.",
     error: "Não foi possível carregar os seus servidores.",
+    join: "Disponibilizar servidor",
     refresh: "Atualizar",
     empty: "Você ainda não disponibilizou nenhum servidor.",
     emptyHint:
@@ -50,7 +67,8 @@ export const networkMessages: NetworkMessages = {
       REVOKED: "Revogado",
     },
     contributionLabel: "Contribuição",
-    tasksDone: (count) => `${count} tarefa${count === 1 ? "" : "s"} concluída${count === 1 ? "" : "s"}`,
+    tasksDone: (count) =>
+      `${count} tarefa${count === 1 ? "" : "s"} concluída${count === 1 ? "" : "s"}`,
     cpuLabel: "CPU",
     memoryLabel: "Memória",
     lastSeenLabel: "Último contato",
@@ -59,7 +77,7 @@ export const networkMessages: NetworkMessages = {
     memoryMb: (mb) => `${mb} MB`,
     percent: (value) => `${Math.round(value)}%`,
     observedOf: (observed, declared) => `${observed} de ${declared}`,
-    ofDeclared: (declared) => `— (cedido: ${declared})`,
+    ofDeclared: (declared) => `(cedido: ${declared})`,
     quarantineReason: (reason) => `Em quarentena: ${reason}`,
     disconnect: "Desconectar",
     disconnectTitle: "Desconectar o servidor?",
@@ -78,7 +96,7 @@ export const networkMessages: NetworkMessages = {
     saveCapacity: "Salvar capacidade",
     profilesTitle: "Perfis autorizados",
     profilesHint:
-      "O que o nó pode executar. Sem perfil, ele fica sem tarefa — sem precisar suspender.",
+      "O que o nó pode executar. Sem perfil, ele fica sem tarefa, sem precisar suspender.",
     saveProfiles: "Salvar perfis",
     historyTitle: "Histórico",
     historyLoading: "Carregando histórico…",

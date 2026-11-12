@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Loader2, RefreshCw, Server } from "lucide-react";
+import { Loader2, Plus, RefreshCw, Server } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
@@ -42,6 +42,7 @@ export function MyNetworkNodes({
   refreshPending = false,
   onDisconnect,
   disconnectPending = false,
+  onJoin,
 }: MyNetworkNodesProps) {
   const messages = useMessages().myNetworkNodes;
   const [disconnectTarget, setDisconnectTarget] = useState<MyNetworkNodeData | null>(null);
@@ -69,20 +70,30 @@ export function MyNetworkNodes({
           <p className="max-w-2xl text-sm text-muted-foreground">{messages.description}</p>
         </div>
 
-        <Button
-          variant="outline"
-          className="rounded-full"
-          disabled={refreshPending}
-          onClick={onRefresh}
-        >
-          {refreshPending ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCw className="h-4 w-4" />
+        <div className="flex flex-wrap gap-2">
+          {onJoin && (
+            <Button className="rounded-full" onClick={onJoin}>
+              <Plus className="h-4 w-4" />
+
+              {messages.join}
+            </Button>
           )}
 
-          {messages.refresh}
-        </Button>
+          <Button
+            variant="outline"
+            className="rounded-full"
+            disabled={refreshPending}
+            onClick={onRefresh}
+          >
+            {refreshPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="h-4 w-4" />
+            )}
+
+            {messages.refresh}
+          </Button>
+        </div>
       </div>
 
       {error && (

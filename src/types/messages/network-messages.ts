@@ -26,10 +26,26 @@ export type NetworkMessages = {
     loadError: string;
     retry: string;
   };
+  networkJoinDialog: {
+    title: string;
+    description: string;
+    serverNameLabel: string;
+    serverNamePlaceholder: string;
+    submit: string;
+    cancel: string;
+    close: string;
+    tokenTitle: string;
+    tokenDescription: string;
+    tokenWarning: (expiresAt: string) => string;
+    copy: string;
+    copied: string;
+    done: string;
+  };
   myNetworkNodes: {
     title: string;
     description: string;
     error: string;
+    join: string;
     refresh: string;
     empty: string;
     emptyHint: string;

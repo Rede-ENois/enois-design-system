@@ -9,4 +9,6 @@ export type MyNetworkNodesProps = {
   /** Desconexão voluntária: suspende o nó e cai as chaves, com confirmação. */
   onDisconnect: (nodeId: string) => void;
   disconnectPending?: boolean;
+  /** Abre o diálogo de ingresso (novo servidor). Sem ela, a seção não oferece o botão. */
+  onJoin?: () => void;
 };

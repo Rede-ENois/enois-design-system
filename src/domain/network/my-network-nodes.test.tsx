@@ -76,4 +76,9 @@ describe("MyNetworkNodes", () => {
 
     expect(html).toContain("Você ainda não disponibilizou nenhum servidor");
   });
+
+  it("com onJoin, oferece o botão de disponibilizar servidor; sem onJoin, não oferece", () => {
+    expect(render({ onJoin: () => {} })).toContain("Disponibilizar servidor");
+    expect(render()).not.toContain("Disponibilizar servidor");
+  });
 });
