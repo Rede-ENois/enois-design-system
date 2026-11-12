@@ -26,6 +26,38 @@ export type NetworkMessages = {
     loadError: string;
     retry: string;
   };
+  myNetworkNodes: {
+    title: string;
+    description: string;
+    error: string;
+    refresh: string;
+    empty: string;
+    emptyHint: string;
+    status: {
+      PENDING_APPROVAL: string;
+      ACTIVE: string;
+      SUSPENDED: string;
+      QUARANTINED: string;
+      REVOKED: string;
+    };
+    contributionLabel: string;
+    tasksDone: (count: number) => string;
+    cpuLabel: string;
+    memoryLabel: string;
+    lastSeenLabel: string;
+    neverSeen: string;
+    cores: (count: number) => string;
+    memoryMb: (mb: number) => string;
+    percent: (value: number) => string;
+    observedOf: (observed: string, declared: string) => string;
+    ofDeclared: (declared: string) => string;
+    quarantineReason: (reason: string) => string;
+    disconnect: string;
+    disconnectTitle: string;
+    disconnectDescription: (name: string) => string;
+    disconnectConfirm: string;
+    cancel: string;
+  };
   networkNodeDetail: {
     owner: (owner: string) => string;
     capacityTitle: string;

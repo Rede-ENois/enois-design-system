@@ -1,7 +1,10 @@
+export { MyNetworkNodes } from "./my-network-nodes.js";
 export { NetworkDashboardStrip } from "./network-dashboard-strip.js";
 export { NetworkNodeDetail } from "./network-node-detail.js";
 export { NetworkNodesSection } from "./network-nodes-section.js";
 export { NetworkRequests } from "./network-requests.js";
+export type { MyNetworkNodeData } from "../../types/domain/network/my-network-node-data.js";
+export type { MyNetworkNodesProps } from "../../types/domain/network/my-network-nodes-props.js";
 export type { NetworkNodeData } from "../../types/domain/network/network-node-data.js";
 export type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
 export type { NetworkNodeHistoryEntry } from "../../types/domain/network/network-node-history-entry.js";
