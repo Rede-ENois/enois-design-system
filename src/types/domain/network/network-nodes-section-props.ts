@@ -1,5 +1,7 @@
 import type { NetworkDashboardData } from "./network-dashboard-data.js";
 import type { NetworkNodeData } from "./network-node-data.js";
+import type { NetworkNodeDetailData } from "./network-node-detail-data.js";
+import type { NetworkNodeDetailProps } from "./network-node-detail-props.js";
 
 export type NetworkNodesSectionProps = {
   /**
@@ -7,6 +9,15 @@ export type NetworkNodesSectionProps = {
    * é da view — o app passa os dados, não monta markup ao redor.
    */
   dashboard?: NetworkDashboardData | null;
+  /**
+   * O painel do nó (capacidade, perfis, histórico): a seção compõe lista + drawer. `detail` é o
+   * nó aberto já resolvido pelo app (`null` = fechado); `onOpenNode` marca a linha que o admin
+   * abriu. O estado é do app — a view só pede.
+   */
+  detail?: Omit<NetworkNodeDetailProps, "onOpenChange" | "detail"> & {
+    detail: NetworkNodeDetailData | null;
+    onOpenNode: (nodeId: string | null) => void;
+  };
   nodes: NetworkNodeData[];
   loading?: boolean;
   error?: boolean;

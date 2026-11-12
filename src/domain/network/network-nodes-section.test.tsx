@@ -1,10 +1,24 @@
 // @vitest-environment node
+import type { ReactNode } from "react";
+
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { NetworkNodeData } from "../../types/domain/network/network-node-data.js";
+import type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
 
 import { NetworkNodesSection } from "./network-nodes-section.js";
+
+vi.mock("../../ui/sheet.js", () => {
+  const Plain = ({ children }: { children?: ReactNode }) => <div>{children}</div>;
+  return {
+    Sheet: Plain,
+    SheetContent: Plain,
+    SheetDescription: Plain,
+    SheetHeader: Plain,
+    SheetTitle: Plain,
+  };
+});
 
 const node: NetworkNodeData = {
   id: "nd_abc123",
@@ -40,7 +54,48 @@ function render(props: Partial<Parameters<typeof NetworkNodesSection>[0]> = {}) 
   );
 }
 
+const detail: NetworkNodeDetailData = {
+  node: {
+    id: "nd_abc123",
+    displayName: "no-media-1",
+    ownerUserId: "user_1",
+    status: "ACTIVE",
+    profiles: ["NODE_MEDIA"],
+    region: null,
+    runtimeVersion: null,
+    lastSeenAtLabel: null,
+    keyPrefix: "enk_nd_abc",
+    keyUsed: true,
+    operable: true,
+    degraded: false,
+    latencyMs: 120,
+    failureStreak: 0,
+    quarantineReason: null,
+  },
+  declaredCpuCores: 4,
+  declaredMemoryMb: 8192,
+  declaredDiskMb: 51200,
+  declaredBandwidthMbps: 100,
+  availableProfiles: ["NODE_MEDIA"],
+};
+
 describe("NetworkNodesSection", () => {
+  it("com o nó aberto, compõe lista + painel do nó — o app só passa dados", () => {
+    const html = render({
+      detail: {
+        detail,
+        history: [],
+        onSaveCapacity: () => {},
+        onSaveProfiles: () => {},
+        onOpenNode: () => {},
+      },
+    });
+
+    expect(html).toContain("Salvar capacidade");
+    expect(html).toContain("Histórico");
+    expect(html).toContain("no-media-1");
+  });
+
   it("com o resumo da rede, compõe faixa + lista na própria view — o app só passa dados", () => {
     const html = render({
       dashboard: {

@@ -13,6 +13,7 @@ import { EmptyState } from "../../ui/empty-state.js";
 import { Pill } from "../../ui/pill.js";
 
 import { NetworkDashboardStrip } from "./network-dashboard-strip.js";
+import { NetworkNodeDetail } from "./network-node-detail.js";
 
 const STATUS_CLASS: Record<NetworkNodeData["status"], string> = {
   PENDING_APPROVAL: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
@@ -31,6 +32,7 @@ const STATUS_CLASS: Record<NetworkNodeData["status"], string> = {
  */
 export function NetworkNodesSection({
   dashboard = null,
+  detail,
   nodes,
   loading = false,
   error = false,
@@ -110,7 +112,14 @@ export function NetworkNodesSection({
       ) : (
         <ul className="space-y-3">
           {nodes.map((node) => (
-            <li key={node.id} className="surface-card space-y-3 p-4">
+            <li
+              key={node.id}
+              className={cn(
+                "surface-card space-y-3 p-4",
+                detail && "cursor-pointer hover:border-border",
+              )}
+              onClick={detail ? () => detail.onOpenNode(node.id) : undefined}
+            >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0 space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -309,6 +318,21 @@ export function NetworkNodesSection({
           setRevokeTarget(null);
         }}
       />
+
+      {detail && (
+        <NetworkNodeDetail
+          detail={detail.detail}
+          history={detail.history}
+          historyLoading={detail.historyLoading}
+          onSaveCapacity={detail.onSaveCapacity}
+          capacityPending={detail.capacityPending}
+          onSaveProfiles={detail.onSaveProfiles}
+          profilesPending={detail.profilesPending}
+          onOpenChange={(open) => {
+            if (!open) detail.onOpenNode(null);
+          }}
+        />
+      )}
 
       {issuedKey && (
         <div
