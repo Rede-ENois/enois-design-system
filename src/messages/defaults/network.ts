@@ -33,6 +33,23 @@ export const networkMessages: NetworkMessages = {
     loadError: "Não foi possível carregar os convites.",
     retry: "Tentar de novo",
   },
+  networkNodeDetail: {
+    owner: (owner) => `Responsável: ${owner}`,
+    capacityTitle: "Capacidade cedida",
+    cpuCores: "CPU",
+    memoryMb: "Memória",
+    diskMb: "Disco",
+    bandwidthMbps: "Banda",
+    saveCapacity: "Salvar capacidade",
+    profilesTitle: "Perfis autorizados",
+    profilesHint:
+      "O que o nó pode executar. Sem perfil, ele fica sem tarefa — sem precisar suspender.",
+    saveProfiles: "Salvar perfis",
+    historyTitle: "Histórico",
+    historyLoading: "Carregando histórico…",
+    historyEmpty: "Nenhuma ação registrada.",
+    historyEntry: (actor, when) => `${actor} em ${when}`,
+  },
   networkDashboardStrip: {
     total: "Nós",
     active: "Ativos",

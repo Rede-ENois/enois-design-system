@@ -26,6 +26,22 @@ export type NetworkMessages = {
     loadError: string;
     retry: string;
   };
+  networkNodeDetail: {
+    owner: (owner: string) => string;
+    capacityTitle: string;
+    cpuCores: string;
+    memoryMb: string;
+    diskMb: string;
+    bandwidthMbps: string;
+    saveCapacity: string;
+    profilesTitle: string;
+    profilesHint: string;
+    saveProfiles: string;
+    historyTitle: string;
+    historyLoading: string;
+    historyEmpty: string;
+    historyEntry: (actor: string, when: string) => string;
+  };
   networkDashboardStrip: {
     total: string;
     active: string;

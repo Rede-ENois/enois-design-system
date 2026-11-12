@@ -1,7 +1,11 @@
 export { NetworkDashboardStrip } from "./network-dashboard-strip.js";
+export { NetworkNodeDetail } from "./network-node-detail.js";
 export { NetworkNodesSection } from "./network-nodes-section.js";
 export { NetworkRequests } from "./network-requests.js";
 export type { NetworkNodeData } from "../../types/domain/network/network-node-data.js";
+export type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
+export type { NetworkNodeHistoryEntry } from "../../types/domain/network/network-node-detail-data.js";
+export type { NetworkNodeDetailProps } from "../../types/domain/network/network-node-detail-props.js";
 export type { NetworkNodesSectionProps } from "../../types/domain/network/network-nodes-section-props.js";
 export type { NetworkDashboardData } from "../../types/domain/network/network-dashboard-data.js";
 export type { NetworkDashboardStripProps } from "../../types/domain/network/network-dashboard-strip-props.js";
