@@ -33,6 +33,24 @@ export const networkMessages: NetworkMessages = {
     loadError: "Não foi possível carregar os convites.",
     retry: "Tentar de novo",
   },
+  networkDashboardStrip: {
+    total: "Nós",
+    active: "Ativos",
+    alive: "Respondendo",
+    degraded: "Degradados",
+    quarantined: "Quarentena",
+    freeSlots: "Vagas livres",
+    declaredCpu: "CPU declarada",
+    declaredMemory: "Memória declarada",
+    avgCpu: "CPU média",
+    avgMemory: "Memória média",
+    cores: (count) => `${count} vCPU`,
+    memoryMb: (mb) => `${mb} MB`,
+    cpuPercent: (percent, samples) =>
+      `${Math.round(percent)}% (${samples} ${samples === 1 ? "amostra" : "amostras"})`,
+    noSamples: "Sem amostras",
+    versions: "Versões em campo:",
+  },
   networkNodesSection: {
     title: "Rede Énóis",
     description:

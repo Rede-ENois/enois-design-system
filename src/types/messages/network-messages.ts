@@ -26,6 +26,23 @@ export type NetworkMessages = {
     loadError: string;
     retry: string;
   };
+  networkDashboardStrip: {
+    total: string;
+    active: string;
+    alive: string;
+    degraded: string;
+    quarantined: string;
+    freeSlots: string;
+    declaredCpu: string;
+    declaredMemory: string;
+    avgCpu: string;
+    avgMemory: string;
+    cores: (count: number) => string;
+    memoryMb: (mb: number) => string;
+    cpuPercent: (percent: number, samples: number) => string;
+    noSamples: string;
+    versions: string;
+  };
   networkNodesSection: {
     title: string;
     description: string;
