@@ -6,6 +6,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 
 import { MAX_TITLE } from "../../lib/calendar/calendar-entry-draft.js";
 import { defaultMessages } from "../../messages/default-messages.js";
+import type { CalendarAgendaItemData } from "../../types/domain/calendar/calendar-agenda-item-data.js";
 import type { CalendarEntryData } from "../../types/domain/calendar/calendar-entry-data.js";
 import type { CalendarEntryFormValues } from "../../types/domain/calendar/calendar-entry-form-values.js";
 
@@ -70,6 +71,32 @@ const submit = () => {
   const formEl = document.body.querySelector("form");
   act(() => formEl?.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })));
 };
+
+const conflicts = () =>
+  [...document.body.querySelectorAll("[role=status]")].map((node) => node.textContent);
+
+const statuses = () =>
+  [...document.body.querySelectorAll("[role=status]")].filter((node) =>
+    node.textContent?.includes("compromisso"),
+  );
+
+const item = (overrides: Partial<CalendarEntryData> = {}): CalendarAgendaItemData => ({
+  owner: true,
+  participation: null,
+  entry: {
+    id: "cal_other",
+    scope: "SOCIAL",
+    kind: "PERSONAL",
+    title: "Reunião",
+    description: null,
+    startsAt: "2026-11-10T15:00:00.000Z",
+    endsAt: "2026-11-10T16:00:00.000Z",
+    timeZoneId: SP,
+    allDay: false,
+    cancelledAt: null,
+    ...overrides,
+  },
+});
 
 const alerts = () =>
   [...document.body.querySelectorAll("[role=alert]")].map((node) => node.textContent);
@@ -279,5 +306,108 @@ describe("CalendarEntryFormDialog", () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  it("warns once about an entry the typed interval touches", () => {
+    openDialog({ defaultDay: "2026-11-10", conflicts: [item()] });
+
+    type(field("title"), "Sobreposto");
+    type(field("day"), "10/11/2026");
+    type(field("start"), "12:00");
+    type(field("end"), "13:30");
+
+    expect(statuses()).toHaveLength(1);
+    expect(statuses()[0].textContent).toBe(form.conflictWarning(1));
+  });
+
+  it("says nothing when the other entry ends exactly when this one starts", () => {
+    openDialog({
+      defaultDay: "2026-11-10",
+      // Ends 13:00 local, and the draft starts at 13:00: touching edges do not clash.
+      conflicts: [
+        item({ startsAt: "2026-11-10T15:00:00.000Z", endsAt: "2026-11-10T16:00:00.000Z" }),
+      ],
+    });
+
+    type(field("title"), "Encostado");
+    type(field("start"), "13:00");
+    type(field("end"), "14:00");
+
+    expect(statuses()).toHaveLength(0);
+  });
+
+  it("counts every clash and keeps the save enabled", () => {
+    openDialog({
+      defaultDay: "2026-11-10",
+      conflicts: [
+        item({ id: "cal_a" }),
+        item({
+          id: "cal_b",
+          startsAt: "2026-11-10T16:30:00.000Z",
+          endsAt: "2026-11-10T17:30:00.000Z",
+        }),
+      ],
+    });
+
+    type(field("title"), "Dois choques");
+    type(field("start"), "12:00");
+    type(field("end"), "14:30");
+
+    expect(statuses()).toHaveLength(1);
+    expect(statuses()[0].textContent).toBe(form.conflictWarning(2));
+    expect(saveButton()?.disabled).toBe(false);
+  });
+
+  it("never warns about the entry being edited against itself", () => {
+    const editing = item({ id: "cal_self" });
+    openDialog({
+      entry: editing.entry,
+      defaultDay: "2026-11-10",
+      conflicts: [editing],
+    });
+
+    expect(statuses()).toHaveLength(0);
+  });
+
+  it("ignores a cancelled entry in the list", () => {
+    openDialog({
+      defaultDay: "2026-11-10",
+      conflicts: [item({ cancelledAt: "2026-11-09T12:00:00.000Z" })],
+    });
+
+    type(field("title"), "Cancelado");
+    type(field("start"), "12:00");
+    type(field("end"), "13:00");
+
+    expect(statuses()).toHaveLength(0);
+  });
+
+  it("covers the whole day for an all-day draft", () => {
+    openDialog({
+      defaultDay: "2026-11-10",
+      conflicts: [
+        item({ startsAt: "2026-11-10T23:00:00.000Z", endsAt: "2026-11-10T23:30:00.000Z" }),
+      ],
+    });
+
+    type(field("title"), "Dia inteiro");
+    click(switchField());
+    type(field("day"), "10/11/2026");
+
+    expect(statuses()).toHaveLength(1);
+  });
+
+  it("does not warn before the draft has a usable interval", () => {
+    // Anchored to a fixed day: without `defaultDay` the opening draft starts at the next full hour
+    // from the real clock, and between 11:00 and 11:59 in São Paulo that instant lands inside the
+    // fixture's 12:00–13:00 entry, warning on open. The clock is not what this test fixes.
+    openDialog({ defaultDay: "2026-11-10", conflicts: [item()] });
+
+    expect(statuses()).toHaveLength(0);
+
+    type(field("title"), "Sem horário");
+    type(field("start"), "99:99");
+
+    expect(statuses()).toHaveLength(0);
   });
 });

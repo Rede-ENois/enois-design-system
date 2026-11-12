@@ -56,6 +56,38 @@ export type CalendarMessages = {
     /** The create/edit form. */
     /** Opens a blank entry from the agenda header. */
     newEntry: string;
+    /** "Warn me before it starts" — the reminder selector. */
+    reminder: {
+      title: string;
+      none: string;
+      /** `minutes` is one of 5, 15, 30, 60, 1440. */
+      minutes: (minutes: number) => string;
+      saving: string;
+    };
+    /** The detail page of one entry. */
+    detail: {
+      back: string;
+      edit: string;
+      cancel: string;
+      cancelling: string;
+      cancelledAt: string;
+      descriptionEmpty: string;
+      zoneHint: (zone: string) => string;
+      /** Both clocks already formatted as `HH:mm`; null means all day. */
+      whenAllDay: string;
+      when: (start: string, end: string) => string;
+      participantsTitle: (count: number) => string;
+      participantEmpty: string;
+      inviteLabel: string;
+      invitePlaceholder: string;
+      inviteAction: string;
+      inviting: string;
+      /** `username` is the @ that was accepted. */
+      invitedOk: (username: string) => string;
+      yourAnswer: string;
+      removeParticipant: (username: string) => string;
+      loadError: string;
+    };
     form: {
       createTitle: string;
       editTitle: string;
@@ -80,6 +112,8 @@ export type CalendarMessages = {
       invalidClock: string;
       endBeforeStart: string;
       durationTooLong: string;
+      /** `count` is how many entries the typed interval already touches (D23). */
+      conflictWarning: (count: number) => string;
       save: string;
       saving: string;
       cancel: string;
@@ -162,6 +196,30 @@ export type CalendarMessages = {
       /** The fresh link, right after create/regenerate; `url` is the full address. */
       freshTitle: string;
       freshHint: string;
+      saving: string;
+    };
+    /** Weekly availability editor (D24): the replaceable week the agenda admits commitments in. */
+    availability: {
+      title: string;
+      hint: string;
+      /** `day` is 1 (Monday) … 7 (Sunday); the message decides the word, e.g. "Segunda". */
+      dayLabel: (day: number) => string;
+      addWindow: string;
+      /** Accessible name of the remove button; `label` is the row's own readable name. */
+      removeWindow: (label: string) => string;
+      /** Accessible name of one row: day and hours, already readable. */
+      windowLabel: (day: string, hours: string) => string;
+      startLabel: string;
+      endLabel: string;
+      zoneHint: (zone: string) => string;
+      emptyTitle: string;
+      emptyHint: string;
+      dayProblem: string;
+      clockProblem: string;
+      endBeforeStartProblem: string;
+      overlapsProblem: string;
+      tooManyProblem: (max: number) => string;
+      save: string;
       saving: string;
     };
   };

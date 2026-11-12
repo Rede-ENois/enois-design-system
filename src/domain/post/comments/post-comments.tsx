@@ -36,6 +36,7 @@ export function PostComments<C extends PostCommentNode>({
   loadingMore,
   hasMore,
   error,
+  sendErrorDetail,
   onRetry,
   onLoadMore,
   renderComment,
@@ -312,7 +313,7 @@ export function PostComments<C extends PostCommentNode>({
 
           {isComposerError(error) && (
             <p className="col-span-3 col-start-1 row-start-2 min-w-0 text-xs font-normal text-destructive sm:col-span-1 sm:col-start-2 sm:mt-1.5">
-              {messages.errors[error]}
+              {error === "send" && sendErrorDetail ? sendErrorDetail : messages.errors[error]}
             </p>
           )}
 

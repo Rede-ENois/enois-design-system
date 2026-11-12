@@ -11,6 +11,7 @@ import { CommentItem } from "./comments/comment-item.js";
 import { orderCommentsWithAccepted } from "./comments/order-comments-with-accepted.js";
 import { PostComments } from "./comments/post-comments.js";
 import { ComposerLauncher } from "./composer-launcher.js";
+import { ComposerMediaPicker } from "./composer-media-picker.js";
 import { MentionTextarea } from "./editor/mention-textarea.js";
 import { MediaGrid } from "./media/media-grid.js";
 import { PostCardSkeletons } from "./post-card-skeletons.js";
@@ -67,6 +68,29 @@ export const Launcher: StoryObj = {
   render: () => (
     <div className="max-w-xl">
       <ComposerLauncher avatar={null} name="Ana Souza" onOpen={() => {}} onAddMedia={() => {}} />
+    </div>
+  ),
+};
+
+export const MediaPicker: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <ComposerMediaPicker
+        items={[
+          {
+            preview:
+              "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='%23c4b5fd'/></svg>",
+            status: "allowed",
+          },
+          {
+            preview:
+              "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='%23a5b4fc'/></svg>",
+            status: "checking",
+          },
+        ]}
+        onFiles={() => {}}
+        onRemove={() => {}}
+      />
     </div>
   ),
 };

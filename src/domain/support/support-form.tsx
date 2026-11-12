@@ -7,6 +7,7 @@ import type { SupportFormProps } from "../../types/domain/support/support-form-p
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
+import { Select } from "../../ui/select.js";
 import { Textarea } from "../../ui/textarea.js";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -105,7 +106,7 @@ export function SupportForm({ defaultContactEmail, onUploadImage, onSubmit }: Su
       <div className="space-y-1.5">
         <Label htmlFor="support-category">{messages.category}</Label>
 
-        <select
+        <Select
           id="support-category"
           value={category}
           onChange={(event) => {
@@ -116,14 +117,13 @@ export function SupportForm({ defaultContactEmail, onUploadImage, onSubmit }: Su
               setMessage(messages.apiAccessTemplate);
             }
           }}
-          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
         >
           {messages.categories.map(([value, label]) => (
             <option key={value} value={value}>
               {label}
             </option>
           ))}
-        </select>
+        </Select>
 
         <p className="text-xs text-muted-foreground">{messages.categoryHint}</p>
       </div>

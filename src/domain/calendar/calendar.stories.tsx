@@ -8,9 +8,11 @@ import { Button } from "../../ui/button.js";
 
 import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
+import { CalendarEntryDetail } from "./calendar-entry-detail.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
 import { CalendarImportDialog } from "./calendar-import-dialog.js";
 import { CalendarInterviewDialog } from "./calendar-interview-dialog.js";
+import { CalendarReminderSelector } from "./calendar-reminder-selector.js";
 import { CalendarSubscriptionCard } from "./calendar-subscription-card.js";
 
 const meta: Meta = {
@@ -305,6 +307,43 @@ export const AgendaEditRefused: StoryObj = {
     );
   },
 };
+
+const detailEntry = {
+  id: "cal_meeting",
+  scope: "PROFESSIONAL" as const,
+  kind: "MEETING" as const,
+  title: "Revisão do trimestre",
+  description: "Trazer os números do mês e a lista do que ficou pendente.",
+  day: "2026-11-10",
+  start: "10:00",
+  end: "11:00",
+  timeZoneId: ZONE,
+  allDay: false,
+  cancelledAt: null,
+};
+
+const detailParticipants = [
+  { id: "p1", username: "ana", state: "ACCEPTED" as const },
+  { id: "p2", username: "bia", state: "INVITED" as const },
+];
+
+export const DetailOrganizer: StoryObj = {
+  render: () => (
+    <CalendarEntryDetail
+      entry={detailEntry}
+      owner
+      participation={null}
+      participants={detailParticipants}
+      backLabel="Voltar à agenda"
+      onBack={() => {}}
+      onEdit={() => {}}
+      onCancel={() => {}}
+      onInvite={async () => true}
+      onRemoveParticipant={() => {}}
+    />
+  ),
+};
+
 export const SubscriptionEmpty: StoryObj = {
   render: () => (
     <CalendarSubscriptionCard
@@ -367,6 +406,20 @@ export const SubscriptionError: StoryObj = {
   ),
 };
 
+export const DetailGuest: StoryObj = {
+  render: () => (
+    <CalendarEntryDetail
+      entry={detailEntry}
+      owner={false}
+      participation="INVITED"
+      participants={null}
+      backLabel="Voltar à agenda"
+      onBack={() => {}}
+      onRespond={() => {}}
+    />
+  ),
+};
+
 export const ImportDialogEmpty: StoryObj = {
   render: () => (
     <CalendarImportDialog
@@ -381,6 +434,21 @@ export const ImportDialogEmpty: StoryObj = {
   ),
 };
 
+export const DetailCancelled: StoryObj = {
+  render: () => (
+    <CalendarEntryDetail
+      entry={{ ...detailEntry, cancelledAt: "2026-11-09T12:00:00Z" }}
+      owner
+      participation={null}
+      participants={detailParticipants}
+      backLabel="Voltar à agenda"
+      onBack={() => {}}
+      onEdit={() => {}}
+      onCancel={() => {}}
+    />
+  ),
+};
+
 export const ImportDialogWithFile: StoryObj = {
   render: () => (
     <CalendarImportDialog
@@ -391,6 +459,32 @@ export const ImportDialogWithFile: StoryObj = {
       file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
       onFileChange={() => {}}
       onImport={async () => ({ received: 12, created: 9, moved: 2, cancelled: 1, skipped: 0 })}
+    />
+  ),
+};
+
+export const ReminderSelector: StoryObj = {
+  render: () => <ReminderSelectorHarness />,
+};
+
+function ReminderSelectorHarness() {
+  const [minutes, setMinutes] = useState<
+    | import("../../types/domain/calendar/calendar-reminder-minutes.js").CalendarReminderMinutes
+    | null
+  >(30);
+  return <CalendarReminderSelector value={minutes} onChange={setMinutes} />;
+}
+
+export const ReminderSelectorSaving: StoryObj = {
+  render: () => <CalendarReminderSelector value={15} onChange={() => {}} saving />,
+};
+
+export const ReminderSelectorError: StoryObj = {
+  render: () => (
+    <CalendarReminderSelector
+      value={60}
+      onChange={() => {}}
+      error="Compromisso cancelado não aceita lembrete."
     />
   ),
 };

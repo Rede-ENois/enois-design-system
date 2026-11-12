@@ -56,6 +56,38 @@ export const calendarMessages: CalendarMessages = {
       when: (day, when) => `${day}, ${when}`,
     },
     newEntry: "Novo compromisso",
+    reminder: {
+      title: "Me avisar antes",
+      none: "Não avisar",
+      minutes: (minutes) =>
+        minutes >= 1440
+          ? minutes / 1440 === 1
+            ? "1 dia antes"
+            : `${minutes / 1440} dias antes`
+          : `${minutes} min antes`,
+      saving: "Salvando...",
+    },
+    detail: {
+      back: "Voltar à agenda",
+      edit: "Editar",
+      cancel: "Cancelar compromisso",
+      cancelling: "Cancelando...",
+      cancelledAt: "Este compromisso foi cancelado.",
+      descriptionEmpty: "Sem descrição.",
+      zoneHint: (zone) => `Horário de ${zone}`,
+      whenAllDay: "Dia inteiro",
+      when: (start, end) => `${start} às ${end}`,
+      participantsTitle: (count) => (count === 1 ? "1 convidado" : `${count} convidados`),
+      participantEmpty: "Ninguém convidado ainda.",
+      inviteLabel: "Convidar",
+      invitePlaceholder: "@ de quem convidar",
+      inviteAction: "Convidar",
+      inviting: "Convidando...",
+      invitedOk: (username) => `Convite enviado para ${username}.`,
+      yourAnswer: "Sua resposta",
+      removeParticipant: (username) => `Remover ${username} do compromisso`,
+      loadError: "Não foi possível abrir este compromisso.",
+    },
     form: {
       createTitle: "Novo compromisso",
       editTitle: "Editar compromisso",
@@ -78,9 +110,34 @@ export const calendarMessages: CalendarMessages = {
       invalidClock: "Informe o horário no formato hh:mm.",
       endBeforeStart: "O fim precisa ser depois do começo.",
       durationTooLong: "Um compromisso não pode durar mais de 7 dias.",
+      conflictWarning: (count) =>
+        count === 1
+          ? "Você já tem um compromisso neste horário."
+          : `Você já tem ${count} compromissos neste horário.`,
       save: "Salvar",
       saving: "Salvando...",
       cancel: "Cancelar",
+    },
+    availability: {
+      title: "Quando você costuma estar disponível",
+      hint: "A semana se repete. Horários de início e fim no fuso escolhido; uma janela que termina às 12h não ocupa as 12h.",
+      dayLabel: (day) =>
+        ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"][day - 1] ?? "",
+      addWindow: "Adicionar janela",
+      removeWindow: (label) => `Remover ${label}`,
+      windowLabel: (day, hours) => `${day}, ${hours}`,
+      startLabel: "Começa",
+      endLabel: "Termina",
+      zoneHint: (zone) => `Horário de ${zone}`,
+      emptyTitle: "Nenhuma janela na semana",
+      emptyHint: "Adicione pelo menos uma janela com começo e fim.",
+      dayProblem: "Escolha um dia válido da semana.",
+      clockProblem: "Informe os horários no formato hh:mm.",
+      endBeforeStartProblem: "O fim precisa ser depois do começo, no mesmo dia.",
+      overlapsProblem: "Duas janelas do mesmo dia não podem ocupar o mesmo horário.",
+      tooManyProblem: (max) => `A semana admite no máximo ${max} janelas.`,
+      save: "Salvar disponibilidade",
+      saving: "Salvando...",
     },
     importDialog: {
       title: "Importar arquivo .ics",

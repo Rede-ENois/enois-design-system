@@ -80,7 +80,9 @@ export function PostNotes({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+          // "Adicionar nota" mede ~16px de altura: o `before` infla o alvo de toque até 44px sem
+          // mexer no visual (mesmo recurso das pílulas de reação).
+          className="relative inline-flex items-center gap-1.5 py-2 text-xs font-medium text-primary before:absolute before:-inset-y-2 before:-inset-x-1 before:content-[''] hover:underline"
         >
           <StickyNote className="h-3.5 w-3.5" aria-hidden />
 

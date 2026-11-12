@@ -4,6 +4,7 @@ export { IdentityVerificationSection } from "./identity-verification-section.js"
 export { LinkedinContactsSection } from "./linkedin-contacts-section.js";
 export { LinkedinImportSection } from "./linkedin-import-section.js";
 export { resolveIdentityReleaseView } from "./resolve-identity-release-view.js";
+export type { BadgeKit } from "../../types/domain/badges/badge-kit.js";
 export type { GitHubLinkCardProps } from "../../types/domain/security/github-link-card-props.js";
 export type { GitHubLinkStatus } from "../../types/domain/security/github-link-status.js";
 export type { GitHubSyncResult } from "../../types/domain/security/github-sync-result.js";

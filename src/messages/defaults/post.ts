@@ -9,6 +9,12 @@ export const postMessages: PostMessages = {
     placeholder: "Começar publicação",
     addMedia: "Adicionar foto ou vídeo",
   },
+  composerMediaPicker: {
+    add: "Adicionar imagem",
+    remove: "Remover mídia",
+    checking: "Verificando imagem…",
+    prohibited: "Imagem ocultada",
+  },
   spoilerText: { show: "Mostrar spoiler", hide: "Esconder spoiler" },
   imageLightbox: { title: "Imagem ampliada", close: "Fechar" },
   mediaStage: { title: "Vídeo", mute: "Silenciar", unmute: "Ativar som", close: "Fechar" },

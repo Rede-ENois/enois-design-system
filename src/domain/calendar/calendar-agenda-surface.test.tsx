@@ -108,6 +108,9 @@ const dialogOpen = () => document.body.querySelector('[role="dialog"]') !== null
 const alerts = () =>
   [...document.body.querySelectorAll("[role=alert]")].map((node) => node.textContent);
 
+const statuses = () =>
+  [...document.body.querySelectorAll('[role="status"]')].map((node) => node.textContent);
+
 beforeEach(() => {
   host = document.createElement("div");
   document.body.appendChild(host);
@@ -213,6 +216,39 @@ describe("CalendarAgendaSurface", () => {
     expect(saved[0].values).toMatchObject({ title: "Revisão do trimestre", scope: "PROFESSIONAL" });
     expect(editing).toBeNull();
     expect(dialogOpen()).toBe(false);
+  });
+
+  it("hands the app's conflict list to the form, which warns on the typed interval", async () => {
+    const other: CalendarEntryData = {
+      ...meeting,
+      id: "cal_2",
+      title: "Consulta no dentista",
+      scope: "SOCIAL",
+      startsAt: "2026-11-08T12:30:00Z",
+      endsAt: "2026-11-08T13:30:00Z",
+    };
+    render({ conflicts: [{ entry: other, owner: false, participation: null }] });
+
+    click(button(messages.newEntry));
+    // The blank entry lands on the picked period at 09:00–12:00 local (12:00–15:00 UTC)... but the
+    // default is whatever the form prefills; typing the clashing window makes the overlap exact.
+    type(field("title"), "Café sobreposto");
+    type(field("day"), "08/11/2026");
+    type(field("start"), "09:30");
+    type(field("end"), "10:00");
+
+    // The clash is a heads-up (D23), not an error: `role=status`, and saving stays enabled.
+    expect(statuses()).toContain(form.conflictWarning(1));
+    expect(alerts()).toHaveLength(0);
+  });
+
+  it("does not warn when nothing in the app's conflict list touches the typed interval", () => {
+    render({ conflicts: [item] });
+
+    click(button(messages.newEntry));
+    type(field("day"), "20/11/2026");
+
+    expect(alerts()).toHaveLength(0);
   });
 
   it("draws the pending invitations above the agenda and answers them through the same callback", () => {
