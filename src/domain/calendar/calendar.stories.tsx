@@ -10,7 +10,10 @@ import { CalendarAgendaSurface } from "./calendar-agenda-surface.js";
 import { CalendarAgenda } from "./calendar-agenda.js";
 import { CalendarEntryDetail } from "./calendar-entry-detail.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
+import { CalendarImportDialog } from "./calendar-import-dialog.js";
+import { CalendarInterviewDialog } from "./calendar-interview-dialog.js";
 import { CalendarReminderSelector } from "./calendar-reminder-selector.js";
+import { CalendarSubscriptionCard } from "./calendar-subscription-card.js";
 
 const meta: Meta = {
   title: "Domain/Calendar",
@@ -341,6 +344,68 @@ export const DetailOrganizer: StoryObj = {
   ),
 };
 
+export const SubscriptionEmpty: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={null}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+    />
+  ),
+};
+
+export const SubscriptionFresh: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={{ scope: "SOCIAL", createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl="https://enois.example/calendar/subscribe/abc123.ics"
+      scope="SOCIAL"
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+      copied
+    />
+  ),
+};
+
+export const SubscriptionActive: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={{ scope: null, createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+    />
+  ),
+};
+
+export const SubscriptionError: StoryObj = {
+  render: () => (
+    <CalendarSubscriptionCard
+      subscription={{ scope: null, createdAt: "2026-11-10T12:00:00Z" }}
+      freshUrl={null}
+      scope={null}
+      onScopeChange={() => {}}
+      onCreate={() => {}}
+      onRegenerate={() => {}}
+      onRevoke={() => {}}
+      onCopy={() => {}}
+      error="Não foi possível gerar outro link. Tente de novo."
+    />
+  ),
+};
+
 export const DetailGuest: StoryObj = {
   render: () => (
     <CalendarEntryDetail
@@ -351,6 +416,20 @@ export const DetailGuest: StoryObj = {
       backLabel="Voltar à agenda"
       onBack={() => {}}
       onRespond={() => {}}
+    />
+  ),
+};
+
+export const ImportDialogEmpty: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope={null}
+      onScopeChange={() => {}}
+      file={null}
+      onFileChange={() => {}}
+      onImport={async () => null}
     />
   ),
 };
@@ -366,6 +445,20 @@ export const DetailCancelled: StoryObj = {
       onBack={() => {}}
       onEdit={() => {}}
       onCancel={() => {}}
+    />
+  ),
+};
+
+export const ImportDialogWithFile: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope="SOCIAL"
+      onScopeChange={() => {}}
+      file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
+      onFileChange={() => {}}
+      onImport={async () => ({ received: 12, created: 9, moved: 2, cancelled: 1, skipped: 0 })}
     />
   ),
 };
@@ -392,6 +485,58 @@ export const ReminderSelectorError: StoryObj = {
       value={60}
       onChange={() => {}}
       error="Compromisso cancelado não aceita lembrete."
+    />
+  ),
+};
+
+export const ImportDialogError: StoryObj = {
+  render: () => (
+    <CalendarImportDialog
+      open
+      onOpenChange={() => {}}
+      scope={null}
+      onScopeChange={() => {}}
+      file={new File(["BEGIN:VCALENDAR"], "agenda.ics", { type: "text/calendar" })}
+      onFileChange={() => {}}
+      onImport={async () => null}
+      error="Não foi possível importar o arquivo. Tente de novo."
+    />
+  ),
+};
+
+export const InterviewDialogNew: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog open onOpenChange={() => {}} timeZoneId={ZONE} onSave={() => {}} />
+  ),
+};
+
+export const InterviewDialogReschedule: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog
+      open
+      onOpenChange={() => {}}
+      timeZoneId={ZONE}
+      candidateName="Ana Souza"
+      interview={{
+        id: "jint_1",
+        startsAt: "2026-11-12T17:00:00Z",
+        endsAt: "2026-11-12T18:00:00Z",
+        timeZoneId: ZONE,
+        notes: "Leve seu portfólio.",
+      }}
+      onSave={() => {}}
+    />
+  ),
+};
+
+export const InterviewDialogError: StoryObj = {
+  render: () => (
+    <CalendarInterviewDialog
+      open
+      onOpenChange={() => {}}
+      timeZoneId={ZONE}
+      saveError="A entrevista precisa ser marcada para o futuro."
+      onSave={() => {}}
     />
   ),
 };

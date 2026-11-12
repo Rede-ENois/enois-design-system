@@ -35,12 +35,99 @@ export type JobsMessages = {
     resumeMissingField: string;
     close: string;
   };
+  jobInterviewActions: {
+    schedule: string;
+    reschedule: string;
+    cancel: string;
+    /** "Entrevista marcada para 18/10/2026, 14:00" — the clock is the one the employer scheduled in. */
+    scheduledFor: (when: string) => string;
+  };
   applicationFeedbackDialog: {
     title: string;
     hint: string;
     placeholder: string;
     send: string;
     cancel: string;
+  };
+  applyExternalJobDialog: {
+    title: (job: string) => string;
+    intro: string;
+    loading: string;
+    loadError: string;
+    retry: string;
+    to: string;
+    subject: string;
+    body: string;
+    message: string;
+    messagePlaceholder: string;
+    resumeAttached: (name: string) => string;
+    resumeMissing: string;
+    resumeMissingHint: string;
+    /** Aviso de que o envio sai pelo Énóis, não pelo cliente de e-mail da pessoa. */
+    sendingThrough: string;
+    confirmHint: string;
+    confirm: string;
+    sending: string;
+    cancel: string;
+    success: string;
+    successWithResume: (name: string) => string;
+    successWithoutResume: string;
+    close: string;
+    openMailClient: string;
+    openMailClientHint: string;
+  };
+  externalJobFilters: {
+    title: string;
+    level: string;
+    workModel: string;
+    employmentType: string;
+    location: string;
+    city: string;
+    cityPlaceholder: string;
+    state: string;
+    statePlaceholder: string;
+    country: string;
+    countryPlaceholder: string;
+    salaryMin: string;
+    salaryMinPlaceholder: string;
+    remoteOnly: string;
+    publishedAfter: string;
+    publishedAny: string;
+    publishedLast7: string;
+    publishedLast30: string;
+    sort: string;
+    sortRecent: string;
+    sortSalary: string;
+    sortRelevance: string;
+    clear: string;
+    clearAll: string;
+    activeCount: (count: number) => string;
+    /** Screen names of the levels, by API code; unknown codes show as they come. */
+    levels: Record<string, string>;
+    /** Screen names of the work models, by API code. */
+    workModels: Record<string, string>;
+    /** Screen names of the employment types, by API code. */
+    employmentTypes: Record<string, string>;
+  };
+  externalJobOrigin: {
+    /** "Vaga externa · Adzuna" — a origem sempre visível, nunca escondida atrás de um clique. */
+    from: (platform: string) => string;
+    /** "Publicada em 3 de novembro" ou "Data de publicação não informada pela fonte". */
+    published: (date: string) => string;
+    publishedUnknown: string;
+    /** "Verificada na fonte há 2 dias" — a última confirmação, não a publicação. */
+    lastSeen: (when: string) => string;
+    lastSeenUnknown: string;
+    /** A fonte já não lista a vaga: não é mais uma oportunidade disponível. */
+    removed: string;
+    /** A vaga expirou pela própria fonte. */
+    expired: string;
+    /** Link para a publicação original. */
+    openSource: string;
+    /** "hoje", "ontem", "há 3 dias", "há 2 meses". */
+    relative: (days: number) => string;
+    today: string;
+    yesterday: string;
   };
   /** Field labels shared by the job forms (edit and external registration). */
   jobFields: {

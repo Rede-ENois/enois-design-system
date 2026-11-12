@@ -1,14 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import type { ExternalJobFilterValues } from "../../types/domain/jobs/external-job-filter-values.js";
 import { Button } from "../../ui/button.js";
 
 import { ApplicationFeedbackDialog } from "./application-feedback-dialog.js";
 import { ApplyByEmailButton } from "./apply-by-email-button.js";
+import { ApplyExternalJobDialog } from "./apply-external-job-dialog.js";
 import { ApplyFreelanceDialog } from "./apply-freelance-dialog.js";
 import { ApplyJobDialog } from "./apply-job-dialog.js";
 import { CompanyEditDialog } from "./company-edit-dialog.js";
 import { CompanyTeamSection } from "./company-team-section.js";
 import { CreateExternalJobDialog } from "./create-external-job-dialog.js";
+import { ExternalJobFilters } from "./external-job-filters.js";
+import { ExternalJobOriginLine } from "./external-job-origin-line.js";
 import { JobCardSkeletons } from "./job-card-skeletons.js";
 import { JobEditDialog } from "./job-edit-dialog.js";
 import { ProfessionalSignature } from "./professional-signature.js";
@@ -86,6 +90,142 @@ export const ApplyFreelance: StoryObj = {
       onSend={noop}
       onOpenChat={noop}
     />
+  ),
+};
+
+const externalDraft = {
+  recipientEmail: "vagas@empresa.com",
+  subject: "Candidatura — Pessoa Desenvolvedora Java Sênior (ID 42)",
+  body: "Olá!\n\nMe chamo Mel Santos e tenho interesse na vaga de Pessoa Desenvolvedora Java Sênior.\n\nAbraço,\nMel Santos",
+  resumeAvailable: true,
+  resumeName: "curriculo-mel-santos.pdf",
+  jobTitle: "Pessoa Desenvolvedora Java Sênior",
+  company: "Empresa Exemplo",
+  jobUrl: "https://exemplo.com/vagas/42",
+};
+
+export const ApplyExternalJob: StoryObj = {
+  render: () => (
+    <ApplyExternalJobDialog
+      onOpenChange={noop}
+      draft={externalDraft}
+      loading={false}
+      loadError={null}
+      pending={false}
+      error={null}
+      result={null}
+      onConfirm={noop}
+      onOpenMailClient={noop}
+      onRetry={noop}
+    >
+      <Button className="rounded-full">Candidatar-se</Button>
+    </ApplyExternalJobDialog>
+  ),
+};
+
+export const ApplyExternalJobWithoutResume: StoryObj = {
+  render: () => (
+    <ApplyExternalJobDialog
+      onOpenChange={noop}
+      draft={{ ...externalDraft, resumeAvailable: false, resumeName: null }}
+      loading={false}
+      loadError={null}
+      pending={false}
+      error={null}
+      result={null}
+      onConfirm={noop}
+      onOpenMailClient={noop}
+      onRetry={noop}
+    >
+      <Button className="rounded-full">Candidatar-se</Button>
+    </ApplyExternalJobDialog>
+  ),
+};
+
+export const ApplyExternalJobSentWithoutAttachment: StoryObj = {
+  render: () => (
+    <ApplyExternalJobDialog
+      onOpenChange={noop}
+      draft={externalDraft}
+      loading={false}
+      loadError={null}
+      pending={false}
+      error={null}
+      result={{
+        recipientEmail: "vagas@empresa.com",
+        subject: externalDraft.subject,
+        resumeAttached: false,
+        resumeName: null,
+        status: "SENT",
+        appliedAt: "2026-11-10T12:00:00Z",
+      }}
+      onConfirm={noop}
+      onOpenMailClient={noop}
+      onRetry={noop}
+    >
+      <Button className="rounded-full">Candidatar-se</Button>
+    </ApplyExternalJobDialog>
+  ),
+};
+
+const filtersValue: ExternalJobFilterValues = {
+  level: "SENIOR",
+  workModel: "REMOTE",
+  employmentType: null,
+  city: "",
+  state: "SP",
+  country: "Brasil",
+  salaryMin: 15000,
+  remoteOnly: false,
+  publishedAfter: null,
+  sort: "recent",
+};
+
+export const ExternalJobFiltersBar: StoryObj = {
+  render: () => (
+    <div className="max-w-3xl">
+      <ExternalJobFilters value={filtersValue} onChange={noop} onClear={noop} activeCount={4} />
+    </div>
+  ),
+};
+
+export const ExternalJobOrigin: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl space-y-3">
+      <ExternalJobOriginLine
+        origin={{
+          platform: "Adzuna",
+          sourceUrl: "https://exemplo.com/vaga/42",
+          publishedAt: "2026-11-03T09:00:00Z",
+          lastSeenAt: "2026-11-09T09:00:00Z",
+          removedAt: null,
+          expiresAt: null,
+        }}
+        now={new Date("2026-11-10T12:00:00Z")}
+      />
+      <ExternalJobOriginLine
+        origin={{
+          platform: "Arbeitnow",
+          sourceUrl: null,
+          publishedAt: null,
+          lastSeenAt: null,
+          removedAt: null,
+          expiresAt: null,
+        }}
+        now={new Date("2026-11-10T12:00:00Z")}
+      />
+      <ExternalJobOriginLine
+        origin={{
+          platform: "Remotive",
+          sourceUrl: "https://exemplo.com/vaga/99",
+          publishedAt: "2026-10-01T09:00:00Z",
+          lastSeenAt: "2026-11-09T09:00:00Z",
+          removedAt: "2026-11-09T09:00:00Z",
+          expiresAt: null,
+        }}
+        now={new Date("2026-11-10T12:00:00Z")}
+      />
+    </div>
   ),
 };
 

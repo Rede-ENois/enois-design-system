@@ -31,7 +31,7 @@ export function ProfileProjectsSection({
   const [diarioAberto, setDiarioAberto] = useState<string | null>(null);
 
   return (
-    <section className="border border-border-soft bg-surface-card">
+    <section className="rounded-2xl border border-border-soft bg-surface-card">
       <div className="flex items-center justify-between px-4 pb-3 pt-4 sm:px-6 sm:pt-6">
         <h2 className="text-base font-normal text-text-strong">{messages.title}</h2>
 

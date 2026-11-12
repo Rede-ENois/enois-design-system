@@ -30,7 +30,7 @@ export const SHOP_ITEMS: CosmeticShopItem[] = [
       name: item.name,
       description: item.description,
       priceLabel: String("priceFaiscas" in item ? item.priceFaiscas : FRAME_PRICE),
-      available: IN_SEASON.has(collection.id),
+      available: collection.id === "essenciais" || IN_SEASON.has(collection.id),
       purchasable: true,
     })),
   ),
@@ -46,16 +46,38 @@ export const SHOP_ITEMS: CosmeticShopItem[] = [
       purchasable: false,
     }),
   ),
-  {
-    id: "moldura-ambar",
+  // Original frames: outside every collection, so they are always on sale and the ready-made
+  // Essenciais looks can pair them with the permanent pieces.
+  ...[
+    ["moldura-ambar", "Âmbar", "Um anel dourado.", "2"],
+    ["moldura-violeta", "Moldura Violeta", "O roxo da marca, no seu rosto.", "5"],
+    [
+      "moldura-trepadeira",
+      "Trepadeira",
+      "Vinhas que brotam folhas e abrem uma flor no topo.",
+      "10",
+    ],
+    ["moldura-solar", "Solar", "Um brilho quente e vivo.", "5"],
+    ["moldura-coral", "Moldura Coral", "Um aro coral para o seu retrato.", "2"],
+    ["moldura-esmeralda", "Moldura Esmeralda", "Verde de vitrine.", "2"],
+    [
+      "moldura-vaga-lumes",
+      "Vaga-lumes",
+      "Capim ao pé do retrato e vaga-lumes voando em volta.",
+      "10",
+    ],
+    ["moldura-glacial", "Glacial", "Cristais de gelo que cintilam no frio.", "10"],
+    ["moldura-nebulosa", "Nebulosa", "Nuvens cósmicas e estrelas envolvendo o seu avatar.", "10"],
+  ].map(([id, name, description, priceLabel]): CosmeticShopItem => ({
+    id,
     kind: "FRAME",
     collection: null,
-    name: "Âmbar",
-    description: "Um anel dourado.",
-    priceLabel: "2",
+    name,
+    description,
+    priceLabel,
     available: true,
     purchasable: true,
-  },
+  })),
   ...[
     ["garden-cerrado", "Jardim do Cerrado", "Ipê amarelo, canela-de-ema e buriti."],
     ["garden-mata-atlantica", "Jardim da Mata Atlântica", "Palmeira juçara, bromélias e pitanga."],
@@ -77,9 +99,10 @@ export const SHOP_COLLECTIONS: CosmeticShopCollection[] = CATALOG_COLLECTIONS.ma
   (collection): CosmeticShopCollection => ({
     id: collection.id,
     name: collection.name,
-    available: IN_SEASON.has(collection.id),
+    available: collection.id === "essenciais" || IN_SEASON.has(collection.id),
     looks: CATALOG_LOOKS.filter((look) => look.collection === collection.id).map((look) => ({
-      id: `look-${look.collection}`,
+      // A collection may hold several looks, so the id comes from the look, never from the collection.
+      id: look.id,
       title: look.title,
       items: [
         look.theme,

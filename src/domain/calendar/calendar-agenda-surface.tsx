@@ -8,6 +8,7 @@ import type { CalendarEntryFormValues } from "../../types/domain/calendar/calend
 
 import { CalendarAgenda } from "./calendar-agenda.js";
 import { CalendarEntryFormDialog } from "./calendar-entry-form-dialog.js";
+import { CalendarPendingInvitations } from "./calendar-pending-invitations.js";
 
 /**
  * The agenda with the entry form wired in: the header button opens a blank entry, and the dialog
@@ -23,6 +24,7 @@ export function CalendarAgendaSurface({
   savePending = false,
   saveError,
   conflicts,
+  pendingInvitations,
   onSave,
   ...agenda
 }: CalendarAgendaSurfaceProps) {
@@ -45,6 +47,14 @@ export function CalendarAgendaSurface({
 
   return (
     <>
+      <CalendarPendingInvitations
+        invitations={pendingInvitations ?? []}
+        timeZoneId={agenda.timeZoneId}
+        itemHref={agenda.itemHref}
+        onRespond={agenda.onRespond}
+        respondingId={agenda.respondingId}
+        respondError={agenda.respondError}
+      />
       <CalendarAgenda
         {...agenda}
         newEntryLabel={messages.newEntry}

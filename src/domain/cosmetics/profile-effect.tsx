@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { cn } from "../../lib/utils.js";
 import type { ProfileEffectParticle } from "../../types/domain/cosmetics/profile-effect-particle.js";
@@ -52,9 +52,19 @@ export function ProfileEffect({ effect, replayKey, className }: ProfileEffectPro
         <span
           key={i}
           className="cos-fx-layer__particle"
-          style={{ width: particle.size, height: particle.size }}
+          style={{ "--fx-size": particle.size } as CSSProperties}
         >
-          {particle.icon ? (
+          {particle.sprite ? (
+            <span
+              className="cos-fx-layer__sprite block h-full w-full"
+              style={
+                {
+                  "--fx-sprite": `url("${particle.sprite}")`,
+                  "--fx-color": particle.color,
+                } as CSSProperties
+              }
+            />
+          ) : particle.icon ? (
             <CosmeticIcon icon={particle.icon} className="block h-full w-full" />
           ) : (
             <svg viewBox="-8 -8 16 16" className="block h-full w-full">

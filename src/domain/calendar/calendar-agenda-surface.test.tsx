@@ -251,6 +251,32 @@ describe("CalendarAgendaSurface", () => {
     expect(alerts()).toHaveLength(0);
   });
 
+  it("draws the pending invitations above the agenda and answers them through the same callback", () => {
+    const answered: { entryId: string; answer: string }[] = [];
+    render({
+      pendingInvitations: [
+        {
+          id: "cal_convite",
+          scope: "PROFESSIONAL",
+          kind: "INTERVIEW",
+          title: "Entrevista na Aurora",
+          startsAt: "2026-11-14T13:00:00Z",
+          endsAt: "2026-11-14T14:00:00Z",
+          allDay: false,
+          timeZoneId: SP,
+        },
+      ],
+      onRespond: (entryId, answer) => answered.push({ entryId, answer }),
+    });
+
+    expect(document.body.textContent).toContain(messages.pendingInvitations.title);
+    expect(document.body.textContent).toContain("Entrevista na Aurora");
+
+    click(button(messages.accept));
+
+    expect(answered).toEqual([{ entryId: "cal_convite", answer: "ACCEPTED" }]);
+  });
+
   it("clears the entry the app asked to edit when the reader opens a new one", () => {
     let editing: CalendarEntryData | null = meeting;
     const view = () => (

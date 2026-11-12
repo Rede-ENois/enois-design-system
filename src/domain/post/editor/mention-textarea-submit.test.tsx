@@ -4,6 +4,7 @@ import { act, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { fieldIn, selectText, selectionOf, typeInto } from "./editor.fixture.js";
 import { MentionTextarea } from "./mention-textarea.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -13,8 +14,6 @@ document.body.append(container);
 const root = createRoot(container);
 
 afterEach(() => act(() => root.render(null)));
-
-const setValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")!.set!;
 
 function Field({ onSubmitShortcut }: { onSubmitShortcut?: () => void }) {
   const [value, setText] = useState("");
@@ -31,18 +30,14 @@ function Field({ onSubmitShortcut }: { onSubmitShortcut?: () => void }) {
 
 function render(onSubmitShortcut?: () => void) {
   act(() => root.render(<Field onSubmitShortcut={onSubmitShortcut} />));
-  return container.querySelector("textarea")!;
+  return fieldIn(container);
 }
 
-function type(textarea: HTMLTextAreaElement, text: string) {
-  act(() => {
-    setValue.call(textarea, text);
-    textarea.setSelectionRange(text.length, text.length);
-    textarea.dispatchEvent(new Event("input", { bubbles: true }));
-  });
+function type(textarea: HTMLElement, text: string) {
+  typeInto(textarea, text);
 }
 
-function press(textarea: HTMLTextAreaElement, init: KeyboardEventInit) {
+function press(textarea: HTMLElement, init: KeyboardEventInit) {
   const event = new KeyboardEvent("keydown", {
     key: "Enter",
     bubbles: true,
@@ -83,7 +78,7 @@ describe("MentionTextarea: Ctrl+Enter", () => {
 
     press(textarea, { ctrlKey: true });
     expect(submit).toHaveBeenCalledOnce();
-    expect(textarea.value).toBe("@an");
+    expect(textarea.textContent).toBe("@an");
   });
 
   it("sem onSubmitShortcut não há atalho", () => {

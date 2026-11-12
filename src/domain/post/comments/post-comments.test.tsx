@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { CommentsError } from "../../../types/domain/post/comments-error.js";
+import type { PostCommentsProps } from "../../../types/domain/post/post-comments-props.js";
 
 import { PostComments } from "./post-comments.js";
 
@@ -30,6 +31,7 @@ const comments = [
 const render = (
   onOpenGifPicker = vi.fn(),
   reply: { replyToId: string | null; onCancelReply?: () => void } = { replyToId: null },
+  state: Partial<Pick<PostCommentsProps, "canSend" | "sending" | "onSubmit">> = {},
   error: CommentsError | null = null,
 ) =>
   act(() =>
@@ -59,6 +61,7 @@ const render = (
         sending={false}
         onSubmit={async () => true}
         onOpenGifPicker={onOpenGifPicker}
+        {...state}
       />,
     ),
   );
@@ -82,17 +85,43 @@ describe("PostComments composer", () => {
     expect(textarea().dataset.tools).toBe("open");
   });
 
-  it("gives the field the whole width on a phone: send drops to its own line", () => {
+  it("owns one submit button and switches its mobile label when the tools open", () => {
     render();
-
-    const row = textarea().closest("div.flex")!;
-    expect(row.className).toContain("flex-wrap");
-
     const send = container.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-    // Full width below `sm` (the field keeps the row), icon-sized from `sm` up.
-    expect(send.className).toContain("w-full");
+    expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
+    expect(send.getAttribute("aria-label")).toBe("Comentar");
+    expect(send.querySelector("span")?.className).toBe("sm:sr-only");
     expect(send.className).toContain("sm:w-9");
-    expect(send.className).toContain("order-last");
+    expect(send.disabled).toBe(true);
+
+    act(() => plus().click());
+    expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
+    expect(container.querySelector('button[type="submit"]')).toBe(send);
+    expect(send.querySelector("span")?.className).toBe("sr-only");
+    expect(send.getAttribute("aria-label")).toBe("Comentar");
+
+    act(() => plus().click());
+    expect(send.querySelector("span")?.className).toBe("sm:sr-only");
+  });
+
+  it("uses the same submit and pending state with tools open or closed", async () => {
+    const onSubmit = vi.fn().mockResolvedValue(false);
+    const state = { canSend: true, sending: false, onSubmit };
+    await render(vi.fn(), undefined, state);
+    const send = () => container.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    expect(send().disabled).toBe(false);
+    await act(async () => send().click());
+    expect(onSubmit).toHaveBeenCalledExactlyOnceWith("");
+
+    await render(vi.fn(), undefined, { ...state, sending: true });
+    expect(send().disabled).toBe(true);
+    expect(send().getAttribute("aria-busy")).toBe("true");
+    expect(send().getAttribute("aria-label")).toBe("Enviando...");
+    act(() => plus().click());
+    expect(send().disabled).toBe(true);
+    expect(send().querySelector("span")?.className).toBe("sr-only");
+    await act(async () => send().click());
+    expect(onSubmit).toHaveBeenCalledTimes(1);
   });
 
   it("folds the tray when a GIF is picked", () => {
@@ -133,7 +162,7 @@ describe("PostComments composer", () => {
   });
 
   it("keeps the thread when a comment is refused: the send error shows under the field", () => {
-    render(vi.fn(), { replyToId: null }, "send");
+    render(vi.fn(), { replyToId: null }, {}, "send");
 
     // O comentário recusado não é a lista falhando: o que já estava carregado continua visível...
     expect(container.querySelector('[data-comment="c1"]')).not.toBeNull();
@@ -143,8 +172,25 @@ describe("PostComments composer", () => {
     expect(container.textContent).not.toContain("Tentar de novo");
   });
 
+  it.each([false, true])("keeps send errors in the field grid with tools open=%s", (open) => {
+    render(vi.fn(), undefined, {}, "send");
+    if (open) act(() => plus().click());
+    const fieldBox = textarea().parentElement!;
+    const error = fieldBox.nextElementSibling!;
+    const grid = fieldBox.parentElement!;
+    expect(error.textContent).toBe("Não foi possível enviar o comentário. Tente de novo.");
+    expect(error.parentElement).toBe(grid);
+    expect(error.classList.contains("col-span-3")).toBe(true);
+    expect(error.classList.contains("sm:col-start-2")).toBe(true);
+    expect(error.classList.contains("row-start-2")).toBe(true);
+    expect(error.className).not.toContain("pl-");
+    expect(plus().classList.contains("row-start-3")).toBe(true);
+    expect(tray().classList.contains("row-start-3")).toBe(true);
+    expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
+  });
+
   it("replaces the list only when the read itself failed", () => {
-    render(vi.fn(), { replyToId: null }, "load");
+    render(vi.fn(), { replyToId: null }, {}, "load");
 
     expect(container.querySelector('[data-comment="c1"]')).toBeNull();
     expect(container.textContent).toContain("Não foi possível carregar os comentários.");

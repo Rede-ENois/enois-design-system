@@ -82,4 +82,31 @@ describe("AccountMenu", () => {
     expect(text()).toContain("1.240 faíscas");
     expect(text()).toContain("tema-slot");
   });
+
+  it("keeps the label whole and lets the balance truncate", () => {
+    // O saldo cresce com a conta e vem formatado pelo app; o rótulo "Carteira" é fixo. Quem
+    // cede espaço tem de ser o valor, senão o menu mostra "C…" com o número inteiro ao lado
+    // (issue #170).
+    const wallet = "1.240.000.000 faíscas 999 fagulhas";
+    render(hrefs, { walletLabel: wallet });
+
+    const link = document.body.querySelector('a[href="/carteira"]');
+    expect(link).not.toBeNull();
+    const spans = Array.from(link!.querySelectorAll("span")).filter(
+      (span) => !span.hasAttribute("aria-hidden"),
+    );
+    const [label, value] = spans;
+
+    expect(label?.textContent).toBe("Carteira");
+    expect(label?.className).toContain("shrink-0");
+    expect(label?.className).not.toContain("truncate");
+
+    expect(value?.textContent).toBe(wallet);
+    expect(value?.className).toContain("truncate");
+    expect(value?.className).toContain("min-w-0");
+    expect(value?.className).not.toContain("shrink-0");
+    // O texto cortado por reticências ainda tem o valor completo no title e no nome acessível.
+    expect(value?.getAttribute("title")).toBe(wallet);
+    expect(link?.textContent).toContain(wallet);
+  });
 });
