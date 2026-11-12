@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
 import type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
-import type { NetworkNodeHistoryEntry } from "../../types/domain/network/network-node-detail-data.js";
+import type { NetworkNodeHistoryEntry } from "../../types/domain/network/network-node-history-entry.js";
 
 import { NetworkNodeDetail } from "./network-node-detail.js";
 

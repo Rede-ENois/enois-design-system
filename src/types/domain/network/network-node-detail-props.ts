@@ -1,5 +1,5 @@
 import type { NetworkNodeDetailData } from "./network-node-detail-data.js";
-import type { NetworkNodeHistoryEntry } from "./network-node-detail-data.js";
+import type { NetworkNodeHistoryEntry } from "./network-node-history-entry.js";
 
 export type NetworkNodeDetailProps = {
   detail: NetworkNodeDetailData | null;
