@@ -41,6 +41,35 @@ function render(props: Partial<Parameters<typeof NetworkNodesSection>[0]> = {}) 
 }
 
 describe("NetworkNodesSection", () => {
+  it("com o resumo da rede, compõe faixa + lista na própria view — o app só passa dados", () => {
+    const html = render({
+      dashboard: {
+        total: 12,
+        active: 8,
+        unavailable: 3,
+        quarantined: 1,
+        alive: 7,
+        degraded: 2,
+        declaredCpuCores: 48,
+        declaredMemoryMb: 98304,
+        freeSlots: 5,
+        avgCpuPercent: null,
+        cpuSamples: 0,
+        avgMemoryMb: null,
+        memorySamples: 0,
+        runtimeVersions: { "1.2.0": 12 },
+      },
+    });
+
+    expect(html).toContain("48 vCPU");
+    expect(html).toContain("1.2.0 × 12");
+    expect(html).toContain("no-media-1");
+  });
+
+  it("sem resumo, não renderiza faixa vazia", () => {
+    expect(render()).not.toContain("48 vCPU");
+  });
+
   it("mostra o nó pendente com o botão de aprovar e sem chave", () => {
     const html = render();
 

@@ -1,6 +1,12 @@
+import type { NetworkDashboardData } from "./network-dashboard-data.js";
 import type { NetworkNodeData } from "./network-node-data.js";
 
 export type NetworkNodesSectionProps = {
+  /**
+   * O resumo da rede, quando carregado: a faixa no topo da seção. A composição (faixa + lista)
+   * é da view — o app passa os dados, não monta markup ao redor.
+   */
+  dashboard?: NetworkDashboardData | null;
   nodes: NetworkNodeData[];
   loading?: boolean;
   error?: boolean;

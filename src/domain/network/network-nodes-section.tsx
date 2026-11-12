@@ -12,6 +12,8 @@ import { ConfirmDialog } from "../../ui/confirm-dialog.js";
 import { EmptyState } from "../../ui/empty-state.js";
 import { Pill } from "../../ui/pill.js";
 
+import { NetworkDashboardStrip } from "./network-dashboard-strip.js";
+
 const STATUS_CLASS: Record<NetworkNodeData["status"], string> = {
   PENDING_APPROVAL: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
   ACTIVE: "bg-growth/10 text-growth",
@@ -28,6 +30,7 @@ const STATUS_CLASS: Record<NetworkNodeData["status"], string> = {
  * alternativa (guardar a chave em claro) seria pior para todo mundo.</p>
  */
 export function NetworkNodesSection({
+  dashboard = null,
   nodes,
   loading = false,
   error = false,
@@ -54,6 +57,8 @@ export function NetworkNodesSection({
   if (loading && nodes.length === 0) {
     return (
       <section className="space-y-3">
+        {dashboard && <NetworkDashboardStrip dashboard={dashboard} loading={loading} />}
+
         <h2 className="text-sm font-semibold uppercase tracking-widest text-text-subtle">
           {messages.title}
         </h2>
@@ -65,6 +70,8 @@ export function NetworkNodesSection({
 
   return (
     <section className="space-y-4">
+      {dashboard && <NetworkDashboardStrip dashboard={dashboard} loading={loading} />}
+
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="space-y-1">
           <h2 className="text-sm font-semibold uppercase tracking-widest text-text-subtle">
