@@ -51,6 +51,10 @@ export const calendarMessages: CalendarMessages = {
     tentative: "Talvez",
     responding: "Enviando...",
     openEntry: (title) => `Abrir ${title}`,
+    pendingInvitations: {
+      title: "Convites esperando você",
+      when: (day, when) => `${day}, ${when}`,
+    },
     newEntry: "Novo compromisso",
     form: {
       createTitle: "Novo compromisso",
