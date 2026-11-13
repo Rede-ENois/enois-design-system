@@ -17,6 +17,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileEditMenuProps } from "../../types/domain/profile/profile-edit-menu-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
+import { Dialog, DialogContent, DialogTitle } from "../../ui/dialog.js";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../../ui/sheet.js";
 import { ACCOUNT_MENU_ITEM_CLASS } from "../account/account-menu-item-class.js";
 
@@ -66,7 +67,13 @@ export function ProfileEditMenu({
 }: ProfileEditMenuProps) {
   const messages = useMessages().profileEditMenu;
   const [open, setOpen] = useState(false);
+  const [mobile, setMobile] = useState(false);
   const picked = useRef(false);
+
+  const handleOpen = () => {
+    setMobile(typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches);
+    setOpen(true);
+  };
 
   const pick = (action: () => void) => () => {
     picked.current = true;
@@ -74,103 +81,105 @@ export function ProfileEditMenu({
     action();
   };
 
+  const menuContent = (
+    <div className="flex flex-col gap-2.5 p-3">
+      <Group title={messages.groups.profile}>
+        <button type="button" onClick={pick(onEditInfo)} className={ITEM_CLASS}>
+          <UserPen aria-hidden />
+          <Label text={messages.info} hint={messages.infoHint} />
+        </button>
+
+        <button
+          type="button"
+          onClick={pick(onEditPhoto)}
+          disabled={photoBusy}
+          className={ITEM_CLASS}
+        >
+          <Camera aria-hidden />
+          <Label text={photoBusy ? messages.sending : messages.photo} hint={messages.photoHint} />
+        </button>
+
+        <button
+          type="button"
+          onClick={pick(onEditCover)}
+          disabled={coverBusy}
+          className={ITEM_CLASS}
+        >
+          <ImageIcon aria-hidden />
+          <Label text={coverBusy ? messages.sending : messages.cover} hint={messages.coverHint} />
+        </button>
+
+        <button type="button" onClick={pick(onEditStatus)} className={ITEM_CLASS}>
+          <MessageSquareText aria-hidden />
+          <Label text={messages.status} hint={messages.statusHint} />
+        </button>
+      </Group>
+
+      <Group title={messages.groups.career}>
+        {professional && (
+          <AppLink href={professional.href} onClick={() => setOpen(false)} className={ITEM_CLASS}>
+            <IdCard aria-hidden />
+            <Label
+              text={professional.setup ? messages.professionalSetup : messages.professional}
+              hint={messages.professionalHint}
+            />
+          </AppLink>
+        )}
+
+        <button type="button" onClick={pick(onEditResume)} className={ITEM_CLASS}>
+          <FileText aria-hidden />
+          <Label text={messages.resume} hint={messages.resumeHint} />
+        </button>
+      </Group>
+
+      <Group title={messages.groups.look}>
+        <button type="button" onClick={pick(onEditLook)} className={ITEM_CLASS}>
+          <Sparkles aria-hidden />
+          <Label text={messages.look} hint={messages.lookHint} />
+        </button>
+
+        <button type="button" onClick={pick(onEditBioHtml)} className={ITEM_CLASS}>
+          <Code2 aria-hidden />
+          <Label text={messages.bioHtml} hint={messages.bioHtmlHint} />
+        </button>
+
+        <button type="button" onClick={pick(onEditAppearance)} className={ITEM_CLASS}>
+          <Palette aria-hidden />
+          <Label text={messages.appearance} hint={messages.appearanceHint} />
+        </button>
+      </Group>
+    </div>
+  );
+
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-1.5 rounded-full">
-          <Settings className="h-4 w-4" aria-hidden />
-          {messages.trigger}
-        </Button>
-      </SheetTrigger>
+    <>
+      <Button variant="outline" size="sm" className="gap-1.5 rounded-full" onClick={handleOpen}>
+        <Settings className="h-4 w-4" aria-hidden />
+        {messages.trigger}
+      </Button>
 
-      <SheetContent
-        side="bottom"
-        onCloseAutoFocus={(event) => {
-          if (picked.current) event.preventDefault();
-          picked.current = false;
-        }}
-        className="mx-auto max-h-[85dvh] w-full max-w-md overflow-y-auto overscroll-contain rounded-t-[1.75rem] border-x-0 border-b-0 p-0"
-      >
-        <SheetTitle className="sr-only">{messages.trigger}</SheetTitle>
-
-        <div className="flex flex-col gap-2.5 p-3">
-          <Group title={messages.groups.profile}>
-            <button type="button" onClick={pick(onEditInfo)} className={ITEM_CLASS}>
-              <UserPen aria-hidden />
-              <Label text={messages.info} hint={messages.infoHint} />
-            </button>
-
-            <button
-              type="button"
-              onClick={pick(onEditPhoto)}
-              disabled={photoBusy}
-              className={ITEM_CLASS}
-            >
-              <Camera aria-hidden />
-              <Label
-                text={photoBusy ? messages.sending : messages.photo}
-                hint={messages.photoHint}
-              />
-            </button>
-
-            <button
-              type="button"
-              onClick={pick(onEditCover)}
-              disabled={coverBusy}
-              className={ITEM_CLASS}
-            >
-              <ImageIcon aria-hidden />
-              <Label
-                text={coverBusy ? messages.sending : messages.cover}
-                hint={messages.coverHint}
-              />
-            </button>
-
-            <button type="button" onClick={pick(onEditStatus)} className={ITEM_CLASS}>
-              <MessageSquareText aria-hidden />
-              <Label text={messages.status} hint={messages.statusHint} />
-            </button>
-          </Group>
-
-          <Group title={messages.groups.career}>
-            {professional && (
-              <AppLink
-                href={professional.href}
-                onClick={() => setOpen(false)}
-                className={ITEM_CLASS}
-              >
-                <IdCard aria-hidden />
-                <Label
-                  text={professional.setup ? messages.professionalSetup : messages.professional}
-                  hint={messages.professionalHint}
-                />
-              </AppLink>
-            )}
-
-            <button type="button" onClick={pick(onEditResume)} className={ITEM_CLASS}>
-              <FileText aria-hidden />
-              <Label text={messages.resume} hint={messages.resumeHint} />
-            </button>
-          </Group>
-
-          <Group title={messages.groups.look}>
-            <button type="button" onClick={pick(onEditLook)} className={ITEM_CLASS}>
-              <Sparkles aria-hidden />
-              <Label text={messages.look} hint={messages.lookHint} />
-            </button>
-
-            <button type="button" onClick={pick(onEditBioHtml)} className={ITEM_CLASS}>
-              <Code2 aria-hidden />
-              <Label text={messages.bioHtml} hint={messages.bioHtmlHint} />
-            </button>
-
-            <button type="button" onClick={pick(onEditAppearance)} className={ITEM_CLASS}>
-              <Palette aria-hidden />
-              <Label text={messages.appearance} hint={messages.appearanceHint} />
-            </button>
-          </Group>
-        </div>
-      </SheetContent>
-    </Sheet>
+      {mobile ? (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetContent
+            side="bottom"
+            onCloseAutoFocus={(event) => {
+              if (picked.current) event.preventDefault();
+              picked.current = false;
+            }}
+            className="mx-auto max-h-[85dvh] w-full max-w-md overflow-y-auto overscroll-contain rounded-t-[1.75rem] border-x-0 border-b-0 p-0"
+          >
+            <SheetTitle className="sr-only">{messages.trigger}</SheetTitle>
+            {menuContent}
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="max-w-md p-0">
+            <DialogTitle className="sr-only">{messages.trigger}</DialogTitle>
+            {menuContent}
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 }
