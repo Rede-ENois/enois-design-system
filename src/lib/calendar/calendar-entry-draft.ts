@@ -76,6 +76,7 @@ export function draftToValues(draft: CalendarEntryFormDraft): CalendarEntryFormV
     endsAt,
     timeZoneId: draft.timeZoneId,
     allDay: draft.allDay,
+    recurrence: draft.recurrence,
   };
 }
 

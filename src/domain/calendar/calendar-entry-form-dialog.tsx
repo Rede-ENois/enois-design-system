@@ -15,6 +15,7 @@ import type { CalendarEntryFormBodyProps } from "../../types/domain/calendar/cal
 import type { CalendarEntryFormDraft } from "../../types/domain/calendar/calendar-entry-form-draft.js";
 import type { CalendarEntryFormProps } from "../../types/domain/calendar/calendar-entry-form-props.js";
 import type { CalendarEntryKind } from "../../types/domain/calendar/calendar-entry-kind.js";
+import type { CalendarRecurrence } from "../../types/domain/calendar/calendar-recurrence.js";
 import type { CalendarScope } from "../../types/domain/calendar/calendar-scope.js";
 import { Button } from "../../ui/button.js";
 import { DateTextInput } from "../../ui/date-text-input.js";
@@ -23,6 +24,7 @@ import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
 import { PillRow } from "../../ui/pill-row.js";
 import { Pill } from "../../ui/pill.js";
+import { Select } from "../../ui/select.js";
 import { Switch } from "../../ui/switch.js";
 import { Textarea } from "../../ui/textarea.js";
 import { TimeTextInput } from "../../ui/time-text-input.js";
@@ -37,6 +39,8 @@ const KINDS: CalendarEntryKind[] = [
   "WORKSHOP",
 ];
 const SCOPES: CalendarScope[] = ["SOCIAL", "PROFESSIONAL"];
+/** Cadences the form offers, in the order the select shows them. `NONE` leads: it is the default. */
+const RECURRENCES: CalendarRecurrence[] = ["NONE", "WEEKLY", "BIWEEKLY", "MONTHLY"];
 /** Last minute of the day, used when the end hour would wrap to 00:00 and read as before the start. */
 const LAST_MINUTE = "23:59";
 
@@ -63,6 +67,7 @@ function draftOf(
       endTime: wallClockOf(entry.endsAt, entry.timeZoneId).time,
       allDay: entry.allDay,
       timeZoneId: entry.timeZoneId,
+      recurrence: entry.recurrence ?? "NONE",
     };
   }
 
@@ -94,6 +99,7 @@ function draftOf(
     endTime: end.day === start.day ? end.time : LAST_MINUTE,
     allDay: false,
     timeZoneId,
+    recurrence: "NONE",
   };
 }
 
@@ -303,6 +309,34 @@ function FormBody({
           required
         />
       </div>
+
+      {/*
+        A series belongs to the module that owns the fact: an entry born from an event, a mentoring
+        session or an interview gets its cadence from there, and the server refuses to start one.
+        Hiding the field is the honest surface — offering a choice that always fails is worse.
+      */}
+      {entry?.sourceType ? null : (
+        <div className="flex min-w-0 flex-col gap-1.5">
+          <Label htmlFor={id("recurrence")}>{form.recurrenceLabel}</Label>
+
+          <Select
+            id={id("recurrence")}
+            value={draft.recurrence}
+            onChange={(event) => update("recurrence", event.target.value as CalendarRecurrence)}
+            aria-describedby={id("recurrence-hint")}
+          >
+            {RECURRENCES.map((recurrence) => (
+              <option key={recurrence} value={recurrence}>
+                {form.recurrences[recurrence]}
+              </option>
+            ))}
+          </Select>
+
+          <p id={id("recurrence-hint")} className="text-xs leading-snug text-text-subtle">
+            {form.recurrenceHint}
+          </p>
+        </div>
+      )}
 
       <div className="flex items-center justify-between gap-3">
         <Label htmlFor={id("allDay")} className="flex min-w-0 flex-col gap-0.5">

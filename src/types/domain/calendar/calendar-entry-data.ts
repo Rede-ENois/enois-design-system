@@ -1,4 +1,5 @@
 import type { CalendarEntryKind } from "./calendar-entry-kind.js";
+import type { CalendarRecurrence } from "./calendar-recurrence.js";
 import type { CalendarScope } from "./calendar-scope.js";
 
 /**
@@ -19,4 +20,11 @@ export type CalendarEntryData = {
   timeZoneId: string;
   allDay: boolean;
   cancelledAt: string | null;
+  /** Origin when another module owns the entry; absent on entries typed in the calendar. */
+  sourceType?: string | null;
+  /**
+   * Cadence of the series this entry belongs to. Absent on older payloads, which is the same as a
+   * one-off entry; `null` and `"NONE"` mean that too.
+   */
+  recurrence?: CalendarRecurrence | null;
 };

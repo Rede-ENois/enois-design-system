@@ -51,6 +51,16 @@ const field = (suffix: "title" | "description" | "day" | "allDay" | "start" | "e
 
 const switchField = () => document.body.querySelector('[id$="-allDay"]') as HTMLButtonElement;
 
+const recurrenceField = () =>
+  document.body.querySelector('[id$="-recurrence"]') as HTMLSelectElement | null;
+
+const choose = (element: HTMLSelectElement, value: string) =>
+  act(() => {
+    const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+    setter?.call(element, value);
+    element.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+
 const type = (element: HTMLInputElement | HTMLTextAreaElement, text: string) => {
   act(() => {
     const setter = Object.getOwnPropertyDescriptor(
@@ -395,6 +405,46 @@ describe("CalendarEntryFormDialog", () => {
     type(field("day"), "10/11/2026");
 
     expect(statuses()).toHaveLength(1);
+  });
+
+  it("opens a new entry as a one-off and reports the chosen cadence", () => {
+    openDialog({ defaultDay: "2026-11-10" });
+
+    const select = recurrenceField();
+    expect(select?.value).toBe("NONE");
+
+    choose(select as HTMLSelectElement, "WEEKLY");
+    type(field("title"), "Reunião semanal");
+    type(field("day"), "10/11/2026");
+    type(field("start"), "12:00");
+    type(field("end"), "13:00");
+    submit();
+
+    expect(saved).toHaveLength(1);
+    expect(saved[0].recurrence).toBe("WEEKLY");
+  });
+
+  it("keeps the daily cadence out of the options", () => {
+    openDialog({ defaultDay: "2026-11-10" });
+
+    const values = [...(recurrenceField() as HTMLSelectElement).options].map(
+      (option) => option.value,
+    );
+    expect(values).toEqual(["NONE", "WEEKLY", "BIWEEKLY", "MONTHLY"]);
+  });
+
+  it("shows the cadence of an entry already in a series", () => {
+    openDialog({ entry: item({ recurrence: "MONTHLY" }).entry, defaultDay: "2026-11-10" });
+
+    expect((recurrenceField() as HTMLSelectElement).value).toBe("MONTHLY");
+  });
+
+  it("hides the cadence for an entry another module owns", () => {
+    // Starting a series is refused with 409 for a sourced entry: the module that owns the fact is
+    // the one that repeats it. Offering the choice here would be a button that always fails.
+    openDialog({ entry: item({ sourceType: "MENTORING" }).entry, defaultDay: "2026-11-10" });
+
+    expect(recurrenceField()).toBeNull();
   });
 
   it("does not warn before the draft has a usable interval", () => {
