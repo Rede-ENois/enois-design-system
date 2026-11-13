@@ -117,11 +117,7 @@ export function ProfileEditMenu({
 
       <Group title={messages.groups.career}>
         {professional && (
-          <AppLink
-            href={professional.href}
-            onClick={() => setOpen(false)}
-            className={ITEM_CLASS}
-          >
+          <AppLink href={professional.href} onClick={() => setOpen(false)} className={ITEM_CLASS}>
             <IdCard aria-hidden />
             <Label
               text={professional.setup ? messages.professionalSetup : messages.professional}
