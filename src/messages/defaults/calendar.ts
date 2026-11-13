@@ -67,6 +67,10 @@ export const calendarMessages: CalendarMessages = {
           : `${minutes} min antes`,
       saving: "Salvando...",
     },
+    slotPicker: {
+      title: "Escolher horário",
+      slot: (day, time) => `${day} às ${time}`,
+    },
     detail: {
       back: "Voltar à agenda",
       edit: "Editar",
