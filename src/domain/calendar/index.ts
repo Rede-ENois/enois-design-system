@@ -10,6 +10,7 @@ export { CalendarInterviewDialog } from "./calendar-interview-dialog.js";
 export { CalendarListView } from "./calendar-list-view.js";
 export { CalendarMonthView } from "./calendar-month-view.js";
 export { CalendarReminderSelector } from "./calendar-reminder-selector.js";
+export { CalendarSlotPicker } from "./calendar-slot-picker.js";
 export { CalendarPendingInvitations } from "./calendar-pending-invitations.js";
 export { CalendarSubscriptionCard } from "./calendar-subscription-card.js";
 export { CalendarViewSwitcher } from "./calendar-view-switcher.js";
