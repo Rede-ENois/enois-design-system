@@ -6,6 +6,8 @@ export { profileBadges } from "./profile-badges.js";
 export { ProfileBioDialog } from "./profile-bio-dialog.js";
 export { ProfileEditMenu } from "./profile-edit-menu.js";
 export { ProfileCityPrivacy } from "./profile-city-privacy.js";
+export { ProfileContentTabs } from "./profile-content-tabs.js";
+export { ProfileReplyCard } from "./profile-reply-card.js";
 export { ProfileCommunityShelf } from "./profile-community-shelf.js";
 export { ProfileExperiencesSection } from "./profile-experiences-section.js";
 export { ProfileExplorePanel } from "./profile-explore-panel.js";
@@ -39,6 +41,9 @@ export type { ProfileBannerDialogProps } from "../../types/domain/profile/profil
 export type { ProfileBioDialogProps } from "../../types/domain/profile/profile-bio-dialog-props.js";
 export type { ProfileEditMenuProps } from "../../types/domain/profile/profile-edit-menu-props.js";
 export type { ProfileCityPrivacyProps } from "../../types/domain/profile/profile-city-privacy-props.js";
+export type { ProfileContentTab } from "../../types/domain/profile/profile-content-tab.js";
+export type { ProfileContentTabsProps } from "../../types/domain/profile/profile-content-tabs-props.js";
+export type { ProfileReplyCardProps } from "../../types/domain/profile/profile-reply-card-props.js";
 export type { ProfileCommunityItem } from "../../types/domain/profile/profile-community-item.js";
 export type { ProfileCommunityShelfProps } from "../../types/domain/profile/profile-community-shelf-props.js";
 export type { ProfileExperienceItem } from "../../types/domain/profile/profile-experience-item.js";

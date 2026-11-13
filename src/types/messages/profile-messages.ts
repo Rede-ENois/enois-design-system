@@ -312,6 +312,18 @@ export type ProfileMessages = {
     loadingEvidence: string;
     evidenceError: string;
   };
+  profileContentTabs: {
+    all: string;
+    posts: string;
+    replies: string;
+    reposts: string;
+    media: string;
+    /** Tooltip shown on the locked REPLIES tab for non-owners. */
+    repliesLocked: string;
+  };
+  profileReplyCard: {
+    replyTo: (authorName: string) => string;
+  };
   githubImportDialog: {
     title: string;
     description: string;

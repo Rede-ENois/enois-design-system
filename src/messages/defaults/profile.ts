@@ -342,6 +342,17 @@ export const profileMessages: ProfileMessages = {
     loadingEvidence: "Carregando evidências...",
     evidenceError: "Não foi possível carregar as evidências.",
   },
+  profileContentTabs: {
+    all: "Todos",
+    posts: "Posts",
+    replies: "Respostas",
+    reposts: "Reposts",
+    media: "Mídia",
+    repliesLocked: "Respostas são visíveis apenas para o dono do perfil.",
+  },
+  profileReplyCard: {
+    replyTo: (authorName) => `Em resposta a ${authorName}`,
+  },
   githubImportDialog: {
     title: "Importar do GitHub",
     description:
