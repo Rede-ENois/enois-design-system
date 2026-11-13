@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 
 import { Pencil, Plus, Trash2 } from "lucide-react";
 
+import { TOUCH_TARGET_32 } from "../../lib/touch-target.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { BadgeKit } from "../../types/domain/badges/badge-kit.js";
 import type { EditProfileDialogProps } from "../../types/domain/profile/edit-profile-dialog-props.js";
@@ -661,7 +662,7 @@ function SubList({
                       onClick={() => startEdit(item)}
                       aria-label={messages.edit}
                       title={messages.edit}
-                      className="grid h-8 w-8 place-items-center rounded-lg hover:bg-surface-2"
+                      className={`grid h-8 w-8 place-items-center rounded-lg hover:bg-surface-2 ${TOUCH_TARGET_32}`}
                     >
                       <Pencil className="h-4 w-4 text-text-subtle" />
                     </button>
@@ -670,7 +671,7 @@ function SubList({
                       onClick={() => onDelete(item.id)}
                       aria-label={messages.remove}
                       title={messages.remove}
-                      className="grid h-8 w-8 place-items-center rounded-lg hover:bg-surface-2 hover:text-destructive"
+                      className={`grid h-8 w-8 place-items-center rounded-lg hover:bg-surface-2 hover:text-destructive ${TOUCH_TARGET_32}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>

@@ -245,7 +245,7 @@ export function GameDetail({
 
             {achievement && (
               <>
-                <p className="whitespace-pre-line rounded-xl bg-surface-2 p-3 text-sm text-text-strong">
+                <p className="whitespace-pre-line break-words rounded-xl bg-surface-2 p-3 text-sm text-text-strong">
                   {achievement.texto}
                 </p>
 
@@ -296,7 +296,7 @@ export function GameDetail({
         <section className="surface-card space-y-3 p-4 sm:p-5">
           <h2 className="text-base font-medium">{t.about}</h2>
 
-          <p className="whitespace-pre-line text-sm font-normal text-muted-foreground">
+          <p className="whitespace-pre-line break-words text-sm font-normal text-muted-foreground">
             {g.description}
           </p>
 
@@ -377,7 +377,7 @@ export function GameDetail({
                   <p className="text-xs text-text-subtle">{update.dateLabel}</p>
 
                   {update.body && (
-                    <p className="mt-1 whitespace-pre-line text-sm font-normal text-muted-foreground">
+                    <p className="mt-1 whitespace-pre-line break-words text-sm font-normal text-muted-foreground">
                       {update.body}
                     </p>
                   )}

@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 
+import { TOUCH_TARGET_32 } from "../../lib/touch-target.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ConversationHeaderProps } from "../../types/domain/messages/conversation-header-props.js";
 import { AppLink } from "../../ui/app-link.js";
@@ -30,7 +31,7 @@ export function ConversationHeader({
             onClick={onBack}
             aria-label={messages.back}
             title={messages.back}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full hover:bg-muted md:hidden"
+            className={`grid h-8 w-8 shrink-0 place-items-center rounded-full hover:bg-muted md:hidden ${TOUCH_TARGET_32}`}
           >
             <ArrowLeft className="h-4 w-4" />
           </button>

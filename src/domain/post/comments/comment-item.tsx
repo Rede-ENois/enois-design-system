@@ -4,6 +4,7 @@ import { CircleCheck, Flag, Heart, MessageCircle, Pencil, Pin, PinOff, Trash2 } 
 
 import { useAdapters } from "../../../adapters/adapters-context.js";
 import { hideExternalPageUrls } from "../../../lib/shared-links.js";
+import { TOUCH_TARGET_28 } from "../../../lib/touch-target.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import type { CommentItemProps } from "../../../types/domain/post/comment-item-props.js";
 import { AppLink } from "../../../ui/app-link.js";
@@ -244,7 +245,7 @@ export function CommentItem<T extends string>({
             emojis={emojis}
             activeType={reaction}
             onReact={onReact}
-            buttonClassName={`flex h-7 items-center gap-1 rounded-full px-1.5 transition-colors hover:bg-surface-2 hover:text-primary ${
+            buttonClassName={`flex h-7 items-center gap-1 rounded-full px-1.5 transition-colors hover:bg-surface-2 hover:text-primary ${TOUCH_TARGET_28} ${
               reaction ? "text-primary" : ""
             }`}
             buttonTitle={messages.react}
@@ -264,7 +265,7 @@ export function CommentItem<T extends string>({
                 title={messages.seeWho(reactionTotal)}
                 aria-label={messages.seeWho(reactionTotal)}
                 aria-haspopup="dialog"
-                className="flex h-7 items-center rounded-full px-1 text-xs tabular-nums transition-colors hover:bg-surface-2 hover:text-primary hover:underline hover:decoration-dotted hover:underline-offset-4"
+                className={`flex h-7 items-center rounded-full px-1 text-xs tabular-nums transition-colors hover:bg-surface-2 hover:text-primary hover:underline hover:decoration-dotted hover:underline-offset-4 ${TOUCH_TARGET_28}`}
               >
                 {reactionTotal}
               </button>
@@ -276,7 +277,7 @@ export function CommentItem<T extends string>({
             onClick={onReply}
             title={messages.reply}
             aria-label={messages.reply}
-            className="grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary"
+            className={`grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary ${TOUCH_TARGET_28}`}
           >
             <MessageCircle className="h-3.5 w-3.5" />
           </button>
@@ -287,7 +288,7 @@ export function CommentItem<T extends string>({
               disabled={pinning}
               title={comment.pinned ? messages.unpin : messages.pin}
               aria-label={comment.pinned ? messages.unpin : messages.pin}
-              className={`grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-50 ${
+              className={`grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-50 ${TOUCH_TARGET_28} ${
                 comment.pinned ? "text-primary" : ""
               }`}
             >
@@ -305,7 +306,7 @@ export function CommentItem<T extends string>({
               onClick={comment.accepted ? onUnaccept : onAccept}
               disabled={acceptPending}
               aria-busy={acceptPending || undefined}
-              className={`flex h-7 items-center gap-1 rounded-full px-2 text-xs transition-colors hover:bg-surface-2 disabled:opacity-50 ${
+              className={`flex h-7 items-center gap-1 rounded-full px-2 text-xs transition-colors hover:bg-surface-2 disabled:opacity-50 ${TOUCH_TARGET_28} ${
                 comment.accepted ? "hover:text-text-strong" : "hover:text-growth"
               }`}
             >
@@ -322,7 +323,7 @@ export function CommentItem<T extends string>({
               }}
               title={messages.edit}
               aria-label={messages.edit}
-              className="grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary"
+              className={`grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary ${TOUCH_TARGET_28}`}
             >
               <Pencil className="h-3.5 w-3.5" />
             </button>
@@ -333,7 +334,7 @@ export function CommentItem<T extends string>({
               onClick={onDelete}
               title={messages.delete}
               aria-label={messages.delete}
-              className="grid h-7 w-7 place-items-center rounded-full text-destructive/70 transition-colors hover:bg-destructive/10 hover:text-destructive"
+              className={`grid h-7 w-7 place-items-center rounded-full text-destructive/70 transition-colors hover:bg-destructive/10 hover:text-destructive ${TOUCH_TARGET_28}`}
             >
               <Trash2 className="h-3.5 w-3.5" />
             </button>
@@ -344,7 +345,7 @@ export function CommentItem<T extends string>({
               onClick={onReport}
               title={messages.report}
               aria-label={messages.report}
-              className="grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary"
+              className={`grid h-7 w-7 place-items-center rounded-full transition-colors hover:bg-surface-2 hover:text-primary ${TOUCH_TARGET_28}`}
             >
               <Flag className="h-3.5 w-3.5" />
             </button>
