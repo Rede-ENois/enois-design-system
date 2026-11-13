@@ -27,7 +27,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: rm -rf node_modules && npm ci
       - run: npm run lint
       # eslint-suppressions.json freezes the lint debt that predates a rule and may only shrink: new
       # violations get fixed, not hidden with `eslint --suppress-all`.
@@ -65,7 +65,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: "@rede-enois"
 
-      - run: npm ci
+      - run: rm -rf node_modules && npm ci
 
       - name: Take the version from the tag
         run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version --allow-same-version
