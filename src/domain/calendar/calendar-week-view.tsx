@@ -51,8 +51,8 @@ export function CalendarWeekView({
               aria-label={messages.dayTitle(day)}
               className={cn(
                 "flex min-h-48 min-w-0 flex-col gap-2 rounded-xl border border-border-soft bg-card p-2",
-                isToday && "border-primary/40",
-                isSelected && "ring-2 ring-primary/40",
+                isToday && "border-primary/80",
+                isSelected && "ring-2 ring-primary/80",
               )}
             >
               {onSelectDay ? (
@@ -115,7 +115,7 @@ export function CalendarWeekView({
                           KIND_TONE[entry.kind].includes("primary")
                             ? "border-primary"
                             : "border-border",
-                          activeId === entry.id && "ring-2 ring-primary/40",
+                          activeId === entry.id && "ring-2 ring-primary/80",
                           cancelled && "opacity-70",
                         )}
                       >

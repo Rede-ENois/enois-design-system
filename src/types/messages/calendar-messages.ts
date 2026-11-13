@@ -64,6 +64,12 @@ export type CalendarMessages = {
       minutes: (minutes: number) => string;
       saving: string;
     };
+    /** Picking one of the mentor's published hours (mentoring booking). */
+    slotPicker: {
+      title: string;
+      /** `day` and `time` are already formatted in the reader's zone. */
+      slot: (day: string, time: string) => string;
+    };
     /** The detail page of one entry. */
     detail: {
       back: string;

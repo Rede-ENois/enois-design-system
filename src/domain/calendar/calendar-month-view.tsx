@@ -72,7 +72,7 @@ export function CalendarMonthView({
               className={cn(
                 "flex min-h-24 min-w-0 flex-col gap-1 bg-card p-1.5",
                 !cell.inMonth && "bg-surface-1 text-text-subtle",
-                isSelected && "ring-2 ring-inset ring-primary/50",
+                isSelected && "ring-2 ring-inset ring-primary/80",
               )}
             >
               {onSelectDay ? (

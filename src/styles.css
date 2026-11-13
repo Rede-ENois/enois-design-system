@@ -19,6 +19,7 @@
   --color-surface-2: var(--surface-2);
   --color-surface-3: var(--surface-3);
   --color-border-soft: var(--border-soft);
+  --color-border-strong: var(--border-strong);
   --color-text-strong: var(--text-strong);
   --color-text-subtle: var(--text-subtle);
   --color-text-date: var(--text-date);
@@ -103,7 +104,10 @@
   --muted-foreground: oklch(0.48 0.02 280);
   --accent: oklch(0.95 0.04 295);
   --accent-foreground: oklch(0.35 0.15 295);
-  --destructive: oklch(0.6 0.22 25);
+  /* Um só token serve aos dois papéis: preenchimento (com `--destructive-foreground`
+     por cima) e texto de erro sobre o próprio tinte `bg-destructive/10`. Em 0.6 o
+     texto ficava a 3,8:1 no tinte; 0.48 é o ponto em que ambos passam AA. */
+  --destructive: oklch(0.48 0.2 25);
   --destructive-foreground: oklch(0.99 0.005 290);
   --border: oklch(0.92 0.01 285);
   --input: oklch(0.92 0.01 285);
@@ -139,9 +143,11 @@
   --surface-2: #ede8f5;
   --surface-3: #f5f3ff;
   --border-soft: #e5e0eb;
+  /* Borda de controle ativo/estado: 3:1 contra as superfícies onde aparece (WCAG 1.4.11). */
+  --border-strong: #786a89;
   --text-strong: #1d1626;
   --text-subtle: #5b5068;
-  --text-date: #74697f;
+  --text-date: #6a5f75;
 
   /* Boteco: warm lamp light at the top of the page and the semantic signal colors. */
   --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.16), transparent 60%);
@@ -184,8 +190,11 @@
   --muted-foreground: oklch(0.7 0.02 280);
   --accent: oklch(0.28 0.06 295);
   --accent-foreground: oklch(0.92 0.04 295);
-  --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(0.96 0.008 280);
+  /* Escuro: o vermelho precisa ser CLARO para servir de texto de erro sobre o
+     cartão, e o texto por cima dele escuro. Em 0.65 o "foreground" claro dava
+     3,2:1 no preenchimento (toast de erro) e o vermelho 3,8:1 no tinte. */
+  --destructive: oklch(0.74 0.14 25);
+  --destructive-foreground: oklch(0.2 0.03 25);
   --border: oklch(0.3 0.02 285);
   --input: oklch(0.3 0.02 285);
   --ring: oklch(0.7 0.18 300);
@@ -209,9 +218,10 @@
   --surface-2: #2a2236;
   --surface-3: #241d30;
   --border-soft: #34293f;
+  --border-strong: #8f7fa1;
   --text-strong: #f3eef7;
   --text-subtle: #b9aec6;
-  --text-date: #94889f;
+  --text-date: #9c90a7;
   --placeholder-color: #8a7f96;
 
   --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.1), transparent 60%);
