@@ -10,6 +10,22 @@ import { ProfileResumeDialog } from "./profile-resume-dialog.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
+// jsdom nao tem matchMedia; mocka como mobile pra abrir Sheet nos testes.
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  configurable: true,
+  value: (query: string) => ({
+    matches: query.includes("max-width"),
+    media: query,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    onchange: null,
+    dispatchEvent: () => false,
+  }),
+});
+
 const container = document.createElement("div");
 document.body.append(container);
 const root = createRoot(container);
