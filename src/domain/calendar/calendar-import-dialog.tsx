@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { CalendarPlus, FileUp, Loader2 } from "lucide-react";
 
@@ -215,9 +215,22 @@ export function CalendarImportDialog({
 function ImportResult({ result }: { result: CalendarImportResultData }) {
   const messages = useMessages().calendar.importDialog;
   const entered = result.created + result.moved + result.cancelled;
+  const ref = useRef<HTMLDivElement>(null);
+
+  // O botão Importar desmonta quando o resultado aparece: sem mover o foco, ele cai no
+  // body e quem usa leitor de tela não fica sabendo o que entrou. O container recebe o
+  // foco e é `role="status"`, então o anúncio sai junto com a troca de tela.
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   return (
-    <div className="flex min-w-0 flex-col gap-2 rounded-xl bg-surface-2 p-3">
+    <div
+      ref={ref}
+      role="status"
+      tabIndex={-1}
+      className="flex min-w-0 flex-col gap-2 rounded-xl bg-surface-2 p-3 focus-visible:outline-none"
+    >
       <p className="text-sm font-medium text-text-strong">{messages.resultTitle}</p>
 
       {entered === 0 ? (

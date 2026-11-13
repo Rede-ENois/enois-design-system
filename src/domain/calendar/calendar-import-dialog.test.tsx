@@ -136,6 +136,20 @@ describe("diálogo de importação .ics", () => {
     expect(button(messages.done)).toBeTruthy();
   });
 
+  it("o resultado é anunciado e recebe o foco quando o botão Importar desmonta", async () => {
+    render({
+      file: ics(),
+      onImport: async () => ({ received: 12, created: 9, moved: 2, cancelled: 1, skipped: 0 }),
+    });
+
+    await act(async () => click(button(messages.import)));
+
+    const status = document.body.querySelector('[role="status"]');
+    expect(status).toBeTruthy();
+    expect(status?.textContent).toContain(messages.resultCreated(9));
+    expect(document.activeElement).toBe(status);
+  });
+
   it("arquivo sem evento utilizável diz que nada entrou", async () => {
     render({
       file: ics(),
