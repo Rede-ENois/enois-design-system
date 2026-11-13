@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { periodOfToday, periodTitle, stepPeriod } from "../../lib/calendar/calendar-period.js";
+import { TOUCH_TARGET_32 } from "../../lib/touch-target.js";
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { CalendarAgendaProps } from "../../types/domain/calendar/calendar-agenda-props.js";
@@ -84,7 +85,7 @@ export function CalendarAgenda({
             onClick={() => onPeriodChange(stepPeriod(view, period, -1))}
             aria-label={previous}
             title={previous}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${TOUCH_TARGET_32}`}
           >
             <ChevronLeft aria-hidden className="h-4 w-4" />
           </button>
@@ -105,7 +106,7 @@ export function CalendarAgenda({
             onClick={() => onPeriodChange(stepPeriod(view, period, 1))}
             aria-label={next}
             title={next}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${TOUCH_TARGET_32}`}
           >
             <ChevronRight aria-hidden className="h-4 w-4" />
           </button>
@@ -113,7 +114,7 @@ export function CalendarAgenda({
           <button
             type="button"
             onClick={() => onPeriodChange(periodOfToday(view, today))}
-            className="ml-1 h-8 shrink-0 rounded-full border border-border px-3 text-xs font-normal text-text-strong transition hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={`ml-1 h-8 shrink-0 rounded-full border border-border px-3 text-xs font-normal text-text-strong transition hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${TOUCH_TARGET_32}`}
           >
             {messages.today}
           </button>

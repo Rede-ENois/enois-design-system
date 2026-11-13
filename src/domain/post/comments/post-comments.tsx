@@ -10,6 +10,7 @@ import {
 
 import { EyeOff, Image, Loader2, Mic, Plus, Send, Square, X } from "lucide-react";
 
+import { TOUCH_TARGET_36 } from "../../../lib/touch-target.js";
 import { cn } from "../../../lib/utils.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import { isComposerError } from "../../../types/domain/post/comments-error.js";
@@ -290,6 +291,7 @@ export function PostComments<C extends PostCommentNode>({
             title={toolsShown ? messages.closeTools : messages.moreTools}
             className={cn(
               "col-start-1 grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-60 sm:row-start-1",
+              TOUCH_TARGET_36,
               isComposerError(error) ? "row-start-3" : "row-start-2",
               toolsShown && "bg-surface-2 text-primary",
             )}

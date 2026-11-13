@@ -89,6 +89,24 @@ const base: StudyPairsViewProps = {
 
 export const NoPair: StoryObj = { render: () => <StudyPairsView {...base} /> };
 
+/** Type two letters in the search: a long free-text topic gives way to the goal (issue #199). */
+export const SearchLongTopic: StoryObj = {
+  render: () => (
+    <StudyPairsView
+      {...base}
+      onSearchGoals={() =>
+        Promise.resolve([
+          {
+            goal: "Passar na certificação de arquitetura em nuvem",
+            topic: "computação em nuvem e infraestrutura como código",
+          },
+          { goal: "Aprender Rust", topic: "programming" },
+        ])
+      }
+    />
+  ),
+};
+
 export const Waiting: StoryObj = {
   render: () => (
     <StudyPairsView {...base} openRequest={{ goal: "Aprender Rust", topicLabel: "Programação" }} />

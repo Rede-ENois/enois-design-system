@@ -3,6 +3,7 @@ import { type ChangeEvent, type FormEvent, useEffect, useMemo, useRef, useState 
 import { Briefcase, EyeOff, ImageIcon, Send, X } from "lucide-react";
 
 import { insertSnippet } from "../../lib/rich-text/insert-snippet.js";
+import { TOUCH_TARGET_32 } from "../../lib/touch-target.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ConversationServiceOption } from "../../types/domain/messages/conversation-service-option.js";
 import type { ConversationThreadProps } from "../../types/domain/messages/conversation-thread-props.js";
@@ -355,7 +356,12 @@ export function ConversationThread({
                           >
                             <span className="min-w-0 flex-1 truncate">{listing.title}</span>
 
-                            <span className="shrink-0 text-text-subtle">{listing.category}</span>
+                            <span
+                              title={listing.category}
+                              className="max-w-[40%] shrink-0 truncate text-text-subtle"
+                            >
+                              {listing.category}
+                            </span>
                           </button>
                         </li>
                       ))}
@@ -400,7 +406,7 @@ export function ConversationThread({
                   <button
                     type="button"
                     onClick={() => mediaInputRef.current?.click()}
-                    className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground"
+                    className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground ${TOUCH_TARGET_32}`}
                     aria-label={messages.attachMedia}
                     title={messages.attachMedia}
                   >
@@ -410,7 +416,7 @@ export function ConversationThread({
                   <button
                     type="button"
                     onClick={() => onServicesOpenChange(!servicesOpen)}
-                    className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition hover:bg-muted hover:text-foreground ${
+                    className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition hover:bg-muted hover:text-foreground ${TOUCH_TARGET_32} ${
                       servicesOpen ? "bg-muted text-primary" : "text-text-subtle"
                     }`}
                     aria-label={messages.attachService}
@@ -423,7 +429,7 @@ export function ConversationThread({
                   <EmojiPicker
                     onPick={insertEmoji}
                     buttonTitle={messages.emoji}
-                    buttonClassName="grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground"
+                    buttonClassName={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground ${TOUCH_TARGET_32}`}
                   />
 
                   <button
@@ -431,7 +437,7 @@ export function ConversationThread({
                     aria-label={messages.send}
                     title={messages.send}
                     disabled={(!text.trim() && media.length === 0) || sendPending}
-                    className="ml-auto grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+                    className={`ml-auto grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-50 ${TOUCH_TARGET_32}`}
                   >
                     <Send className="h-4 w-4" />
                   </button>

@@ -65,7 +65,7 @@ export function GamesReviewSection({
                 </div>
 
                 {g.description && (
-                  <p className="whitespace-pre-line text-sm font-normal text-muted-foreground">
+                  <p className="whitespace-pre-line break-words text-sm font-normal text-muted-foreground">
                     {g.description}
                   </p>
                 )}

@@ -454,7 +454,9 @@ function GoalSearch({
                   <span className="min-w-0 truncate">{item.goal}</span>
 
                   {item.topic && (
-                    <span className="shrink-0 text-xs text-text-subtle">{item.topic}</span>
+                    <span title={item.topic} className="min-w-0 truncate text-xs text-text-subtle">
+                      {item.topic}
+                    </span>
                   )}
                 </button>
               </li>

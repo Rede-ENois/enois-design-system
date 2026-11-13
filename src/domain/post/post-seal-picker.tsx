@@ -48,7 +48,7 @@ export function PostSealPicker({
                 aria-label={label}
                 aria-pressed={mine}
                 className={cn(
-                  "flex flex-col items-center gap-1 rounded-lg border px-1 py-2 text-[10px] font-medium transition hover:border-primary/50",
+                  "flex min-w-0 flex-col items-center gap-1 rounded-lg border px-1 py-2 text-[10px] font-medium transition hover:border-primary/50",
                   mine
                     ? "border-primary bg-primary-soft text-primary"
                     : "border-border-soft text-text-subtle",
@@ -56,7 +56,7 @@ export function PostSealPicker({
               >
                 <seal.icon className="h-4 w-4" aria-hidden />
 
-                <span className="text-center leading-tight">{label}</span>
+                <span className="max-w-full break-words text-center leading-tight">{label}</span>
               </button>
             );
           })}

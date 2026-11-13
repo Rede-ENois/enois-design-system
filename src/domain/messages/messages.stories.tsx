@@ -98,6 +98,44 @@ export const Thread: StoryObj = {
   ),
 };
 
+/** Long title and long category in the service chooser: both stay on the row (issue #199). */
+export const ThreadAttachService: StoryObj = {
+  render: () => (
+    <div className="flex h-[600px] max-w-lg flex-col">
+      <ConversationThread
+        peer={peer}
+        profileHref="#"
+        loading={false}
+        empty
+        newestMessageId={null}
+        hasOlderMessages={false}
+        loadingOlder={false}
+        onLoadOlder={() => {}}
+        selecting={false}
+        selectedCount={0}
+        onStartSelecting={() => {}}
+        onCancelSelection={() => {}}
+        deletePending={false}
+        onDeleteSelected={() => {}}
+        sendPending={false}
+        onSend={() => Promise.resolve()}
+        servicesOpen
+        onServicesOpenChange={() => {}}
+        servicesLoading={false}
+        services={[
+          {
+            id: "s1",
+            title: "Consultoria de arquitetura de software para times pequenos",
+            category: "Desenvolvimento de software sob medida",
+          },
+          { id: "s2", title: "Logo", category: "Design" },
+        ]}
+        serviceHref={(id) => `/servicos#oferta-${id}`}
+      />
+    </div>
+  ),
+};
+
 export const ThreadWithE2eBanner: StoryObj = {
   render: () => (
     <div className="flex h-[400px] max-w-lg flex-col">

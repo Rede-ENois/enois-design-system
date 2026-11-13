@@ -104,7 +104,7 @@ function renderBlock(
           key={key}
           className="my-2 overflow-x-auto rounded-xl bg-surface-1 p-3 text-sm leading-relaxed"
         >
-          <code>{block.text}</code>
+          <code className="whitespace-pre-wrap break-words">{block.text}</code>
         </pre>
       );
 
