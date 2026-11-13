@@ -89,6 +89,16 @@ export type NetworkMessages = {
     historyLoading: string;
     historyEmpty: string;
     historyEntry: (actor: string, when: string) => string;
+    routesTitle: string;
+    routesPlaceholder: string;
+    routesHint: string;
+    routesEmpty: string;
+    requestRoute: string;
+    apiRequestsTitle: string;
+    apiRequestsLoading: string;
+    apiRequestsEmpty: string;
+    apiRequestEntry: (route: string, status: string, attempt: number) => string;
+    apiRequestDeadline: (when: string) => string;
   };
   networkDashboardStrip: {
     total: string;

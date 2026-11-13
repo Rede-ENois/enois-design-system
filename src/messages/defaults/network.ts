@@ -102,6 +102,17 @@ export const networkMessages: NetworkMessages = {
     historyLoading: "Carregando histórico…",
     historyEmpty: "Nenhuma ação registrada.",
     historyEntry: (actor, when) => `${actor} em ${when}`,
+    routesTitle: "Rotas que a rede oferece",
+    routesPlaceholder: "Escolha uma rota",
+    routesHint:
+      "O nó chama a rota pelo nome: o endereço vive só na configuração assinada que ele recebe. Pedir uma rota enfileira a chamada neste nó, e o resultado volta como evidência — status, tamanho e resumo —, nunca o corpo.",
+    routesEmpty: "Nenhuma rota declarada na rede. O nó não tem para onde chamar.",
+    requestRoute: "Pedir rota",
+    apiRequestsTitle: "Requisições em aberto",
+    apiRequestsLoading: "Carregando requisições…",
+    apiRequestsEmpty: "Nenhuma requisição em aberto.",
+    apiRequestEntry: (route, status, attempt) => `${route} · ${status} · tentativa ${attempt}`,
+    apiRequestDeadline: (when) => `Prazo: ${when}`,
   },
   networkDashboardStrip: {
     total: "Nós",

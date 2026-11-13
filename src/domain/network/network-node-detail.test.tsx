@@ -56,6 +56,14 @@ const history: NetworkNodeHistoryEntry[] = [
   },
 ];
 
+const API_REQUEST = {
+  taskId: "task_1",
+  route: "catalogo",
+  status: "PENDING",
+  attempt: 0,
+  deadlineLabel: "11 de nov., 14:30",
+};
+
 function render(props: Partial<Parameters<typeof NetworkNodeDetail>[0]> = {}) {
   return renderToStaticMarkup(
     <NetworkNodeDetail
@@ -63,6 +71,9 @@ function render(props: Partial<Parameters<typeof NetworkNodeDetail>[0]> = {}) {
       history={history}
       onSaveCapacity={() => {}}
       onSaveProfiles={() => {}}
+      routes={["catalogo", "acervo"]}
+      onRequestRoute={() => {}}
+      apiRequests={[]}
       onOpenChange={() => {}}
       {...props}
     />,
@@ -103,5 +114,35 @@ describe("NetworkNodeDetail", () => {
 
     expect(html).toContain("Nenhuma ação registrada");
     expect(html).not.toContain("NODE_CAPACITY_CHANGED");
+  });
+
+  it("oferece as rotas assinadas por nome — o seletor tem os nomes, e não campos de URL", () => {
+    const html = render();
+
+    expect(html).toContain('value="catalogo"');
+    expect(html).toContain('value="acervo"');
+    // Sem endereço de destino em lugar nenhum: o painel escolhe o nome, não a URL.
+    expect(html).not.toContain("https://");
+  });
+
+  it("sem rota declarada, diz que o nó não tem para onde chamar — e não mostra o seletor", () => {
+    const html = render({ routes: [] });
+
+    expect(html).toContain("Nenhuma rota declarada");
+    expect(html).not.toContain("Pedir rota");
+  });
+
+  it("mostra as requisições em aberto com rota, estado e tentativa", () => {
+    const html = render({ apiRequests: [API_REQUEST] });
+
+    expect(html).toContain("catalogo · PENDING · tentativa 0");
+    expect(html).toContain("11 de nov., 14:30");
+  });
+
+  it("sem requisição em aberto, diz isso em vez de mostrar lista vazia", () => {
+    const html = render({ apiRequests: [] });
+
+    expect(html).toContain("Nenhuma requisição em aberto");
+    expect(html).not.toContain("tentativa 0");
   });
 });

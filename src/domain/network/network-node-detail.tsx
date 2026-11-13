@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-import { Loader2 } from "lucide-react";
+import { Globe, Loader2 } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
+import type { NetworkNodeApiRequest } from "../../types/domain/network/network-node-api-request.js";
 import type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
 import type { NetworkNodeDetailProps } from "../../types/domain/network/network-node-detail-props.js";
 import { Button } from "../../ui/button.js";
 import { Pill } from "../../ui/pill.js";
+import { Select } from "../../ui/select.js";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "../../ui/sheet.js";
 
 /** Campos com o valor vigente: o admin edita o que está lá, não preenche de zero. Vazio = mantém. */
@@ -87,6 +89,101 @@ function NodeCapacityForm({
 }
 
 /**
+ * Requisição a API auxiliar: o admin escolhe a rota pelo nome e o pedido leva alvo (é este nó que
+ * executa). A lista é a que vai assinada para o nó, então toda opção daqui é executável — o que
+ * não está na assinatura não aparece, e não há campo de URL para digitar.
+ */
+function NodeApiRequestForm({
+  routes,
+  onRequestRoute,
+  routePending,
+  apiRequests,
+  apiRequestsLoading,
+}: {
+  routes: string[];
+  onRequestRoute: NetworkNodeDetailProps["onRequestRoute"];
+  routePending: boolean;
+  apiRequests: NetworkNodeApiRequest[];
+  apiRequestsLoading: boolean;
+}) {
+  const messages = useMessages().networkNodeDetail;
+  const [route, setRoute] = useState("");
+
+  if (routes.length === 0) {
+    return <p className="text-xs text-text-subtle">{messages.routesEmpty}</p>;
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-end gap-2">
+        <label className="flex-1 space-y-1 text-xs">
+          <span className="text-text-subtle">{messages.routesTitle}</span>
+
+          <Select value={route} onChange={(event) => setRoute(event.target.value)}>
+            <option value="">{messages.routesPlaceholder}</option>
+
+            {routes.map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </Select>
+        </label>
+
+        <Button
+          variant="outline"
+          className="rounded-full"
+          disabled={routePending || route === ""}
+          onClick={() => {
+            onRequestRoute(route);
+            setRoute("");
+          }}
+        >
+          {routePending && <Loader2 className="h-4 w-4 animate-spin" />}
+
+          {messages.requestRoute}
+        </Button>
+      </div>
+
+      <p className="flex gap-1.5 text-[11px] text-text-subtle">
+        <Globe className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+
+        {messages.routesHint}
+      </p>
+
+      <div className="space-y-2">
+        <p className="text-xs font-semibold text-text-strong">{messages.apiRequestsTitle}</p>
+
+        {apiRequestsLoading && (
+          <p className="text-xs text-text-subtle">{messages.apiRequestsLoading}</p>
+        )}
+
+        {!apiRequestsLoading && apiRequests.length === 0 && (
+          <p className="text-xs text-text-subtle">{messages.apiRequestsEmpty}</p>
+        )}
+
+        <ul className="space-y-2">
+          {apiRequests.map((request) => (
+            <li
+              key={request.taskId}
+              className="rounded-xl border border-border-soft px-3 py-2 text-xs"
+            >
+              <p className="font-mono font-semibold text-text-strong">
+                {messages.apiRequestEntry(request.route, request.status, request.attempt)}
+              </p>
+
+              <p className="text-text-subtle">
+                {messages.apiRequestDeadline(request.deadlineLabel)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/**
  * A página por nó, num painel lateral: o que o participante cedeu (a capacidade que esta tela
  * edita, com o valor vigente já nos campos), os perfis autorizados e o histórico administrativo
  * lido da trilha de auditoria. Toda ação daqui é auditada pelo backend — o histórico que a tela
@@ -100,6 +197,11 @@ export function NetworkNodeDetail({
   capacityPending = false,
   onSaveProfiles,
   profilesPending = false,
+  routes,
+  onRequestRoute,
+  routePending = false,
+  apiRequests,
+  apiRequestsLoading = false,
   onOpenChange,
 }: NetworkNodeDetailProps) {
   const messages = useMessages().networkNodeDetail;
@@ -178,6 +280,20 @@ export function NetworkNodeDetail({
 
                   {messages.saveProfiles}
                 </Button>
+              </section>
+
+              <section className="space-y-3">
+                <h3 className="text-xs font-semibold uppercase tracking-widest text-text-subtle">
+                  {messages.routesTitle}
+                </h3>
+
+                <NodeApiRequestForm
+                  routes={routes}
+                  onRequestRoute={onRequestRoute}
+                  routePending={routePending}
+                  apiRequests={apiRequests}
+                  apiRequestsLoading={apiRequestsLoading}
+                />
               </section>
 
               <section className="space-y-2">

@@ -8,6 +8,7 @@ export type { MyNetworkNodeData } from "../../types/domain/network/my-network-no
 export type { NetworkJoinDialogProps } from "../../types/domain/network/network-join-dialog-props.js";
 export type { MyNetworkNodesProps } from "../../types/domain/network/my-network-nodes-props.js";
 export type { NetworkNodeData } from "../../types/domain/network/network-node-data.js";
+export type { NetworkNodeApiRequest } from "../../types/domain/network/network-node-api-request.js";
 export type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
 export type { NetworkNodeHistoryEntry } from "../../types/domain/network/network-node-history-entry.js";
 export type { NetworkNodeDetailProps } from "../../types/domain/network/network-node-detail-props.js";

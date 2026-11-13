@@ -328,6 +328,11 @@ export function NetworkNodesSection({
           capacityPending={detail.capacityPending}
           onSaveProfiles={detail.onSaveProfiles}
           profilesPending={detail.profilesPending}
+          routes={detail.routes}
+          onRequestRoute={detail.onRequestRoute}
+          routePending={detail.routePending}
+          apiRequests={detail.apiRequests}
+          apiRequestsLoading={detail.apiRequestsLoading}
           onOpenChange={(open) => {
             if (!open) detail.onOpenNode(null);
           }}

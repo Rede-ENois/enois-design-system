@@ -87,6 +87,9 @@ describe("NetworkNodesSection", () => {
         history: [],
         onSaveCapacity: () => {},
         onSaveProfiles: () => {},
+        routes: ["catalogo"],
+        onRequestRoute: () => {},
+        apiRequests: [],
         onOpenNode: () => {},
       },
     });
