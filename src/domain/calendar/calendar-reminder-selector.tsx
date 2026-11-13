@@ -77,7 +77,7 @@ export function CalendarReminderSelector({
 
       {saving && <p className="text-xs text-text-subtle">{messages.saving}</p>}
       {error && !saving && (
-        <p role="alert" className="text-xs text-danger">
+        <p role="alert" className="text-xs text-destructive">
           {error}
         </p>
       )}
