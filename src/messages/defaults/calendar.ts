@@ -118,6 +118,15 @@ export const calendarMessages: CalendarMessages = {
         count === 1
           ? "Você já tem um compromisso neste horário."
           : `Você já tem ${count} compromissos neste horário.`,
+      recurrenceLabel: "Repetição",
+      recurrences: {
+        NONE: "Não repetir",
+        WEEKLY: "Toda semana",
+        BIWEEKLY: "A cada duas semanas",
+        MONTHLY: "Todo mês",
+      },
+      recurrenceHint:
+        "A repetição começa neste compromisso. Cada data pode ser editada ou cancelada sozinha, e encerrar a série mantém o que já aconteceu.",
       save: "Salvar",
       saving: "Salvando...",
       cancel: "Cancelar",

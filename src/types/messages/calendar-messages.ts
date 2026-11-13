@@ -1,5 +1,6 @@
 import type { CalendarEntryKind } from "../domain/calendar/calendar-entry-kind.js";
 import type { CalendarParticipation } from "../domain/calendar/calendar-participation.js";
+import type { CalendarRecurrence } from "../domain/calendar/calendar-recurrence.js";
 import type { CalendarScope } from "../domain/calendar/calendar-scope.js";
 import type { CalendarView } from "../domain/calendar/calendar-view.js";
 
@@ -120,6 +121,11 @@ export type CalendarMessages = {
       durationTooLong: string;
       /** `count` is how many entries the typed interval already touches (D23). */
       conflictWarning: (count: number) => string;
+      recurrenceLabel: string;
+      /** Names of the cadences, in the order the form offers them (`NONE` first). */
+      recurrences: Record<CalendarRecurrence, string>;
+      /** Says the series is created from this entry and that the past stays. */
+      recurrenceHint: string;
       save: string;
       saving: string;
       cancel: string;

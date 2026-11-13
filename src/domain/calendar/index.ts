@@ -55,6 +55,7 @@ export type { CalendarMonthViewProps } from "../../types/domain/calendar/calenda
 export type { CalendarParticipation } from "../../types/domain/calendar/calendar-participation.js";
 export type { CalendarReminderMinutes } from "../../types/domain/calendar/calendar-reminder-minutes.js";
 export type { CalendarReminderSelectorProps } from "../../types/domain/calendar/calendar-reminder-selector-props.js";
+export type { CalendarRecurrence } from "../../types/domain/calendar/calendar-recurrence.js";
 export type { CalendarPendingInvitationData } from "../../types/domain/calendar/calendar-pending-invitation-data.js";
 export type { CalendarPendingInvitationsProps } from "../../types/domain/calendar/calendar-pending-invitations-props.js";
 export type { CalendarScope } from "../../types/domain/calendar/calendar-scope.js";

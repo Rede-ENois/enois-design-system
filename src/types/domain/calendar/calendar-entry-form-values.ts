@@ -1,4 +1,5 @@
 import type { CalendarEntryKind } from "./calendar-entry-kind.js";
+import type { CalendarRecurrence } from "./calendar-recurrence.js";
 import type { CalendarScope } from "./calendar-scope.js";
 
 /**
@@ -17,4 +18,9 @@ export type CalendarEntryFormValues = {
   /** IANA id the day and the clocks were read in. */
   timeZoneId: string;
   allDay: boolean;
+  /**
+   * Cadence chosen in the form. It is not part of the entry payload: the app starts the series
+   * after the create/update succeeds, with the id the server returned.
+   */
+  recurrence: CalendarRecurrence;
 };

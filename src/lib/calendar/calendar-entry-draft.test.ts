@@ -14,6 +14,7 @@ const BASE: CalendarEntryFormDraft = {
   endTime: "13:30",
   allDay: false,
   timeZoneId: "America/Sao_Paulo",
+  recurrence: "NONE",
 };
 
 const draft = (patch: Partial<CalendarEntryFormDraft> = {}): CalendarEntryFormDraft => ({
@@ -83,6 +84,7 @@ describe("draftToValues", () => {
       endsAt: "2026-11-08T16:30:00.000Z",
       timeZoneId: "America/Sao_Paulo",
       allDay: false,
+      recurrence: "NONE",
     });
   });
 
