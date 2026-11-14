@@ -8,9 +8,17 @@ import { Signal } from "../../ui/signal.js";
 import { NotificationsPanel } from "./notifications-panel.js";
 
 /** The bell: its count pill and the notices panel in a popover. */
-export function NotificationsPopover({ open, onOpenChange, ...panel }: NotificationsPopoverProps) {
+export function NotificationsPopover({
+  open,
+  onOpenChange,
+  unreadCount,
+  ...panel
+}: NotificationsPopoverProps) {
   const messages = useMessages().notificationsPopover;
-  const unreadCount = panel.notifications.filter((notification) => !notification.read).length;
+  // Without the server total, the rows in hand are counted (the old behavior); with it, the count
+  // covers every unread notice, not only the ones on the loaded page.
+  const counted =
+    unreadCount ?? panel.notifications.filter((notification) => !notification.read).length;
   const close = () => onOpenChange(false);
 
   return (
@@ -18,12 +26,12 @@ export function NotificationsPopover({ open, onOpenChange, ...panel }: Notificat
       <PopoverTrigger asChild>
         <button
           className="relative grid h-11 w-11 place-items-center rounded-full text-text-strong transition hover:bg-surface-2"
-          aria-label={unreadCount > 0 ? messages.unreadLabel(unreadCount) : messages.title}
+          aria-label={counted > 0 ? messages.unreadLabel(counted) : messages.title}
         >
           <Bell aria-hidden className="h-[22px] w-[22px]" />
-          {unreadCount > 0 && (
+          {counted > 0 && (
             <Signal
-              signal={{ kind: "count", count: unreadCount }}
+              signal={{ kind: "count", count: counted }}
               onIcon
               className="absolute -right-0.5 top-0.5"
             />
