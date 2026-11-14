@@ -55,6 +55,16 @@ afterEach(() => {
 });
 
 describe("Transparência da penalidade", () => {
+  it("define o token legível dos botões de consulta sem depender da cor herdada do shell", () => {
+    render({ error: true });
+    for (const token of ["text-text-strong", "hover:text-text-strong"]) {
+      expect(button("Tentar novamente").classList.contains(token)).toBe(true);
+    }
+    render();
+    for (const token of ["text-text-strong", "hover:text-text-strong"]) {
+      expect(button("Verificar situação no servidor").classList.contains(token)).toBe(true);
+    }
+  });
   it("distingue carregamento e erro de consulta, com nova tentativa", () => {
     render({ loading: true });
     expect(host.querySelector('[role="status"]')?.textContent).toContain("Carregando penalidades");
@@ -243,6 +253,18 @@ describe("Transparência da penalidade", () => {
           ...sanction,
           type: "BAN",
           status: "REMOVED",
+          deadline: { kind: "APPEAL", at: "2026-11-14T11:00:00Z" },
+        },
+      ],
+    });
+    expect(host.querySelector("form")).not.toBeNull();
+    expect(text()).not.toContain("Prazo para recorrer");
+    render({
+      sanctions: [
+        {
+          ...sanction,
+          type: "BAN",
+          status: "ACTIVE",
           deadline: { kind: "APPEAL", at: "2026-11-14T11:00:00Z" },
         },
       ],

@@ -43,7 +43,12 @@ export function SanctionsView(props: SanctionsViewProps) {
             {messages.loadError}
           </p>
 
-          <Button variant="outline" onClick={onRetry} disabled={refreshing}>
+          <Button
+            variant="outline"
+            className="text-text-strong hover:text-text-strong"
+            onClick={onRetry}
+            disabled={refreshing}
+          >
             {messages.retry}
           </Button>
         </div>
@@ -118,7 +123,12 @@ export function SanctionsView(props: SanctionsViewProps) {
             })}
           </ul>
 
-          <Button variant="outline" onClick={onRetry} disabled={refreshing}>
+          <Button
+            variant="outline"
+            className="text-text-strong hover:text-text-strong"
+            onClick={onRetry}
+            disabled={refreshing}
+          >
             {refreshing ? messages.refreshing : messages.refresh}
           </Button>
         </>

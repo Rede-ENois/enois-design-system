@@ -4,6 +4,8 @@ Implementação da issue #231, sem alteração de política de moderação. `San
 controlada, exportada por `@rede-enois/design-system/domain`, para `mode="history"` e
 `mode="suspended"`. Não consulta APIs, importa DTOs, lê stores, define rotas nem autentica a pessoa.
 Os dois modos preservam os mesmos dados e estados; o modo muda a apresentação do título.
+Sanções removidas preservam o histórico e a evidência, mas não exibem contador ativo nem aviso de
+possível banimento. O prazo histórico recebido não é apresentado como uma nova obrigação de recorrer.
 
 ## API pública
 

@@ -104,7 +104,13 @@ export function SanctionDetails({ sanction, now }: { sanction: SanctionData; now
         {safeText.length > 600 && <p>{messages.truncated}</p>}
       </div>
 
-      <Deadline deadline={sanction.deadline} now={now} suspended={sanction.type === "SUSPENDED"} />
+      {sanction.status === "ACTIVE" && (
+        <Deadline
+          deadline={sanction.deadline}
+          now={now}
+          suspended={sanction.type === "SUSPENDED"}
+        />
+      )}
     </div>
   );
 }
