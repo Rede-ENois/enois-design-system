@@ -2,6 +2,7 @@ import { useId } from "react";
 
 import { BellOff, Loader2, ShieldCheck } from "lucide-react";
 
+import { notificationsMessages } from "../../messages/defaults/notifications.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { NotificationPreferenceKey } from "../../types/domain/notifications/notification-preference-key.js";
 import type { NotificationPreferencesProps } from "../../types/domain/notifications/notification-preferences-props.js";
@@ -29,6 +30,9 @@ export function NotificationPreferences({
   loadError = false,
   onRetry,
   onChange,
+  communityProjects,
+  onCommunityProjectsChange,
+  communityProjectsPending = false,
   pending = {},
   saveStatus = "idle",
   pushEnabled,
@@ -36,6 +40,8 @@ export function NotificationPreferences({
   pushBusy = false,
 }: NotificationPreferencesProps) {
   const messages = useMessages().notificationPreferences;
+  const projectCopy =
+    messages.communityProjects ?? notificationsMessages.notificationPreferences.communityProjects;
 
   if (loading && !values) {
     return (
@@ -127,6 +133,23 @@ export function NotificationPreferences({
 
         <div className="mt-1 divide-y divide-border-soft">{PUSH_KEYS.map(row)}</div>
       </section>
+
+      {typeof communityProjects === "boolean" && onCommunityProjectsChange && (
+        <section className="surface-card p-4">
+          <h2 className="text-base font-medium text-text-strong">
+            {messages.projectsTitle ?? notificationsMessages.notificationPreferences.projectsTitle}
+          </h2>
+
+          <PreferenceRow
+            label={projectCopy.label}
+            hint={projectCopy.hint}
+            savingLabel={messages.saving}
+            checked={communityProjects}
+            pending={communityProjectsPending}
+            onCheckedChange={onCommunityProjectsChange}
+          />
+        </section>
+      )}
 
       <p className="flex items-center gap-2 px-1 text-xs text-text-subtle">
         <ShieldCheck aria-hidden className="h-3.5 w-3.5 shrink-0" />

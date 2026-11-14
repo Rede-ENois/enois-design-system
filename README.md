@@ -23,6 +23,18 @@ Rules:
 See [`docs/visual-language.md`](docs/visual-language.md) for the default look: surfaces, semantic
 contours (person, community, event) and the signal vocabulary.
 
+## Community project notifications
+
+`NotificationPreferences` can show the optional community project subscription using
+`communityProjects`, `onCommunityProjectsChange` and `communityProjectsPending`. This is an
+in-app subscription, independent from device push. Omit the value or callback for consumers
+without backend support: the extra section stays hidden and the existing `onChange` contract
+is unchanged. The app owns persistence and supplies the server's opt-in value, initially false.
+The new message keys are optional too; a complete legacy message context keeps working with
+pt-BR project defaults. `NEW_COMMUNITY_PROJECT` uses the existing project icon vocabulary.
+See the [verification evidence](docs/evidence/community-project-notifications/README.md) for
+responsive captures, accessibility measurements and consumer validation limits.
+
 ## Using it in an app
 
 `.npmrc` (GitHub Packages needs a token with `read:packages`, even for public packages):
