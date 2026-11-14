@@ -91,10 +91,13 @@ interface SanctionsViewProps {
   aprovada sobre possível banimento acompanha esse prazo quando o tipo é `SUSPENDED`.
 - `NONE` significa **Sem prazo definido**. `BAN` e `PERMABAN` são explicitamente permanentes.
   Prazo ausente/inválido e horário atual inválido recebem mensagens próprias, não contadores
-  inventados. Ao zerar, só aparece **Prazo encerrado** e a orientação de confirmação pelo servidor.
-- `onRetry` é usado tanto em **Tentar novamente**, após falha de consulta, quanto em
-  **Atualizar situação**. `refreshing` anuncia **Atualizando...** e bloqueia sua repetição.
-  Somente o contêiner consulta novamente e entrega o estado confirmado.
+  inventados. Ao zerar, aparece **Prazo encerrado** e o aviso de que o vencimento não confirma
+  liberação nem banimento.
+- A view não oferece botão de atualização manual. O contêiner consulta a decisão ao entrar na página
+  e entrega as atualizações confirmadas; `refreshing` anuncia **Atualizando...** sem criar uma ação.
+- `onRetry` é usado somente em **Tentar novamente**, após falha de consulta. O botão fica desabilitado
+  durante a nova tentativa. A chave pública de mensagem `refresh` permanece por compatibilidade,
+  mas não é renderizada como botão.
 
 ### Evidência e privacidade
 

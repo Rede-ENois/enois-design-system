@@ -49,7 +49,7 @@ export const sanctionsMessages: SanctionsMessages = {
     invalidDeadline: "Prazo indisponível",
     invalidRemaining: "Tempo restante indisponível",
     expired: "Prazo encerrado",
-    verify: "Atualize a situação para consultar a decisão mais recente da moderação.",
+    verify: "O fim do prazo não confirma liberação nem banimento.",
     endAt: "Término previsto:",
     appealAt: "Prazo para apresentar recurso:",
     endRemaining: (hours, minutes) => `Faltam ${hours}h ${minutes}min`,

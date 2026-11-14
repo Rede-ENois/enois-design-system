@@ -122,15 +122,6 @@ export function SanctionsView(props: SanctionsViewProps) {
               );
             })}
           </ul>
-
-          <Button
-            variant="outline"
-            className="text-text-strong hover:text-text-strong"
-            onClick={onRetry}
-            disabled={refreshing}
-          >
-            {refreshing ? messages.refreshing : messages.refresh}
-          </Button>
         </>
       )}
       {(backHref || loginHref) && (

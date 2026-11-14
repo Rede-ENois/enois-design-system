@@ -55,28 +55,32 @@ afterEach(() => {
 });
 
 describe("Transparência da penalidade", () => {
-  it("oferece atualização com rótulo compreensível e informa quando está em andamento", () => {
+  it("não oferece atualização manual no histórico nem na conta suspensa", () => {
     const onRetry = vi.fn();
-    render({ onRetry });
-    const update = Array.from(host.querySelectorAll("button")).find(
-      (item) => item.textContent === "Atualizar situação",
-    );
-    expect(update).toBeDefined();
-    act(() => update?.click());
-    expect(onRetry).toHaveBeenCalledOnce();
-    render({ refreshing: true });
-    expect(button("Atualizando...").disabled).toBe(true);
-    expect(text()).not.toContain("no servidor");
+    for (const mode of ["history", "suspended"] as const) {
+      for (const refreshing of [false, true]) {
+        render({ mode, refreshing, onRetry });
+        const labels = Array.from(host.querySelectorAll("button")).map((item) => item.textContent);
+        expect(labels).not.toContain("Atualizar situação");
+        expect(labels).not.toContain("Atualizando...");
+        expect(labels).not.toContain("Tentar novamente");
+        if (refreshing) {
+          expect(host.querySelector('[role="status"]')?.textContent).toContain("Atualizando...");
+        }
+      }
+    }
+    expect(onRetry).not.toHaveBeenCalled();
   });
-  it("define o token legível dos botões de consulta sem depender da cor herdada do shell", () => {
-    render({ error: true });
+  it("mantém nova tentativa acessível após erro e bloqueia repetição durante a consulta", () => {
+    const onRetry = vi.fn();
+    render({ error: true, onRetry });
     for (const token of ["text-text-strong", "hover:text-text-strong"]) {
       expect(button("Tentar novamente").classList.contains(token)).toBe(true);
     }
-    render();
-    for (const token of ["text-text-strong", "hover:text-text-strong"]) {
-      expect(button("Atualizar situação").classList.contains(token)).toBe(true);
-    }
+    render({ error: true, refreshing: true, onRetry });
+    expect(button("Tentar novamente").disabled).toBe(true);
+    act(() => button("Tentar novamente").click());
+    expect(onRetry).not.toHaveBeenCalled();
   });
   it("distingue carregamento e erro de consulta, com nova tentativa", () => {
     render({ loading: true });
@@ -124,7 +128,8 @@ describe("Transparência da penalidade", () => {
     expect(text()).toContain("Prazo encerrado");
     expect(text()).toContain("Atualizando");
     expect(text()).not.toMatch(/conta liberada|conta banida|-1min/i);
-    expect(button("Atualizando...").disabled).toBe(true);
+    expect(host.querySelector('[role="status"]')?.textContent).toContain("Atualizando...");
+    expect(text()).not.toContain("Atualize a situação");
   });
   it("representa ausência de prazo, dados inválidos e decisões permanentes", () => {
     for (const deadline of [
@@ -314,8 +319,7 @@ describe("Transparência da penalidade", () => {
     expect(text()).toContain("Prazo encerrado");
     expect(text()).toContain("Recurso em análise");
     expect(host.querySelector("form")).toBeNull();
-    act(() => button("Atualizar situação").click());
-    expect(onRetry).toHaveBeenCalledOnce();
+    expect(onRetry).not.toHaveBeenCalled();
     render({
       sanctions: [{ ...sanction, status: "REMOVED", canAppeal: false }],
       appeals: [{ ...pending, status: "APPROVED" }],
