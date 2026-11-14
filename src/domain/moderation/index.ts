@@ -1,3 +1,9 @@
+export { SanctionsView } from "./sanctions-view.js";
+export type { SanctionsViewProps } from "../../types/domain/moderation/sanctions-view-props.js";
+export type { SanctionData } from "../../types/domain/moderation/sanction-data.js";
+export type { SanctionAppealData } from "../../types/domain/moderation/sanction-appeal-data.js";
+export type { SanctionDeadline } from "../../types/domain/moderation/sanction-deadline.js";
+export type { SanctionEvidence } from "../../types/domain/moderation/sanction-evidence.js";
 export { AppealsSection } from "./appeals-section.js";
 export { ContributionsSection } from "./contributions-section.js";
 export { IdentityReleaseSection } from "./identity-release-section.js";

@@ -200,6 +200,14 @@ collections plus one theme for each of the 85 appearance themes (`tema-<themeId>
 theme's own gradient and accent. `card-themes.test.ts` keeps every card at AA contrast on both stops.
 An id without a card theme renders no art, so a new item needs its entry here.
 
+## Transparência de penalidades
+
+`SanctionsView`, no entrypoint `domain`, apresenta o histórico e a conta suspensa por props,
+com evidência textual segura, distinção entre término e prazo de recurso e formulário controlado.
+O horário, a elegibilidade e a confirmação da situação continuam no consumidor/servidor.
+Consulte o [contrato de integração](docs/moderation-transparency.md) e as stories
+`Domain/Moderation/Sanctions`.
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).
