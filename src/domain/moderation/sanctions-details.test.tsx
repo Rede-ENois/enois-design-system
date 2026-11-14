@@ -55,6 +55,19 @@ afterEach(() => {
 });
 
 describe("Transparência da penalidade", () => {
+  it("oferece atualização com rótulo compreensível e informa quando está em andamento", () => {
+    const onRetry = vi.fn();
+    render({ onRetry });
+    const update = Array.from(host.querySelectorAll("button")).find(
+      (item) => item.textContent === "Atualizar situação",
+    );
+    expect(update).toBeDefined();
+    act(() => update?.click());
+    expect(onRetry).toHaveBeenCalledOnce();
+    render({ refreshing: true });
+    expect(button("Atualizando...").disabled).toBe(true);
+    expect(text()).not.toContain("no servidor");
+  });
   it("define o token legível dos botões de consulta sem depender da cor herdada do shell", () => {
     render({ error: true });
     for (const token of ["text-text-strong", "hover:text-text-strong"]) {
@@ -62,7 +75,7 @@ describe("Transparência da penalidade", () => {
     }
     render();
     for (const token of ["text-text-strong", "hover:text-text-strong"]) {
-      expect(button("Verificar situação no servidor").classList.contains(token)).toBe(true);
+      expect(button("Atualizar situação").classList.contains(token)).toBe(true);
     }
   });
   it("distingue carregamento e erro de consulta, com nova tentativa", () => {
@@ -109,9 +122,9 @@ describe("Transparência da penalidade", () => {
     expect(interval).not.toHaveBeenCalled();
     render({ sanctions: [ending], now: Date.parse("2026-11-14T14:30:00Z"), refreshing: true });
     expect(text()).toContain("Prazo encerrado");
-    expect(text()).toContain("Verificando situação no servidor");
+    expect(text()).toContain("Atualizando");
     expect(text()).not.toMatch(/conta liberada|conta banida|-1min/i);
-    expect(button("Verificando situação no servidor...").disabled).toBe(true);
+    expect(button("Atualizando...").disabled).toBe(true);
   });
   it("representa ausência de prazo, dados inválidos e decisões permanentes", () => {
     for (const deadline of [
@@ -301,7 +314,7 @@ describe("Transparência da penalidade", () => {
     expect(text()).toContain("Prazo encerrado");
     expect(text()).toContain("Recurso em análise");
     expect(host.querySelector("form")).toBeNull();
-    act(() => button("Verificar situação no servidor").click());
+    act(() => button("Atualizar situação").click());
     expect(onRetry).toHaveBeenCalledOnce();
     render({
       sanctions: [{ ...sanction, status: "REMOVED", canAppeal: false }],

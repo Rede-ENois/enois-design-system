@@ -93,7 +93,7 @@ interface SanctionsViewProps {
   Prazo ausente/inválido e horário atual inválido recebem mensagens próprias, não contadores
   inventados. Ao zerar, só aparece **Prazo encerrado** e a orientação de confirmação pelo servidor.
 - `onRetry` é usado tanto em **Tentar novamente**, após falha de consulta, quanto em
-  **Verificar situação no servidor**. `refreshing` anuncia a verificação e bloqueia sua repetição.
+  **Atualizar situação**. `refreshing` anuncia **Atualizando...** e bloqueia sua repetição.
   Somente o contêiner consulta novamente e entrega o estado confirmado.
 
 ### Evidência e privacidade
