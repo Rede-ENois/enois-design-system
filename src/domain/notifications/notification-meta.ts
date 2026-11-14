@@ -4,6 +4,7 @@ import {
   Calendar,
   CircleCheck,
   Crown,
+  FolderKanban,
   GraduationCap,
   Heart,
   MessageCircle,
@@ -37,6 +38,7 @@ export const notificationMeta: Record<string, NotificationMeta> = {
   answer_accepted: { icon: CircleCheck, className: "bg-growth/15 text-growth" },
   mentoring: { icon: GraduationCap, className: "bg-primary-soft text-primary" },
   jogo_diario: { icon: Sparkles, className: "bg-growth/15 text-growth" },
+  new_community_project: { icon: FolderKanban, className: "bg-primary-soft text-primary" },
   // Grupos: entrada, decisão de pedido, moderação e estado do grupo.
   group_join_request: { icon: UserPlus, className: "bg-primary-soft text-primary" },
   group_join_approved: { icon: UserCheck, className: "bg-growth/15 text-growth" },
