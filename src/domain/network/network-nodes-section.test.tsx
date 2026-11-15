@@ -138,6 +138,23 @@ describe("NetworkNodesSection", () => {
     expect(html).toContain("Nunca conectou");
   });
 
+  it("oferece o token de provisionamento quando o app passa a emissão", () => {
+    const html = render({
+      provisionToken: {
+        onProvision: () => {},
+        issuedToken: null,
+        onDismissToken: () => {},
+        profileOptions: [{ id: "NODE_MEDIA", label: "Mídia" }],
+      },
+    });
+
+    expect(html).toContain("Gerar token");
+  });
+
+  it("sem a emissão não inventa o botão de token: a seção só administra quem já chegou", () => {
+    expect(render()).not.toContain("Gerar token");
+  });
+
   it("mostra o prefixo da chave e se ela já foi usada, nunca a chave em claro", () => {
     const html = render({
       nodes: [{ ...node, status: "ACTIVE", keyPrefix: "enk_nd_abc", keyUsed: true }],

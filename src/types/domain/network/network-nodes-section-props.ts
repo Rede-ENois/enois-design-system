@@ -2,6 +2,7 @@ import type { NetworkDashboardData } from "./network-dashboard-data.js";
 import type { NetworkNodeData } from "./network-node-data.js";
 import type { NetworkNodeDetailData } from "./network-node-detail-data.js";
 import type { NetworkNodeDetailProps } from "./network-node-detail-props.js";
+import type { NetworkProvisionTokenDialogProps } from "./network-provision-token-dialog-props.js";
 
 export type NetworkNodesSectionProps = {
   /**
@@ -37,4 +38,15 @@ export type NetworkNodesSectionProps = {
   /** A chave recém-gerada, para a tela mostrar uma vez e avisar que não aparece de novo. */
   issuedKey: { nodeId: string; apiKey: string; prefix: string } | null;
   onDismissIssuedKey: () => void;
+  /**
+   * O token de provisionamento: a seção abre o diálogo e o app emite. É o passo anterior ao nó
+   * existir — sem ele a seção só administra servidores que já chegaram, e o admin não tem por
+   * onde começar. Ausente = a seção não oferece a geração (ex.: quem não administra a rede).
+   */
+  provisionToken?: Omit<
+    NetworkProvisionTokenDialogProps,
+    "open" | "onOpenChange" | "onProvision"
+  > & {
+    onProvision: NetworkProvisionTokenDialogProps["onProvision"];
+  };
 };

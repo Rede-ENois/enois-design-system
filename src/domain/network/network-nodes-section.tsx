@@ -14,6 +14,7 @@ import { Pill } from "../../ui/pill.js";
 
 import { NetworkDashboardStrip } from "./network-dashboard-strip.js";
 import { NetworkNodeDetail } from "./network-node-detail.js";
+import { NetworkProvisionTokenDialog } from "./network-provision-token-dialog.js";
 
 const STATUS_CLASS: Record<NetworkNodeData["status"], string> = {
   PENDING_APPROVAL: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
@@ -48,9 +49,11 @@ export function NetworkNodesSection({
   statusPending = false,
   issuedKey,
   onDismissIssuedKey,
+  provisionToken,
 }: NetworkNodesSectionProps) {
   const messages = useMessages().networkNodesSection;
   const [revokeTarget, setRevokeTarget] = useState<NetworkNodeData | null>(null);
+  const [provisionOpen, setProvisionOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const busy =
@@ -83,20 +86,30 @@ export function NetworkNodesSection({
           <p className="max-w-2xl text-sm text-muted-foreground">{messages.description}</p>
         </div>
 
-        <Button
-          variant="outline"
-          className="rounded-full"
-          disabled={refreshPending}
-          onClick={onRefresh}
-        >
-          {refreshPending ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCw className="h-4 w-4" />
+        <div className="flex flex-wrap items-center gap-2">
+          {provisionToken && (
+            <Button className="rounded-full" onClick={() => setProvisionOpen(true)}>
+              <KeyRound className="h-4 w-4" />
+
+              {messages.provisionToken}
+            </Button>
           )}
 
-          {messages.refresh}
-        </Button>
+          <Button
+            variant="outline"
+            className="rounded-full"
+            disabled={refreshPending}
+            onClick={onRefresh}
+          >
+            {refreshPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="h-4 w-4" />
+            )}
+
+            {messages.refresh}
+          </Button>
+        </div>
       </div>
 
       {error && (
@@ -318,6 +331,19 @@ export function NetworkNodesSection({
           setRevokeTarget(null);
         }}
       />
+
+      {provisionToken && (
+        <NetworkProvisionTokenDialog
+          open={provisionOpen}
+          onOpenChange={setProvisionOpen}
+          onProvision={provisionToken.onProvision}
+          provisionPending={provisionToken.provisionPending}
+          issuedToken={provisionToken.issuedToken}
+          onDismissToken={provisionToken.onDismissToken}
+          provisionError={provisionToken.provisionError}
+          profileOptions={provisionToken.profileOptions}
+        />
+      )}
 
       {detail && (
         <NetworkNodeDetail

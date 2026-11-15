@@ -49,6 +49,29 @@ export const networkMessages: NetworkMessages = {
     copied: "Token copiado",
     done: "Já copiei, fechar",
   },
+  networkProvisionTokenDialog: {
+    title: "Gerar token de provisionamento",
+    description:
+      "O token cria o servidor na rede, uma única vez. Quem opera é a API key, emitida depois de você aprovar o nó.",
+    serverNameLabel: "Nome do servidor",
+    serverNamePlaceholder: "vps-da-casa",
+    ownerLabel: "Conta responsável (nome de usuário)",
+    ownerPlaceholder: "luna",
+    profilesLabel: "O que este servidor pode executar",
+    profilesHint: "Sem perfil o servidor não recebe tarefa nenhuma. Dá para mudar na aprovação.",
+    provision: "Gerar token",
+    provisioning: "Gerando…",
+    cancel: "Cancelar",
+    close: "Fechar",
+    tokenTitle: "Token gerado",
+    tokenDescription: "Leve este token ao instalador do runtime na máquina que vai contribuir.",
+    tokenWarning: (expiresAt) => `Vale até ${expiresAt}. Copie agora: ele não é mostrado de novo.`,
+    tokenNextStep:
+      "Depois do enroll o nó fica pendente. Aprove o nó aqui e gere a API key dele para começar a operar.",
+    copy: "Copiar token",
+    copied: "Token copiado",
+    done: "Já copiei, fechar",
+  },
   myNetworkNodes: {
     title: "Meus servidores",
     description:
@@ -138,6 +161,7 @@ export const networkMessages: NetworkMessages = {
       "Servidores autorizados que executam trabalho do Énóis. Cada nó tem uma chave de API própria, gerada aqui e mostrada uma única vez. Nenhum nó entra sozinho: ele nasce pendente e só opera depois da aprovação.",
     error: "Não foi possível carregar os nós da rede.",
     refresh: "Atualizar",
+    provisionToken: "Gerar token",
     empty: "Nenhum nó cadastrado.",
     emptyHint:
       "Gere um token de provisionamento e instale o runtime no servidor que vai participar da rede.",

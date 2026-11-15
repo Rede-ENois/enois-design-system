@@ -1,11 +1,13 @@
 export { MyNetworkNodes } from "./my-network-nodes.js";
 export { NetworkDashboardStrip } from "./network-dashboard-strip.js";
 export { NetworkJoinDialog } from "./network-join-dialog.js";
+export { NetworkProvisionTokenDialog } from "./network-provision-token-dialog.js";
 export { NetworkNodeDetail } from "./network-node-detail.js";
 export { NetworkNodesSection } from "./network-nodes-section.js";
 export { NetworkRequests } from "./network-requests.js";
 export type { MyNetworkNodeData } from "../../types/domain/network/my-network-node-data.js";
 export type { NetworkJoinDialogProps } from "../../types/domain/network/network-join-dialog-props.js";
+export type { NetworkProvisionTokenDialogProps } from "../../types/domain/network/network-provision-token-dialog-props.js";
 export type { MyNetworkNodesProps } from "../../types/domain/network/my-network-nodes-props.js";
 export type { NetworkNodeData } from "../../types/domain/network/network-node-data.js";
 export type { NetworkNodeApiRequest } from "../../types/domain/network/network-node-api-request.js";

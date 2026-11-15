@@ -41,6 +41,27 @@ export type NetworkMessages = {
     copied: string;
     done: string;
   };
+  networkProvisionTokenDialog: {
+    title: string;
+    description: string;
+    serverNameLabel: string;
+    serverNamePlaceholder: string;
+    ownerLabel: string;
+    ownerPlaceholder: string;
+    profilesLabel: string;
+    profilesHint: string;
+    provision: string;
+    provisioning: string;
+    cancel: string;
+    close: string;
+    tokenTitle: string;
+    tokenDescription: string;
+    tokenWarning: (expiresAt: string) => string;
+    tokenNextStep: string;
+    copy: string;
+    copied: string;
+    done: string;
+  };
   myNetworkNodes: {
     title: string;
     description: string;
@@ -122,6 +143,7 @@ export type NetworkMessages = {
     description: string;
     error: string;
     refresh: string;
+    provisionToken: string;
     empty: string;
     emptyHint: string;
     status: {
