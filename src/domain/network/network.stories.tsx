@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import type { NetworkRequest } from "../../types/domain/network/network-request.js";
 
+import { NetworkNodeObservability } from "./network-node-observability.js";
 import { NetworkRequests } from "./network-requests.js";
 
 const meta: Meta<typeof NetworkRequests> = {
@@ -58,4 +59,53 @@ export const Loading: StoryObj<typeof NetworkRequests> = { args: { requests: [],
 
 export const LoadError: StoryObj<typeof NetworkRequests> = {
   args: { requests: [], error: true, onRetry: () => {} },
+};
+
+/** O quadro de um nó com 12 pontos e três linhas de console: o caso que se vê em produção. */
+const observabilityPanel = {
+  nodeId: "nd_casa",
+  generatedAt: "2026-11-15T12:12:00Z",
+  series: Array.from({ length: 12 }, (_, index) => ({
+    // Uma lacuna no meio: o nó não mediu naquele minuto, e o gráfico não pode ligar os lados.
+    sampledAt: `12:${String(index).padStart(2, "0")}`,
+    cpuPercent: index === 5 ? null : 8 + index * 3,
+    memoryMb: 1024 + index * 64,
+    diskFreeMb: 20480,
+    runningTasks: index % 3,
+    mode: "NORMAL",
+    activity: null,
+  })),
+  console: [
+    { id: "nl_3", at: "12:11", level: "WARN", message: "disco abaixo de 20 GB livres" },
+    { id: "nl_2", at: "12:08", level: "INFO", message: "tarefa tk_91 concluída" },
+    {
+      id: "nl_1",
+      at: "12:03",
+      level: "INFO",
+      message: "aceito pela rede — status=ACTIVE modo=NORMAL",
+    },
+  ],
+  summary: {
+    cpuAvgPercent: 24.5,
+    cpuMaxPercent: 41,
+    memoryMbLatest: 1728,
+    diskFreeMbLatest: 20480,
+    runningTasksLatest: 0,
+    sampleCount: 12,
+  },
+  consoleLevels: { INFO: 2, WARN: 1 },
+};
+
+export const NodeObservability: StoryObj<typeof NetworkNodeObservability> = {
+  render: () => (
+    <NetworkNodeObservability
+      panel={observabilityPanel}
+      refreshedAtLabel="12:12"
+      onRefresh={() => {}}
+    />
+  ),
+};
+
+export const NodeObservabilityEmpty: StoryObj<typeof NetworkNodeObservability> = {
+  render: () => <NetworkNodeObservability panel={null} />,
 };
