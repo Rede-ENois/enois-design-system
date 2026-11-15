@@ -24,6 +24,8 @@ export function RoleplayDirectory({
   loadError = false,
   onRetry,
   mine,
+  searchValue,
+  onSearch,
   onCreate,
   onOpen,
   systems,
@@ -33,7 +35,9 @@ export function RoleplayDirectory({
 }: RoleplayDirectoryProps) {
   const messages = useMessages().roleplay;
   const id = useId();
-  const [query, setQuery] = useState("");
+  const [localQuery, setLocalQuery] = useState("");
+  const query = searchValue ?? localQuery;
+  const setQuery = onSearch ?? setLocalQuery;
   const [createOpen, setCreateOpen] = useState(false);
 
   const mineIds = new Set((mine ?? []).map((c) => c.id));

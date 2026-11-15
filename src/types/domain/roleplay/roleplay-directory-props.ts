@@ -10,6 +10,10 @@ export type RoleplayDirectoryProps = {
   onRetry?: () => void;
   /** The campaigns the viewer is in; hidden when absent (public discovery without session). */
   mine?: RoleplayCampaignData[];
+  /** Controlled search text; when given, the field never keeps its own state. */
+  searchValue?: string;
+  /** Search is a server filter; the app owns the query, the view only reports the text. */
+  onSearch?: (value: string) => void;
   /** Opens the create dialog; absent when the viewer has no session. */
   onCreate?: () => void;
   /** Opens the campaign; the app owns routing. */

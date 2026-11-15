@@ -160,6 +160,16 @@ describe("RoleplayDirectory", () => {
     expect(text()).toContain("Escolha o sistema de regras da mesa.");
   });
 
+  it("reports search text to the app when the search is controlled", () => {
+    const onSearch = vi.fn();
+    render({ mine: undefined, searchValue: "", onSearch });
+
+    const input = container.querySelector<HTMLInputElement>("input")!;
+    act(() => type(input, "valdria"));
+
+    expect(onSearch).toHaveBeenCalledWith("valdria");
+  });
+
   it("hides create when there is no action for it", () => {
     render({ mine: undefined });
 
