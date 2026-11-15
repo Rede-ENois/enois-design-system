@@ -200,6 +200,15 @@ collections plus one theme for each of the 85 appearance themes (`tema-<themeId>
 theme's own gradient and accent. `card-themes.test.ts` keeps every card at AA contrast on both stops.
 An id without a card theme renders no art, so a new item needs its entry here.
 
+## Painel de moderação
+
+`ModeratorWorkspace` organiza destinos em navegação agrupada responsiva e
+`ReportsSection` apresenta a fila com filtros combináveis, votos por quórum e ações
+administrativas confirmadas. Dados, capacidades, URLs e mutações vêm do consumidor.
+`PanicModeSection` aceita `compact` opcional (padrão `false`) para recolher somente
+os controles inativos e disponíveis, sem esconder bloqueio, carregamento ou pendência.
+Veja o [contrato do painel](docs/moderator-workspace.md).
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).

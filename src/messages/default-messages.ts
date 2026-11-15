@@ -18,6 +18,7 @@ import { jobsMessages } from "./defaults/jobs.js";
 import { legalMessages } from "./defaults/legal.js";
 import { marketplaceMessages } from "./defaults/marketplace.js";
 import { moderationMessages } from "./defaults/moderation.js";
+import { moderatorWorkspaceMessages } from "./defaults/moderator-workspace.js";
 import { networkMessages } from "./defaults/network.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { onboardingMessages } from "./defaults/onboarding.js";
@@ -26,6 +27,7 @@ import { postMessages } from "./defaults/post.js";
 import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { releaseNotesMessages } from "./defaults/release-notes.js";
+import { reportsMessages } from "./defaults/reports.js";
 import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
@@ -66,6 +68,8 @@ export const defaultMessages: Messages = {
   ...blogMessages,
   ...jobsMessages,
   ...moderationMessages,
+  ...moderatorWorkspaceMessages,
+  ...reportsMessages,
   ...cosmeticsMessages,
   ...onboardingMessages,
   ...streakMessages,

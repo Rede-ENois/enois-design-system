@@ -16,6 +16,7 @@ import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { MarketplaceMessages } from "./marketplace-messages.js";
 import type { ModerationMessages } from "./moderation-messages.js";
+import type { ModeratorWorkspaceMessages } from "./moderator-workspace-messages.js";
 import type { NetworkMessages } from "./network-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
 import type { OnboardingMessages } from "./onboarding-messages.js";
@@ -24,6 +25,7 @@ import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
 import type { PwaMessages } from "./pwa-messages.js";
 import type { ReleaseNotesMessages } from "./release-notes-messages.js";
+import type { ReportsMessages } from "./reports-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
@@ -69,6 +71,8 @@ export type Messages = UiMessages &
   SupportMessages &
   DevelopersMessages &
   ModerationMessages &
+  ModeratorWorkspaceMessages &
+  ReportsMessages &
   CosmeticsMessages &
   OnboardingMessages &
   StreakMessages &

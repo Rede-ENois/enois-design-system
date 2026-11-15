@@ -1,3 +1,12 @@
+export { ModeratorWorkspace } from "./moderator-workspace.js";
+export { ReportsSection } from "./reports-section.js";
+export type { ModeratorWorkspaceProps } from "../../types/domain/moderation/moderator-workspace-props.js";
+export type { ModeratorWorkspaceGroup } from "../../types/domain/moderation/moderator-workspace-group.js";
+export type { ModeratorWorkspaceTab } from "../../types/domain/moderation/moderator-workspace-tab.js";
+export type { ReportsSectionProps } from "../../types/domain/moderation/reports-section-props.js";
+export type { ModerationReportData } from "../../types/domain/moderation/moderation-report-data.js";
+export type { ModerationReportVote } from "../../types/domain/moderation/moderation-report-vote.js";
+export type { ReportAdminAction } from "../../types/domain/moderation/report-admin-action.js";
 export { AppealsSection } from "./appeals-section.js";
 export { ContributionsSection } from "./contributions-section.js";
 export { IdentityReleaseSection } from "./identity-release-section.js";

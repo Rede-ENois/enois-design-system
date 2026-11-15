@@ -266,6 +266,9 @@ export const moderationMessages: ModerationMessages = {
   },
   panicModeSection: {
     title: "Modo pânico",
+    error:
+      "Não foi possível confirmar o estado do modo pânico. Consulte novamente antes de alterar.",
+    retry: "Tentar novamente",
     description:
       "Bloqueia toda escrita da aplicação (POST/PUT/PATCH/DELETE) com 429 imediatamente. O login e este botão continuam funcionando para você poder desligar.",
     active: "ATIVO: toda escrita está respondendo 429. Desligue para a aplicação voltar ao normal.",
