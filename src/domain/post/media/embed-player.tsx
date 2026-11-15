@@ -19,7 +19,7 @@ import { useInView } from "./use-in-view.js";
  * player, em vez de deixá-lo rodando escondido). Clicar na capa toca com som, porque aí o clique é
  * gesto e a regra do navegador deixa de valer.
  */
-export function EmbedPlayer({ type, id, autoplay = false }: EmbedPlayerProps) {
+export function EmbedPlayer({ type, id, autoplay = false, startSeconds }: EmbedPlayerProps) {
   const messages = useMessages().embedPlayer;
   const [playing, setPlaying] = useState(false);
   const { ref, inView } = useInView<HTMLDivElement>();
@@ -37,6 +37,7 @@ export function EmbedPlayer({ type, id, autoplay = false }: EmbedPlayerProps) {
               // Autoplay em tela: mudo (regra do navegador). Clique na capa: com som.
               muted: autoPlaying,
               host: typeof window !== "undefined" ? window.location.hostname : "",
+              startSeconds,
             })}
             title={messages.playerTitle}
             className="aspect-video w-full"

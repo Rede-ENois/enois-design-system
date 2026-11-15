@@ -35,4 +35,43 @@ describe("extractVideoId", () => {
       extractVideoId("https://open.spotify.com/intl-pt/album/4uLU6hMCjMI75M1A2tKUQC?si=1"),
     ).toEqual({ type: "spotify", id: "album/4uLU6hMCjMI75M1A2tKUQC" });
   });
+
+  it("lê o momento compartilhado do link do YouTube (o player começa no tempo marcado)", () => {
+    const id = "maKziwtT-Es";
+    expect(extractVideoId(`https://youtu.be/${id}?t=6479`)).toEqual({
+      type: "youtube",
+      id,
+      startSeconds: 6479,
+    });
+    expect(extractVideoId(`https://youtu.be/${id}?si=abc&t=6479`)).toEqual({
+      type: "youtube",
+      id,
+      startSeconds: 6479,
+    });
+    expect(extractVideoId(`https://www.youtube.com/watch?v=${id}&t=10m5s`)).toEqual({
+      type: "youtube",
+      id,
+      startSeconds: 605,
+    });
+    expect(extractVideoId(`https://www.youtube.com/watch?v=${id}&t=1h2m3s`)).toEqual({
+      type: "youtube",
+      id,
+      startSeconds: 3723,
+    });
+    expect(extractVideoId(`https://www.youtube.com/watch?v=${id}&start=90`)).toEqual({
+      type: "youtube",
+      id,
+      startSeconds: 90,
+    });
+  });
+
+  it("não inventa começo: sem tempo, com tempo zero ou parâmetro parecido", () => {
+    const id = "dQw4w9WgXcQ";
+    expect(extractVideoId(`https://youtu.be/${id}?si=abc`)).toEqual({ type: "youtube", id });
+    expect(extractVideoId(`https://youtu.be/${id}?t=0`)).toEqual({ type: "youtube", id });
+    // `start_radio` é playlist, não momento: não pode virar `start`.
+    expect(
+      extractVideoId(`https://m.youtube.com/watch?v=${id}&list=RD${id}&start_radio=1`),
+    ).toEqual({ type: "youtube", id });
+  });
 });
