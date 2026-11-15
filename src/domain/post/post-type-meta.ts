@@ -64,4 +64,9 @@ export const POST_TYPE_META: Record<PostType, PostTypeMeta> = {
     className: "bg-highlight-news text-highlight-news-text",
     classAvatar: "bg-user-news text-user-news-text",
   },
+  COMPLAINT: {
+    // O par da oportunidade (tom quente de atenção): reclamação pede olhar, não celebração.
+    className: "bg-opportunity/20 text-opportunity-foreground",
+    classAvatar: "",
+  },
 };

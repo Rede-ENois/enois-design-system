@@ -57,6 +57,7 @@ export const postMessages: PostMessages = {
       PAGE: "Página",
       BLOG: "Blog",
       BUSINESS: "Corporativo",
+      COMPLAINT: "Reclamação",
     },
     questionResolved: "Resolvida",
     questionOpen: "Aberta",
