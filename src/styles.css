@@ -250,6 +250,14 @@
      faixa branca acima e abaixo do feed em tema escuro. */
   html {
     background-color: var(--color-background);
+    /* Controles nativos (popup do <select>, scrollbar) seguem o esquema declarado no root: sem
+       isso o Chrome monta o menu branco mesmo em tema escuro e o texto do tema (claro) some no
+       fundo branco — reportado na página de ajuda e no Par de Estudo. */
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 
   body {

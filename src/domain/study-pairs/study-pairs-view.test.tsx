@@ -70,6 +70,17 @@ describe("StudyPairsView", () => {
     expect(onRequest).toHaveBeenCalledWith({ goal: "Aprender Go", topic: "prog" });
   });
 
+  it("pinta o select de tema com o mesmo widget do DS (fundo e opções com token)", () => {
+    render({ topics: [{ value: "prog", label: "Programação" }] });
+
+    const select = container.querySelector("select")!;
+    // Sem fundo declarado, o widget ficava transparente e o menu nativo branco sem contraste
+    // (#726, #727): o Select do DS pinta o fechado e as opções (seletor filho) com tokens.
+    expect(select.className).toContain("bg-surface-card");
+    expect(select.className).toContain("[&>option]:bg-surface-card");
+    expect(select.className).toContain("[&>option]:text-text-strong");
+  });
+
   it("asks for a goal instead of sending an empty request", () => {
     const onRequest = vi.fn();
     render({ onRequest });

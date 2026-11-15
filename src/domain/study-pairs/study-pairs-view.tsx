@@ -9,6 +9,7 @@ import type { StudyPairsViewProps } from "../../types/domain/study-pairs/study-p
 import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
+import { Select } from "../../ui/select.js";
 import { Skeleton } from "../../ui/skeleton.js";
 
 import { StudyPairCard } from "./study-pair-card.js";
@@ -258,12 +259,11 @@ function RequestForm({
               {messages.topicLabel}
             </label>
 
-            <select
+            <Select
               id={`${id}-topic`}
               value={topic}
               aria-invalid={error === "INVALID_TOPIC" || undefined}
               onChange={(event) => setTopic(event.target.value)}
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
             >
               <option value="">{messages.topicNone}</option>
               {topics.map((option) => (
@@ -271,7 +271,7 @@ function RequestForm({
                   {option.label}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         )}
 
