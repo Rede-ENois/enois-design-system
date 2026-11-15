@@ -92,6 +92,48 @@ describe("NetworkNodeDetail", () => {
     expect(html).toContain("Salvar capacidade");
   });
 
+  it("mostra o quadro ao vivo do nó dentro do detalhe", () => {
+    const html = render({
+      observability: {
+        panel: {
+          nodeId: "nd_abc123",
+          generatedAt: "2026-11-15T12:00:00Z",
+          series: [
+            {
+              sampledAt: "12:00",
+              cpuPercent: 12,
+              memoryMb: 1024,
+              diskFreeMb: 2048,
+              runningTasks: 0,
+              mode: "NORMAL",
+              activity: null,
+            },
+          ],
+          console: [{ id: "nl_1", at: "12:00", level: "INFO", message: "aceito pela rede" }],
+          summary: {
+            cpuAvgPercent: 12,
+            cpuMaxPercent: 12,
+            memoryMbLatest: 1024,
+            diskFreeMbLatest: 2048,
+            runningTasksLatest: 0,
+            sampleCount: 1,
+          },
+          consoleLevels: { INFO: 1 },
+        },
+      },
+    });
+
+    expect(html).toContain("Ao vivo");
+    expect(html).toContain("aceito pela rede");
+  });
+
+  it("sem o quadro, a seção ao vivo não aparece e o detalhe continua funcionando", () => {
+    const html = render();
+
+    expect(html).not.toContain("Ao vivo");
+    expect(html).toContain("Salvar capacidade");
+  });
+
   it("mostra o histórico lido da trilha de auditoria, com ação e ator", () => {
     const html = render();
 
