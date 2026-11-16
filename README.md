@@ -226,6 +226,28 @@ declared primary by `readableTextOn`. Desktop caps at 680px/85vh, mobile at 24px
 />
 ```
 
+## Recruitment panel
+
+`RecruitmentBoard` (domain) draws the hiring funnel: one column per stage, an entrance column when
+the flow is not configured yet, and a column for applications that left the process. Selection is a
+named checkbox per card — never a drag gesture — and the selected batch moves through the stage
+select or the advance/return/reject buttons, which emit a `RecruitmentBatchTarget`; each call is a
+whole batch decision, and the outcome text comes back from the app in `resultNote`.
+
+`RecruitmentTable` (domain) draws the same applications as a paginated table: the page checkbox
+selects the page (`sr-only` input over a drawn mark), `hasMore`/`onLoadMore` append the next cursor
+page, and the status select and search field emit the filter values for the server query — the
+component never filters what the backend already filtered.
+
+`RecruitmentScoreLine` draws the screening score as a pill that opens the breakdown of written
+signals; with `score.available = false` (the job declares nothing to compare) it says so instead of
+drawing a zero. `RecruitmentDetailDialog` draws the candidate file: the profile snapshot the
+application was made with, the message, the form answers and the score breakdown; interview and
+rejection actions come from the app as `children`.
+
+Every recruiter-facing word comes from `messages.recruitment`; the status labels themselves come
+from the app as `statusLabel`, because product vocabulary does not live here.
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).
