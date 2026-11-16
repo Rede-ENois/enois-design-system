@@ -6,6 +6,7 @@ export * from "./communities/index.js";
 export * from "./legal/index.js";
 export * from "./name/index.js";
 export * from "./notifications/index.js";
+export * from "./notices/index.js";
 export * from "./pwa/index.js";
 export * from "./search/index.js";
 export * from "./shell/index.js";

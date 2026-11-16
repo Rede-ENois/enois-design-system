@@ -19,6 +19,7 @@ import { legalMessages } from "./defaults/legal.js";
 import { marketplaceMessages } from "./defaults/marketplace.js";
 import { moderationMessages } from "./defaults/moderation.js";
 import { networkMessages } from "./defaults/network.js";
+import { noticesMessages } from "./defaults/notices.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { onboardingMessages } from "./defaults/onboarding.js";
 import { patternsMessages } from "./defaults/patterns.js";
@@ -73,6 +74,7 @@ export const defaultMessages: Messages = {
   ...eventsMessages,
   ...studyPairsMessages,
   ...networkMessages,
+  ...noticesMessages,
   ...companiesMessages,
   ...whatsNewMessages,
   ...releaseNotesMessages,

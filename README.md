@@ -200,6 +200,32 @@ collections plus one theme for each of the 85 appearance themes (`tema-<themeId>
 theme's own gradient and accent. `card-themes.test.ts` keeps every card at AA contrast on both stops.
 An id without a card theme renders no art, so a new item needs its entry here.
 
+### Platform notices
+
+`NoticeModal` (domain) draws the platform notice dialog as one surface that takes its identity
+from the published HTML. The sandboxed frame document may declare the integration contract —
+`--notice-primary`, `--notice-background`, `--notice-surface`, `--notice-text`, `--notice-muted`,
+`--notice-border`, `--notice-button-text` — and the container reads them from `contentDocument`
+(same-origin sandbox, no scripts) to paint header, footer, background and confirm button. Anything
+the HTML does not declare falls back to the platform tokens, so an old notice keeps the platform
+look and no palette is imposed on the content. The confirm button text is the declared
+`--notice-button-text` or, without one, the readable end (near-white/near-black) computed from the
+declared primary by `readableTextOn`. Desktop caps at 680px/85vh, mobile at 24px side margins and
+92dvh; the single scroll lives in the content area around the growing frame.
+
+```tsx
+<NoticeModal
+  open={open}
+  onOpenChange={setOpen}
+  title={notice.title}
+  html={notice.bodyHtml}
+  theme={theme}
+  themeStyleElementId={THEME_STYLE_ELEMENT_ID}
+  publishedAtLabel={`publicado em ${formatDate(notice.publishedAt)}`}
+  onConfirm={confirmReading}
+/>
+```
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).

@@ -65,6 +65,9 @@ function collectStyleProperties(style: CSSStyleDeclaration, names: Set<string>):
 
 function collectRuleList(rules: CSSRuleList | undefined, names: Set<string>): void {
   if (!rules) return;
+  // Array-like without `item` (some test environments expose cssRules that way): the collection is
+  // best effort, so a malformed list is skipped instead of breaking the theme copy.
+  if (typeof rules.item !== "function") return;
   for (let index = 0; index < rules.length; index += 1) collectRule(rules.item(index), names);
 }
 
