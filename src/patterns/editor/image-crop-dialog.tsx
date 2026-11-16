@@ -7,6 +7,8 @@ import type { ImageCropDialogProps } from "../../types/patterns/image-crop-dialo
 import { Button } from "../../ui/button.js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog.js";
 
+import { croppedImageType } from "./crop-image-type.js";
+
 function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -17,6 +19,12 @@ function createImage(url: string): Promise<HTMLImageElement> {
   });
 }
 
+const JPEG_TYPE = "image/jpeg";
+
+/**
+ * O recorte preserva o que a fonte tem: imagem com transparência sai em PNG (a decisão é da
+ * {@link croppedImageType}); foto opaca segue em JPEG, que comprime muito melhor.
+ */
 async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<Blob> {
   const img = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
@@ -34,14 +42,15 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<Blob> {
     pixelCrop.width,
     pixelCrop.height,
   );
+  const type = croppedImageType(img, pixelCrop);
   return new Promise((resolve, reject) => {
     canvas.toBlob(
       (blob) => {
         if (blob) resolve(blob);
         else reject(new Error("Canvas toBlob failed"));
       },
-      "image/jpeg",
-      0.9,
+      type,
+      type === JPEG_TYPE ? 0.9 : undefined,
     );
   });
 }
