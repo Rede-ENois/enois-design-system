@@ -1,3 +1,5 @@
+export { AdminProfileActionsSection } from "./admin-profile-actions-section.js";
+export { AdminRemovePostAction } from "./admin-remove-post-action.js";
 export { AppealsSection } from "./appeals-section.js";
 export { ContributionsSection } from "./contributions-section.js";
 export { IdentityReleaseSection } from "./identity-release-section.js";
@@ -16,6 +18,11 @@ export { SuspiciousPostsSection } from "./suspicious-posts-section.js";
 export { SuspiciousUsersSection } from "./suspicious-users-section.js";
 export { TicketReply } from "./ticket-reply.js";
 export { TicketThread } from "./ticket-thread.js";
+export type { AdminHistoryRowData } from "../../types/domain/moderation/admin-history-row-data.js";
+export type { AdminProfileAction } from "../../types/domain/moderation/admin-profile-action.js";
+export type { AdminProfileActionsData } from "../../types/domain/moderation/admin-profile-actions-data.js";
+export type { AdminProfileActionsSectionProps } from "../../types/domain/moderation/admin-profile-actions-section-props.js";
+export type { AdminRemovePostActionProps } from "../../types/domain/moderation/admin-remove-post-action-props.js";
 export type { AppealData } from "../../types/domain/moderation/appeal-data.js";
 export type { AppealsSectionProps } from "../../types/domain/moderation/appeals-section-props.js";
 export type { ContributionsSectionProps } from "../../types/domain/moderation/contributions-section-props.js";
