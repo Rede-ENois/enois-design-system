@@ -4,6 +4,7 @@ import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it } from "vitest";
 
+import type { NotificationData } from "../../types/domain/notifications/notification-data.js";
 import type { NotificationsPopoverProps } from "../../types/domain/notifications/notifications-popover-props.js";
 
 import { NotificationsPopover } from "./notifications-popover.js";
@@ -63,5 +64,50 @@ describe("NotificationsPopover: all notices link", () => {
 
     const link = document.body.querySelector('a[href="/notificacoes"]');
     expect(link?.textContent).toBe("Ver todos os avisos");
+  });
+});
+
+function notification(id: string, read: boolean): NotificationData {
+  return {
+    id,
+    kind: "POST_LIKE",
+    read,
+    actorId: null,
+    actorName: null,
+    actorAvatar: null,
+    actorHref: null,
+    title: `aviso ${id}`,
+    body: "",
+    timeLabel: "agora",
+    dayLabel: "Hoje",
+    href: "/feed",
+    ctaLabel: "Abrir",
+  };
+}
+
+const bell = () => document.body.querySelector<HTMLButtonElement>("button[aria-label*='não lido']");
+
+describe("NotificationsPopover: unread count", () => {
+  it("counts the rows in hand when no server total is given (old behavior)", () => {
+    render({
+      notifications: [notification("a", false), notification("b", false), notification("c", true)],
+    });
+
+    expect(bell()?.getAttribute("aria-label")).toBe("2 avisos não lidos");
+  });
+
+  it("uses the server total when unreadCount is set (rows may be a partial page)", () => {
+    render({
+      notifications: [notification("a", false), notification("b", false)],
+      unreadCount: 12,
+    });
+
+    expect(bell()?.getAttribute("aria-label")).toBe("12 avisos não lidos");
+  });
+
+  it("shows no count when the server total is zero", () => {
+    render({ notifications: [], unreadCount: 0 });
+
+    expect(bell()).toBeNull();
   });
 });

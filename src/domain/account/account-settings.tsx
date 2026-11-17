@@ -4,6 +4,7 @@ import {
   Baby,
   Bell,
   ChevronRight,
+  EyeOff,
   Flag,
   Heart,
   HeartPulse,
@@ -25,6 +26,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { AccountSettingsProps } from "../../types/domain/account/account-settings-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { PageHeader } from "../../ui/page-header.js";
+import { Switch } from "../../ui/switch.js";
 
 const ROW_CLASS =
   "flex min-h-12 w-full min-w-0 items-center gap-3.5 px-4 py-3 text-left text-[15px] font-semibold text-text-strong transition hover:bg-surface-2 focus-visible:bg-surface-2 focus-visible:outline-none [&>svg:first-child]:text-text-subtle";
@@ -40,8 +42,12 @@ export function AccountSettings({
   onOpenLinkedAccounts,
   onDeleteAccount,
   onOpenHealthyUsage,
+  revealSensitiveMedia,
+  onToggleRevealSensitiveMedia,
 }: AccountSettingsProps) {
   const messages = useMessages().accountSettings;
+  const comPreferenciaSpoiler =
+    onToggleRevealSensitiveMedia != null && revealSensitiveMedia != null;
 
   return (
     <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-col gap-4">
@@ -64,7 +70,10 @@ export function AccountSettings({
         )}
       </Section>
 
-      {(hrefs.notificationPreferences || hrefs.feedPreferences || onOpenHealthyUsage) && (
+      {(hrefs.notificationPreferences ||
+        hrefs.feedPreferences ||
+        onOpenHealthyUsage ||
+        comPreferenciaSpoiler) && (
         <Section title={messages.preferences}>
           {hrefs.notificationPreferences && (
             <Row
@@ -78,6 +87,15 @@ export function AccountSettings({
           )}
           {onOpenHealthyUsage && (
             <Row icon={HeartPulse} label={messages.healthyUsage} onClick={onOpenHealthyUsage} />
+          )}
+          {comPreferenciaSpoiler && (
+            <ToggleRow
+              icon={EyeOff}
+              label={messages.revealSensitiveMedia}
+              hint={messages.revealSensitiveMediaHint}
+              checked={revealSensitiveMedia}
+              onToggle={onToggleRevealSensitiveMedia}
+            />
           )}
         </Section>
       )}
@@ -139,5 +157,34 @@ function Row({
     <button type="button" onClick={onClick} className={className}>
       {content}
     </button>
+  );
+}
+
+/** Linha de preferência com interruptor: o estado e a persistência são de quem renderiza. */
+function ToggleRow({
+  icon: Icon,
+  label,
+  hint,
+  checked,
+  onToggle,
+}: {
+  icon: LucideIcon;
+  label: string;
+  hint: string;
+  checked: boolean;
+  onToggle: (value: boolean) => void;
+}) {
+  return (
+    <div className="flex w-full items-start gap-3.5 px-4 py-3 text-left">
+      <Icon aria-hidden className="mt-1 h-5 w-5 shrink-0 text-text-subtle" />
+
+      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span className="text-[15px] font-semibold text-text-strong">{label}</span>
+
+        <span className="text-[13px] font-normal text-text-subtle">{hint}</span>
+      </span>
+
+      <Switch checked={checked} onCheckedChange={onToggle} aria-label={label} />
+    </div>
   );
 }

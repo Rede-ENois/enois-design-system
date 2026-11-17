@@ -34,7 +34,15 @@ export function LinkPreviews({
 
         const video = extractVideoId(url);
         if (video) {
-          return <EmbedPlayer key={url} type={video.type} id={video.id} autoplay={autoplay} />;
+          return (
+            <EmbedPlayer
+              key={url}
+              type={video.type}
+              id={video.id}
+              autoplay={autoplay}
+              startSeconds={video.startSeconds}
+            />
+          );
         }
 
         // O app desenha o cartão quando sabe mais do que o host (título, descrição, miniatura).

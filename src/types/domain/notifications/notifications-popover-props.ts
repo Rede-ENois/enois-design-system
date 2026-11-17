@@ -23,4 +23,10 @@ export type NotificationsPopoverProps = {
   preferencesHref?: string;
   /** Full notifications page; the popover footer links to it when set. */
   allHref?: string;
+  /**
+   * Total unread notices when the app knows it (the server summary). The bell counts only the rows
+   * that came in the request, so without this the count stops at the size of the loaded page.
+   * Left out, the rows themselves are counted, as before.
+   */
+  unreadCount?: number;
 };

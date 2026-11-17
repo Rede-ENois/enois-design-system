@@ -21,7 +21,11 @@ O roteiro serve o build estático em loopback, inicia um navegador headless e fe
 Não usa conta, backend ou conteúdo real. Salva relatório JSON e quatro capturas em
 `<diretório-scratch>/ds-231-proof/`.
 
-## Cobertura e resultado observado
+## Resultado histórico de 14/11/2026
+
+Os dados abaixo descrevem a composição antiga, não validam reconciliações posteriores.
+A [verificação da reconciliação com QA](reconciliation-qa.md) registra os gates e a nova execução
+sobre QA `d602e27aaf0b691264ce4816faea62a06bf82a24`.
 
 Verificação local em 14/11/2026, sobre a base `4f605ce` com a implementação da issue #231:
 

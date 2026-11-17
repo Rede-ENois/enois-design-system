@@ -45,6 +45,8 @@ ruleTester.run("style-only-css-vars", styleOnlyCssVars, {
   valid: [
     { code: "const a = <span style={{ '--swatch': color }} className='bg-[var(--swatch)]' />;" },
     { code: 'const a = <span style={{ "--x": 1 }} />;' },
+    // O `style` do StyledName é dado de domínio (estilo do nome do perfil), não CSS.
+    { code: "const a = <StyledName name={nome} style={estiloDoAutor} />;" },
   ],
   invalid: [
     {

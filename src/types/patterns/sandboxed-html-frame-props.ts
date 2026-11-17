@@ -44,4 +44,11 @@ export type SandboxedHtmlFrameProps = {
   themeStyleElementId?: string;
   /** Lite mode: the frame stops delegating autoplay. */
   lite?: boolean;
+  /**
+   * Hands the frame document to the caller once it loads (and null before there is one). The
+   * document is readable because the sandbox keeps same-origin; reading it is how callers that
+   * decorate the frame from the author's own CSS work (the notice modal reads `--notice-*`
+   * properties). Writing to the document from here is forbidden by the same reasoning.
+   */
+  onFrameDocument?: (document: Document | null) => void;
 };

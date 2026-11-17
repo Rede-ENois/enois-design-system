@@ -8,6 +8,7 @@ import {
   Heart,
   MessageCircle,
   Newspaper,
+  Repeat,
   ShieldAlert,
   Sparkles,
   UserCheck,
@@ -27,6 +28,8 @@ export const notificationMeta: Record<string, NotificationMeta> = {
   new_comment: { icon: MessageCircle, className: "bg-primary-soft text-primary" },
   new_reply: { icon: MessageCircle, className: "bg-primary-soft text-primary" },
   new_reaction: { icon: Heart, className: "bg-accent text-accent-foreground" },
+  // O backend manda o kind em maiúsculas e o item normaliza para minúsculas: `POST_REPOSTED`.
+  post_reposted: { icon: Repeat, className: "bg-growth/15 text-growth" },
   new_message: { icon: MessageCircle, className: "bg-secondary/30 text-text-strong" },
   event: { icon: Calendar, className: "bg-growth/15 text-growth" },
   job: { icon: Briefcase, className: "bg-opportunity/20 text-opportunity-foreground" },

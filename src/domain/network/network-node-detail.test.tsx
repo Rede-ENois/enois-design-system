@@ -1,0 +1,190 @@
+// @vitest-environment node
+import type { ReactNode } from "react";
+
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it, vi } from "vitest";
+
+import type { NetworkNodeDetailData } from "../../types/domain/network/network-node-detail-data.js";
+import type { NetworkNodeHistoryEntry } from "../../types/domain/network/network-node-history-entry.js";
+
+import { NetworkNodeDetail } from "./network-node-detail.js";
+
+// The Radix portal renders nothing on the server: the sheet parts become plain wrappers here.
+vi.mock("../../ui/sheet.js", () => {
+  const Plain = ({ children }: { children?: ReactNode }) => <div>{children}</div>;
+  return {
+    Sheet: Plain,
+    SheetContent: Plain,
+    SheetDescription: Plain,
+    SheetHeader: Plain,
+    SheetTitle: Plain,
+  };
+});
+
+const detail: NetworkNodeDetailData = {
+  node: {
+    id: "nd_abc123",
+    displayName: "no-media-1",
+    ownerUserId: "user_1",
+    status: "ACTIVE",
+    profiles: ["NODE_MEDIA"],
+    region: "southamerica-east1",
+    runtimeVersion: "1.0.0",
+    lastSeenAtLabel: null,
+    keyPrefix: "enk_nd_abc",
+    keyUsed: true,
+    operable: true,
+    degraded: false,
+    latencyMs: 120,
+    failureStreak: 0,
+    quarantineReason: null,
+  },
+  declaredCpuCores: 4,
+  declaredMemoryMb: 8192,
+  declaredDiskMb: 51200,
+  declaredBandwidthMbps: 100,
+  availableProfiles: ["NODE_EDGE", "NODE_MEDIA", "NODE_WORKER"],
+};
+
+const history: NetworkNodeHistoryEntry[] = [
+  {
+    id: "aud_1",
+    actorId: "user_admin",
+    action: "NODE_CAPACITY_CHANGED",
+    metadata: '{"cpuCores":2}',
+    dateLabel: "11 de nov.",
+  },
+];
+
+const API_REQUEST = {
+  taskId: "task_1",
+  route: "catalogo",
+  status: "PENDING",
+  attempt: 0,
+  deadlineLabel: "11 de nov., 14:30",
+};
+
+function render(props: Partial<Parameters<typeof NetworkNodeDetail>[0]> = {}) {
+  return renderToStaticMarkup(
+    <NetworkNodeDetail
+      detail={detail}
+      history={history}
+      onSaveCapacity={() => {}}
+      onSaveProfiles={() => {}}
+      routes={["catalogo", "acervo"]}
+      onRequestRoute={() => {}}
+      apiRequests={[]}
+      onOpenChange={() => {}}
+      {...props}
+    />,
+  );
+}
+
+describe("NetworkNodeDetail", () => {
+  it("abre o painel do nó com a capacidade vigente nos campos — o admin edita o que está lá", () => {
+    const html = render();
+
+    expect(html).toContain("no-media-1");
+    expect(html).toContain('value="4"');
+    expect(html).toContain('value="8192"');
+    expect(html).toContain('value="51200"');
+    expect(html).toContain('value="100"');
+    expect(html).toContain("Salvar capacidade");
+  });
+
+  it("mostra o quadro ao vivo do nó dentro do detalhe", () => {
+    const html = render({
+      observability: {
+        panel: {
+          nodeId: "nd_abc123",
+          generatedAt: "2026-11-15T12:00:00Z",
+          series: [
+            {
+              sampledAt: "12:00",
+              cpuPercent: 12,
+              memoryMb: 1024,
+              diskFreeMb: 2048,
+              runningTasks: 0,
+              mode: "NORMAL",
+              activity: null,
+            },
+          ],
+          console: [{ id: "nl_1", at: "12:00", level: "INFO", message: "aceito pela rede" }],
+          summary: {
+            cpuAvgPercent: 12,
+            cpuMaxPercent: 12,
+            memoryMbLatest: 1024,
+            diskFreeMbLatest: 2048,
+            runningTasksLatest: 0,
+            sampleCount: 1,
+          },
+          consoleLevels: { INFO: 1 },
+        },
+      },
+    });
+
+    expect(html).toContain("Ao vivo");
+    expect(html).toContain("aceito pela rede");
+  });
+
+  it("sem o quadro, a seção ao vivo não aparece e o detalhe continua funcionando", () => {
+    const html = render();
+
+    expect(html).not.toContain("Ao vivo");
+    expect(html).toContain("Salvar capacidade");
+  });
+
+  it("mostra o histórico lido da trilha de auditoria, com ação e ator", () => {
+    const html = render();
+
+    expect(html).toContain("NODE_CAPACITY_CHANGED");
+    expect(html).toContain("user_admin");
+    expect(html).toContain("11 de nov.");
+    // Metadata chega escapada no HTML estático; o que importa é que ela é mostrada, não interpretada.
+    expect(html).toContain("&quot;cpuCores&quot;:2");
+  });
+
+  it("fechado, não renderiza nada do painel", () => {
+    const html = render({ detail: null });
+
+    expect(html).not.toContain("no-media-1");
+    expect(html).not.toContain("Salvar capacidade");
+  });
+
+  it("histórico vazio diz que não há ação registrada, não mostra lista vazia", () => {
+    const html = render({ history: [] });
+
+    expect(html).toContain("Nenhuma ação registrada");
+    expect(html).not.toContain("NODE_CAPACITY_CHANGED");
+  });
+
+  it("oferece as rotas assinadas por nome — o seletor tem os nomes, e não campos de URL", () => {
+    const html = render();
+
+    expect(html).toContain('value="catalogo"');
+    expect(html).toContain('value="acervo"');
+    // Sem endereço de destino em lugar nenhum: o painel escolhe o nome, não a URL.
+    expect(html).not.toContain("https://");
+  });
+
+  it("sem rota declarada, diz que o nó não tem para onde chamar — e não mostra o seletor", () => {
+    const html = render({ routes: [] });
+
+    expect(html).toContain("Nenhuma rota declarada");
+    expect(html).not.toContain("Pedir rota");
+  });
+
+  it("mostra as requisições em aberto com rota, estado e tentativa", () => {
+    const html = render({ apiRequests: [API_REQUEST] });
+
+    expect(html).toContain("catalogo · PENDING · tentativa 0");
+    expect(html).toContain("11 de nov., 14:30");
+  });
+
+  it("sem requisição em aberto, diz isso em vez de mostrar lista vazia", () => {
+    const html = render({ apiRequests: [] });
+
+    expect(html).toContain("Nenhuma requisição em aberto");
+    expect(html).not.toContain("tentativa 0");
+  });
+});

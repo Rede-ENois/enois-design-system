@@ -1,7 +1,6 @@
 import {
   BookOpen,
   CircleCheck,
-  Clock,
   FileText,
   MoreHorizontal,
   Pin,
@@ -21,6 +20,7 @@ import { Badge } from "../../ui/badge.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 
 import { AuthorInfo } from "./author-info.js";
+import { EphemeralExpiryBadge } from "./ephemeral-expiry-badge.js";
 import { LinkPreviews } from "./media/link-previews.js";
 import { SpoilerMedia } from "./media/spoiler-media.js";
 import { PostOwnerMenu } from "./post-owner-menu.js";
@@ -304,14 +304,8 @@ export function PostCard({
             </span>
           )}
 
-          {post.type === "MOMENT" && post.expiresAt && (
-            <span
-              className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 px-2 py-1 text-xs font-normal text-amber-600 dark:text-amber-400"
-              title={messages.momentExpiryTitle}
-            >
-              <Clock className="h-3 w-3" />
-              {messages.momentExpiry(remainingHours(post.expiresAt))}
-            </span>
+          {(post.type === "MOMENT" || post.type === "INSTANTE") && post.expiresAt && (
+            <EphemeralExpiryBadge type={post.type} expiresAt={post.expiresAt} />
           )}
 
           {/* Se não houver contexto social no topo, os botões ... e X ficam aqui */}
@@ -525,10 +519,4 @@ export function PostCard({
       {comments}
     </article>
   );
-}
-
-/** Quantas horas faltam para o Momento se apagar (arredonda para cima; mínimo 1). */
-function remainingHours(expiresAt: string): number {
-  const diff = new Date(expiresAt).getTime() - Date.now();
-  return Math.max(1, Math.ceil(diff / 3_600_000));
 }

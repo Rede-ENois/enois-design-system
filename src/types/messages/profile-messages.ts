@@ -318,6 +318,7 @@ export type ProfileMessages = {
     replies: string;
     reposts: string;
     media: string;
+    diario: string;
     /** Tooltip shown on the locked REPLIES tab for non-owners. */
     repliesLocked: string;
   };
@@ -348,5 +349,20 @@ export type ProfileMessages = {
     readmeMissing: string;
     readmeError: string;
     openReadme: string;
+  };
+
+  profileGallery: {
+    loading: string;
+    error: string;
+    empty: string;
+    loadMore: string;
+    openPhoto: string;
+    revealPhoto: string;
+    prev: string;
+    next: string;
+    counter: (index: number, total: number) => string;
+    zoomIn: string;
+    zoomOut: string;
+    resetZoom: string;
   };
 };

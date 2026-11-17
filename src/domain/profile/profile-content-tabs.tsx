@@ -5,7 +5,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileContentTab } from "../../types/domain/profile/profile-content-tab.js";
 import type { ProfileContentTabsProps } from "../../types/domain/profile/profile-content-tabs-props.js";
 
-const TABS: ProfileContentTab[] = ["ALL", "POSTS", "REPLIES", "REPOSTS", "MEDIA"];
+const TABS: ProfileContentTab[] = ["ALL", "POSTS", "REPLIES", "REPOSTS", "MEDIA", "DIARIO"];
 
 export function ProfileContentTabs({ activeTab, onTabChange, isOwner }: ProfileContentTabsProps) {
   const messages = useMessages().profileContentTabs;
@@ -16,6 +16,7 @@ export function ProfileContentTabs({ activeTab, onTabChange, isOwner }: ProfileC
     REPLIES: messages.replies,
     REPOSTS: messages.reposts,
     MEDIA: messages.media,
+    DIARIO: messages.diario,
   };
 
   return (
