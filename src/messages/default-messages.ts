@@ -4,6 +4,7 @@ import { accountMessages } from "./defaults/account.js";
 import { appearanceMessages } from "./defaults/appearance.js";
 import { authMessages } from "./defaults/auth.js";
 import { avatarMessages } from "./defaults/avatar.js";
+import { blogDraftsMessages } from "./defaults/blog-drafts.js";
 import { blogMessages } from "./defaults/blog.js";
 import { calendarMessages } from "./defaults/calendar.js";
 import { colagemMessages } from "./defaults/colagem.js";
@@ -73,6 +74,7 @@ export const defaultMessages: Messages = {
   ...supportMessages,
   ...conversationsMessages,
   ...marketplaceMessages,
+  ...blogDraftsMessages,
   ...blogMessages,
   ...jobsMessages,
   ...moderationMessages,

@@ -1,5 +1,8 @@
 export { BlogEditorDialog } from "./blog-editor-dialog.js";
+export { ContinueWriting } from "./continue-writing.js";
 export { BlogPostEditor } from "./blog-post-editor.js";
+export type { ContinueWritingDraft } from "../../types/domain/blog/continue-writing-draft.js";
+export type { ContinueWritingProps } from "../../types/domain/blog/continue-writing-props.js";
 export type { BlogEditorData } from "../../types/domain/blog/blog-editor-data.js";
 export type { BlogEditorDialogProps } from "../../types/domain/blog/blog-editor-dialog-props.js";
 export type { BlogEditorValues } from "../../types/domain/blog/blog-editor-values.js";

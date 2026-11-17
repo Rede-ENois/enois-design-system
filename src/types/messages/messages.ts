@@ -2,6 +2,7 @@ import type { AccountMessages } from "./account-messages.js";
 import type { AppearanceMessages } from "./appearance-messages.js";
 import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
+import type { BlogDraftsMessages } from "./blog-drafts-messages.js";
 import type { BlogMessages } from "./blog-messages.js";
 import type { CalendarMessages } from "./calendar-messages.js";
 import type { ColagemMessages } from "./colagem-messages.js";
@@ -74,6 +75,7 @@ export type Messages = SanctionsMessages &
   SecurityMessages &
   ProfileMessages &
   JobsMessages &
+  BlogDraftsMessages &
   BlogMessages &
   MarketplaceMessages &
   ConversationsMessages &

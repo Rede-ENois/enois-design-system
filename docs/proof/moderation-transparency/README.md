@@ -24,8 +24,10 @@ Não usa conta, backend ou conteúdo real. Salva relatório JSON e quatro captur
 ## Resultado histórico de 14/11/2026
 
 Os dados abaixo descrevem a composição antiga, não validam reconciliações posteriores.
-A [verificação da reconciliação com QA](reconciliation-qa.md) registra os gates e a nova execução
+A [verificação histórica da primeira reconciliação](reconciliation-qa.md) registra a composição
 sobre QA `d602e27aaf0b691264ce4816faea62a06bf82a24`.
+A [reconciliação atual com ContinueWriting](reconciliation-qa-continue-writing.md) registra os gates
+repetidos sobre QA `2ab39ec66706ddefecc09f04661e3151708007a1`.
 
 Verificação local em 14/11/2026, sobre a base `4f605ce` com a implementação da issue #231:
 

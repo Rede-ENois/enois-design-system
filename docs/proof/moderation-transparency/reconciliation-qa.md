@@ -1,5 +1,8 @@
 # Reconciliação local da PR #236 com QA
 
+> Prova histórica da composição `4eb2bc2`. Não valida o avanço posterior de QA.
+> A [reconciliação com ContinueWriting](reconciliation-qa-continue-writing.md) registra a composição atual.
+
 ## Composição e limites
 
 Verificação executada em 16/11/2026, na composição do head publicado
