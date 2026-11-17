@@ -53,6 +53,25 @@ describe("ColagemComposer", () => {
     });
   };
 
+  /**
+   * O seletor de mídia tem que existir ANTES de haver foto: sem ele não há como escolher arquivo
+   * nenhum (o relato: "só dá para colar uma foto"), e no celular o input de arquivo é o que abre
+   * câmera/galeria do sistema.
+   */
+  it("sem foto, o seletor de arquivos está disponível para escolher a foto", () => {
+    render({ attachment: null });
+    const input = host.querySelector<HTMLInputElement>('input[type="file"]');
+    expect(input).not.toBeNull();
+    expect(input?.accept).toBe("image/*");
+    // O botão que abre o seletor (o mesmo do compositor do feed) está renderizado.
+    expect(host.querySelector("button[aria-label]")).not.toBeNull();
+  });
+
+  it("com foto anexada, o seletor continua disponível para trocar a foto", () => {
+    render();
+    expect(host.querySelector('input[type="file"]')).not.toBeNull();
+  });
+
   it("sem foto anexada, publicar fica desligado com o aviso", () => {
     render({ attachment: null });
     expect(botao()?.disabled).toBe(true);

@@ -10,6 +10,9 @@ import type { EmojiPickerProps } from "../types/components/ui/emoji-picker-props
 import { Input } from "./input.js";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover.js";
 
+/** Quantos emojis ficam visíveis antes do "+" (uma fileira da grade de 8 colunas). */
+const FIRST_ROW = 7;
+
 /** Sem acento e em minúsculas: "coração" e "coracao" acham o mesmo emoji. */
 function normalize(value: string): string {
   return value
@@ -26,6 +29,10 @@ function normalize(value: string): string {
  * Os botões usam `onMouseDown` com `preventDefault` (mesma regra da barra de formatação): o campo
  * de escrita não perde o foco, e é dele que sai a posição do cursor na hora de inserir. O seletor
  * fica aberto depois de escolher — quem quer três emojis seguidos não precisa reabrir.
+ *
+ * Primeira fileira + "+": a grade completa de uma categoria é longa, e no celular ninguém rola
+ * um popover para achar emoji. A primeira fileira da categoria (ou do resultado da busca) fica à
+ * vista e o "+" revela o resto, com o mesmo gesto em todas as superfícies do app.
  */
 export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPickerProps) {
   const messages = useMessages().emojiPicker;
@@ -33,6 +40,7 @@ export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPicke
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [categoryId, setCategoryId] = useState(first);
+  const [expanded, setExpanded] = useState(false);
 
   const term = normalize(query.trim());
   const results = useMemo(() => {
@@ -48,7 +56,13 @@ export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPicke
   const keepFocus = (event: { preventDefault: () => void }) => event.preventDefault();
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next);
+        if (!next) setExpanded(false);
+      }}
+    >
       <PopoverTrigger asChild>
         <button
           type="button"
@@ -64,7 +78,10 @@ export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPicke
       <PopoverContent align="start" side="top" className="w-72 p-2">
         <Input
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setExpanded(false);
+          }}
           placeholder={messages.search}
           aria-label={messages.search}
           className="h-8 text-xs"
@@ -77,7 +94,10 @@ export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPicke
                 key={category.id}
                 type="button"
                 onMouseDown={keepFocus}
-                onClick={() => setCategoryId(category.id)}
+                onClick={() => {
+                  setCategoryId(category.id);
+                  setExpanded(false);
+                }}
                 className={cn(
                   "rounded-full px-2 py-0.5 text-[11px] font-medium transition",
                   category.id === categoryId
@@ -95,7 +115,7 @@ export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPicke
           <p className="py-6 text-center text-xs font-normal text-text-subtle">{messages.empty}</p>
         ) : (
           <div className="mt-2 grid max-h-56 grid-cols-8 gap-0.5 overflow-y-auto overscroll-contain">
-            {results.map((entry, index) => (
+            {(expanded ? results : results.slice(0, FIRST_ROW)).map((entry, index) => (
               <button
                 key={`${entry.emoji}-${index}`}
                 type="button"
@@ -108,6 +128,18 @@ export function EmojiPicker({ onPick, buttonClassName, buttonTitle }: EmojiPicke
                 {entry.emoji}
               </button>
             ))}
+            {!expanded && results.length > FIRST_ROW && (
+              <button
+                type="button"
+                title={messages.more}
+                aria-label={messages.more}
+                onMouseDown={keepFocus}
+                onClick={() => setExpanded(true)}
+                className="grid h-8 w-8 place-items-center rounded-lg text-lg font-semibold leading-none text-text-subtle transition hover:bg-surface-2"
+              >
+                +
+              </button>
+            )}
           </div>
         )}
       </PopoverContent>

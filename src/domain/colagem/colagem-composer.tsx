@@ -51,11 +51,13 @@ export function ColagemComposer({
 
       <p className="text-xs text-text-subtle">{messages.hint}</p>
 
+      {/* O MESMO seletor do compositor do feed: sem `canAddMore={false}`, o botão de abrir o
+          seletor de arquivos existe antes e depois do anexo (trocar a foto), e no celular é o
+          seletor do sistema que abre — câmera ou galeria. */}
       <ComposerMediaPicker
         items={attachment ? [attachment] : []}
         onFiles={onFiles}
         onRemove={onRemoveAttachment}
-        canAddMore={false}
         multiple={false}
       />
 

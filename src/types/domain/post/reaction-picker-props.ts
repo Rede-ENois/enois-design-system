@@ -13,4 +13,9 @@ export type ReactionPickerProps<T extends string = string> = {
   buttonTitle: string;
   /** Conteúdo visual do gatilho (ícone, emoji ou o texto "Reagir"). */
   children: ReactNode;
+  /**
+   * Quantos emojis ficam visíveis sem expandir (a primeira fileira). O restante aparece ao tocar
+   * em "+". Padrão 5; um conjunto menor que isso mostra tudo de uma vez.
+   */
+  collapsedCount?: number;
 };
