@@ -78,41 +78,47 @@ describe("ConversationThread", () => {
     expect(container.textContent).toContain("Arquivo grande demais");
   });
 
-  it("falha no envio devolve a citação ao compositor para a resposta não sair sem ela", async () => {
-    const onSend = vi.fn<() => Promise<void>>(() => Promise.reject(new Error("rede caiu")));
-    const onCancelReply = vi.fn();
+  it("envio que falha devolve o rascunho ao compositor", async () => {
+    const onSend = vi.fn(() => Promise.reject(new Error("Falha na subida")));
+    renderThread(onSend);
+
+    await typeAndSend("texto que não pode sumir");
+
+    expect(container.querySelector("textarea")!.value).toBe("texto que não pode sumir");
+  });
+
+  it("envio que falha devolve mídia, spoiler e a citação ao compositor", async () => {
+    const onSend = vi.fn(() => Promise.reject(new Error("Falha na subida")));
     const onRestoreReply = vi.fn();
     renderThread(onSend, {
-      replyingTo: { id: "m-7", from: "ana", text: "que horas?" },
-      onCancelReply,
+      replyingTo: { id: "message_1", from: "Bia", text: "pergunta" },
       onRestoreReply,
     });
 
-    await typeAndSend("agora");
+    // jsdom não tem createObjectURL; o componente usa para a prévia do anexo.
+    URL.createObjectURL = vi.fn(() => "blob:preview") as unknown as typeof URL.createObjectURL;
+    URL.revokeObjectURL = vi.fn() as unknown as typeof URL.revokeObjectURL;
 
-    expect(onCancelReply).toHaveBeenCalled();
-    expect(onRestoreReply).toHaveBeenCalledWith({ id: "m-7", from: "ana", text: "que horas?" });
-    expect(container.textContent).toContain("que horas?");
-    expect(container.textContent).toContain("rede caiu");
-
-    onSend.mockReturnValue(Promise.resolve());
-    await typeAndSend("agora");
-
-    expect(onSend).toHaveBeenLastCalledWith(
-      expect.objectContaining({ text: "agora", replyToId: "m-7" }),
+    const input = container.querySelector('input[type="file"]')!;
+    const file = new File(["x"], "foto.png", { type: "image/png" });
+    Object.defineProperty(input, "files", { value: [file] });
+    await act(async () => {
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    const spoiler = container.querySelector(
+      'button[aria-label^="Marcar"], button[title^="Marcar"]',
     );
-    expect(onCancelReply).toHaveBeenCalledTimes(2);
-    expect(onRestoreReply).toHaveBeenCalledTimes(1);
-    expect(container.textContent).not.toContain("rede caiu");
-  });
+    if (spoiler) act(() => spoiler.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+    await typeAndSend("com anexo");
 
-  it("falha no envio sem citação não chama onRestoreReply", async () => {
-    const onRestoreReply = vi.fn();
-    renderThread(() => Promise.reject(new Error("fora do ar")), { onRestoreReply });
-
-    await typeAndSend("oi");
-
-    expect(onRestoreReply).not.toHaveBeenCalled();
+    expect(onSend).toHaveBeenCalledWith(
+      expect.objectContaining({ mediaSpoiler: true, replyToId: "message_1" }),
+    );
+    expect(onRestoreReply).toHaveBeenCalledWith({ id: "message_1", from: "Bia", text: "pergunta" });
+    expect(container.querySelector("textarea")!.value).toBe("com anexo");
+    // Spoiler voltou marcado e a citação de volta no compositor.
+    expect(container.textContent).toContain("Mídias marcadas como spoiler");
+    expect(container.textContent).toContain("Respondendo a Bia");
   });
 
   it("o gate E2E esconde o histórico e o compositor e mostra o banner com o aviso", () => {
