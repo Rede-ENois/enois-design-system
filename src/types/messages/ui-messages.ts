@@ -12,7 +12,7 @@ export type UiMessages = {
     limitReached: string;
   };
   passwordInput: { show: string; hide: string };
-  emojiPicker: { search: string; empty: string };
+  emojiPicker: { search: string; empty: string; more: string };
   readMore: { more: string; less: string };
   toast: { region: string; dismiss: string };
   dateTextInput: { placeholder: string; invalid: string; outOfRange: string };

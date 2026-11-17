@@ -131,7 +131,6 @@ export function ColagemComments({
               items={attachment ? [attachment] : []}
               onFiles={onFiles}
               onRemove={onRemoveAttachment}
-              canAddMore={false}
               multiple={false}
             />
             {!attachment && (
