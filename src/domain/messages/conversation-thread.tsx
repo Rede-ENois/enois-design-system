@@ -57,6 +57,7 @@ export function ConversationThread({
   serviceHref,
   replyingTo,
   onCancelReply,
+  onRestoreReply,
 }: ConversationThreadProps) {
   const messages = useMessages().conversationThread;
   const [text, setText] = useState("");
@@ -94,6 +95,8 @@ export function ConversationThread({
       });
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : messages.mediaError);
+      // A mensagem não saiu: devolve a citação ao compositor, senão a resposta perderia o preview.
+      if (replyingTo) onRestoreReply?.(replyingTo);
     }
   };
 

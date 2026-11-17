@@ -44,4 +44,10 @@ export type ConversationThreadProps = {
   /** Mensagem sendo respondida (exibe preview acima do compositor). */
   replyingTo?: { id: string; from: string; text: string } | null;
   onCancelReply?: () => void;
+  /**
+   * Devolve a citação ao compositor quando o envio falhou — o preview acima do compositor é
+   * limpo antes do envio para evitar reenvio duplo; sem isso, uma rede instável comeria a
+   * citação escolhida e a resposta sairia sem ela.
+   */
+  onRestoreReply?: (reply: { id: string; from: string; text: string }) => void;
 };
