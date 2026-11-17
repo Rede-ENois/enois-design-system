@@ -63,6 +63,7 @@ export function PostComments<C extends PostCommentNode>({
   const [recording, setRecording] = useState(false);
   const [recordedSeconds, setRecordedSeconds] = useState(0);
   const recorderRef = useRef<MediaRecorder | null>(null);
+  const mountedRef = useRef(false);
   const audioChunksRef = useRef<Blob[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -71,6 +72,18 @@ export function PostComments<C extends PostCommentNode>({
   const [toolsOpen, setToolsOpen] = useState(false);
   // A recording in progress keeps its controls in sight.
   const toolsShown = toolsOpen || recording;
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      const recorder = recorderRef.current;
+      if (!recorder) return;
+      recorder.ondataavailable = recorder.onstop = null;
+      if (recorder.state !== "inactive") recorder.stop();
+      recorder.stream.getTracks().forEach((track) => track.stop());
+    };
+  }, []);
 
   // Gravar áudio: o mesmo caminho do anexo (vira arquivo e sobe como mídia) — o que muda é que o
   // arquivo nasce do microfone. Sem suporte no navegador, o botão nem aparece.
@@ -89,6 +102,10 @@ export function PostComments<C extends PostCommentNode>({
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((track) => track.stop());
+        return;
+      }
       const recorder = new MediaRecorder(stream);
       audioChunksRef.current = [];
       recorder.ondataavailable = (event) => {

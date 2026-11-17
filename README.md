@@ -133,9 +133,8 @@ footer, without hiding loaded comments. Desktop aligns the error with the field
 and keeps the icon beside the field and the tools below it. Fixed submit
 copy comes from `postComments.submit` and `postComments.sending` messages.
 
-`PostComments` groups replies under their loaded root in input order, keeping
-a comment whose parent is not loaded as a root. Grouping is rebuilt only when
-the `comments` array reference changes.
+Unmounting stops an active recording and releases its tracks without adding audio.
+Streams received after unmount are released without creating a recorder.
 
 `MediaGrid` preserves attachment order in lists containing audio. Each audio
 attachment gets its own player without autoplay; other attachments reuse the
