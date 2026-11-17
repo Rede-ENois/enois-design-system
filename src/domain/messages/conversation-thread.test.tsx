@@ -79,7 +79,7 @@ describe("ConversationThread", () => {
   });
 
   it("falha no envio devolve a citação ao compositor para a resposta não sair sem ela", async () => {
-    const onSend = vi.fn(() => Promise.reject(new Error("rede caiu")));
+    const onSend = vi.fn<() => Promise<void>>(() => Promise.reject(new Error("rede caiu")));
     const onCancelReply = vi.fn();
     const onRestoreReply = vi.fn();
     renderThread(onSend, {
