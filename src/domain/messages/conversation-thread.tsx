@@ -57,6 +57,7 @@ export function ConversationThread({
   serviceHref,
   replyingTo,
   onCancelReply,
+  onRestoreReply,
 }: ConversationThreadProps) {
   const messages = useMessages().conversationThread;
   const [text, setText] = useState("");
@@ -93,6 +94,12 @@ export function ConversationThread({
         replyToId: replyId,
       });
     } catch (err) {
+      // O envio falhou: o que a pessoa escreveu NÃO pode sumir. O rascunho volta
+      // integralmente (texto, mídias, spoiler e citação) junto do erro.
+      setText(content);
+      setMedia(media);
+      setMediaSpoiler(shouldSpoiler);
+      if (replyId) onRestoreReply?.({ id: replyId, from: replyingTo.from, text: replyingTo.text });
       setUploadError(err instanceof Error ? err.message : messages.mediaError);
     }
   };
