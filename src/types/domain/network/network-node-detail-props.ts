@@ -1,9 +1,16 @@
 import type { NetworkNodeApiRequest } from "./network-node-api-request.js";
 import type { NetworkNodeDetailData } from "./network-node-detail-data.js";
 import type { NetworkNodeHistoryEntry } from "./network-node-history-entry.js";
+import type { NetworkNodeObservabilityProps } from "./network-node-observability-props.js";
 
 export type NetworkNodeDetailProps = {
   detail: NetworkNodeDetailData | null;
+  /**
+   * O quadro ao vivo do nó (série e console). Repassado como está para
+   * {@link NetworkNodeObservability}: quem abre o nó vê o que o servidor está fazendo, sem sair da
+   * página nem abrir outra aba. Ausente = a seção não aparece (o detalhe continua funcionando).
+   */
+  observability?: NetworkNodeObservabilityProps;
   history: NetworkNodeHistoryEntry[];
   historyLoading?: boolean;
   /** Salva a capacidade (campo ausente = mantém o vigente). */

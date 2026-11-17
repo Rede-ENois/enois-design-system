@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import { AdaptersContext, defaultAdapters } from "../adapters/adapters-context.js";
+import { SpoilerPreferenceContext } from "../media/spoiler-preference.js";
 import type { EnoisProviderProps } from "../types/messages/enois-provider-props.js";
 
 import { mergeMessages } from "./merge-messages.js";
@@ -12,6 +13,7 @@ export function EnoisProvider({
   resolveMediaUrl,
   resolveMediaOriginalUrl,
   isOwnMediaUrl,
+  revealSensitiveMedia = false,
   children,
 }: EnoisProviderProps) {
   const messagesValue = useMemo(() => mergeMessages(messages), [messages]);
@@ -27,7 +29,9 @@ export function EnoisProvider({
 
   return (
     <AdaptersContext.Provider value={adaptersValue}>
-      <MessagesContext.Provider value={messagesValue}>{children}</MessagesContext.Provider>
+      <MessagesContext.Provider value={messagesValue}>
+        <SpoilerPreferenceContext value={revealSensitiveMedia}>{children}</SpoilerPreferenceContext>
+      </MessagesContext.Provider>
     </AdaptersContext.Provider>
   );
 }

@@ -6,4 +6,9 @@ export type EmbedPlayerProps = {
    * então o som vem no clique: na capa ou no botão do próprio player.
    */
   autoplay?: boolean;
+  /**
+   * Segundo do vídeo em que a reprodução começa (parâmetro `t` do link compartilhado). Sem valor,
+   * o player começa do começo.
+   */
+  startSeconds?: number;
 };

@@ -7,6 +7,7 @@ import type { FormatPlaceholders } from "../lib/rich-text/format-placeholders.js
 export type PostMessages = {
   caughtUpDivider: { title: string; subline: string };
   composerLauncher: { placeholder: string; addMedia: string };
+  composerDraft: { salvo: (hora: string) => string; descartar: string };
   composerMediaPicker: {
     add: string;
     remove: string;
@@ -45,6 +46,8 @@ export type PostMessages = {
     topic: string;
     momentExpiry: (hours: number) => string;
     momentExpiryTitle: string;
+    instanteExpiry: (minutes: number) => string;
+    instanteExpiryTitle: string;
     sealSeeWho: string;
     repostedWithOpinion: string;
     repostedBy: (name: string | null | undefined) => string;

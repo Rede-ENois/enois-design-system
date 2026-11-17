@@ -22,4 +22,11 @@ export type AccountSettingsProps = {
   onDeleteAccount: () => void;
   /** "Uso saudável" dialog; the row only shows when it is set. */
   onOpenHealthyUsage?: () => void;
+  /**
+   * Estado da preferência "revelar mídia sensível" (nasce revelado no feed, no perfil e na
+   * colagem). A linha só existe quando o par com `onToggleRevealSensitiveMedia` está completo;
+   * a persistência é de quem renderiza.
+   */
+  revealSensitiveMedia?: boolean;
+  onToggleRevealSensitiveMedia?: (revealed: boolean) => void;
 };

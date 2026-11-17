@@ -1,4 +1,5 @@
 export { CaughtUpDivider } from "./caught-up-divider.js";
+export { ComposerDraftStatus } from "./composer-draft-status.js";
 export { ComposerLauncher } from "./composer-launcher.js";
 export { ComposerMediaPicker } from "./composer-media-picker.js";
 export { HashtagPicker } from "./hashtag-picker.js";
@@ -128,6 +129,7 @@ export type { FormatResult } from "../../types/lib/rich-text/format-result.js";
 export type { InlineChunk } from "../../types/lib/rich-text/inline-chunk.js";
 export type { RichNode } from "../../types/lib/rich-text/rich-node.js";
 export type { RichTextFormat } from "../../types/lib/rich-text/rich-text-format.js";
+export type { ComposerDraftStatusProps } from "../../types/domain/post/composer-draft-status-props.js";
 export type { ComposerLauncherProps } from "../../types/domain/post/composer-launcher-props.js";
 export type { ComposerMediaDraft } from "../../types/domain/post/composer-media-draft.js";
 export type { ComposerMediaPickerProps } from "../../types/domain/post/composer-media-picker-props.js";

@@ -250,6 +250,14 @@
      faixa branca acima e abaixo do feed em tema escuro. */
   html {
     background-color: var(--color-background);
+    /* Controles nativos (popup do <select>, scrollbar) seguem o esquema declarado no root: sem
+       isso o Chrome monta o menu branco mesmo em tema escuro e o texto do tema (claro) some no
+       fundo branco — reportado na página de ajuda e no Par de Estudo. */
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 
   body {
@@ -5153,4 +5161,25 @@ html[data-batata] .profile-scope {
     margin-left: -22px;
     z-index: 10;
   }
+}
+
+/* Barra de resultado da enquete: a largura é o percentual de votos da alternativa. */
+.enquete-barra {
+  width: var(--enquete-barra, 0%);
+}
+
+/* Linha vertical do diário do perfil: ligação entre os pontos de cada evento. */
+.diario-linha {
+  position: relative;
+}
+
+.diario-linha::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 999px;
 }

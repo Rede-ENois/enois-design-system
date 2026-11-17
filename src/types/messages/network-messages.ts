@@ -121,6 +121,37 @@ export type NetworkMessages = {
     apiRequestEntry: (route: string, status: string, attempt: number) => string;
     apiRequestDeadline: (when: string) => string;
   };
+  networkNodeObservability: {
+    title: string;
+    description: string;
+    refresh: string;
+    refreshing: string;
+    refreshedAt: (when: string) => string;
+    loading: string;
+    empty: string;
+    summaryCpuAvg: string;
+    summaryCpuMax: string;
+    summaryMemory: string;
+    summaryDisk: string;
+    summaryTasks: string;
+    summarySamples: (count: number) => string;
+    percent: (value: number) => string;
+    memoryMb: (mb: number) => string;
+    diskMb: (mb: number) => string;
+    tasks: (count: number) => string;
+    notReported: string;
+    seriesTitle: string;
+    seriesEmpty: string;
+    seriesPoint: (time: string, cpu: string) => string;
+    consoleTitle: string;
+    consoleEmpty: string;
+    consoleLevels: (info: number, warn: number, error: number) => string;
+    levelInfo: string;
+    levelWarn: string;
+    levelError: string;
+    levelDebug: string;
+    windowHint: (samples: number, lines: number) => string;
+  };
   networkDashboardStrip: {
     total: string;
     active: string;

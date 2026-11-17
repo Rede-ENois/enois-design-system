@@ -34,6 +34,9 @@ export type AccountMessages = {
     healthyUsage: string;
     project: string;
     supportUs: string;
+    /** Preferência de mídia sensível: linha com interruptor na seção de preferências. */
+    revealSensitiveMedia: string;
+    revealSensitiveMediaHint: string;
   };
   pushToggle: { on: string; off: string; working: string };
   ageGate: {

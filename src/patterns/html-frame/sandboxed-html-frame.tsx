@@ -38,6 +38,7 @@ export function SandboxedHtmlFrame({
   theme,
   themeStyleElementId,
   lite = false,
+  onFrameDocument,
 }: SandboxedHtmlFrameProps) {
   const frame = useRef<HTMLIFrameElement>(null);
   // SoundCloud requires an opaque sandbox origin, so the parent cannot inspect or style its
@@ -75,6 +76,24 @@ export function SandboxedHtmlFrame({
     const altura = maxHeight ? Math.min(conteudo, maxHeight) : conteudo;
     setMeasured((atual) => (atual === altura ? atual : altura));
   }, [maxHeight]);
+
+  /**
+   * Entrega o documento do quadro a quem declara `onFrameDocument`, nos mesmos pontos da medida:
+   * agora (o `srcdoc` pode ja ter carregado) e no `load`. Leitura apenas — o documento nao e
+   * escrito por aqui.
+   */
+  useEffect(() => {
+    if (!onFrameDocument) return;
+    const element = frame.current;
+    if (!element) return;
+    const deliver = () => onFrameDocument(element.contentDocument ?? null);
+    element.addEventListener("load", deliver);
+    deliver();
+    return () => {
+      element.removeEventListener("load", deliver);
+      onFrameDocument(null);
+    };
+  }, [onFrameDocument, html]);
 
   useEffect(() => {
     if (!grows) return;

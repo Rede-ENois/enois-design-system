@@ -35,6 +35,9 @@ export const accountMessages: AccountMessages = {
     healthyUsage: "Uso saudável",
     project: "O Énóis",
     supportUs: "Apoie o Énóis",
+    revealSensitiveMedia: "Revelar mídia sensível",
+    revealSensitiveMediaHint:
+      "Mostra sem o véu as fotos marcadas como sensíveis no feed, no perfil e na colagem.",
   },
   pushToggle: {
     on: "Notificações no celular ativadas",

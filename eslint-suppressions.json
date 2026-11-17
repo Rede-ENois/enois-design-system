@@ -179,12 +179,12 @@
       "count": 1
     },
     "local/style-only-css-vars": {
-      "count": 5
+      "count": 4
     }
   },
   "src/domain/cosmetics/cosmetic-shop.tsx": {
     "local/style-only-css-vars": {
-      "count": 3
+      "count": 1
     }
   },
   "src/domain/cosmetics/nameplate.tsx": {
@@ -194,7 +194,7 @@
   },
   "src/domain/cosmetics/profile-card.tsx": {
     "local/style-only-css-vars": {
-      "count": 3
+      "count": 2
     }
   },
   "src/domain/cosmetics/profile-effect.tsx": {
@@ -256,16 +256,6 @@
       "count": 2
     }
   },
-  "src/domain/messages/conversation-header.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
-  "src/domain/messages/conversation-item.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
   "src/domain/moderation/monitoring-section.tsx": {
     "local/no-jsx-literal-text": {
       "count": 5
@@ -285,26 +275,6 @@
   "src/domain/name/styled-name.tsx": {
     "local/style-only-css-vars": {
       "count": 5
-    }
-  },
-  "src/domain/network/network-requests.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
-  "src/domain/notifications/notification-item.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
-  "src/domain/post/author-info.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
-  "src/domain/post/comments/comment-item.tsx": {
-    "local/style-only-css-vars": {
-      "count": 3
     }
   },
   "src/domain/post/comments/post-comments.tsx": {
@@ -327,11 +297,6 @@
       "count": 6
     }
   },
-  "src/domain/post/post-notes.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
   "src/domain/post/rich-text.tsx": {
     "local/style-only-css-vars": {
       "count": 1
@@ -348,11 +313,6 @@
     }
   },
   "src/domain/profile/profile-garden.tsx": {
-    "local/style-only-css-vars": {
-      "count": 1
-    }
-  },
-  "src/domain/profile/profile-network-dialog.tsx": {
     "local/style-only-css-vars": {
       "count": 1
     }

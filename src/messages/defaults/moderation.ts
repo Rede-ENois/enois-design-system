@@ -1,6 +1,45 @@
 import type { ModerationMessages } from "../../types/messages/moderation-messages.js";
 
 export const moderationMessages: ModerationMessages = {
+  adminProfileActionsSection: {
+    title: "Ações diretas de administração",
+    description: (target: string) =>
+      `Decisões de administrador sobre ${target}, sem votação: a advertência fica no histórico da conta; o banimento derruba as sessões e impede novo login.`,
+    reasonPlaceholder: "Motivo (mínimo 10 caracteres)",
+    reasonTooShort: "O motivo precisa de pelo menos 10 caracteres.",
+    warn: "Advertir",
+    ban: "Banir",
+    banPermanent: "Banir permanentemente",
+    confirmTitle: "Confirmar ação",
+    confirmWarn: (target: string) =>
+      `Registrar advertência em ${target}? A pessoa é avisada e vê a advertência no histórico da conta.`,
+    confirmBan: (target: string) =>
+      `Banir ${target}? As sessões caem na hora e a conta não consegue entrar de novo.`,
+    confirmBanPermanent: (target: string) =>
+      `Banir ${target} PERMANENTEMENTE, sem caminho de recurso? As sessões caem e a conta não volta.`,
+    confirmReason: (reason: string) => `Motivo registrado: “${reason}”.`,
+    confirm: "Confirmar",
+    cancel: "Cancelar",
+    activeWarnings: (count: number) =>
+      count === 1
+        ? "A conta tem 1 advertência ativa."
+        : `A conta tem ${count} advertências ativas.`,
+    historyTitle: "Histórico administrativo",
+    historyEmpty: "Nenhuma advertência ou sanção registrada nesta conta.",
+    active: "ativa",
+    inactive: "inativa",
+    dueAt: (date: string) => `vira banimento em ${date}`,
+    revoke: "Revogar advertência",
+    revokeReasonPlaceholder: "Explique por que a advertência está sendo revista.",
+    revokeConfirm: "Revogar",
+    error: "Não foi possível registrar a decisão.",
+  },
+  adminRemovePostAction: {
+    reasonPlaceholder: "Motivo (mínimo 10 caracteres)",
+    reasonTooShort: "O motivo precisa de pelo menos 10 caracteres.",
+    cancel: "Cancelar",
+    error: "Não foi possível remover a publicação.",
+  },
   appealsSection: {
     title: "Moderação · recursos",
     description:

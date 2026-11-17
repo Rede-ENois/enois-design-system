@@ -1,4 +1,36 @@
 export type ModerationMessages = {
+  adminProfileActionsSection: {
+    title: string;
+    description: (target: string) => string;
+    reasonPlaceholder: string;
+    reasonTooShort: string;
+    warn: string;
+    ban: string;
+    banPermanent: string;
+    confirmTitle: string;
+    confirmWarn: (target: string) => string;
+    confirmBan: (target: string) => string;
+    confirmBanPermanent: (target: string) => string;
+    confirmReason: (reason: string) => string;
+    confirm: string;
+    cancel: string;
+    activeWarnings: (count: number) => string;
+    historyTitle: string;
+    historyEmpty: string;
+    active: string;
+    inactive: string;
+    dueAt: (date: string) => string;
+    revoke: string;
+    revokeReasonPlaceholder: string;
+    revokeConfirm: string;
+    error: string;
+  };
+  adminRemovePostAction: {
+    reasonPlaceholder: string;
+    reasonTooShort: string;
+    cancel: string;
+    error: string;
+  };
   appealsSection: {
     title: string;
     description: string;

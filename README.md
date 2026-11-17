@@ -209,6 +209,54 @@ administrativas confirmadas. Dados, capacidades, URLs e mutações vêm do consu
 os controles inativos e disponíveis, sem esconder bloqueio, carregamento ou pendência.
 Veja o [contrato do painel](docs/moderator-workspace.md).
 
+### Platform notices
+
+`NoticeModal` (domain) draws the platform notice dialog as one surface that takes its identity
+from the published HTML. The sandboxed frame document may declare the integration contract —
+`--notice-primary`, `--notice-background`, `--notice-surface`, `--notice-text`, `--notice-muted`,
+`--notice-border`, `--notice-button-text` — and the container reads them from `contentDocument`
+(same-origin sandbox, no scripts) to paint header, footer, background and confirm button. Anything
+the HTML does not declare falls back to the platform tokens, so an old notice keeps the platform
+look and no palette is imposed on the content. The confirm button text is the declared
+`--notice-button-text` or, without one, the readable end (near-white/near-black) computed from the
+declared primary by `readableTextOn`. Desktop caps at 680px/85vh, mobile at 24px side margins and
+92dvh; the single scroll lives in the content area around the growing frame.
+
+```tsx
+<NoticeModal
+  open={open}
+  onOpenChange={setOpen}
+  title={notice.title}
+  html={notice.bodyHtml}
+  theme={theme}
+  themeStyleElementId={THEME_STYLE_ELEMENT_ID}
+  publishedAtLabel={`publicado em ${formatDate(notice.publishedAt)}`}
+  onConfirm={confirmReading}
+/>
+```
+
+## Recruitment panel
+
+`RecruitmentBoard` (domain) draws the hiring funnel: one column per stage, an entrance column when
+the flow is not configured yet, and a column for applications that left the process. Selection is a
+named checkbox per card — never a drag gesture — and the selected batch moves through the stage
+select or the advance/return/reject buttons, which emit a `RecruitmentBatchTarget`; each call is a
+whole batch decision, and the outcome text comes back from the app in `resultNote`.
+
+`RecruitmentTable` (domain) draws the same applications as a paginated table: the page checkbox
+selects the page (`sr-only` input over a drawn mark), `hasMore`/`onLoadMore` append the next cursor
+page, and the status select and search field emit the filter values for the server query — the
+component never filters what the backend already filtered.
+
+`RecruitmentScoreLine` draws the screening score as a pill that opens the breakdown of written
+signals; with `score.available = false` (the job declares nothing to compare) it says so instead of
+drawing a zero. `RecruitmentDetailDialog` draws the candidate file: the profile snapshot the
+application was made with, the message, the form answers and the score breakdown; interview and
+rejection actions come from the app as `children`.
+
+Every recruiter-facing word comes from `messages.recruitment`; the status labels themselves come
+from the app as `statusLabel`, because product vocabulary does not live here.
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).

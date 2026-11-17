@@ -3,6 +3,11 @@
 // `bg-[var(--swatch)]`), so a token change still reaches every component and nothing paints a raw
 // value past the theme.
 
+// Exceção por colisão de nome: o `style` do StyledName não é CSS — é o estilo do nome escolhido
+// no perfil (tema, fonte, cor) viajando como dado de domínio. A regra só olha atributos de
+// elementos que desenham estilo próprio.
+const DOMAIN_STYLE_COMPONENTS = new Set(["StyledName"]);
+
 function keyName(property) {
   if (property.type !== "Property" || property.computed) return null;
   if (property.key.type === "Literal") return String(property.key.value);
@@ -29,6 +34,10 @@ export default {
     return {
       JSXAttribute(node) {
         if (node.name.type !== "JSXIdentifier" || node.name.name !== "style") return;
+        const element = node.parent?.name;
+        if (element?.type === "JSXIdentifier" && DOMAIN_STYLE_COMPONENTS.has(element.name)) {
+          return;
+        }
         const expression =
           node.value?.type === "JSXExpressionContainer" ? node.value.expression : null;
         if (!expression || expression.type !== "ObjectExpression") {

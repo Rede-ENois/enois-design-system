@@ -11,6 +11,8 @@ import { Pill } from "../../ui/pill.js";
 import { Select } from "../../ui/select.js";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "../../ui/sheet.js";
 
+import { NetworkNodeObservability } from "./network-node-observability.js";
+
 /** Campos com o valor vigente: o admin edita o que está lá, não preenche de zero. Vazio = mantém. */
 function NodeCapacityForm({
   detail,
@@ -202,6 +204,7 @@ export function NetworkNodeDetail({
   routePending = false,
   apiRequests,
   apiRequestsLoading = false,
+  observability,
   onOpenChange,
 }: NetworkNodeDetailProps) {
   const messages = useMessages().networkNodeDetail;
@@ -235,6 +238,12 @@ export function NetworkNodeDetail({
             </SheetHeader>
 
             <div className="mt-4 space-y-6 pr-2">
+              {observability ? (
+                <section className="space-y-3">
+                  <NetworkNodeObservability {...observability} />
+                </section>
+              ) : null}
+
               <section className="space-y-3">
                 <h3 className="text-xs font-semibold uppercase tracking-widest text-text-subtle">
                   {messages.capacityTitle}

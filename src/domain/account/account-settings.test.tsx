@@ -88,6 +88,57 @@ describe("AccountSettings: what left the account menu", () => {
     expect(feedIndex).toBeGreaterThan(notificationIndex);
   });
 
+  it("mostra a preferência de mídia sensível e repassa o clique do interruptor", () => {
+    const onToggleRevealSensitiveMedia = vi.fn();
+    act(() =>
+      root.render(
+        <AccountSettings
+          hrefs={{ security: "/s", blockedUsers: "/b", myReports: "/d", sanctions: "/p" }}
+          onChangeEmail={() => {}}
+          onChangePassword={() => {}}
+          onOpenLinkedAccounts={() => {}}
+          onDeleteAccount={() => {}}
+          revealSensitiveMedia={false}
+          onToggleRevealSensitiveMedia={onToggleRevealSensitiveMedia}
+        />,
+      ),
+    );
+
+    expect(container.textContent).toContain("Revelar mídia sensível");
+    expect(container.textContent).toContain("Mostra sem o véu as fotos marcadas como sensíveis");
+    const interruptor = container.querySelector<HTMLButtonElement>("button[role=switch]");
+    expect(interruptor).toBeTruthy();
+    expect(interruptor!.getAttribute("aria-checked")).toBe("false");
+    act(() => interruptor!.click());
+    expect(onToggleRevealSensitiveMedia).toHaveBeenCalledWith(true);
+  });
+
+  it("a preferência ligada nasce marcada e sem a linha quando o app não passa o par", () => {
+    const ligada = renderToStaticMarkup(
+      <AccountSettings
+        hrefs={{ security: "/s", blockedUsers: "/b", myReports: "/d", sanctions: "/p" }}
+        onChangeEmail={() => {}}
+        onChangePassword={() => {}}
+        onOpenLinkedAccounts={() => {}}
+        onDeleteAccount={() => {}}
+        revealSensitiveMedia={true}
+        onToggleRevealSensitiveMedia={() => {}}
+      />,
+    );
+    expect(ligada).toContain('data-state="checked"');
+
+    const semPreferencia = renderToStaticMarkup(
+      <AccountSettings
+        hrefs={{ security: "/s", blockedUsers: "/b", myReports: "/d", sanctions: "/p" }}
+        onChangeEmail={() => {}}
+        onChangePassword={() => {}}
+        onOpenLinkedAccounts={() => {}}
+        onDeleteAccount={() => {}}
+      />,
+    );
+    expect(semPreferencia).not.toContain("Revelar mídia sensível");
+  });
+
   it("hides feed preferences when the app does not give the href", () => {
     const markup = renderToStaticMarkup(
       <AccountSettings

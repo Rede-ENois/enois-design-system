@@ -43,6 +43,11 @@ export const POST_TYPE_META: Record<PostType, PostTypeMeta> = {
     className: "bg-secondary/30 text-text-strong",
     classAvatar: "",
   },
+  INSTANTE: {
+    // Mesma família visual do Momento (o par do secundário pálido é o que contrasta aqui).
+    className: "bg-secondary/30 text-text-strong",
+    classAvatar: "",
+  },
   DIVERTIDO: {
     className: "bg-accent text-accent-foreground",
     classAvatar: "",
@@ -63,5 +68,10 @@ export const POST_TYPE_META: Record<PostType, PostTypeMeta> = {
     // Destaque próprio do contexto profissional (o mesmo par usado pelos demais tipos).
     className: "bg-highlight-news text-highlight-news-text",
     classAvatar: "bg-user-news text-user-news-text",
+  },
+  COMPLAINT: {
+    // O par da oportunidade (tom quente de atenção): reclamação pede olhar, não celebração.
+    className: "bg-opportunity/20 text-opportunity-foreground",
+    classAvatar: "",
   },
 };

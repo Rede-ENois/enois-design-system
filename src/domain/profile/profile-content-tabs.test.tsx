@@ -34,10 +34,10 @@ const tabs = () => container.querySelectorAll<HTMLButtonElement>("[role=tab]");
 const tab = (label: string) => [...tabs()].find((el) => el.textContent?.includes(label));
 
 describe("ProfileContentTabs", () => {
-  it("renders all five tabs", () => {
+  it("renders all six tabs", () => {
     render();
-    expect(tabs()).toHaveLength(5);
-    for (const label of ["Todos", "Posts", "Respostas", "Reposts", "Mídia"]) {
+    expect(tabs()).toHaveLength(6);
+    for (const label of ["Todos", "Posts", "Respostas", "Reposts", "Mídia", "Diário"]) {
       expect(tab(label), label).toBeTruthy();
     }
   });

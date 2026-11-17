@@ -50,3 +50,14 @@ describe("NotificationItem: prévia do post", () => {
     expect(sem).not.toContain("line-clamp-2");
   });
 });
+
+describe("NotificationItem: repost do post", () => {
+  it("usa o ícone próprio de repost em vez do genérico de conexão", () => {
+    const html = render({ ...notification, kind: "POST_REPOSTED" });
+
+    // O item usa o círculo de iniciais com as cores da meta: repost usa growth (Repeat), não o
+    // fallback de conexão (primary-soft).
+    expect(html).toContain("bg-growth/15 text-growth");
+    expect(html).not.toContain("bg-primary-soft text-primary");
+  });
+});

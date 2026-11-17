@@ -3,16 +3,19 @@ import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 
 import { cn } from "../../../lib/utils.js";
+import { useSpoilerPreference } from "../../../media/spoiler-preference.js";
 import type { SpoilerMediaProps } from "../../../types/domain/post/spoiler-media-props.js";
 
 export function SpoilerMedia({ active = false, label, children }: SpoilerMediaProps) {
-  const [revealed, setRevealed] = useState(!active);
+  // Preferência de quem lê: "sempre revelar" faz o véu nem existir para esta mídia.
+  const prefereRevelar = useSpoilerPreference();
+  const [revealed, setRevealed] = useState(!active || prefereRevelar);
 
   useEffect(() => {
-    setRevealed(!active);
-  }, [active]);
+    setRevealed(!active || prefereRevelar);
+  }, [active, prefereRevelar]);
 
-  if (!active) return children(true);
+  if (!active || prefereRevelar) return children(true);
 
   return (
     <div className="relative overflow-hidden rounded-xl">
