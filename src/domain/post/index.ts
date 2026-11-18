@@ -8,6 +8,7 @@ export { PostCard } from "./post-card.js";
 export { PostCardSkeletons } from "./post-card-skeletons.js";
 export { PostEditDialog } from "./post-edit-dialog.js";
 export { PostNotes } from "./post-notes.js";
+export { PostDestinosDialog } from "./post-destinos-dialog.js";
 export { PostOwnerMenu } from "./post-owner-menu.js";
 export { PostSealPicker } from "./post-seal-picker.js";
 export { POST_SEALS, postSeal } from "./post-seals.js";
@@ -97,6 +98,8 @@ export type { PostEditDialogProps } from "../../types/domain/post/post-edit-dial
 export type { PostMediaGridProps } from "../../types/domain/post/post-media-grid-props.js";
 export type { PostNoteData } from "../../types/domain/post/post-note-data.js";
 export type { PostNotesProps } from "../../types/domain/post/post-notes-props.js";
+export type { PostDestinoItem } from "../../types/domain/post/post-destino-item.js";
+export type { PostDestinosDialogProps } from "../../types/domain/post/post-destinos-dialog-props.js";
 export type { PostOwnerMenuProps } from "../../types/domain/post/post-owner-menu-props.js";
 export type { PostPageProps } from "../../types/domain/post/post-page-props.js";
 export type { PostRichTextProps } from "../../types/domain/post/post-rich-text-props.js";

@@ -16,6 +16,7 @@ import { MentionTextarea } from "./editor/mention-textarea.js";
 import { MediaGrid } from "./media/media-grid.js";
 import { PostCardSkeletons } from "./post-card-skeletons.js";
 import { PostCard } from "./post-card.js";
+import { PostDestinosDialog } from "./post-destinos-dialog.js";
 import { PostNotes } from "./post-notes.js";
 import { PostSealPicker } from "./post-seal-picker.js";
 import { QuestionComposerHint } from "./question-composer-hint.js";
@@ -450,6 +451,32 @@ export const Report: StoryObj = {
         open={open}
         onOpenChange={setOpen}
         onSubmit={async () => true}
+      />
+    );
+  },
+};
+
+export const Destinos: StoryObj = {
+  render: function DestinosStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <PostDestinosDialog
+        open={open}
+        onOpenChange={setOpen}
+        postId="p1"
+        murais={[
+          { id: "m1", title: "Trabalho remoto", description: null, count: 12, tem: false },
+          { id: "m2", title: "Ideias de projeto", description: null, count: 4, tem: true },
+        ]}
+        colecoes={[
+          { id: "c1", title: "Ler depois", description: null, count: 7, tem: false },
+          { id: "c2", title: "Referências de UI", description: null, count: 0, tem: true },
+        ]}
+        pendentes={new Set<string>()}
+        erro={null}
+        onColarNoMural={() => {}}
+        onGuardarNaColecao={() => {}}
       />
     );
   },

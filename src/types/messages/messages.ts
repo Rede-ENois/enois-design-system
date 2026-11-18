@@ -31,6 +31,7 @@ import type { NotificationsMessages } from "./notifications-messages.js";
 import type { OnboardingMessages } from "./onboarding-messages.js";
 import type { PaporetoMessages } from "./paporeto-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
+import type { PostDestinosMessages } from "./post-destinos-messages.js";
 import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
 import type { PwaMessages } from "./pwa-messages.js";
@@ -73,6 +74,7 @@ export type Messages = UiMessages &
   EmotesMessages &
   EmotesMessages &
   PostMessages &
+  PostDestinosMessages &
   GamesMessages &
   AppearanceMessages &
   WalletMessages &

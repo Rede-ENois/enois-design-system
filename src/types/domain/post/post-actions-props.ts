@@ -36,6 +36,11 @@ export type PostActionsProps<T extends string = string> = {
   shareMenu?: ReactNode;
   onReport: () => void;
   onSave: () => void;
+  /**
+   * Seletor "para onde vai este post" (murais + coleções): quando presente, um botão ao lado
+   * do salvar abre o destino do post sem sair do card. Ausente, o card fica como era.
+   */
+  destinosMenu?: ReactNode;
   /** Ações extras no fim da fileira (os selos do feed, por exemplo). */
   children?: ReactNode;
   /** Diálogos da fileira (republicar, reações, selos, denúncia), montados pelo app. */
