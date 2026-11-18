@@ -1,5 +1,14 @@
 export type ConversationsMessages = {
   conversationHeader: { back: string; conversationFallback: string };
+  /** Criação de grupo: título, busca/seleção de pessoas e o botão de criar. */
+  groupComposer: {
+    title: string;
+    name: string;
+    namePlaceholder: string;
+    search: string;
+    noResults: string;
+    create: (count: number) => string;
+  };
   conversationItem: { conversationFallback: string };
   chatDock: {
     title: string;
