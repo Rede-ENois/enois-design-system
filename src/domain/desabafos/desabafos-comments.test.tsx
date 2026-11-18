@@ -104,6 +104,11 @@ describe("DesabafosComments", () => {
     expect(campo()?.value).toBe("fica firme");
   });
 
+  it("o campo de acolhida tem o teto do backend (800)", () => {
+    render();
+    expect(campo()?.maxLength).toBe(800);
+  });
+
   it("só a acolhida minha tem o gesto de remover", () => {
     const remover = vi.fn();
     const minha: DesabafosCommentView = { ...acolhidaAlheia, id: "desabafo_c_2", isMine: true };

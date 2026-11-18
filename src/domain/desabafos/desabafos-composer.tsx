@@ -5,10 +5,9 @@ import { HeartHandshake, Loader2 } from "lucide-react";
 import { useMessages } from "../../messages/messages-context.js";
 import type { DesabafosComposerProps } from "../../types/domain/desabafos/desabafos-composer-props.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 
-/** O teto do desabafo no backend (DesabafosService.MAX_CONTENT); contar aqui evita o 400. */
+/** O teto do desabafo no backend (DesabafosService.MAX_CONTENT); o mesmo teto aqui evita o 400. */
 const MAX_CONTENT = 5000;
 
 /**
@@ -47,8 +46,8 @@ export function DesabafosComposer({ onPublish }: DesabafosComposerProps) {
           placeholder={messages.placeholder}
           aria-label={messages.placeholder}
           rows={4}
+          maxLength={MAX_CONTENT}
         />
-        <CharCounter length={texto.length} max={MAX_CONTENT} />
       </div>
 
       <Button

@@ -7,7 +7,6 @@ import type { DesabafosCommentInput } from "../../types/domain/desabafos/desabaf
 import type { DesabafosCommentView } from "../../types/domain/desabafos/desabafos-comment-view.js";
 import type { DesabafosCommentsState } from "../../types/domain/desabafos/desabafos-comments-state.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 
 /** O teto da acolhida no backend (DesabafosService.MAX_COMMENT); contar aqui evita o 400. */
@@ -100,11 +99,10 @@ export function DesabafosComments({
           placeholder={messages.placeholder}
           aria-label={messages.placeholder}
           rows={2}
+          maxLength={MAX_COMMENT}
         />
 
         <div className="flex items-center justify-between gap-2">
-          <CharCounter length={texto.length} max={MAX_COMMENT} />
-
           <Button
             size="sm"
             onClick={() => void acolher()}

@@ -83,6 +83,11 @@ describe("ConfessionarioComposer", () => {
     expect(campo()?.value).toBe("ainda me dá vergonha contar");
   });
 
+  it("o campo tem o teto do backend (5000)", () => {
+    render();
+    expect(campo()?.maxLength).toBe(5000);
+  });
+
   it("lembra que ninguém fica sabendo quem contou e que o texto fica fora do feed principal", () => {
     render();
     expect(host.textContent).toContain("Ninguém fica sabendo");

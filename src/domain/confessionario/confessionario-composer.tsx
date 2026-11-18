@@ -5,7 +5,6 @@ import { Loader2, ScrollText } from "lucide-react";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ConfessionarioComposerProps } from "../../types/domain/confessionario/confessionario-composer-props.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 
 /** O teto da confissão no backend (ConfessionarioService.MAX_CONTENT); contar aqui evita o 400. */
@@ -46,8 +45,8 @@ export function ConfessionarioComposer({ onPublish }: ConfessionarioComposerProp
           placeholder={messages.placeholder}
           aria-label={messages.placeholder}
           rows={4}
+          maxLength={MAX_CONTENT}
         />
-        <CharCounter length={texto.length} max={MAX_CONTENT} />
       </div>
 
       <Button
