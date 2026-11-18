@@ -104,6 +104,11 @@ describe("ConfessionarioComments", () => {
     expect(campo()?.value).toBe("rindo junto daqui");
   });
 
+  it("o campo de comentário tem o teto do backend (800)", () => {
+    render();
+    expect(campo()?.maxLength).toBe(800);
+  });
+
   it("só o comentário meu tem o gesto de remover", () => {
     const remover = vi.fn();
     const meu: ConfessionarioCommentView = {

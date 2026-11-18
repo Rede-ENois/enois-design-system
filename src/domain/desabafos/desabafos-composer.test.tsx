@@ -87,4 +87,11 @@ describe("DesabafosComposer", () => {
     render();
     expect(host.textContent).toContain("fora do feed principal");
   });
+
+  it("o campo tem o teto do backend (3000): o navegador corta a digitação nele", () => {
+    render();
+    // jsdom não aplica maxLength; o que se prova aqui é o teto amarrado ao campo (que o
+    // navegador cumpre), igual ao resto dos formulários do DS.
+    expect(campo()?.maxLength).toBe(3000);
+  });
 });
