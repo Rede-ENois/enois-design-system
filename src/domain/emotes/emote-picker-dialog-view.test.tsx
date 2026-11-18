@@ -94,6 +94,23 @@ describe("EmotePickerDialogView", () => {
     expect(cell("GONE")?.querySelector("img")).toBeNull();
   });
 
+  it("a grade cabe no diálogo e rola por dentro, sem crescer com a lista", () => {
+    // O seletor ocupa a tela inteira quando a lista é longa; a rolagem é da grade, não do
+    // diálogo, para header, busca, abas e rodapé continuarem no lugar.
+    render({
+      items: Array.from({ length: 80 }, (_, indice) => ({ code: `G${indice}` })),
+      total: 80,
+    });
+
+    const grade = cell("G0")?.closest<HTMLElement>(".overflow-y-auto");
+
+    expect(grade).not.toBeNull();
+    expect(grade?.className).toContain("max-h-52");
+    expect(cell("G79")?.closest(".overflow-y-auto")).toBe(grade);
+    // O diálogo não é quem rola: o limite dele é só a tela.
+    expect(grade?.closest('[role="dialog"]')?.className).not.toContain("overflow-y-auto");
+  });
+
   it("o clique na figurinha devolve o item", () => {
     render();
 

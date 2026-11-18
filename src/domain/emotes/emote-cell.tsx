@@ -17,7 +17,7 @@ export function EmoteCell({ code, src, onSelect }: EmoteCellProps) {
       title={code}
       aria-label={code}
       onClick={() => onSelect(code)}
-      className="mx-auto flex h-11 w-11 items-center justify-center rounded-lg p-1.5 transition hover:scale-105 hover:bg-surface-2 hover:ring-1 hover:ring-primary/35 active:scale-95 active:bg-surface-2 active:ring-2 active:ring-ring"
+      className="mx-auto flex h-9 w-9 items-center justify-center rounded-lg p-1 transition hover:scale-105 hover:bg-surface-2 hover:ring-1 hover:ring-primary/35 active:scale-95 active:bg-surface-2 active:ring-2 active:ring-ring"
     >
       {src && (
         <img
@@ -25,7 +25,7 @@ export function EmoteCell({ code, src, onSelect }: EmoteCellProps) {
           alt={code}
           loading="lazy"
           decoding="async"
-          className="h-8 w-8 object-contain"
+          className="h-7 w-7 object-contain"
         />
       )}
     </button>
@@ -68,7 +68,7 @@ export function EmoteSearchField({
 
 /** A grade em si: seis colunas no telefone, oito da tela pequena para cima. */
 export function EmoteGrid({ children }: { children: React.ReactNode }) {
-  return <div className="grid grid-cols-6 gap-1 sm:grid-cols-8">{children}</div>;
+  return <div className="grid grid-cols-8 gap-0.5 sm:grid-cols-10">{children}</div>;
 }
 
 /**
