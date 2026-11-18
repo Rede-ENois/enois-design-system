@@ -18,6 +18,7 @@ import { desabafosMessages } from "./defaults/desabafos.js";
 import { developersMessages } from "./defaults/developers.js";
 import { diarioMessages } from "./defaults/diario.js";
 import { editorMessages } from "./defaults/editor.js";
+import { emotesMessages } from "./defaults/emotes.js";
 import { enquetesMessages } from "./defaults/enquetes.js";
 import { eventsMessages } from "./defaults/events.js";
 import { gamesMessages } from "./defaults/games.js";
@@ -64,6 +65,7 @@ export const defaultMessages: Messages = {
   ...pwaMessages,
   ...wellbeingMessages,
   ...editorMessages,
+  ...emotesMessages,
   ...postMessages,
   ...gamesMessages,
   ...appearanceMessages,

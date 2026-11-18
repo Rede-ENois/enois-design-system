@@ -16,6 +16,7 @@ import type { DesabafosMessages } from "./desabafos-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { DiarioMessages } from "./diario-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
+import type { EmotesMessages } from "./emotes-messages.js";
 import type { EnquetesMessages } from "./enquetes-messages.js";
 import type { EventsMessages } from "./events-messages.js";
 import type { GamesMessages } from "./games-messages.js";
@@ -68,6 +69,8 @@ export type Messages = UiMessages &
   PwaMessages &
   WellbeingMessages &
   EditorMessages &
+  EmotesMessages &
+  EmotesMessages &
   PostMessages &
   GamesMessages &
   AppearanceMessages &
