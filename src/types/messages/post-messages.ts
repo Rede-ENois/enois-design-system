@@ -95,6 +95,7 @@ export type PostMessages = {
     report: string;
     save: string;
     unsave: string;
+    destinos: string;
   };
   reactionsSummary: {
     reactWith: (emoji: string) => string;

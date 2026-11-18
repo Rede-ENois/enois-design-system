@@ -137,6 +137,7 @@ export const postMessages: PostMessages = {
     report: "Denunciar post",
     save: "Salvar publicação",
     unsave: "Remover dos salvos",
+    destinos: "Adicionar ao mural ou coleção",
   },
   reactionsSummary: {
     reactWith: (emoji) => `Reagir com ${emoji}`,

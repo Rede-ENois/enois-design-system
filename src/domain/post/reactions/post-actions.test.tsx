@@ -91,6 +91,18 @@ describe("PostActions — republicar", () => {
     expect(onRepost).not.toHaveBeenCalled();
     expect(document.body.textContent).toContain(REASON);
   });
+
+  it("sem onDestinos não mostra o seletor; com ele, o botão abre os destinos", () => {
+    render({});
+    expect(button("Adicionar ao mural ou coleção")).toBeNull();
+
+    const onDestinos = vi.fn();
+    render({ onDestinos });
+
+    act(() => button("Adicionar ao mural ou coleção")!.click());
+
+    expect(onDestinos).toHaveBeenCalledOnce();
+  });
 });
 
 describe("PostActions — bolinhas do contador de reações", () => {
