@@ -43,6 +43,7 @@ import { streakMessages } from "./defaults/streak.js";
 import { studyPairsMessages } from "./defaults/study-pairs.js";
 import { supportUsMessages } from "./defaults/support-us.js";
 import { supportMessages } from "./defaults/support.js";
+import { termometroMessages } from "./defaults/termometro.js";
 import { uiMessages } from "./defaults/ui.js";
 import { walletMessages } from "./defaults/wallet.js";
 import { wellbeingMessages } from "./defaults/wellbeing.js";
@@ -96,4 +97,5 @@ export const defaultMessages: Messages = {
   ...diarioMessages,
   ...desabafosMessages,
   ...confessionarioMessages,
+  ...termometroMessages,
 };

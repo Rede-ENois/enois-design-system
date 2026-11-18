@@ -41,6 +41,7 @@ import type { StreakMessages } from "./streak-messages.js";
 import type { StudyPairsMessages } from "./study-pairs-messages.js";
 import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
+import type { TermometroMessages } from "./termometro-messages.js";
 import type { UiMessages } from "./ui-messages.js";
 import type { WalletMessages } from "./wallet-messages.js";
 import type { WellbeingMessages } from "./wellbeing-messages.js";
@@ -97,4 +98,5 @@ export type Messages = UiMessages &
   EnquetesMessages &
   DiarioMessages &
   DesabafosMessages &
-  ConfessionarioMessages;
+  ConfessionarioMessages &
+  TermometroMessages;
