@@ -34,7 +34,13 @@ const ACTIONS: { format: RichTextFormat; icon: typeof Bold }[] = [
  * `onMouseDown` com `preventDefault` mantem o foco (e a selecao) no textarea: sem isso o clique
  * no botao levaria o cursor embora e a formatacao cairia no lugar errado — ou em nada.
  */
-export function RichTextToolbar({ onFormat, onEmoji, label, className }: RichTextToolbarProps) {
+export function RichTextToolbar({
+  onFormat,
+  onEmoji,
+  extraActions,
+  label,
+  className,
+}: RichTextToolbarProps) {
   const messages = useMessages().richTextToolbar;
 
   return (
@@ -62,6 +68,9 @@ export function RichTextToolbar({ onFormat, onEmoji, label, className }: RichTex
           buttonClassName="grid h-7 w-7 place-items-center rounded-lg text-text-subtle transition hover:bg-surface-2 hover:text-primary"
         />
       )}
+
+      {/* Depois do emoji, pelo mesmo motivo: o que não formata fica no fim da barra. */}
+      {extraActions}
     </div>
   );
 }

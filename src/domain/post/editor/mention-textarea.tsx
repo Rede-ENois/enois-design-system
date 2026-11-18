@@ -107,6 +107,8 @@ export function MentionTextarea({
   mentionResults: results,
   onMentionQueryChange,
   stickers,
+  toolbarActions,
+  trailingButtons,
   ref,
 }: MentionTextareaProps) {
   const messages = useMessages().mentionTextarea;
@@ -677,6 +679,7 @@ export function MentionTextarea({
             label={messages.toolbar}
             onFormat={formatSelection}
             onEmoji={insertEmoji}
+            extraActions={toolbarActions}
             className="mb-1.5"
           />
         ))}
@@ -714,6 +717,12 @@ export function MentionTextarea({
       >
         {firstContent}
       </div>
+
+      {/* No fim do campo, na barra compacta: o que o app põe depois do texto (o seletor de
+          figurinhas). A barra compacta é a do composer, onde não há linha acima para o botão. */}
+      {trailingButtons && (
+        <div className="mt-1 flex items-center justify-end">{trailingButtons}</div>
+      )}
 
       {/* Mesmo contador de todo campo com limite (Input/Textarea usam o CharCounter via withCounter):
           um so lugar decide o aviso de "perto do limite" e o "limite atingido". */}
