@@ -1,6 +1,38 @@
 import type { ModerationMessages } from "../../types/messages/moderation-messages.js";
 
 export const moderationMessages: ModerationMessages = {
+  adminEntityActionsSection: {
+    deleteCommunityHint:
+      "A comunidade, os membros e os vínculos saem na mesma operação. O dono não precisa concordar.",
+    deleteGroupHint:
+      "Excluir apaga o conteúdo do grupo junto (tópicos, publicações e comentários). Para preservar o histórico, encerre o grupo.",
+    closeGroup: "Encerrar grupo",
+    deleteConfirmTitle: "Confirmar exclusão",
+    deleteConfirmBody: (name: string) =>
+      `Esta é uma ação administrativa e não pode ser desfeita: excluir “${name}”?`,
+    closeConfirmTitle: "Confirmar encerramento",
+    closeConfirmBody: (name: string) =>
+      `Encerrar “${name}”? O grupo sai da descoberta e não recebe novos membros; o conteúdo continua guardado.`,
+    deleteConfirm: "Excluir definitivamente",
+    closeConfirm: "Encerrar grupo",
+    cancel: "Cancelar",
+    reasonPlaceholder: "Motivo (mínimo 10 caracteres)",
+    reasonTooShort: "O motivo precisa de pelo menos 10 caracteres.",
+  },
+  adminMembersSection: {
+    title: (name: string) => `Membros de ${name}`,
+    total: (count: number) => (count === 1 ? "1 pessoa" : `${count} pessoas`),
+    searchPlaceholder: "Buscar por nome ou @",
+    empty: "Nenhuma pessoa encontrada.",
+    error: "Não foi possível carregar os membros.",
+    previous: "Anterior",
+    next: "Próxima",
+    page: (current: number, total: number) => `Página ${current} de ${total}`,
+    remove: (who: string) => `Remover ${who} do grupo ou da comunidade`,
+    removeLabel: "Remover",
+    deletedAccount: "Conta removida",
+    close: "Fechar",
+  },
   adminProfileActionsSection: {
     title: "Ações diretas de administração",
     description: (target: string) =>
