@@ -106,9 +106,15 @@ describe("EmotePickerDialogView", () => {
 
     expect(grade).not.toBeNull();
     expect(grade?.className).toContain("max-h-52");
+    expect(grade?.className).toContain("overflow-y-auto");
     expect(cell("G79")?.closest(".overflow-y-auto")).toBe(grade);
     // O diálogo não é quem rola: o limite dele é só a tela.
-    expect(grade?.closest('[role="dialog"]')?.className).not.toContain("overflow-y-auto");
+    const dialogo = grade?.closest<HTMLElement>('[role="dialog"]');
+    expect(dialogo?.className).not.toContain("overflow-y-auto");
+    // E a grade tem altura limitada: numa linha automática ela esticaria até o conteúdo, e o
+    // `max-h-52` dela não valeria — o diálogo cresceria e nada rolaria. A linha da grade é a que
+    // recebe o espaço que sobra.
+    expect(dialogo?.className).toContain("grid-rows-[auto_auto_auto_minmax(0,1fr)_auto]");
   });
 
   it("o clique na figurinha devolve o item", () => {
