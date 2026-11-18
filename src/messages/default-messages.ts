@@ -30,6 +30,7 @@ import { networkMessages } from "./defaults/network.js";
 import { noticesMessages } from "./defaults/notices.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { onboardingMessages } from "./defaults/onboarding.js";
+import { paporetoMessages } from "./defaults/paporeto.js";
 import { patternsMessages } from "./defaults/patterns.js";
 import { postMessages } from "./defaults/post.js";
 import { profileMessages } from "./defaults/profile.js";
@@ -98,4 +99,5 @@ export const defaultMessages: Messages = {
   ...desabafosMessages,
   ...confessionarioMessages,
   ...termometroMessages,
+  ...paporetoMessages,
 };
