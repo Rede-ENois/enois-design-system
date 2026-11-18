@@ -20,6 +20,7 @@ export * from "./enquetes/index.js";
 export * from "./diario/index.js";
 export * from "./desabafos/index.js";
 export * from "./confessionario/index.js";
+export * from "./termometro/index.js";
 export * from "./games/index.js";
 export * from "./appearance/index.js";
 export * from "./wallet/index.js";
