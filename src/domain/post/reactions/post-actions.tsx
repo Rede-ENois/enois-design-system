@@ -49,6 +49,7 @@ export function PostActions<T extends string>({
   shareMenu,
   onReport,
   onSave,
+  destinosMenu,
   children,
   dialogs,
 }: PostActionsProps<T>) {
@@ -258,6 +259,8 @@ export function PostActions<T extends string>({
 
             {savesCount > 0 && <span className="text-xs tabular-nums">{savesCount}</span>}
           </button>
+
+          {destinosMenu}
         </div>
       </footer>
 
