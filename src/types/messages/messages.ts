@@ -29,6 +29,7 @@ import type { NetworkMessages } from "./network-messages.js";
 import type { NoticesMessages } from "./notices-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
 import type { OnboardingMessages } from "./onboarding-messages.js";
+import type { PaporetoMessages } from "./paporeto-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
 import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
@@ -102,4 +103,5 @@ export type Messages = UiMessages &
   DiarioMessages &
   DesabafosMessages &
   ConfessionarioMessages &
-  TermometroMessages;
+  TermometroMessages &
+  PaporetoMessages;

@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { SandboxedHtmlFrame } from "../../patterns/html-frame/sandboxed-html-frame.js";
+
 import { CommunityCardSkeletons } from "./community-card-skeletons.js";
 import { CommunityCard } from "./community-card.js";
 import { CommunityChannels } from "./community-channels.js";
@@ -49,10 +51,55 @@ export const Card: StoryObj = {
               onToggle={() => setFavorite((value) => !value)}
             />
           }
+          renderHtmlFrame={(props) => <SandboxedHtmlFrame {...props} theme="light" />}
         />
       </div>
     );
   },
+};
+
+export const CardWithHtmlCover: StoryObj = {
+  render: () => (
+    <div className="max-w-sm">
+      <CommunityCard
+        community={{
+          ...community,
+          bannerHtml:
+            '<div style="height:128px;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;display:flex;align-items:center;justify-content:center;font-family:sans-serif"><p style="margin:0;font-size:22px;font-weight:700">capa em HTML</p></div>',
+        }}
+        href="#"
+        joinPending={false}
+        leavePending={false}
+        ownerBlocked={false}
+        onJoin={() => {}}
+        onLeave={() => {}}
+        renderHtmlFrame={(props) => <SandboxedHtmlFrame {...props} theme="light" />}
+      />
+    </div>
+  ),
+};
+
+export const CardWithPhotoCover: StoryObj = {
+  render: () => (
+    <div className="max-w-sm">
+      <CommunityCard
+        community={{
+          ...community,
+          cover:
+            "data:image/svg+xml;utf8," +
+            encodeURIComponent(
+              '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="256"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><rect width="640" height="256" fill="url(#g)"/></svg>',
+            ),
+        }}
+        href="#"
+        joinPending={false}
+        leavePending={false}
+        ownerBlocked={false}
+        onJoin={() => {}}
+        onLeave={() => {}}
+      />
+    </div>
+  ),
 };
 
 export const CardWithLocation: StoryObj = {

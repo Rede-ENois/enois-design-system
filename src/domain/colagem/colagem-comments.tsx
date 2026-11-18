@@ -10,7 +10,6 @@ import type { ColagemCommentsState } from "../../types/domain/colagem/colagem-co
 import type { ColagemPhotoDetail } from "../../types/domain/colagem/colagem-photo-detail.js";
 import type { ComposerMediaDraft } from "../../types/domain/post/composer-media-draft.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { StyledName } from "../name/styled-name.js";
@@ -120,8 +119,8 @@ export function ColagemComments({
           }
           aria-label={messages.placeholder}
           rows={2}
+          maxLength={MAX_COMMENT}
         />
-        <CharCounter length={texto.length} max={MAX_COMMENT} />
 
         {anexoBloqueado ? (
           <p className="text-xs text-text-subtle">{messages.photoBlockedOnReply}</p>

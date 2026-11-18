@@ -2,6 +2,15 @@ import type { ConversationsMessages } from "../../types/messages/conversations-m
 
 export const conversationsMessages: ConversationsMessages = {
   conversationHeader: { back: "Voltar", conversationFallback: "Conversa" },
+  groupComposer: {
+    title: "Novo grupo",
+    name: "Nome do grupo",
+    namePlaceholder: "Ex.: Jogatina de sexta",
+    search: "Buscar contatos...",
+    noResults: "Nenhum contato encontrado",
+    create: (count) =>
+      count === 1 ? "Criar grupo com 1 pessoa" : `Criar grupo com ${count} pessoas`,
+  },
   conversationItem: { conversationFallback: "Conversa" },
   chatDock: {
     title: "Mensagens",

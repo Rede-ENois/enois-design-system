@@ -7,7 +7,6 @@ import type { ConfessionarioCommentInput } from "../../types/domain/confessionar
 import type { ConfessionarioCommentView } from "../../types/domain/confessionario/confessionario-comment-view.js";
 import type { ConfessionarioCommentsState } from "../../types/domain/confessionario/confessionario-comments-state.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 
 /** O teto do comentário no backend (ConfessionarioService.MAX_COMMENT); contar aqui evita o 400. */
@@ -100,11 +99,10 @@ export function ConfessionarioComments({
           placeholder={messages.placeholder}
           aria-label={messages.placeholder}
           rows={2}
+          maxLength={MAX_COMMENT}
         />
 
         <div className="flex items-center justify-between gap-2">
-          <CharCounter length={texto.length} max={MAX_COMMENT} />
-
           <Button
             size="sm"
             onClick={() => void comentar()}
