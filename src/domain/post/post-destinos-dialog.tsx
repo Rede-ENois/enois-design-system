@@ -40,8 +40,12 @@ function DestinoLinha({
   const mensagens = useMessages().postDestinos;
   return (
     <div
-      className={`flex items-center gap-3 rounded-xl border px-4 py-3 transition ${
-        erro ? "border-destructive/40 bg-destructive/5" : "border-border-soft"
+      className={`flex items-center gap-3 rounded-xl border px-3 py-3 transition sm:px-4 ${
+        erro
+          ? "border-destructive/40 bg-destructive/5"
+          : destino.tem
+            ? "border-primary/40 bg-primary-soft/40"
+            : "border-border-soft"
       }`}
     >
       {icone(destino.tem)}
@@ -56,9 +60,13 @@ function DestinoLinha({
       </div>
 
       {!destino.tem && (
+        // `size="sm"` (e não o default): o default traz `w-full`, que com `shrink-0` disputa a
+        // linha inteira e esmaga o bloco de texto a largura 0 — o texto voltava a renderizar
+        // caractere por caractere no mobile.
         <Button
           variant="outline"
-          className="shrink-0 rounded-full"
+          size="sm"
+          className="w-auto shrink-0 rounded-full px-4"
           disabled={pendente}
           onClick={aoEscolher}
         >
@@ -90,7 +98,7 @@ export function PostDestinosDialog({
   const mensagens = useMessages().postDestinos;
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm">
+      <DialogContent className="max-w-sm gap-3 p-4 sm:gap-4 sm:p-6">
         <DialogHeader>
           <DialogTitle className="font-normal">{mensagens.title}</DialogTitle>
 
