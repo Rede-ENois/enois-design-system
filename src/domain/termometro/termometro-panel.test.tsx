@@ -5,8 +5,8 @@ import { type Root, createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { defaultMessages } from "../../messages/default-messages.js";
-import type { TermometroEmocao } from "../../types/domain/termometro/termometro-emocao.js";
 import type { TermometroEmocaoPainel } from "../../types/domain/termometro/termometro-emocao-painel.js";
+import type { TermometroEmocao } from "../../types/domain/termometro/termometro-emocao.js";
 import type { TermometroJanelaPainel } from "../../types/domain/termometro/termometro-janela-painel.js";
 import type { TermometroPanelProps } from "../../types/domain/termometro/termometro-panel-props.js";
 
