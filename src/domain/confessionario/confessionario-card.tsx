@@ -31,6 +31,7 @@ export function ConfessionarioCard({
   commentsOpen,
   comments,
   commentsState,
+  reactionIcons,
   onToggleComments,
   onReact,
   onUnreact,
@@ -83,6 +84,7 @@ export function ConfessionarioCard({
       <div className="flex items-center gap-2">
         {OFERECIDAS.map(({ tipo, emoji }) => {
           const minha = post.myReaction === tipo;
+          const icone = reactionIcons?.[tipo];
           return (
             <button
               key={tipo}
@@ -97,7 +99,18 @@ export function ConfessionarioCard({
                   : "border-border text-text-subtle hover:bg-surface-2",
               )}
             >
-              <span aria-hidden="true">{emoji}</span>
+              {icone ? (
+                <img
+                  src={icone.src}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-4 w-4 object-contain"
+                />
+              ) : (
+                <span aria-hidden="true">{emoji}</span>
+              )}
 
               <span>{post.reactionSummary[tipo] ?? 0}</span>
             </button>

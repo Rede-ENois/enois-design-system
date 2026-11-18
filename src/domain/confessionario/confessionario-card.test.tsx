@@ -78,6 +78,16 @@ describe("ConfessionarioCard", () => {
     expect(botaoPorRotulo(messages.reactSupport)?.textContent).toContain("1");
   });
 
+  it("com reactionIcons, a reação desenha a imagem da app no lugar do glifo", () => {
+    render({ reactionIcons: { WOW: { src: "/emojis/enois/wow.webp" } } });
+    const wow = botaoPorRotulo(messages.reactWow);
+    const imagem = wow?.querySelector("img");
+    expect(imagem?.getAttribute("src")).toBe("/emojis/enois/wow.webp");
+    // As sem ícone seguem no glifo Unicode.
+    expect(botaoPorRotulo(messages.reactLaugh)?.querySelector("img")).toBeNull();
+    expect(botaoPorRotulo(messages.reactLaugh)?.textContent).toContain("😂");
+  });
+
   it("tocar numa reação reage; tocar na minha tira", () => {
     const props = render();
     act(() => botaoPorRotulo(messages.reactWow)?.click());
