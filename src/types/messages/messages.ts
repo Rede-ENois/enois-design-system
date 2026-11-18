@@ -13,6 +13,7 @@ import type { ConfessionarioMessages } from "./confessionario-messages.js";
 import type { ConversationsMessages } from "./conversations-messages.js";
 import type { CosmeticsMessages } from "./cosmetics-messages.js";
 import type { DesabafosMessages } from "./desabafos-messages.js";
+import type { DesafiosMessages } from "./desafios-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { DiarioMessages } from "./diario-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
@@ -106,4 +107,5 @@ export type Messages = UiMessages &
   DesabafosMessages &
   ConfessionarioMessages &
   TermometroMessages &
+  DesafiosMessages &
   PaporetoMessages;
