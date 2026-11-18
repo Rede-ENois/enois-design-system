@@ -5,6 +5,7 @@ import { CircleCheck, Flag, Heart, MessageCircle, Pencil, Pin, PinOff, Trash2 } 
 import { useAdapters } from "../../../adapters/adapters-context.js";
 import { hideExternalPageUrls } from "../../../lib/shared-links.js";
 import { TOUCH_TARGET_28 } from "../../../lib/touch-target.js";
+import { cn } from "../../../lib/utils.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import type { CommentItemProps } from "../../../types/domain/post/comment-item-props.js";
 import { AppLink } from "../../../ui/app-link.js";
@@ -22,6 +23,8 @@ import { ReactionsSummary } from "../reactions/reactions-summary.js";
 /** Um comentário (com responder, reagir e excluir). */
 export function CommentItem<T extends string>({
   comment,
+  commentDomId,
+  highlighted = false,
   content,
   edited,
   profileHref,
@@ -108,7 +111,10 @@ export function CommentItem<T extends string>({
   );
 
   return (
-    <div className="flex gap-3">
+    <div
+      data-comment-id={commentDomId}
+      className={cn("flex gap-3", highlighted && "rounded-2xl ring-2 ring-primary/60")}
+    >
       {renderAuthorTrigger ? (
         <span className="shrink-0">{renderAuthorTrigger(avatar, "avatar")}</span>
       ) : profileHref ? (
