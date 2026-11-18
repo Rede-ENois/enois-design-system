@@ -8,6 +8,7 @@ import { ConversationItem } from "./conversation-item.js";
 import { ConversationListSkeletons } from "./conversation-list-skeletons.js";
 import { ConversationThread } from "./conversation-thread.js";
 import { E2eSetupBanner } from "./e2e-setup-banner.js";
+import { GroupComposer } from "./group-composer.js";
 import { MessageBubble } from "./message-bubble.js";
 import { MessageSkeletons } from "./message-skeletons.js";
 
@@ -287,5 +288,21 @@ export const Dock: StoryObj = {
         onSelect={() => {}}
       />
     </ChatDock>
+  ),
+};
+
+/** Criar grupo: título e seleção múltipla de pessoas (o "conversar com várias de uma vez"). */
+export const GroupComposerStory: StoryObj = {
+  name: "GroupComposer",
+  render: () => (
+    <GroupComposer
+      contacts={[
+        { id: "u1", name: "Ana Souza", headline: "Jogadora", avatar: null },
+        { id: "u2", name: "Beto Lima", headline: "Streamer", avatar: null },
+        { id: "u3", name: "Cris Dias", headline: "Designer", avatar: null },
+      ]}
+      onSearch={() => {}}
+      onCreate={() => {}}
+    />
   ),
 };
