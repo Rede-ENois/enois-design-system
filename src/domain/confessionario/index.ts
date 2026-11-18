@@ -12,4 +12,5 @@ export type { ConfessionarioFeedProps } from "../../types/domain/confessionario/
 export type { ConfessionarioFeedState } from "../../types/domain/confessionario/confessionario-feed-state.js";
 export type { ConfessionarioPublishInput } from "../../types/domain/confessionario/confessionario-publish-input.js";
 export type { ConfessionarioReactionOffered } from "../../types/domain/confessionario/confessionario-reaction-offered.js";
+export type { ConfessionarioReactionIcon } from "../../types/domain/confessionario/confessionario-reaction-icon.js";
 export type { ConfissaoPostView } from "../../types/domain/confessionario/confissao-post-view.js";
