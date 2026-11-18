@@ -96,7 +96,18 @@ export function EmotePickerDialogView({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent id={id} className="max-h-[85dvh] max-w-md overflow-hidden p-4">
+      {/*
+        Em grade, as linhas AUTOMÁTICAS crescem até o conteúdo e o `max-h` do diálogo não é
+        respeitado: o `.grid` do DS base tem `overflow-y-auto`, mas o filho fica do tamanho de
+        todas as figurinhas e a grade (52 = 13rem de `max-h`) não tem para onde rolar — o
+        cabeçalho sobe para fora da tela. `grid-rows-[auto_auto_auto_minmax(0,1fr)_auto]` (as
+        cinco linhas: título, busca, abas, grade e rodapé) dá à grade a altura que SOBRA, e é ela
+        que rola dentro.
+      */}
+      <DialogContent
+        id={id}
+        className="grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] max-h-[85dvh] max-w-md overflow-hidden p-4"
+      >
         <DialogHeader>
           <DialogTitle>{messages.title}</DialogTitle>
         </DialogHeader>
