@@ -76,3 +76,17 @@ describe("CommentItem", () => {
     ).toContain("Desmarcar");
   });
 });
+
+describe("CommentItem — realce da notificação (#1022)", () => {
+  it("marca a linha com data-comment-id e desenha o anel quando destacado", () => {
+    const html = renderItem({ commentDomId: "comment_1", highlighted: true });
+    expect(html).toContain('data-comment-id="comment_1"');
+    expect(html).toContain("ring-2");
+  });
+
+  it("sem destaque, a linha continua sem anel", () => {
+    const html = renderItem({ commentDomId: "comment_1" });
+    expect(html).toContain('data-comment-id="comment_1"');
+    expect(html).not.toContain("ring-2");
+  });
+});

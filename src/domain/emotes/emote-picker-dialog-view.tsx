@@ -82,7 +82,7 @@ export function EmotePickerDialogView({
   const shownTotal = localTotal ?? items.length;
 
   const grid = (
-    <div className="grid grid-cols-6 gap-1 sm:grid-cols-8">
+    <div className="grid grid-cols-8 gap-0.5 sm:grid-cols-10">
       {items.map((item) => (
         <EmoteCell
           key={item.code}
@@ -96,7 +96,7 @@ export function EmotePickerDialogView({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent id={id} className="max-w-lg">
+      <DialogContent id={id} className="max-h-[85dvh] max-w-md overflow-hidden p-4">
         <DialogHeader>
           <DialogTitle>{messages.title}</DialogTitle>
         </DialogHeader>
@@ -125,7 +125,7 @@ export function EmotePickerDialogView({
 
         {localTab ? (
           <>
-            <div className="max-h-[45vh] min-w-0 overflow-y-auto pr-1">
+            <div className="max-h-52 min-w-0 overflow-y-auto overscroll-contain pr-1">
               {empty ? <EmptyState title={messages.empty} /> : grid}
             </div>
 
@@ -134,7 +134,7 @@ export function EmotePickerDialogView({
         ) : (
           <>
             <div
-              className={`max-h-[45vh] min-w-0 overflow-y-auto pr-1 ${
+              className={`max-h-52 min-w-0 overflow-y-auto overscroll-contain pr-1 ${
                 stale ? "opacity-60 transition-opacity" : ""
               }`}
               aria-busy={stale}

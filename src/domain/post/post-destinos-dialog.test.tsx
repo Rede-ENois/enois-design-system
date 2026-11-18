@@ -138,4 +138,14 @@ describe("PostDestinosDialog", () => {
 
     expect(document.body.textContent).toContain("Você ainda não tem coleções");
   });
+
+  it("o botão de ação da linha tem largura de conteúdo — nunca w-full", () => {
+    render();
+
+    const colar = botao("Colar")!;
+    // O default do Button traz `w-full`; com `shrink-0` na linha, ele disputava a largura inteira
+    // e esmagava o bloco de texto a largura 0 (texto renderizando caractere por caractere).
+    expect(colar.className).not.toMatch(/(^|\s)w-full(\s|$)/);
+    expect(colar.className).toMatch(/w-auto/);
+  });
 });
