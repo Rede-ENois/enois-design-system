@@ -15,9 +15,6 @@ const messages = defaultMessages.desabafosFeed;
 
 const post: DesabafoPostView = {
   id: "desabafo_1",
-  authorName: "Ana",
-  authorAvatar: null,
-  authorStyle: null,
   content: "primeiro desabafo",
   createdAt: "2026-11-15T10:30:00Z",
   reactions: 0,

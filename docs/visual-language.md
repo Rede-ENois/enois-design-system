@@ -110,3 +110,6 @@ sombra, filtro, gradiente e raio e troca a tipografia pela do sistema. Como os t
 têmático vivem no container, o BATATA repete ali a achatagem de raio e fonte; sem isso um perfil
 vestido de tema escuro apareceria com a fonte da marca (ou com raio) em aparelho que pediu economia.
 `batata-mode-styles.test.ts` garante a regra.
+
+`AvatarFrameFx` preserva o desenho do servidor durante a hidratação e depois aplica `data-batata`.
+O CSS oculta as partículas desde o primeiro paint; após hidratar, o React remove seus nós.

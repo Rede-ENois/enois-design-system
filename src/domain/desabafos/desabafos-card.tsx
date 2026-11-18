@@ -1,11 +1,9 @@
-import { Flag, MessageCircle, Trash2 } from "lucide-react";
+import { Flag, MessageCircle, Trash2, UserRound } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { DesabafosCardProps } from "../../types/domain/desabafos/desabafos-card-props.js";
 import type { DesabafosReactionOffered } from "../../types/domain/desabafos/desabafos-reaction-offered.js";
-import { UserAvatar } from "../avatar/user-avatar.js";
-import { StyledName } from "../name/styled-name.js";
 
 import { DesabafosComments } from "./desabafos-comments.js";
 
@@ -23,9 +21,9 @@ const HORA = new Intl.DateTimeFormat("pt-BR", {
 });
 
 /**
- * O card de um desabafo: autor, texto e apoio contado. As reações são só as de apoio e mostram
- * APENAS a contagem — nunca a lista de quem reagiu; tocar de novo tira o meu apoio. As acolhidas
- * abrem no próprio card, sem diálogo e sem destacar ninguém: aqui não há ranking nem destaque.
+ * O card de um desabafo: texto e apoio contado, SEM autor — o anonimato é do contrato (a view
+ * nem recebe quem escreveu). As reações são só as de apoio e mostram APENAS a contagem; tocar de
+ * novo tira o meu apoio. As acolhidas abrem no próprio card, sem diálogo e sem destacar ninguém.
  */
 export function DesabafosCard({
   post,
@@ -46,14 +44,15 @@ export function DesabafosCard({
   return (
     <article className="space-y-3 rounded-2xl border border-border p-4">
       <div className="flex items-center gap-2">
-        <UserAvatar src={post.authorAvatar} alt={post.authorName} className="h-9 w-9 shrink-0" />
+        <span
+          aria-hidden
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface-2 text-text-subtle"
+        >
+          <UserRound className="h-4 w-4" />
+        </span>
 
         <div className="min-w-0 flex-1">
-          <StyledName
-            name={post.authorName ?? ""}
-            style={post.authorStyle}
-            className="text-sm font-medium"
-          />
+          <p className="text-sm font-medium">{messages.anonymous}</p>
 
           <p className="text-xs text-text-subtle">{hora}</p>
         </div>

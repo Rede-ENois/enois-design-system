@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 
 import type { ConversationPeerData } from "./conversation-peer-data.js";
 import type { ConversationSendValues } from "./conversation-send-values.js";
@@ -23,6 +23,10 @@ export type ConversationThreadProps = {
   empty: boolean;
   /** Id da mensagem mais nova: quando muda, o quadro rola para o fim. */
   newestMessageId: string | null;
+  /** The scroll container for app-owned reply navigation, scoped to this thread. */
+  messagesScrollRef?: Ref<HTMLDivElement>;
+  /** Consume newest-message changes without scrolling, including when suppression ends. */
+  suppressAutoScroll?: boolean;
   hasOlderMessages: boolean;
   loadingOlder: boolean;
   onLoadOlder: () => void;

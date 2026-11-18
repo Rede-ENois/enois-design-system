@@ -5,7 +5,6 @@ import { Camera, Loader2 } from "lucide-react";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ColagemComposerProps } from "../../types/domain/colagem/colagem-composer-props.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 import { ComposerMediaPicker } from "../post/composer-media-picker.js";
 
@@ -68,8 +67,8 @@ export function ColagemComposer({
           placeholder={messages.captionPlaceholder}
           aria-label={messages.caption}
           rows={2}
+          maxLength={MAX_CAPTION}
         />
-        <CharCounter length={description.length} max={MAX_CAPTION} />
       </div>
 
       <label className="flex items-center gap-2 text-xs text-text-subtle">

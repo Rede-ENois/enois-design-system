@@ -3,7 +3,7 @@ import { act } from "react";
 
 import { Briefcase, Joystick, ShoppingBag } from "lucide-react";
 import { createRoot } from "react-dom/client";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ExploreHub } from "./explore-hub.js";
 
@@ -75,6 +75,40 @@ describe("ExploreHub", () => {
     expect(container.textContent).toContain("Brincar");
     expect(container.querySelector('a[href="/vagas"]')).not.toBeNull();
     expect(container.innerHTML).toContain("Tem novidade");
+    // Sem estado passado, o hub lê como pronto (compatível com quem não passava estado).
+    expect(container.textContent).not.toContain("Preparando o Explorar");
+  });
+
+  it("offers the jump to each section with its room count", () => {
+    act(() => root.render(<ExploreHub sections={sections} />));
+
+    const chips = [...container.querySelectorAll('a[href^="#explorar-"]')];
+    expect(chips.map((chip) => chip.textContent)).toEqual([
+      "Brincar1 sala",
+      "Construir1 sala",
+      "Trabalho1 sala",
+    ]);
+  });
+
+  it("draws the whole-hub loading while the counts arrive", () => {
+    act(() => root.render(<ExploreHub sections={sections} state={{ kind: "loading" }} />));
+
+    expect(container.textContent).toContain("Preparando o Explorar");
+    expect(container.querySelector('a[href="/vagas"]')).toBeNull();
+  });
+
+  it("draws the whole-hub error with the retry gesture", async () => {
+    const onRetry = vi.fn();
+    act(() =>
+      root.render(<ExploreHub sections={sections} state={{ kind: "error" }} onRetry={onRetry} />),
+    );
+
+    expect(container.textContent).toContain("Não foi possível carregar o Explorar");
+    const retry = [...container.querySelectorAll("button")].find(
+      (button) => button.textContent === "Tentar de novo",
+    )!;
+    await act(async () => retry.click());
+    expect(onRetry).toHaveBeenCalledTimes(1);
   });
 
   it("finds a room by keyword, ignoring accents and case", () => {
@@ -87,6 +121,13 @@ describe("ExploreHub", () => {
 
     type("cosmeticos");
     expect(container.querySelector('a[href="/marketplace"]')).not.toBeNull();
+  });
+
+  it("hides the section jumps while the search is in use", () => {
+    act(() => root.render(<ExploreHub sections={sections} />));
+
+    type("marketplace");
+    expect(container.querySelector('a[href^="#explorar-"]')).toBeNull();
   });
 
   it("says so when nothing matches", () => {

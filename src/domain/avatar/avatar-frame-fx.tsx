@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import { type ComponentType, useSyncExternalStore } from "react";
 
 import type { AvatarFrameFxProps } from "../../types/domain/avatar/avatar-frame-fx-props.js";
 
@@ -58,11 +58,13 @@ const EFEITOS: Record<string, ComponentType<AvatarFrameFxProps>> = {
   ...Object.fromEntries(SEASONAL_FX_FRAMES.map((id) => [id, SeasonalFrameFx])),
 };
 
+const subscribeNothing = () => () => {};
+
 /**
  * No BATATA a moldura vira só o anel estático (o desenho do `data-avatar-frame`, que fica no
  * avatar): o CSS já esconde as partículas, mas elas continuariam no DOM — são até 60 nós por
  * moldura, e um feed com dez molduras com efeito monta centenas de elementos que ninguém vê.
- * A checagem é feita no render, direto no atributo do `<html>` (a fonte do modo).
+ * A hidratação usa o snapshot do servidor antes de consultar o atributo do `<html>`.
  */
 function decorationOff(): boolean {
   return typeof document !== "undefined" && document.documentElement.hasAttribute("data-batata");
@@ -73,8 +75,9 @@ function decorationOff(): boolean {
  * Só decoração: sem eventos de ponteiro e fora da árvore de acessibilidade.
  */
 export function AvatarFrameFx({ frame }: AvatarFrameFxProps) {
+  const disabled = useSyncExternalStore(subscribeNothing, decorationOff, () => false);
   // Moldura que este front ainda não conhece: o avatar aparece normal, sem o efeito.
-  if (decorationOff() || !Object.hasOwn(EFEITOS, frame)) return null;
+  if (disabled || !Object.hasOwn(EFEITOS, frame)) return null;
   const Efeito = EFEITOS[frame];
   return (
     <span aria-hidden className="moldura-fx">

@@ -47,13 +47,28 @@ export function MediaGrid({
   // meio de uma conversa é o oposto do que esta rede quer.
   if (items.some((m) => m.mimeType.startsWith("audio/"))) {
     return (
-      <div className="rounded-xl border border-border-soft bg-surface-1 p-2">
-        <audio
-          src={resolveMediaOriginalUrl(items[0].cdnUrl)}
-          controls
-          preload="metadata"
-          className="w-full"
-        />
+      <div className="space-y-2">
+        {items.map((item) =>
+          item.mimeType.startsWith("audio/") ? (
+            <div key={item.id} className="rounded-xl border border-border-soft bg-surface-1 p-2">
+              <audio
+                src={resolveMediaOriginalUrl(item.cdnUrl)}
+                controls
+                preload="metadata"
+                className="w-full"
+              />
+            </div>
+          ) : (
+            <MediaGrid
+              key={item.id}
+              items={[item]}
+              compact={compact}
+              mediaSpoiler={mediaSpoiler}
+              lite={lite}
+              registerVideoRef={registerVideoRef}
+            />
+          ),
+        )}
       </div>
     );
   }

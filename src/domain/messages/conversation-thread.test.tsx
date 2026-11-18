@@ -60,6 +60,43 @@ async function typeAndSend(value: string) {
 }
 
 describe("ConversationThread", () => {
+  it("exposes the message scroll container through the optional ref", () => {
+    const messagesScrollRef = { current: null as HTMLDivElement | null };
+    renderThread(() => Promise.resolve(), { messagesScrollRef });
+    expect(messagesScrollRef.current).not.toBeNull();
+    expect(messagesScrollRef.current?.classList.contains("overflow-y-auto")).toBe(true);
+  });
+  it("consumes newest IDs while auto-scroll is suppressed without a delayed jump", () => {
+    const scrollTo = vi.fn();
+    const messagesScrollRef = (node: HTMLDivElement | null) => {
+      if (node) node.scrollTo = scrollTo;
+    };
+    const onSend = () => Promise.resolve();
+    renderThread(onSend, { messagesScrollRef, newestMessageId: "first", suppressAutoScroll: true });
+    expect(scrollTo).not.toHaveBeenCalled();
+    renderThread(onSend, {
+      messagesScrollRef,
+      newestMessageId: "second",
+      suppressAutoScroll: true,
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    renderThread(onSend, {
+      messagesScrollRef,
+      newestMessageId: "second",
+      suppressAutoScroll: false,
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    renderThread(onSend, { messagesScrollRef, newestMessageId: "third" });
+    expect(scrollTo).toHaveBeenCalledOnce();
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
+    renderThread(onSend, {
+      messagesScrollRef,
+      newestMessageId: "third",
+      children: <p>Older message</p>,
+    });
+    expect(scrollTo).toHaveBeenCalledOnce();
+  });
+
   it("envia o texto aparado e limpa o campo", async () => {
     const onSend = vi.fn(() => Promise.resolve());
     renderThread(onSend);

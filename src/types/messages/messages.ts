@@ -9,12 +9,14 @@ import type { ColagemMessages } from "./colagem-messages.js";
 import type { ColecoesMessages } from "./colecoes-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
 import type { CompaniesMessages } from "./companies-messages.js";
+import type { ConfessionarioMessages } from "./confessionario-messages.js";
 import type { ConversationsMessages } from "./conversations-messages.js";
 import type { CosmeticsMessages } from "./cosmetics-messages.js";
 import type { DesabafosMessages } from "./desabafos-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { DiarioMessages } from "./diario-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
+import type { EmotesMessages } from "./emotes-messages.js";
 import type { EnquetesMessages } from "./enquetes-messages.js";
 import type { EventsMessages } from "./events-messages.js";
 import type { GamesMessages } from "./games-messages.js";
@@ -27,6 +29,7 @@ import type { NetworkMessages } from "./network-messages.js";
 import type { NoticesMessages } from "./notices-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
 import type { OnboardingMessages } from "./onboarding-messages.js";
+import type { PaporetoMessages } from "./paporeto-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
 import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
@@ -40,6 +43,7 @@ import type { StreakMessages } from "./streak-messages.js";
 import type { StudyPairsMessages } from "./study-pairs-messages.js";
 import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
+import type { TermometroMessages } from "./termometro-messages.js";
 import type { UiMessages } from "./ui-messages.js";
 import type { WalletMessages } from "./wallet-messages.js";
 import type { WellbeingMessages } from "./wellbeing-messages.js";
@@ -66,6 +70,8 @@ export type Messages = UiMessages &
   PwaMessages &
   WellbeingMessages &
   EditorMessages &
+  EmotesMessages &
+  EmotesMessages &
   PostMessages &
   GamesMessages &
   AppearanceMessages &
@@ -95,4 +101,7 @@ export type Messages = UiMessages &
   ColecoesMessages &
   EnquetesMessages &
   DiarioMessages &
-  DesabafosMessages;
+  DesabafosMessages &
+  ConfessionarioMessages &
+  TermometroMessages &
+  PaporetoMessages;

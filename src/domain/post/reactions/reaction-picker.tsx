@@ -189,7 +189,7 @@ export function ReactionPicker<T extends string>({
         onMouseLeave={scheduleHoverClose}
         className="w-fit rounded-2xl border-border p-1.5"
       >
-        <div className="grid grid-cols-5 gap-1">
+        <div className="grid grid-cols-6 gap-1">
           {visible.map(([type, emoji]) => (
             <button
               key={type}

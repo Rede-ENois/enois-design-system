@@ -85,6 +85,13 @@ preserving its existing single-skill frontend callbacks. Projects accept pasted
 lists with limits of 10 technologies and 40 characters. No frontend change is
 required to consume these views.
 
+### Image crop dialog
+
+`ImageCropDialog` closes when `onCropComplete` resolves. If it rejects, the dialog
+shows `imageCropDialog.saveError` and keeps the crop available for retry. Retrying
+clears the message. Image decoding and crop generation failures still show the
+unsupported-image message.
+
 ### Mobile text fields
 
 `Input`, `Textarea` and `MentionTextarea` keep compact `text-xs` and `text-sm`
@@ -125,6 +132,14 @@ Composer errors stay directly below the field in the same grid, above the mobile
 footer, without hiding loaded comments. Desktop aligns the error with the field
 and keeps the icon beside the field and the tools below it. Fixed submit
 copy comes from `postComments.submit` and `postComments.sending` messages.
+
+Unmounting stops an active recording and releases its tracks without adding audio.
+Streams received after unmount are released without creating a recorder.
+
+`MediaGrid` preserves attachment order in lists containing audio. Each audio
+attachment gets its own player without autoplay; other attachments reuse the
+existing image or video view individually. Image-only lists retain their grid.
+Items without a media URL are skipped.
 
 ### Character counters
 
@@ -192,6 +207,34 @@ falls back to the default `quintal`. The owner sees a hint about the part that g
   gardenStyle={gardenStyleOf(equippedGardenItemId)}
 />
 ```
+
+### Navegação pela citação de resposta
+
+`MessageBubble` aceita `onReplyQuoteClick?: () => void`. Quando há citação e callback,
+a citação é um botão nativo `type="button"`, nomeado por
+`messageBubble.goToOriginal` (padrão: "Ir para mensagem original"), com foco visível
+e ativação por Enter/Espaço. A ativação interrompe a propagação do clique para não
+selecionar também o balão. Sem callback ou no modo de seleção, a citação não é
+interativa: o clique no texto chega a `onToggleSelect`, sem navegar.
+
+Passe `message.id` para expor `id="message-{id}"` na raiz da mensagem. A raiz recebe
+`tabIndex={-1}` para foco programático, sem criar uma parada adicional de Tab.
+Chamadores sem ID não recebem um identificador DOM sintético. O aplicativo é
+responsável por localizar/carregar a original, decifrar a citação e informar
+indisponibilidade. Localize o destino dentro da thread ativa, não globalmente:
+o dock e a página podem exibir a mesma conversa. Foque com `preventScroll: true`
+e role somente o quadro de mensagens daquela thread.
+
+`ConversationThread` rola até o fim ao receber o primeiro `newestMessageId` e quando
+esse ID muda, não quando mensagens antigas são acrescentadas com o mesmo ID mais
+recente. Se uma nova mensagem chegar durante a navegação, passe
+`suppressAutoScroll={true}` para impedir que ela desloque a leitura. A suspensão
+consome as mudanças de `newestMessageId`: removê-la não reproduz uma rolagem atrasada.
+`messagesScrollRef` aceita ref de objeto ou callback e expõe o quadro
+`overflow-y-auto`, preservando a limpeza de refs por callback do React.
+Evite `scrollIntoView` no nível da página, especialmente no mobile.
+As stories `Thread` e `ReplyNavigation` demonstram o destino, ambos os lados,
+citações longas, seleção e callback opcional com dados fictícios.
 
 ### Card themes
 

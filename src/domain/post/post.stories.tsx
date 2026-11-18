@@ -481,3 +481,30 @@ export const CaughtUp: StoryObj = {
     </div>
   ),
 };
+
+export const MixedCommentMedia: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <MediaGrid
+        compact
+        items={[
+          {
+            id: "image-before",
+            mimeType: "image/webp",
+            cdnUrl: new URL("../../assets/kenney/tree-03.webp", import.meta.url).href,
+          },
+          {
+            id: "recording",
+            mimeType: "audio/mpeg",
+            cdnUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+          },
+          {
+            id: "image-after",
+            mimeType: "image/webp",
+            cdnUrl: new URL("../../assets/kenney/tree-04.webp", import.meta.url).href,
+          },
+        ]}
+      />
+    </div>
+  ),
+};

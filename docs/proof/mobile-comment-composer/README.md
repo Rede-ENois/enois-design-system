@@ -5,6 +5,10 @@ The layout now belongs to the DS `PostComments` view, with one submit control.
 The application supplies only the writing field and data/action callbacks.
 There is no frontend selector matching the DS form IDs, wrappers or buttons.
 
+Reply focus targets the writing slot's `textarea` or `[role="textbox"]`, including
+the contenteditable field supplied by `MentionTextarea`. Focus uses `preventScroll`
+before the form's existing scroll. The jsdom regression covers both field types.
+
 ## Reproduce
 
 Build Storybook with `npm run build-storybook`, then run:

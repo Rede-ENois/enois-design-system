@@ -52,6 +52,7 @@ export function EmbedPlayer({ type, id, autoplay = false, startSeconds }: EmbedP
       ) : (
         <button
           type="button"
+          aria-label={messages.watchOn(type === "youtube" ? "YouTube" : type)}
           onClick={() => setPlaying(true)}
           className="relative block w-full overflow-hidden rounded-xl border border-border-soft text-left transition hover:opacity-90"
         >
@@ -59,7 +60,12 @@ export function EmbedPlayer({ type, id, autoplay = false, startSeconds }: EmbedP
 
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="grid h-12 w-12 place-items-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 h-5 w-5">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="ml-0.5 h-5 w-5"
+              >
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>

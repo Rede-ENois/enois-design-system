@@ -1,4 +1,12 @@
-import { type ChangeEvent, type FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  type FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { Briefcase, EyeOff, ImageIcon, Send, X } from "lucide-react";
 
@@ -39,6 +47,8 @@ export function ConversationThread({
   loading,
   empty,
   newestMessageId,
+  messagesScrollRef: forwardedMessagesScrollRef,
+  suppressAutoScroll = false,
   hasOlderMessages,
   loadingOlder,
   onLoadOlder,
@@ -65,6 +75,22 @@ export function ConversationThread({
   const [mediaSpoiler, setMediaSpoiler] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const messagesScrollRef = useRef<HTMLDivElement>(null);
+  const setMessagesScrollRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      messagesScrollRef.current = node;
+      if (typeof forwardedMessagesScrollRef === "function") {
+        const cleanup = forwardedMessagesScrollRef(node);
+        if (cleanup)
+          return () => {
+            messagesScrollRef.current = null;
+            cleanup();
+          };
+      } else if (forwardedMessagesScrollRef) {
+        forwardedMessagesScrollRef.current = node;
+      }
+    },
+    [forwardedMessagesScrollRef],
+  );
 
   const attachService = (listing: ConversationServiceOption) => {
     const snippet = `${messages.serviceAttachment} ${listing.title} · ${serviceHref(listing.id)}`;
@@ -173,11 +199,12 @@ export function ConversationThread({
   useEffect(() => {
     if (!newestMessageId || lastScrolledRef.current === newestMessageId) return;
     lastScrolledRef.current = newestMessageId;
+    if (suppressAutoScroll) return;
     // Rola DENTRO do quadro de mensagens: `scrollIntoView` fazia o navegador rolar a página
     // inteira quando o teclado abria no mobile.
     const el = messagesScrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, [newestMessageId]);
+  }, [newestMessageId, suppressAutoScroll]);
 
   return (
     <>
@@ -212,7 +239,7 @@ export function ConversationThread({
       {!e2eRequired && (
         <>
           <div
-            ref={messagesScrollRef}
+            ref={setMessagesScrollRef}
             className="flex-1 overflow-y-auto overscroll-contain bg-muted/30 p-5"
           >
             {hasOlderMessages && (

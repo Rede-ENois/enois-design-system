@@ -233,5 +233,6 @@ export const appearanceMessages: AppearanceMessages = {
       `Mínimo de 50 faíscas. Você recebe ${amount} faíscas (−10% da plataforma) depois que o comprador confirmar. Ele tem 7 dias para confirmar ou pedir reembolso.`,
     submit: "Publicar e vender",
     submitting: "Publicando…",
+    previewLabel: "Amostra ao vivo",
   },
 };

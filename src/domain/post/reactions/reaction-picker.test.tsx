@@ -73,6 +73,9 @@ describe("ReactionPicker", () => {
     open();
     expect(emojiButtons()).toHaveLength(5);
     expect(plus()).toBeDefined();
+    // A grade tem seis colunas: cinco emojis e o "+" fecham a fileira.
+    const grade = document.querySelector(".grid-cols-6");
+    expect(grade).not.toBeNull();
   });
 
   it("o + revela todos os emojis do sistema", () => {

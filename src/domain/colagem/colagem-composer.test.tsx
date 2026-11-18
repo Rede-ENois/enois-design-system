@@ -107,6 +107,11 @@ describe("ColagemComposer", () => {
     expect(host.querySelector<HTMLInputElement>('input[type="checkbox"]')?.checked).toBe(false);
   });
 
+  it("a legenda tem o teto do backend (500)", () => {
+    render();
+    expect(legenda()?.maxLength).toBe(500);
+  });
+
   it("deu errado: o rascunho fica de pé para corrigir", async () => {
     render({ onPublish: vi.fn().mockRejectedValue(new Error("recusada")) });
     digitar("ainda aqui");
