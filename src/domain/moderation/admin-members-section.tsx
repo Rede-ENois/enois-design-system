@@ -1,4 +1,4 @@
-import { Users } from "lucide-react";
+import { Users, X } from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { useMessages } from "../../messages/messages-context.js";
@@ -27,6 +27,7 @@ export function AdminMembersSection({
   onPage,
   onRemove,
   pending = false,
+  onClose,
 }: AdminMembersSectionProps) {
   const messages = useMessages().adminMembersSection;
   const { resolveMediaUrl } = useAdapters();
@@ -46,7 +47,23 @@ export function AdminMembersSection({
           </h2>
         </div>
 
-        <p className="text-xs text-text-subtle">{messages.total(total)}</p>
+        <div className="flex items-center gap-2">
+          <p className="text-xs text-text-subtle">{messages.total(total)}</p>
+
+          {onClose && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-auto rounded-full gap-1"
+              aria-label={messages.close}
+              onClick={onClose}
+            >
+              <X className="h-3.5 w-3.5" />
+
+              <>{messages.close}</>
+            </Button>
+          )}
+        </div>
       </div>
 
       <Input

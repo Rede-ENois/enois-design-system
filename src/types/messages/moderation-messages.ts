@@ -1,8 +1,5 @@
 export type ModerationMessages = {
   adminEntityActionsSection: {
-    title: string;
-    deleteCommunity: string;
-    deleteGroup: string;
     deleteCommunityHint: string;
     deleteGroupHint: string;
     closeGroup: string;
@@ -28,6 +25,7 @@ export type ModerationMessages = {
     remove: (who: string) => string;
     removeLabel: string;
     deletedAccount: string;
+    close: string;
   };
   adminProfileActionsSection: {
     title: string;

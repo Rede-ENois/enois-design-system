@@ -17,4 +17,6 @@ export type AdminMembersSectionProps = {
   /** Removes a member (destructive); resolves `true` on success. Only shown when provided. */
   onRemove?: (userId: string, reason: string) => Promise<boolean>;
   pending?: boolean;
+  /** Hides the list again; omitted means the list stays open. */
+  onClose?: () => void;
 };

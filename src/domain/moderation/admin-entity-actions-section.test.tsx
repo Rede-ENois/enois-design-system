@@ -11,6 +11,8 @@ function render(overrides: Partial<Parameters<typeof AdminEntityActionsSection>[
     <AdminEntityActionsSection
       kind="group"
       entityName="Grupo Teste"
+      title="Administração da plataforma"
+      deleteLabel="Excluir grupo"
       description="Decisões da administração sobre este grupo."
       onDelete={noop}
       onClose={noop}
@@ -28,7 +30,11 @@ describe("AdminEntityActionsSection", () => {
   });
 
   it("hides close for a community and names the community in the action", () => {
-    const html = render({ kind: "community", onClose: undefined });
+    const html = render({
+      kind: "community",
+      deleteLabel: "Excluir comunidade",
+      onClose: undefined,
+    });
     expect(html).toContain("Excluir comunidade");
     expect(html).not.toContain("Encerrar grupo");
   });

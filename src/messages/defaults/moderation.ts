@@ -2,9 +2,6 @@ import type { ModerationMessages } from "../../types/messages/moderation-message
 
 export const moderationMessages: ModerationMessages = {
   adminEntityActionsSection: {
-    title: "Administração da plataforma",
-    deleteCommunity: "Excluir comunidade",
-    deleteGroup: "Excluir grupo",
     deleteCommunityHint:
       "A comunidade, os membros e os vínculos saem na mesma operação. O dono não precisa concordar.",
     deleteGroupHint:
@@ -34,6 +31,7 @@ export const moderationMessages: ModerationMessages = {
     remove: (who: string) => `Remover ${who} do grupo ou da comunidade`,
     removeLabel: "Remover",
     deletedAccount: "Conta removida",
+    close: "Fechar",
   },
   adminProfileActionsSection: {
     title: "Ações diretas de administração",

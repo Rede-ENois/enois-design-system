@@ -2,6 +2,9 @@ export type AdminEntityActionsSectionProps = {
   /** "community" or "group": the wording of the confirmation changes, the flow does not. */
   kind: "community" | "group";
   entityName: string;
+  /** Already localized: the section heading and the destructive button label. */
+  title: string;
+  deleteLabel: string;
   /** Why the administrators can see this block, shown as the description. */
   description: string;
   deleting?: boolean;

@@ -1,4 +1,5 @@
 export { AdminEntityActionsSection } from "./admin-entity-actions-section.js";
+export { AdminEntityPanel } from "./admin-entity-panel.js";
 export { AdminMembersSection } from "./admin-members-section.js";
 export { AdminProfileActionsSection } from "./admin-profile-actions-section.js";
 export { AdminRemovePostAction } from "./admin-remove-post-action.js";
@@ -20,6 +21,7 @@ export { SuspiciousPostsSection } from "./suspicious-posts-section.js";
 export { SuspiciousUsersSection } from "./suspicious-users-section.js";
 export { TicketReply } from "./ticket-reply.js";
 export { TicketThread } from "./ticket-thread.js";
+export type { AdminEntityPanelProps } from "../../types/domain/moderation/admin-entity-panel-props.js";
 export type { AdminEntityActionsSectionProps } from "../../types/domain/moderation/admin-entity-actions-section-props.js";
 export type { AdminHistoryRowData } from "../../types/domain/moderation/admin-history-row-data.js";
 export type { AdminMemberRowData } from "../../types/domain/moderation/admin-member-row-data.js";

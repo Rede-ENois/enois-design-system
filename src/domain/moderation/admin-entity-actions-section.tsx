@@ -24,6 +24,8 @@ import { Input } from "../../ui/input.js";
 export function AdminEntityActionsSection({
   kind,
   entityName,
+  title,
+  deleteLabel,
   description,
   deleting = false,
   closing = false,
@@ -52,12 +54,12 @@ export function AdminEntityActionsSection({
   };
 
   return (
-    <section className="space-y-3" aria-label={messages.title}>
+    <section className="space-y-3" aria-label={title}>
       <div className="flex items-center gap-2">
         <Settings className="h-4 w-4 text-primary" />
 
         <h2 className="text-sm font-semibold uppercase tracking-widest text-text-subtle">
-          {messages.title}
+          {title}
         </h2>
       </div>
 
@@ -74,7 +76,7 @@ export function AdminEntityActionsSection({
           >
             <Trash2 className="h-3.5 w-3.5" />
 
-            <>{kind === "group" ? messages.deleteGroup : messages.deleteCommunity}</>
+            <>{deleteLabel}</>
           </Button>
 
           {onClose && (

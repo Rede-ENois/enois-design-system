@@ -116,12 +116,16 @@ export const AdminEntityManagement: StoryObj = {
       <AdminEntityActionsSection
         kind="community"
         entityName="Comunidade Front-end"
+        title="Administração da plataforma"
+        deleteLabel="Excluir comunidade"
         description="Decisões da administração da plataforma sobre esta comunidade."
         onDelete={resolved}
       />
       <AdminEntityActionsSection
         kind="group"
         entityName="Grupo Estudos"
+        title="Administração da plataforma"
+        deleteLabel="Excluir grupo"
         description="Decisões da administração da plataforma sobre este grupo."
         onDelete={resolved}
         onClose={resolved}
