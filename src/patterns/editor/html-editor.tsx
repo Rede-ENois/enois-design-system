@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Code2, Eye } from "lucide-react";
 
+import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { HtmlEditorProps } from "../../types/patterns/html-editor-props.js";
 import { Textarea } from "../../ui/textarea.js";
@@ -64,7 +65,12 @@ export function HtmlEditor({
 
       {preview &&
         (value.trim() ? (
-          <div className={previewClassName}>
+          // O wrapper recebe a altura do chamador (h-64, h-[60vh]...) e o quadro costuma vir com
+          // `h-full`: se a cadeia até o iframe não preservar essa altura, a porcentagem resolve
+          // para `auto` e o iframe colapsa na altura padrão do navegador (~150px), cortando a
+          // prévia na metade. flex + flex-1 repassa a altura do wrapper ao quadro em qualquer
+          // unidade, descontando o rótulo.
+          <div className={cn("flex flex-col overflow-hidden", previewClassName)}>
             <label
               htmlFor="preview"
               className="inline-flex items-center gap-1.5 text-xs font-normal text-text-subtle"
@@ -72,7 +78,9 @@ export function HtmlEditor({
               <>{messages.previewLabel}</>
             </label>
 
-            <div id="preview">{previewFrame}</div>
+            <div id="preview" className="flex min-h-0 flex-1 flex-col [&>*]:min-h-0 [&>*]:flex-1">
+              {previewFrame}
+            </div>
           </div>
         ) : (
           <p className="mt-3 rounded-xl border border-dashed border-border-soft px-3 py-6 text-center text-xs font-normal text-text-subtle">

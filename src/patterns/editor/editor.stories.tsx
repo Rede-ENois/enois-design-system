@@ -60,6 +60,7 @@ export const HtmlWithPreview: StoryObj = {
               theme="light"
               className="h-full"
               autoHeight={false}
+              stretchFirstChild={false}
             />
           }
         />

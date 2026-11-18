@@ -125,8 +125,11 @@ export function BlogPostEditor({
               html: body,
               title: messages.frameTitle,
               className: "h-full",
-              // A prévia é uma janela do editor (área fixa): aqui a rolagem de dentro é o esperado.
+              // A prévia é uma janela do editor (área fixa): aqui a rolagem de dentro é o esperado,
+              // e o primeiro filho é conteúdo de página — esticá-lo empurraria o resto da página
+              // para fora do quadro.
               autoHeight: false,
+              stretchFirstChild: false,
             })}
           />
         )}
