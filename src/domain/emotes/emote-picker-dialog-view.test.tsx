@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { defaultMessages } from "../../messages/default-messages.js";
 import type { EmotePickerDialogViewProps } from "../../types/domain/emotes/emote-picker-dialog-view-props.js";
 
-import { EmotePickerDialogView } from "./emote-picker-dialog-view.js";
+import { EmotePickerDialogView, EmotePickerTriggerButton } from "./emote-picker-dialog-view.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -182,5 +182,41 @@ describe("EmotePickerDialogView", () => {
     expect(cell("enois_like")).not.toBeNull();
     expect(document.body.textContent).toContain(messages.count(1));
     expect(document.body.textContent).not.toContain(messages.loading);
+  });
+
+  it("o gatilho nasce fora do diálogo e abre por onOpen (não explode o Radix)", () => {
+    // Regressão: o gatilho era um DialogTrigger do Radix, que exige o contexto de um <Dialog> pai.
+    // Irmão na árvore (o app põe o botão na barra do campo), renderizar quebrava em runtime com
+    // "DialogTrigger must be used within Dialog" — e nenhum teste cobria o botão sozinho.
+    const aberturas: number[] = [];
+    act(() =>
+      root.render(
+        <>
+          <EmotePickerTriggerButton
+            id="seletor"
+            trigger={<span>x</span>}
+            label="Figurinhas"
+            onOpen={() => aberturas.push(1)}
+          />
+          <EmotePickerDialogView
+            id="seletor"
+            open={false}
+            onOpenChange={() => {}}
+            onSelect={() => {}}
+            query=""
+            onQueryChange={() => {}}
+            tab="all"
+            onTabChange={() => {}}
+            tabs={TABS}
+            items={[]}
+          />
+        </>,
+      ),
+    );
+
+    const gatilho = document.querySelector<HTMLButtonElement>('button[aria-controls="seletor"]');
+    expect(gatilho).not.toBeNull();
+    act(() => gatilho!.click());
+    expect(aberturas).toHaveLength(1);
   });
 });

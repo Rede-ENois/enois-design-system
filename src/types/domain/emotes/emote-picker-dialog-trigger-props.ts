@@ -8,4 +8,6 @@ export type EmotePickerTriggerButtonProps = {
   trigger: ReactNode;
   /** Rótulo acessível e `title`. */
   label: string;
+  /** Abre o seletor. O app guarda o estado e repassa ao `open` do `EmotePickerDialogView`. */
+  onOpen: () => void;
 };
