@@ -5,6 +5,7 @@ export { CommunityFavoriteButton } from "./community-favorite-button.js";
 export { CommunityLocationFilter } from "./community-location-filter.js";
 export { LocalCommunitiesSection } from "./local-communities-section.js";
 export type { CommunityCardData } from "../../types/domain/communities/community-card-data.js";
+export type { CommunityCardFrameProps } from "../../types/domain/communities/community-card-frame-props.js";
 export type { CommunityCardProps } from "../../types/domain/communities/community-card-props.js";
 export type { CommunityChannelData } from "../../types/domain/communities/community-channel-data.js";
 export type { CommunityChannelValues } from "../../types/domain/communities/community-channel-values.js";

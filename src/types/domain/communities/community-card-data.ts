@@ -8,6 +8,11 @@ export type CommunityCardData = {
   members: number;
   joined: boolean;
   cover: string | null;
+  /**
+   * Capa em HTML/CSS sanitizado, como na página da comunidade; quando presente tem prioridade
+   * sobre a foto (mesma ordem do detalhe). Nulo = usa a foto da capa.
+   */
+  bannerHtml?: string | null;
   avatar: string | null;
   /** Optional location; the card shows "City, UF" when present. */
   city?: string | null;
