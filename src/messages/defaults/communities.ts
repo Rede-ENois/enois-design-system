@@ -7,6 +7,7 @@ export const communitiesMessages: CommunitiesMessages = {
     enter: "Entrar",
     ownerLeaveBlocked:
       "Você administra esta comunidade. Transfira a administração para outro membro antes de sair.",
+    coverFrameTitle: "Capa da comunidade",
   },
   communityFavoriteButton: { favorite: "Favoritar", unfavorite: "Remover dos favoritos" },
   communityChannels: {
