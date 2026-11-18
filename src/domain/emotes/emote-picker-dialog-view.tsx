@@ -3,13 +3,7 @@ import { Search } from "lucide-react";
 import { useMessages } from "../../messages/messages-context.js";
 import type { EmotePickerTriggerButtonProps } from "../../types/domain/emotes/emote-picker-dialog-trigger-props.js";
 import type { EmotePickerDialogViewProps } from "../../types/domain/emotes/emote-picker-dialog-view-props.js";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../ui/dialog.js";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog.js";
 import { EmptyState } from "../../ui/empty-state.js";
 import { Input } from "../../ui/input.js";
 import { LoadingState } from "../../ui/loading-state.js";
@@ -21,19 +15,28 @@ import { EmoteCell, EmotePageButton } from "./emote-cell.js";
 /**
  * Botão que abre o seletor, onde o app o põe (barra de formatação ou barra compacta).
  *
- * É o `DialogTrigger` do Radix apontando para o seletor por `aria-controls`: o botão e o diálogo
- * são irmãos, o app escolhe onde o botão nasce e o clique continua abrindo o seletor certo.
+ * É um botão comum, e não o `DialogTrigger` do Radix: o gatilho do Radix só existe dentro do
+ * `<Dialog>` que ele abre, e aqui ele nasce em outro lugar da árvore — o app escolhe onde. Quem
+ * fecha o ciclo é o estado que o app já guarda para o `open` do `EmotePickerDialogView`: este
+ * botão pede a abertura por `onOpen` e mantém o `aria-controls` ligando os dois leitores de tela.
  */
-export function EmotePickerTriggerButton({ id, trigger, label }: EmotePickerTriggerButtonProps) {
+export function EmotePickerTriggerButton({
+  id,
+  trigger,
+  label,
+  onOpen,
+}: EmotePickerTriggerButtonProps) {
   return (
-    <DialogTrigger
+    <button
+      type="button"
       aria-controls={id}
       aria-label={label}
       title={label}
+      onClick={onOpen}
       className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-text-subtle transition hover:bg-surface-2 hover:text-primary"
     >
       {trigger}
-    </DialogTrigger>
+    </button>
   );
 }
 
@@ -45,9 +48,9 @@ export function EmotePickerTriggerButton({ id, trigger, label }: EmotePickerTrig
  *
  * Abre o próprio diálogo (`open`/`onOpenChange`); o botão é o `EmotePickerTriggerButton`, que
  * precisa ficar ao lado (o app que desenha a barra do campo o coloca lá, e o campo pode recebê-lo
- * por `toolbarActions`/`trailingButtons`). Os dois são `<Dialog>`/`<DialogTrigger>` do Radix: o
- * botão abre o diálogo por `aria-controls` e o foco vai para a busca ao abrir e volta para ele ao
- * fechar.
+ * por `toolbarActions`/`trailingButtons`). Este é o `<Dialog>` do Radix, mas o botão não é o
+ * gatilho dele: o app chama o `open` pelo `onOpen`, e o `aria-controls` liga os dois. O foco vai
+ * para a busca ao abrir e volta para o ponto de partida ao fechar.
  */
 export function EmotePickerDialogView({
   id,
