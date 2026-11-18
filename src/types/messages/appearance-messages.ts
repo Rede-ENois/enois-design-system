@@ -223,5 +223,7 @@ export type AppearanceMessages = {
     payout: (amount: string) => string;
     submit: string;
     submitting: string;
+    /** Rótulo da amostra ao vivo dentro do diálogo de venda. */
+    previewLabel: string;
   };
 };
