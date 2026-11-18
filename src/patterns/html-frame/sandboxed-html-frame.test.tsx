@@ -14,7 +14,7 @@ const root = createRoot(container);
 
 afterEach(() => act(() => root.render(null)));
 
-const srcDoc = (props: { autoHeight?: boolean; clip?: boolean }) => {
+const srcDoc = (props: { autoHeight?: boolean; clip?: boolean; stretchFirstChild?: boolean }) => {
   act(() =>
     root.render(
       <SandboxedHtmlFrame html="<div>capa</div>" title="Capa" theme="light" {...props} />,
@@ -37,5 +37,14 @@ describe("SandboxedHtmlFrame height", () => {
   it("leaves a frame that grows with its content at its content height", () => {
     expect(srcDoc({})).not.toContain("height:100%");
     expect(srcDoc({})).not.toContain("body>:first-child");
+  });
+
+  it("a reading window keeps the author's first child at its natural height", () => {
+    // Janela de leitura (prévia do editor, página no post): o primeiro filho é conteúdo de página.
+    // Esticá-lo empurrava o resto da página para fora do quadro — a prévia mostrava só o primeiro
+    // bloco, gigante, e o sumiço do resto parecia corte na metade.
+    const doc = srcDoc({ autoHeight: false, stretchFirstChild: false });
+    expect(doc).toContain("html,body{margin:0;");
+    expect(doc).not.toContain("body>:first-child");
   });
 });
