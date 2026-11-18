@@ -15,6 +15,7 @@ import { confessionarioMessages } from "./defaults/confessionario.js";
 import { conversationsMessages } from "./defaults/conversations.js";
 import { cosmeticsMessages } from "./defaults/cosmetics.js";
 import { desabafosMessages } from "./defaults/desabafos.js";
+import { desafiosMessages } from "./defaults/desafios.js";
 import { developersMessages } from "./defaults/developers.js";
 import { diarioMessages } from "./defaults/diario.js";
 import { editorMessages } from "./defaults/editor.js";
@@ -103,5 +104,6 @@ export const defaultMessages: Messages = {
   ...desabafosMessages,
   ...confessionarioMessages,
   ...termometroMessages,
+  ...desafiosMessages,
   ...paporetoMessages,
 };
