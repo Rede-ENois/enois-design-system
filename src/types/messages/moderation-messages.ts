@@ -51,6 +51,8 @@ export type ModerationMessages = {
     revoke: string;
     revokeReasonPlaceholder: string;
     revokeConfirm: string;
+    deleteAccount: string;
+    confirmDeleteAccount: (target: string) => string;
     error: string;
   };
   adminRemovePostAction: {

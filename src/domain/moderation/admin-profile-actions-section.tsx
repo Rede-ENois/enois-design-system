@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-import { AlertTriangle, Ban, Gavel, History, ShieldAlert } from "lucide-react";
+import { AlertTriangle, Ban, Gavel, History, ShieldAlert, Trash2 } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import { ListRowSkeletons } from "../../patterns/skeletons/list-row-skeletons.js";
+import type { AdminAccountAction } from "../../types/domain/moderation/admin-account-action.js";
 import type { AdminProfileAction } from "../../types/domain/moderation/admin-profile-action.js";
 import type { AdminProfileActionsSectionProps } from "../../types/domain/moderation/admin-profile-actions-section-props.js";
 import { Button } from "../../ui/button.js";
@@ -17,7 +18,7 @@ import { Input } from "../../ui/input.js";
  *
  * Every action needs a reason (10+ characters) and an explicit confirmation, because none of them
  * can be undone from this screen: a warning is revoked (and stays in the history), a ban revokes
- * the sessions.
+ * the sessions, and removing the account anonymizes the profile for good.
  */
 export function AdminProfileActionsSection({
   profile,
@@ -28,10 +29,11 @@ export function AdminProfileActionsSection({
   onWarn,
   onSanction,
   onRevokeWarning,
+  onDeleteAccount,
 }: AdminProfileActionsSectionProps) {
   const messages = useMessages().adminProfileActionsSection;
   const [reason, setReason] = useState("");
-  const [action, setAction] = useState<AdminProfileAction | null>(null);
+  const [action, setAction] = useState<AdminAccountAction | null>(null);
   const [revoking, setRevoking] = useState<string | null>(null);
   const [revokeReason, setRevokeReason] = useState("");
 
@@ -46,7 +48,12 @@ export function AdminProfileActionsSection({
   const confirm = async () => {
     const current = action;
     if (!current) return;
-    const ok = current === "WARN" ? await onWarn(clean) : await onSanction(current, clean);
+    const ok =
+      current === "WARN"
+        ? await onWarn(clean)
+        : current === "DELETE"
+          ? await (onDeleteAccount?.(clean) ?? Promise.resolve(false))
+          : await onSanction(current, clean);
     setAction(null);
     if (ok) setReason("");
   };
@@ -116,6 +123,20 @@ export function AdminProfileActionsSection({
 
             <>{messages.banPermanent}</>
           </Button>
+
+          {onDeleteAccount && (
+            <Button
+              variant="destructive"
+              size="sm"
+              className="w-auto rounded-full gap-1.5"
+              disabled={clean.length < 10 || pending}
+              onClick={() => setAction("DELETE")}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+
+              <>{messages.deleteAccount}</>
+            </Button>
+          )}
         </div>
 
         {profile.activeWarnings > 0 && (
@@ -216,7 +237,9 @@ export function AdminProfileActionsSection({
             ? messages.confirmWarn(target)
             : action === "BAN"
               ? messages.confirmBan(target)
-              : messages.confirmBanPermanent(target)
+              : action === "DELETE"
+                ? messages.confirmDeleteAccount(target)
+                : messages.confirmBanPermanent(target)
         }
         confirmLabel={messages.confirm}
         cancelLabel={messages.cancel}
