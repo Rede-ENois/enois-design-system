@@ -31,4 +31,10 @@ export type NetworkNodeData = {
   failureStreak: number;
   /** Motivo da quarentena vigente, já traduzido pelo frontend; `null` fora dela. */
   quarantineReason: string | null;
+  /**
+   * Tráfego acumulado medido pelo próprio nó, em MiB (brief §8.2). `null` = o runtime não mede
+   * (nó anterior a essa medida), nunca zero: zero afirma "não transferiu nada".
+   */
+  trafficInMb: number | null;
+  trafficOutMb: number | null;
 };

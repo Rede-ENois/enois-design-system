@@ -165,6 +165,8 @@ export const postMessages: PostMessages = {
       DESABAFO_COMMENT: "Denunciar acolhida",
       CONFESSIONARIO_POST: "Denunciar história",
       CONFESSIONARIO_COMMENT: "Denunciar comentário",
+      DESAFIO_POST: "Denunciar desafio",
+      DESAFIO_PARTICIPACAO: "Denunciar participação",
     },
     reason: "Motivo",
     reasons: {
@@ -198,6 +200,11 @@ export const postMessages: PostMessages = {
     publish: "Publicar",
     undo: "Desfazer republicação",
     undoHint: "Remove a republicação do seu perfil.",
+    community: "Republicar na comunidade",
+    communityHint: "A publicação aparece no mural de uma comunidade sua, com seu comentário.",
+    communityPlaceholder: (count) => `Em qual das suas ${count} comunidades?`,
+    communityEmpty: "Você não participa de nenhuma comunidade ainda.",
+    communityPick: "Escolher comunidade",
   },
   gifPickerDialog: {
     title: "Adicionar GIF",

@@ -259,6 +259,16 @@ export function NetworkNodesSection({
                 </div>
 
                 <div>
+                  <dt className="text-text-subtle">{messages.trafficLabel}</dt>
+
+                  <dd className="text-text-strong">
+                    {node.trafficInMb === null || node.trafficOutMb === null
+                      ? messages.trafficUnknown
+                      : messages.traffic(node.trafficInMb, node.trafficOutMb)}
+                  </dd>
+                </div>
+
+                <div>
                   <dt className="text-text-subtle">{messages.failureStreakLabel}</dt>
 
                   <dd
