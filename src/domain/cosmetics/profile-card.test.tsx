@@ -51,6 +51,21 @@ describe("ProfileCard", () => {
     expect(html).toContain("cos-fx-layer");
   });
 
+  it("with onAvatarClick the avatar becomes a real, labelled button; without it it stays as is", () => {
+    const html = renderToStaticMarkup(
+      <ProfileCard profile={plain} onAvatarClick={() => undefined} />,
+    );
+
+    expect(html).toContain("<button");
+    expect(html).toContain('aria-label="Trocar foto do perfil"');
+    expect(html).toContain("cos-card__avatar--action");
+    // A fixture não tem foto: o avatar clicável continua caindo nas iniciais.
+    expect(html).toContain(">AS</span>");
+    const plainHtml = renderToStaticMarkup(<ProfileCard profile={plain} />);
+    expect(plainHtml).not.toContain("<button");
+    expect(plainHtml).toContain(">AS</span>");
+  });
+
   it("shows the uploaded photo or the custom banner, and the official banner over both", () => {
     const photo = renderToStaticMarkup(
       <ProfileCard profile={{ ...plain, banner: "https://cdn.test/capa.jpg" }} />,

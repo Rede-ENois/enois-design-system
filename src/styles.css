@@ -4205,6 +4205,17 @@ html:not(.dark) .frame-shop-price {
   height: 100px;
   flex: none;
 }
+.cos-card__avatar--action {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.cos-card__avatar--action:focus-visible {
+  outline: 2px solid var(--p-fg);
+  outline-offset: 4px;
+}
 .cos-card__avatar-ring {
   position: absolute;
   inset: -6px;

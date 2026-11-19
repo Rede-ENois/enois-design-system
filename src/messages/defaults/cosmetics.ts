@@ -4,6 +4,8 @@ export const cosmeticsMessages: CosmeticsMessages = {
   profileCard: {
     label: (name) => `Perfil de ${name}`,
     status: "Status",
+    /** Botão do avatar: "trocar foto" — o destino é definido pela app. */
+    avatarAction: "Trocar foto do perfil",
   },
   profileMiniCard: {
     viewProfile: "Ver perfil",

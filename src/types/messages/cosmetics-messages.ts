@@ -4,6 +4,8 @@ export type CosmeticsMessages = {
   profileCard: {
     label: (name: string) => string;
     status: string;
+    /** Botão do avatar: "trocar foto" — o destino é definido pela app. */
+    avatarAction: string;
   };
   profileMiniCard: {
     viewProfile: string;

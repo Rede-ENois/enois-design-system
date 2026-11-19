@@ -61,6 +61,14 @@ export const PlainCard: StoryObj = {
   ),
 };
 
+export const ClickableAvatar: StoryObj = {
+  render: () => (
+    <div className="max-w-sm">
+      <ProfileCard profile={person} onAvatarClick={() => undefined} />
+    </div>
+  ),
+};
+
 export const LookCards: StoryObj = {
   render: function LookCardsStory() {
     const [replay, setReplay] = useState(0);

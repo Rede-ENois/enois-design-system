@@ -40,6 +40,7 @@ const AMBIENT = (() => {
  */
 export function ProfileCard({
   profile,
+  onAvatarClick,
   bannerSlot,
   nameAddon,
   meta,
@@ -121,15 +122,32 @@ export function ProfileCard({
       </div>
 
       <div className="cos-card__head">
-        <div className="cos-card__avatar">
-          <span className="cos-card__avatar-ring" aria-hidden />
-          <UserAvatar
-            src={profile.avatar}
-            alt={profile.name}
-            frame={profile.avatarFrame}
-            className="h-full w-full"
-          />
-        </div>
+        {onAvatarClick ? (
+          <button
+            type="button"
+            aria-label={messages.avatarAction}
+            onClick={onAvatarClick}
+            className="cos-card__avatar cos-card__avatar--action"
+          >
+            <span className="cos-card__avatar-ring" aria-hidden />
+            <UserAvatar
+              src={profile.avatar}
+              alt={profile.name}
+              frame={profile.avatarFrame}
+              className="h-full w-full"
+            />
+          </button>
+        ) : (
+          <div className="cos-card__avatar">
+            <span className="cos-card__avatar-ring" aria-hidden />
+            <UserAvatar
+              src={profile.avatar}
+              alt={profile.name}
+              frame={profile.avatarFrame}
+              className="h-full w-full"
+            />
+          </div>
+        )}
 
         {status && (
           <p className="cos-card__status">

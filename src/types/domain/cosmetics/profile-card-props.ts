@@ -9,6 +9,11 @@ export type ProfileCardProps = {
    * it wins over the uploaded photo.
    */
   bannerSlot?: ReactNode;
+  /**
+   * Makes the avatar a real button (accessible label, visible focus) and reports clicks. The
+   * caller owns the label text; without it the avatar renders as usual.
+   */
+  onAvatarClick?: () => void;
   /** Next to the name: aka chip, contributor tag... */
   nameAddon?: ReactNode;
   /** Replaces the default meta line (`@username · pronouns`). */
