@@ -4,10 +4,12 @@ import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { PapoIntervaloView } from "../../types/domain/paporeto/papo-intervalo-view.js";
 import type { PapoPanelProps } from "../../types/domain/paporeto/papo-panel-props.js";
+import type { PapoPublicacaoView } from "../../types/domain/paporeto/papo-publicacao-view.js";
 import type { PapoStatus } from "../../types/domain/paporeto/papo-status.js";
 import type { PapoSubjectView } from "../../types/domain/paporeto/papo-subject-view.js";
 import type { PaporetoMessages } from "../../types/messages/paporeto-messages.js";
 
+import { PapoPublicacoesRelacionadas } from "./papo-publicacoes.js";
 import { PapoTimeline } from "./papo-timeline.js";
 
 const STATUS: PapoStatus[] = ["EMERGENTE", "HOT", "PERSISTENTE"];
@@ -47,6 +49,9 @@ export function PapoPanel({
   timeline,
   janela,
   onJanelaChange,
+  publicacoes,
+  publicacoesEstado,
+  onPublicacoesRetry,
   onRetry,
 }: PapoPanelProps) {
   const messages = useMessages().papoPanel;
@@ -143,6 +148,9 @@ export function PapoPanel({
                     janela={janela}
                     onJanelaChange={onJanelaChange}
                     messagesDaTimeline={messagesDaTimeline}
+                    publicacoes={subjectAberto === assunto.subject ? publicacoes : null}
+                    publicacoesEstado={publicacoesEstado}
+                    onPublicacoesRetry={onPublicacoesRetry}
                   />
                 ))}
               </ol>
@@ -175,6 +183,9 @@ function PapoAssuntoItem({
   janela,
   onJanelaChange,
   messagesDaTimeline,
+  publicacoes,
+  publicacoesEstado,
+  onPublicacoesRetry,
 }: {
   assunto: PapoSubjectView;
   aberto: boolean;
@@ -184,6 +195,9 @@ function PapoAssuntoItem({
   janela: PapoPanelProps["janela"];
   onJanelaChange: PapoPanelProps["onJanelaChange"];
   messagesDaTimeline: PaporetoMessages["papoTimeline"];
+  publicacoes: PapoPublicacaoView[] | null;
+  publicacoesEstado: PapoPanelProps["publicacoesEstado"];
+  onPublicacoesRetry: PapoPanelProps["onPublicacoesRetry"];
 }) {
   return (
     <li className="space-y-2 rounded-xl bg-surface-2 p-3">
@@ -233,18 +247,26 @@ function PapoAssuntoItem({
       </div>
 
       {aberto && (
-        <PapoTimeline
-          subject={assunto.subject}
-          rotulo={assunto.subject}
-          intervalos={timeline}
-          janela={janela}
-          onJanelaChange={onJanelaChange}
-          rotuloJanela={messagesDaTimeline.rotuloJanela}
-          falas={messagesDaTimeline.falas}
-          semFalas={messagesDaTimeline.semFalas}
-          carregando={messagesDaTimeline.carregando}
-          eixo={messagesDaTimeline.eixo}
-        />
+        <>
+          <PapoTimeline
+            subject={assunto.subject}
+            rotulo={assunto.subject}
+            intervalos={timeline}
+            janela={janela}
+            onJanelaChange={onJanelaChange}
+            rotuloJanela={messagesDaTimeline.rotuloJanela}
+            falas={messagesDaTimeline.falas}
+            semFalas={messagesDaTimeline.semFalas}
+            carregando={messagesDaTimeline.carregando}
+            eixo={messagesDaTimeline.eixo}
+          />
+          <PapoPublicacoesRelacionadas
+            subject={assunto.subject}
+            publicacoes={publicacoes}
+            estado={publicacoesEstado}
+            onRetry={onPublicacoesRetry}
+          />
+        </>
       )}
     </li>
   );
