@@ -61,6 +61,15 @@ export const PlainCard: StoryObj = {
   ),
 };
 
+/** Own profile: the avatar is a button (click = change the photo), with hover and focus ring. */
+export const AvatarAsButton: StoryObj = {
+  render: () => (
+    <div className="max-w-sm">
+      <ProfileCard profile={person} onAvatarClick={() => undefined} />
+    </div>
+  ),
+};
+
 export const LookCards: StoryObj = {
   render: function LookCardsStory() {
     const [replay, setReplay] = useState(0);
