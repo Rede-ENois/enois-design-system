@@ -60,6 +60,43 @@ async function typeAndSend(value: string) {
 }
 
 describe("ConversationThread", () => {
+  it("exposes the message scroll container through the optional ref", () => {
+    const messagesScrollRef = { current: null as HTMLDivElement | null };
+    renderThread(() => Promise.resolve(), { messagesScrollRef });
+    expect(messagesScrollRef.current).not.toBeNull();
+    expect(messagesScrollRef.current?.classList.contains("overflow-y-auto")).toBe(true);
+  });
+  it("consumes newest IDs while auto-scroll is suppressed without a delayed jump", () => {
+    const scrollTo = vi.fn();
+    const messagesScrollRef = (node: HTMLDivElement | null) => {
+      if (node) node.scrollTo = scrollTo;
+    };
+    const onSend = () => Promise.resolve();
+    renderThread(onSend, { messagesScrollRef, newestMessageId: "first", suppressAutoScroll: true });
+    expect(scrollTo).not.toHaveBeenCalled();
+    renderThread(onSend, {
+      messagesScrollRef,
+      newestMessageId: "second",
+      suppressAutoScroll: true,
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    renderThread(onSend, {
+      messagesScrollRef,
+      newestMessageId: "second",
+      suppressAutoScroll: false,
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    renderThread(onSend, { messagesScrollRef, newestMessageId: "third" });
+    expect(scrollTo).toHaveBeenCalledOnce();
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
+    renderThread(onSend, {
+      messagesScrollRef,
+      newestMessageId: "third",
+      children: <p>Older message</p>,
+    });
+    expect(scrollTo).toHaveBeenCalledOnce();
+  });
+
   it("envia o texto aparado e limpa o campo", async () => {
     const onSend = vi.fn(() => Promise.resolve());
     renderThread(onSend);
@@ -76,6 +113,49 @@ describe("ConversationThread", () => {
     await typeAndSend("oi");
 
     expect(container.textContent).toContain("Arquivo grande demais");
+  });
+
+  it("envio que falha devolve o rascunho ao compositor", async () => {
+    const onSend = vi.fn(() => Promise.reject(new Error("Falha na subida")));
+    renderThread(onSend);
+
+    await typeAndSend("texto que não pode sumir");
+
+    expect(container.querySelector("textarea")!.value).toBe("texto que não pode sumir");
+  });
+
+  it("envio que falha devolve mídia, spoiler e a citação ao compositor", async () => {
+    const onSend = vi.fn(() => Promise.reject(new Error("Falha na subida")));
+    const onRestoreReply = vi.fn();
+    renderThread(onSend, {
+      replyingTo: { id: "message_1", from: "Bia", text: "pergunta" },
+      onRestoreReply,
+    });
+
+    // jsdom não tem createObjectURL; o componente usa para a prévia do anexo.
+    URL.createObjectURL = vi.fn(() => "blob:preview") as unknown as typeof URL.createObjectURL;
+    URL.revokeObjectURL = vi.fn() as unknown as typeof URL.revokeObjectURL;
+
+    const input = container.querySelector('input[type="file"]')!;
+    const file = new File(["x"], "foto.png", { type: "image/png" });
+    Object.defineProperty(input, "files", { value: [file] });
+    await act(async () => {
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    const spoiler = container.querySelector(
+      'button[aria-label^="Marcar"], button[title^="Marcar"]',
+    );
+    if (spoiler) act(() => spoiler.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+    await typeAndSend("com anexo");
+
+    expect(onSend).toHaveBeenCalledWith(
+      expect.objectContaining({ mediaSpoiler: true, replyToId: "message_1" }),
+    );
+    expect(onRestoreReply).toHaveBeenCalledWith({ id: "message_1", from: "Bia", text: "pergunta" });
+    expect(container.querySelector("textarea")!.value).toBe("com anexo");
+    // Spoiler voltou marcado e a citação de volta no compositor.
+    expect(container.textContent).toContain("Mídias marcadas como spoiler");
+    expect(container.textContent).toContain("Respondendo a Bia");
   });
 
   it("o gate E2E esconde o histórico e o compositor e mostra o banner com o aviso", () => {

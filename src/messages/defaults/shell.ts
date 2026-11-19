@@ -9,6 +9,10 @@ export const shellMessages: ShellMessages = {
     searchLabel: "Procurar no Énóis",
     searchPlaceholder: "Ache qualquer coisa: carteira, vagas, jogos...",
     empty: "Nada com esse nome por aqui. Tente outra palavra.",
+    loading: "Preparando o Explorar...",
+    error: "Não foi possível carregar o Explorar agora.",
+    retry: "Tentar de novo",
+    rooms: (count: number) => (count === 1 ? "1 sala" : `${count} salas`),
   },
   navigationLinks: {
     myCommunities: "Suas comunidades",

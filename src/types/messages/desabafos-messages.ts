@@ -17,6 +17,7 @@ export type DesabafosMessages = {
     needText: string;
   };
   desabafosCard: {
+    anonymous: string;
     acolhidas: (count: number) => string;
     reactLove: string;
     reactSupport: string;
@@ -24,6 +25,7 @@ export type DesabafosMessages = {
     report: string;
   };
   desabafosComments: {
+    anonymous: string;
     empty: string;
     loading: string;
     error: string;

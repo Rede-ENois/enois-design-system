@@ -4,6 +4,8 @@ export type CommunitiesMessages = {
     participating: string;
     enter: string;
     ownerLeaveBlocked: string;
+    /** Descrição do quadro isolado da capa em HTML, para leitores de tela. */
+    coverFrameTitle: string;
   };
   communityFavoriteButton: { favorite: string; unfavorite: string };
   communityChannels: {

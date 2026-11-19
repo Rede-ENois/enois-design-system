@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { MessageSquareText, Repeat2, Undo2 } from "lucide-react";
+import { Building2, MessageSquareText, Repeat2, Undo2 } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import type { RepostDialogProps } from "../../types/domain/post/repost-dialog-props.js";
@@ -12,15 +12,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog.js";
+import { Select } from "../../ui/select.js";
 import { Textarea } from "../../ui/textarea.js";
 
 /** Limite combinado com o backend (`RepostPostService`). */
 export const REPOST_OPINION_MAX = 600;
 
 /**
- * Republicar em duas portas (estilo Twitter/LinkedIn):
+ * Republicar em três portas (estilo Twitter/LinkedIn):
  * 1. Republicar direto — ponteiro pro original, sem post novo.
  * 2. Republicar com comentário — abre textarea, cria post novo do repostador.
+ * 3. Republicar na comunidade — com comunidades do viewer (o chamador busca), manda
+ *    `communityId` + comentário para o mural da comunidade escolhida.
  */
 export function RepostDialog({
   postId,
@@ -30,31 +33,37 @@ export function RepostDialog({
   reposted = false,
   onRepost,
   onUndoRepost,
+  communities,
+  onRepostToCommunity,
 }: RepostDialogProps) {
   const messages = useMessages().repostDialog;
-  const [step, setStep] = useState<"choose" | "opinion">("choose");
+  const [step, setStep] = useState<"choose" | "opinion" | "community">("choose");
   const [opinion, setOpinion] = useState("");
+  const [communityId, setCommunityId] = useState("");
+
+  const communityOptions = onRepostToCommunity ? (communities ?? []) : [];
 
   useEffect(() => {
     if (!open) {
       setStep("choose");
       setOpinion("");
+      setCommunityId("");
     }
   }, [open]);
+
+  const closeStep = (next: boolean) => {
+    if (!next) {
+      setStep("choose");
+      setOpinion("");
+      setCommunityId("");
+    }
+    onOpenChange(next);
+  };
 
   const cleanOpinion = opinion.trim();
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(next) => {
-        if (!next) {
-          setStep("choose");
-          setOpinion("");
-        }
-        onOpenChange(next);
-      }}
-    >
+    <Dialog open={open} onOpenChange={closeStep}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 font-normal">
@@ -118,6 +127,78 @@ export function RepostDialog({
                 <p className="text-xs text-text-subtle">{messages.withOpinionHint}</p>
               </div>
             </button>
+
+            {communityOptions.length > 0 && (
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() => setStep("community")}
+                className="flex items-center gap-3 rounded-xl border border-border-soft px-4 py-3 text-left transition hover:bg-surface-2"
+              >
+                <Building2 className="h-5 w-5 shrink-0 text-primary" />
+
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-text-strong">{messages.community}</p>
+
+                  <p className="text-xs text-text-subtle">{messages.communityHint}</p>
+                </div>
+              </button>
+            )}
+          </div>
+        ) : step === "community" ? (
+          <div className="space-y-3 pt-1">
+            <p className="text-sm text-text-subtle">
+              {messages.communityPlaceholder(communityOptions.length)}
+            </p>
+
+            <Select
+              aria-label={messages.communityPick}
+              value={communityId}
+              onChange={(event) => setCommunityId(event.target.value)}
+            >
+              <option value="" disabled>
+                {messages.communityPick}
+              </option>
+              {communityOptions.map((community) => (
+                <option key={community.id} value={community.id}>
+                  {community.name}
+                </option>
+              ))}
+            </Select>
+
+            <Textarea
+              id={`repost-community-opinion-${postId}`}
+              value={opinion}
+              onChange={(event) => setOpinion(event.target.value)}
+              placeholder={messages.opinionPlaceholder}
+              rows={4}
+              maxLength={REPOST_OPINION_MAX}
+            />
+
+            <p className="text-right text-xs text-text-subtle">
+              {messages.opinionCount(opinion.length)}
+            </p>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                className="rounded-full"
+                onClick={() => {
+                  setStep("choose");
+                  setOpinion("");
+                }}
+              >
+                {messages.back}
+              </Button>
+
+              <Button
+                className="rounded-full"
+                disabled={pending || !communityId || cleanOpinion.length === 0}
+                onClick={() => onRepostToCommunity?.(communityId, cleanOpinion)}
+              >
+                {messages.publish}
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="space-y-3 pt-1">

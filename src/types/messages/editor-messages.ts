@@ -6,6 +6,7 @@ export type EditorMessages = {
   imageCropDialog: {
     loading: string;
     unsupported: string;
+    saveError: string;
     zoom: string;
     cancel: string;
     save: string;

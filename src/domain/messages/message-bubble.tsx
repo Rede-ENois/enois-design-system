@@ -24,12 +24,17 @@ export function MessageBubble({
   readByOther = false,
   onReport,
   onReply,
+  onReplyQuoteClick,
   replyQuote,
 }: MessageBubbleProps) {
   const messages = useMessages().messageBubble;
+  const quoteInteractive = !!onReplyQuoteClick && !selecting;
+  const ReplyQuote = quoteInteractive ? "button" : "div";
 
   return (
     <div
+      id={message.id ? `message-${message.id}` : undefined}
+      tabIndex={-1}
       onClick={onToggleSelect}
       className={`flex items-end gap-2 ${isMe ? "justify-end" : "justify-start"} ${
         selecting ? "cursor-pointer" : ""
@@ -56,17 +61,27 @@ export function MessageBubble({
         } ${selected ? "ring-2 ring-destructive/70" : ""}`}
       >
         {replyQuote && (
-          <div
-            className={`mb-2 rounded-lg border-l-2 px-2.5 py-1.5 text-xs ${
+          <ReplyQuote
+            type={quoteInteractive ? "button" : undefined}
+            aria-label={quoteInteractive ? messages.goToOriginal : undefined}
+            onClick={
+              quoteInteractive
+                ? (event) => {
+                    event.stopPropagation();
+                    onReplyQuoteClick?.();
+                  }
+                : undefined
+            }
+            className={`mb-2 block w-full min-w-0 rounded-lg border-l-2 px-2.5 py-1.5 text-left text-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${
               isMe
-                ? "border-primary-foreground/40 bg-primary-foreground/10 text-primary-foreground/80"
+                ? "border-primary-foreground/40 bg-primary-foreground/10 text-primary-foreground"
                 : "border-primary/40 bg-muted text-text-subtle"
             }`}
           >
-            <p className="font-medium">{replyQuote.isMe ? "Você" : replyQuote.from}</p>
+            <span className="block font-medium">{replyQuote.isMe ? "Você" : replyQuote.from}</span>
 
-            <p className="line-clamp-2">{replyQuote.text}</p>
-          </div>
+            <span className="line-clamp-2 break-words">{replyQuote.text}</span>
+          </ReplyQuote>
         )}
 
         {content}

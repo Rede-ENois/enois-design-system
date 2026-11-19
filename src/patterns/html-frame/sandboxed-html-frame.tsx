@@ -35,6 +35,7 @@ export function SandboxedHtmlFrame({
   autoHeight = true,
   maxHeight,
   clip = false,
+  stretchFirstChild,
   theme,
   themeStyleElementId,
   lite = false,
@@ -49,6 +50,9 @@ export function SandboxedHtmlFrame({
   const [measured, setMeasured] = useState<number | null>(null);
   // Recorte nunca cresce: a altura vem da classe, e o HTML do autor se ajusta a ela ou é cortado.
   const grows = autoHeight && !clip;
+  // Capa estica o primeiro filho (o fundo do autor mora nele); janela de leitura, não. Sem a
+  // prop explícita, mantém o comportamento de sempre: estica quando o quadro não cresce.
+  const fill = stretchFirstChild ?? !grows;
 
   /**
    * Altura do conteudo, medida do lado de fora (a conta em `./html-frame-height`).
@@ -127,7 +131,7 @@ export function SandboxedHtmlFrame({
     <iframe
       ref={frame}
       title={title}
-      srcDoc={buildDocument(html, innerPadding, clip, !grows)}
+      srcDoc={buildDocument(html, innerPadding, clip, fill)}
       // Por padrão, o HTML colado não recebe scripts e mantém origem legível apenas para a medição.
       // O modo SoundCloud troca a origem legível por origem opaca e libera scripts para o iframe
       // aninhado; a CSP continua bloqueando scripts do documento e restringindo frames ao player.

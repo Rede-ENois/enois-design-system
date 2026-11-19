@@ -36,6 +36,8 @@ const node: NetworkNodeData = {
   latencyMs: null,
   failureStreak: 0,
   quarantineReason: null,
+  trafficInMb: null,
+  trafficOutMb: null,
 };
 
 function render(props: Partial<Parameters<typeof NetworkNodesSection>[0]> = {}) {
@@ -71,6 +73,8 @@ const detail: NetworkNodeDetailData = {
     latencyMs: 120,
     failureStreak: 0,
     quarantineReason: null,
+    trafficInMb: 2048,
+    trafficOutMb: 512,
   },
   declaredCpuCores: 4,
   declaredMemoryMb: 8192,
@@ -230,6 +234,56 @@ describe("NetworkNodesSection", () => {
     expect(html).toContain("Operando");
     expect(html).toContain("120 ms");
     expect(html).not.toContain("Degradado");
+  });
+
+  it("nó mostra o tráfego medido por ele, em MiB e em GiB", () => {
+    const html = render({
+      nodes: [{ ...node, status: "ACTIVE", operable: true, trafficInMb: 2048, trafficOutMb: 512 }],
+    });
+
+    expect(html).toContain("Tráfego");
+    expect(html).toContain("↓ 2.0 GiB · ↑ 512 MiB");
+  });
+
+  it("nó que não mede tráfego diz Sem medição em vez de zero", () => {
+    const html = render({
+      nodes: [
+        // O nó VIVO muda os outros rótulos (saúde, latência com valor); o tráfego nulo não é o
+        // mesmo caso, e a asserção negativa precisaria de uma página sem outro "Sem medição".
+        {
+          ...node,
+          status: "ACTIVE",
+          operable: true,
+          latencyMs: 120,
+          trafficInMb: null,
+          trafficOutMb: null,
+        },
+      ],
+    });
+
+    // Zero aqui seria "não transferiu nada" — e o runtime só não conta. Com a latência medida
+    // (nó vivo), a única lacuna possível na página é a do tráfego: o texto tem de estar aqui.
+    expect(html).toContain("Tráfego");
+    expect(html).toContain("Sem medição");
+    expect(html).not.toContain("↓ 0 MiB");
+  });
+
+  it("metade medida não vira número: entrada sem saída é Sem medição", () => {
+    const html = render({
+      nodes: [
+        {
+          ...node,
+          status: "ACTIVE",
+          operable: true,
+          latencyMs: 120,
+          trafficInMb: 2048,
+          trafficOutMb: null,
+        },
+      ],
+    });
+
+    expect(html).not.toContain("↓ 2.0 GiB");
+    expect(html).toContain("Tráfego");
   });
 
   it("quarentena vigente explica o motivo na faixa de saúde", () => {

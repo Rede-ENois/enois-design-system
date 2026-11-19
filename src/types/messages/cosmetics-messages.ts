@@ -4,6 +4,7 @@ export type CosmeticsMessages = {
   profileCard: {
     label: (name: string) => string;
     status: string;
+    changePhoto: string;
   };
   profileMiniCard: {
     viewProfile: string;

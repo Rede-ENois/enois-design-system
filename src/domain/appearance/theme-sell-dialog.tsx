@@ -14,6 +14,8 @@ import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
 import { Textarea } from "../../ui/textarea.js";
 
+import { ThemePreview } from "./theme-preview.js";
+
 /**
  * "Vender no marketplace" da APARÊNCIA ATUAL.
  *
@@ -60,6 +62,14 @@ export function ThemeSellDialog({
         </DialogHeader>
 
         <div className="space-y-3 pt-1">
+          {/* Amostra ao vivo: o que se vende é a aparência ATIVA, e o ThemePreview desenha com os
+              tokens reais dela — não maquete. Quem vende vê o resultado antes de publicar. */}
+          <section className="space-y-2">
+            <h3 className="text-xs font-medium text-text-strong">{messages.previewLabel}</h3>
+
+            <ThemePreview />
+          </section>
+
           <div className="space-y-1.5">
             <Label className="text-xs font-normal text-text-subtle">{messages.name}</Label>
 

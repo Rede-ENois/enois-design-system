@@ -1,14 +1,14 @@
-import type { AuthorNameStyle } from "../name/author-name-style.js";
-
 import type { DesabafosReactionOffered } from "./desabafos-reaction-offered.js";
 
-/** Um desabafo na linha do tempo do feed próprio: autor achatado, texto e contagens. Reação é
- * contada, nunca nominada — não existe aqui lista de quem apoiou, só o MEU tipo. */
+/**
+ * Um desabafo na linha do tempo do feed próprio: texto e contagens, SEM autor.
+ *
+ * O anonimato é do contrato: o DS não recebe nome, avatar nem estilo porque o backend não manda
+ * mais — quem vê reconhece o próprio desabafo pelo `isMine` calculado no servidor, nunca por um
+ * id de autor exposto. Reação é contada, nunca nominada: não existe lista de quem apoiou.
+ */
 export type DesabafoPostView = {
   id: string;
-  authorName: string | null;
-  authorAvatar: string | null;
-  authorStyle: AuthorNameStyle | null;
   content: string;
   /** ISO 8601, como o backend manda; a view formata no fuso de quem vê. */
   createdAt: string;

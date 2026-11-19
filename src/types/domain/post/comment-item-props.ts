@@ -10,6 +10,13 @@ import type { RenderLinkPreview } from "./render-link-preview.js";
 
 export type CommentItemProps<T extends string = string> = {
   comment: CommentItemData;
+  /** Id da linha na DOM (`data-comment-id`), para a notificação rolar até o comentário. */
+  commentDomId?: string;
+  /**
+   * Realce temporário (notificação de comentário: o clique leva AO comentário): desenha um anel
+   * na linha por um instante.
+   */
+  highlighted?: boolean;
   /** Texto atual (a edição troca na hora, sem esperar o refetch). */
   content: string;
   /** Mostra o selo "editado". */

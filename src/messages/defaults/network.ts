@@ -1,5 +1,10 @@
 import type { NetworkMessages } from "../../types/messages/network-messages.js";
 
+/** MiB em texto curto: abaixo de 1 GiB fica em MiB, acima sobe para GiB com uma casa. */
+function formatVolume(mb: number): string {
+  return mb >= 1024 ? `${(mb / 1024).toFixed(1)} GiB` : `${mb} MiB`;
+}
+
 export const networkMessages: NetworkMessages = {
   networkRequests: {
     title: "Convites de conexão",
@@ -252,5 +257,8 @@ export const networkMessages: NetworkMessages = {
     failureStreakLabel: "Falhas seguidas",
     failureStreak: (count) =>
       `${count} falha${count === 1 ? "" : "s"} seguida${count === 1 ? "" : "s"}`,
+    trafficLabel: "Tráfego",
+    traffic: (inMb, outMb) => `↓ ${formatVolume(inMb)} · ↑ ${formatVolume(outMb)}`,
+    trafficUnknown: "Sem medição",
   },
 };

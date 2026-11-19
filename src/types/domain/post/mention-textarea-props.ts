@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, Ref } from "react";
+import type { ComponentPropsWithoutRef, ReactNode, Ref } from "react";
 
 import type { EditorSticker } from "./editor-sticker.js";
 import type { MentionTextareaHandle } from "./mention-textarea-handle.js";
@@ -25,6 +25,16 @@ export type MentionTextareaProps = Pick<
    * aberto.
    */
   toolbarMenu?: boolean;
+  /**
+   * Botões do dono do campo que entram no fim da barra de formatação (o seletor de figurinhas, por
+   * exemplo). Só aparecem com a barra visível.
+   */
+  toolbarActions?: ReactNode;
+  /**
+   * Botões no fim do campo, abaixo do texto (o seletor de figurinhas da barra compacta, que não tem
+   * a linha de cima). Recebem o mesmo tratamento de foco do resto do campo.
+   */
+  trailingButtons?: ReactNode;
   /** Imagens coladas no campo (Ctrl+V): o dono do campo decide subir e anexar. */
   onPasteImages?: (files: File[]) => void;
   /** Ctrl+Enter (Cmd+Enter no Mac): o dono do campo decide o que é "enviar". Sem ela, não há atalho. */

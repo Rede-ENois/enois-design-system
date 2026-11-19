@@ -28,6 +28,7 @@ export { HumanitySealIcon } from "./humanity-seal-icon.js";
 export { Input } from "./input.js";
 export { Label } from "./label.js";
 export { LoadingState } from "./loading-state.js";
+export { MetaLine } from "./meta-line.js";
 export { PageHeader } from "./page-header.js";
 export { PasswordInput } from "./password-input.js";
 export { Select } from "./select.js";

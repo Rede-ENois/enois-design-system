@@ -31,6 +31,8 @@ export type MessageBubbleProps = {
   onReport?: () => void;
   /** Responder esta mensagem. */
   onReply?: () => void;
+  /** Navigate to the quoted message. Inactive while selecting messages. */
+  onReplyQuoteClick?: () => void;
   /** Citação da mensagem sendo respondida (acima do conteúdo do balão). */
   replyQuote?: { from: string; text: string; isMe: boolean } | null;
 };

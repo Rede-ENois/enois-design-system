@@ -19,6 +19,21 @@ const dressed = {
   statusIcon: "morcego",
 };
 
+it("keeps the avatar a plain image without onAvatarClick", () => {
+  const html = renderToStaticMarkup(<ProfileCard profile={plain} />);
+  expect(html).not.toContain("<button");
+});
+
+it("makes the avatar a labeled button with onAvatarClick", () => {
+  const html = renderToStaticMarkup(
+    <ProfileCard profile={plain} onAvatarClick={() => undefined} />,
+  );
+  expect(html).toContain("<button");
+  expect(html).toContain('aria-label="Trocar minha foto de perfil"');
+  expect(html).toContain('title="Trocar minha foto de perfil"');
+  expect(html).toContain("Trocar minha foto");
+});
+
 describe("ProfileCard", () => {
   it("works with no cosmetics, on the design system tokens", () => {
     const html = renderToStaticMarkup(<ProfileCard profile={plain} />);

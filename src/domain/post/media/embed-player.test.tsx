@@ -4,6 +4,8 @@ import { act } from "react";
 import { type Root, createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
+import { EnoisProvider } from "../../../messages/enois-provider.js";
+
 import { EmbedPlayer } from "./embed-player.js";
 
 describe("EmbedPlayer", () => {
@@ -61,5 +63,29 @@ describe("EmbedPlayer", () => {
 
     const src = container.querySelector("iframe")?.getAttribute("src") ?? "";
     expect(src).not.toContain("start=");
+  });
+
+  it.each([
+    ["youtube", "YouTube"],
+    ["dailymotion", "dailymotion"],
+  ])("nomeia a capa de %s com a mensagem do componente", async (type, provider) => {
+    await act(async () => root?.render(<EmbedPlayer type={type} id="video-demo" />));
+
+    const cover = container.querySelector("button");
+    expect(cover?.getAttribute("aria-label")).toBe(`Clique para assistir no ${provider}`);
+    expect(cover?.querySelector("img")?.getAttribute("alt")).toBe("");
+    expect(cover?.querySelector("svg")?.getAttribute("aria-hidden")).toBe("true");
+
+    await act(async () =>
+      root?.render(
+        <EnoisProvider messages={{ embedPlayer: { watchOn: (name) => `Assistir: ${name}` } }}>
+          <EmbedPlayer type={type} id="video-demo" />
+        </EnoisProvider>,
+      ),
+    );
+
+    expect(container.querySelector("button")?.getAttribute("aria-label")).toBe(
+      `Assistir: ${provider}`,
+    );
   });
 });

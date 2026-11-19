@@ -38,7 +38,14 @@ export function ReactionPicker<T extends string>({
   buttonClassName,
   buttonTitle,
   children,
+  collapsedCount = 5,
 }: ReactionPickerProps<T>) {
+  const entries = Object.entries(emojis) as [T, string][];
+  // Primeira fileira sempre à vista; o "+" revela o conjunto inteiro (22 emojis viram
+  // um mural de rolagem, não uma fila que estoura a tela — e no celular ninguém rola).
+  const visible = entries.slice(0, collapsedCount);
+  const hidden = entries.slice(collapsedCount);
+  const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [holdMode, setHoldMode] = useState(false);
   const [dragType, setDragType] = useState<T | null>(null);
@@ -182,8 +189,8 @@ export function ReactionPicker<T extends string>({
         onMouseLeave={scheduleHoverClose}
         className="w-fit rounded-2xl border-border p-1.5"
       >
-        <div className="grid grid-cols-5 gap-1">
-          {(Object.entries(emojis) as [T, string][]).map(([type, emoji]) => (
+        <div className="grid grid-cols-6 gap-1">
+          {visible.map(([type, emoji]) => (
             <button
               key={type}
               type="button"
@@ -202,6 +209,37 @@ export function ReactionPicker<T extends string>({
               {emoji}
             </button>
           ))}
+          {hidden.length > 0 && !expanded && (
+            <button
+              type="button"
+              title="+"
+              aria-label="+"
+              onClick={() => setExpanded(true)}
+              className="grid place-items-center rounded-lg px-2 py-1 text-xl leading-none text-text-subtle transition hover:bg-muted"
+            >
+              +
+            </button>
+          )}
+          {expanded &&
+            hidden.map(([type, emoji]) => (
+              <button
+                key={type}
+                type="button"
+                data-reaction-emoji={type}
+                title={type.toLowerCase()}
+                onClick={() => {
+                  onReact(type);
+                  setOpen(false);
+                }}
+                onPointerEnter={() => setDragType(type)}
+                onPointerLeave={() => setDragType((current) => (current === type ? null : current))}
+                className={`rounded-lg px-2 py-1 text-xl transition ${
+                  highlighted === type ? "scale-110 bg-muted ring-1 ring-primary" : "hover:bg-muted"
+                }`}
+              >
+                {emoji}
+              </button>
+            ))}
         </div>
       </PopoverContent>
     </Popover>

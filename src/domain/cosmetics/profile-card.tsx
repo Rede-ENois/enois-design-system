@@ -48,6 +48,8 @@ export function ProfileCard({
   children,
   effectReplayKey,
   compact = false,
+  onAvatarClick,
+  avatarButtonLabel,
   className,
 }: ProfileCardProps) {
   const messages = useMessages().profileCard;
@@ -123,12 +125,29 @@ export function ProfileCard({
       <div className="cos-card__head">
         <div className="cos-card__avatar">
           <span className="cos-card__avatar-ring" aria-hidden />
-          <UserAvatar
-            src={profile.avatar}
-            alt={profile.name}
-            frame={profile.avatarFrame}
-            className="h-full w-full"
-          />
+          {onAvatarClick ? (
+            <button
+              type="button"
+              onClick={onAvatarClick}
+              aria-label={avatarButtonLabel ?? messages.changePhoto}
+              title={avatarButtonLabel ?? messages.changePhoto}
+              className="group h-full w-full cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              <UserAvatar
+                src={profile.avatar}
+                alt={profile.name}
+                frame={profile.avatarFrame}
+                className="h-full w-full transition group-hover:opacity-85"
+              />
+            </button>
+          ) : (
+            <UserAvatar
+              src={profile.avatar}
+              alt={profile.name}
+              frame={profile.avatarFrame}
+              className="h-full w-full"
+            />
+          )}
         </div>
 
         {status && (

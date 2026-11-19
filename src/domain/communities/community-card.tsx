@@ -17,6 +17,7 @@ export function CommunityCard({
   onJoin,
   onLeave,
   favorite,
+  renderHtmlFrame,
 }: CommunityCardProps) {
   const c = community;
   const messages = useMessages().communityCard;
@@ -25,7 +26,20 @@ export function CommunityCard({
   return (
     <AppLink href={href} className="min-w-0">
       <article className="surface-card relative overflow-hidden cursor-pointer transition hover:shadow-[var(--shadow-card)]">
-        {c.cover ? (
+        {/* A capa em HTML vence a foto, igual ao detalhe da comunidade; sem renderizador de quadro,
+            o card cai para a foto (ou o gradiente) em vez de mostrar capa em branco. */}
+        {c.bannerHtml && renderHtmlFrame ? (
+          <div className="h-32 w-full overflow-hidden">
+            {renderHtmlFrame({
+              html: c.bannerHtml,
+              title: messages.coverFrameTitle,
+              className: "h-32 w-full",
+              innerPadding: false,
+              autoHeight: false,
+              clip: true,
+            })}
+          </div>
+        ) : c.cover ? (
           <img src={resolveMediaUrl(c.cover)} alt="" className="h-32 w-full object-cover" />
         ) : (
           <div className="h-32 w-full bg-gradient-to-br from-primary/20 to-primary/5" />

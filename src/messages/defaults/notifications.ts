@@ -1,6 +1,6 @@
 import type { NotificationsMessages } from "../../types/messages/notifications-messages.js";
 
-export const notificationsMessages: NotificationsMessages = {
+export const notificationsMessages = {
   notificationsPopover: {
     title: "Avisos",
     markAllRead: "Ler tudo",
@@ -27,8 +27,15 @@ export const notificationsMessages: NotificationsMessages = {
   connectionRequestItem: { someone: "Alguém", accept: "Aceitar", reject: "Agora não" },
   notificationPreferences: {
     emailTitle: "E-mail",
+    projectsTitle: "Projetos da comunidade",
+    communityProjects: {
+      label: "Novos projetos da comunidade",
+      hint: "Receba um aviso no app a cada novo projeto publicado. Desativado por padrão.",
+    },
     pushTitle: "Avisos no navegador",
     pushHint: "Escolha o que merece um aviso na hora.",
+    silenceTitle: "Silenciar avisos",
+    silenceHint: "Estes avisos nem chegam: nada na caixa e nada no navegador.",
     items: {
       weeklyDigest: {
         label: "Resumo semanal",
@@ -45,6 +52,14 @@ export const notificationsMessages: NotificationsMessages = {
       },
       pushJobs: { label: "Vagas", hint: "Andamento das suas candidaturas." },
       pushSystem: { label: "Énóis", hint: "Suporte, microprojetos e avisos do Énóis." },
+      muteReactions: {
+        label: "Não receber avisos de reações",
+        hint: "Reações no seu post e no seu comentário não geram aviso.",
+      },
+      mutePostComments: {
+        label: "Não receber avisos de comentários no post",
+        hint: "Comentários no seu post não geram aviso. Resposta ao seu comentário e menção continuam.",
+      },
     },
     pushOff:
       "Os avisos estão desligados neste dispositivo. Suas escolhas ficam guardadas e passam a valer quando você ligar.",
@@ -58,4 +73,4 @@ export const notificationsMessages: NotificationsMessages = {
     saved: "Preferência salva.",
     saveError: "Não foi possível salvar. Tente de novo.",
   },
-};
+} satisfies NotificationsMessages;

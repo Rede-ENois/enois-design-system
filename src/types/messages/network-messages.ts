@@ -228,5 +228,8 @@ export type NetworkMessages = {
     latencyUnknown: string;
     failureStreakLabel: string;
     failureStreak: (count: number) => string;
+    trafficLabel: string;
+    traffic: (inMb: number, outMb: number) => string;
+    trafficUnknown: string;
   };
 };

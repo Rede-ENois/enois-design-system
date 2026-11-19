@@ -23,5 +23,12 @@ export type ProfileCardProps = {
   effectReplayKey?: number | string;
   /** Compact layout for popovers: smaller banner and avatar, short bio, no tilt or effect. */
   compact?: boolean;
+  /**
+   * Makes the avatar a button (own profile: click to change the photo). Without it the avatar
+   * stays a plain image, as it reads everywhere else.
+   */
+  onAvatarClick?: () => void;
+  /** Accessible label for the avatar button. Required with `onAvatarClick`. */
+  avatarButtonLabel?: string;
   className?: string;
 };

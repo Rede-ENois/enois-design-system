@@ -1,8 +1,14 @@
+export { StudyPairProposals } from "./study-pair-proposals.js";
 export { StudyPairsView } from "./study-pairs-view.js";
 export type { StudyPair } from "../../types/domain/study-pairs/study-pair.js";
+export type { StudyPairIcebreakerAnswers } from "../../types/domain/study-pairs/study-pair-icebreaker-answers.js";
+export type { StudyPairIcebreakerField } from "../../types/domain/study-pairs/study-pair-icebreaker-field.js";
 export type { StudyPairOpenRequest } from "../../types/domain/study-pairs/study-pair-open-request.js";
 export type { StudyPairPartner } from "../../types/domain/study-pairs/study-pair-partner.js";
 export type { StudyPairPopularGoal } from "../../types/domain/study-pairs/study-pair-popular-goal.js";
+export type { StudyPairProposal } from "../../types/domain/study-pairs/study-pair-proposal.js";
+export type { StudyPairProposalPartner } from "../../types/domain/study-pairs/study-pair-proposal-partner.js";
+export type { StudyPairProposalsProps } from "../../types/domain/study-pairs/study-pair-proposals-props.js";
 export type { StudyPairRequestInput } from "../../types/domain/study-pairs/study-pair-request-input.js";
 export type { StudyPairSaveStatus } from "../../types/domain/study-pairs/study-pair-save-status.js";
 export type { StudyPairTopicOption } from "../../types/domain/study-pairs/study-pair-topic-option.js";

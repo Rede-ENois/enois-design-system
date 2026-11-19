@@ -9,6 +9,12 @@ export const postMessages: PostMessages = {
     placeholder: "Começar publicação",
     addMedia: "Adicionar foto ou vídeo",
   },
+  composerCrossPost: {
+    label: "Publicar também no feed profissional",
+    hint: "Mesma publicação, assinada pelo seu perfil profissional.",
+    unavailableByType:
+      "Para ir também ao feed profissional, use um tipo profissional: insight, projeto, oportunidade, tutorial ou artigo.",
+  },
   composerDraft: {
     salvo: (hora) => `Rascunho salvo às ${hora}`,
     descartar: "Descartar rascunho",
@@ -137,6 +143,7 @@ export const postMessages: PostMessages = {
     report: "Denunciar post",
     save: "Salvar publicação",
     unsave: "Remover dos salvos",
+    destinos: "Adicionar ao mural ou coleção",
   },
   reactionsSummary: {
     reactWith: (emoji) => `Reagir com ${emoji}`,
@@ -162,6 +169,10 @@ export const postMessages: PostMessages = {
       COMPANY: "Denunciar página empresarial",
       DESABAFO_POST: "Denunciar desabafo",
       DESABAFO_COMMENT: "Denunciar acolhida",
+      CONFESSIONARIO_POST: "Denunciar história",
+      CONFESSIONARIO_COMMENT: "Denunciar comentário",
+      DESAFIO_POST: "Denunciar desafio",
+      DESAFIO_PARTICIPACAO: "Denunciar participação",
     },
     reason: "Motivo",
     reasons: {
@@ -195,6 +206,11 @@ export const postMessages: PostMessages = {
     publish: "Publicar",
     undo: "Desfazer republicação",
     undoHint: "Remove a republicação do seu perfil.",
+    community: "Republicar na comunidade",
+    communityHint: "A publicação aparece no mural de uma comunidade sua, com seu comentário.",
+    communityPlaceholder: (count) => `Em qual das suas ${count} comunidades?`,
+    communityEmpty: "Você não participa de nenhuma comunidade ainda.",
+    communityPick: "Escolher comunidade",
   },
   gifPickerDialog: {
     title: "Adicionar GIF",

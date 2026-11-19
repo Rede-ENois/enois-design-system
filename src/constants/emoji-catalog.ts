@@ -93,6 +93,7 @@ export const EMOJI_CATEGORIES: EmojiCategory[] = [
       { emoji: "👻", name: "fantasma" },
       { emoji: "👽", name: "alien" },
       { emoji: "🤖", name: "robô" },
+      { emoji: "🤧", name: "espirrando" },
     ],
   },
   {
@@ -154,6 +155,11 @@ export const EMOJI_CATEGORIES: EmojiCategory[] = [
       { emoji: "💘", name: "coração com flecha" },
       { emoji: "💝", name: "coração com fita" },
       { emoji: "💟", name: "coração decorado" },
+      { emoji: "❣️", name: "coração de exclamação" },
+      { emoji: "🗡️", name: "adaga" },
+      { emoji: "⚛️", name: "átomo" },
+      { emoji: "🎡", name: "roda-gigante" },
+      { emoji: "🧿", name: "olho grego" },
     ],
   },
   {
@@ -215,6 +221,11 @@ export const EMOJI_CATEGORIES: EmojiCategory[] = [
       { emoji: "🌧️", name: "chuva" },
       { emoji: "❄️", name: "floco de neve" },
       { emoji: "🌊", name: "onda" },
+      { emoji: "🦔", name: "ouriço" },
+      { emoji: "🐘", name: "elefante" },
+      { emoji: "🦥", name: "preguiça" },
+      { emoji: "🦦", name: "lontra" },
+      { emoji: "🦩", name: "flamingo" },
     ],
   },
   {
@@ -267,6 +278,8 @@ export const EMOJI_CATEGORIES: EmojiCategory[] = [
       { emoji: "🍷", name: "vinho" },
       { emoji: "🍸", name: "coquetel" },
       { emoji: "🧉", name: "chimarrão" },
+      { emoji: "🥔", name: "batata" },
+      { emoji: "🧅", name: "cebola" },
     ],
   },
   {

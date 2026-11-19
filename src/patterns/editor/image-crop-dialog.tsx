@@ -68,6 +68,7 @@ export function ImageCropDialog({
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(false);
   const [imageState, setImageState] = useState<"loading" | "ready" | "error">("loading");
 
   // Confere se o navegador consegue abrir a imagem antes de mostrar o recorte: formato que ele nao
@@ -75,6 +76,7 @@ export function ImageCropDialog({
   useEffect(() => {
     setImageState("loading");
     setCroppedAreaPixels(null);
+    setSaveError(false);
     const probe = new Image();
     probe.onload = () => setImageState("ready");
     probe.onerror = () => setImageState("error");
@@ -95,13 +97,17 @@ export function ImageCropDialog({
   const handleSave = async () => {
     if (!croppedAreaPixels) return;
     setSaving(true);
+    setSaveError(false);
     try {
-      const blob = await getCroppedImg(imageSrc, croppedAreaPixels);
+      const blob = await getCroppedImg(imageSrc, croppedAreaPixels).catch(() => null);
+      if (!blob) {
+        setImageState("error");
+        return;
+      }
       await onCropComplete(blob);
       onOpenChange(false);
     } catch {
-      // Falha ao gerar o recorte (imagem ilegivel, canvas bloqueado): avisa em vez de fechar calado.
-      setImageState("error");
+      setSaveError(true);
     } finally {
       setSaving(false);
     }
@@ -144,6 +150,15 @@ export function ImageCropDialog({
               className="flex-1"
               aria-label={messages.zoom}
             />
+          </div>
+        )}
+
+        {saveError && (
+          <div
+            role="alert"
+            className="flex h-full min-w-0 items-center justify-center px-6 text-center text-sm text-muted-foreground"
+          >
+            {messages.saveError}
           </div>
         )}
 
