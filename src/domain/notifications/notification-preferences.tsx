@@ -18,6 +18,9 @@ const PUSH_KEYS: NotificationPreferenceKey[] = [
   "pushSystem",
 ];
 
+// O silêncio não é categoria de push: o aviso nem nasce (some da caixa e do navegador).
+const SILENCE_KEYS: NotificationPreferenceKey[] = ["muteReactions", "mutePostComments"];
+
 /**
  * Preferências de notificação da conta: resumo semanal por e-mail e as categorias de aviso no
  * navegador. Cada switch salva sozinho (o app atualiza `values` de forma otimista); o resultado
@@ -104,6 +107,14 @@ export function NotificationPreferences({
         <h2 className="text-base font-medium text-text-strong">{messages.emailTitle}</h2>
 
         <div className="mt-1">{row("weeklyDigest")}</div>
+      </section>
+
+      <section className="surface-card p-4">
+        <h2 className="text-base font-medium text-text-strong">{messages.silenceTitle}</h2>
+
+        <p className="mt-0.5 text-sm text-text-subtle">{messages.silenceHint}</p>
+
+        <div className="mt-1 divide-y divide-border-soft">{SILENCE_KEYS.map(row)}</div>
       </section>
 
       <section className="surface-card p-4">

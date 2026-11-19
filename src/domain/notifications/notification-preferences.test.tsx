@@ -25,6 +25,8 @@ const values = {
   pushGroups: true,
   pushJobs: true,
   pushSystem: true,
+  muteReactions: false,
+  mutePostComments: false,
 };
 
 function render(props: Partial<NotificationPreferencesProps> = {}) {
@@ -156,6 +158,18 @@ describe("NotificationPreferences", () => {
     )!;
     act(() => enable.click());
     expect(onEnablePush).toHaveBeenCalledOnce();
+  });
+
+  it("renders the silence section with its own switches, off by default", () => {
+    const onChange = vi.fn();
+    render({ onChange });
+
+    act(() => switchFor("Não receber avisos de reações").click());
+
+    expect(onChange).toHaveBeenCalledWith("muteReactions", true);
+    expect(container.textContent).toContain("Silenciar avisos");
+    // Silence off does not block the push categories.
+    expect(switchFor("Interações").disabled).toBe(false);
   });
 
   it("hides the push note when push is on", () => {

@@ -91,6 +91,8 @@ const preferenceValues: NotificationPreferencesValues = {
   pushGroups: false,
   pushJobs: true,
   pushSystem: true,
+  muteReactions: false,
+  mutePostComments: false,
 };
 
 const noop = () => {};

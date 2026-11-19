@@ -34,6 +34,8 @@ export const notificationsMessages = {
     },
     pushTitle: "Avisos no navegador",
     pushHint: "Escolha o que merece um aviso na hora.",
+    silenceTitle: "Silenciar avisos",
+    silenceHint: "Estes avisos nem chegam: nada na caixa e nada no navegador.",
     items: {
       weeklyDigest: {
         label: "Resumo semanal",
@@ -50,6 +52,14 @@ export const notificationsMessages = {
       },
       pushJobs: { label: "Vagas", hint: "Andamento das suas candidaturas." },
       pushSystem: { label: "Énóis", hint: "Suporte, microprojetos e avisos do Énóis." },
+      muteReactions: {
+        label: "Não receber avisos de reações",
+        hint: "Reações no seu post e no seu comentário não geram aviso.",
+      },
+      mutePostComments: {
+        label: "Não receber avisos de comentários no post",
+        hint: "Comentários no seu post não geram aviso. Resposta ao seu comentário e menção continuam.",
+      },
     },
     pushOff:
       "Os avisos estão desligados neste dispositivo. Suas escolhas ficam guardadas e passam a valer quando você ligar.",
