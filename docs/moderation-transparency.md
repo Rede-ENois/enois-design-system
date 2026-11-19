@@ -94,7 +94,9 @@ interface SanctionsViewProps {
   inventados. Ao zerar, aparece **Prazo encerrado** e o aviso de que o vencimento não confirma
   liberação nem banimento.
 - A view não oferece botão de atualização manual. O contêiner consulta a decisão ao entrar na página
-  e entrega as atualizações confirmadas; `refreshing` anuncia **Atualizando...** sem criar uma ação.
+  e entrega as atualizações confirmadas. No ramo com dados, `refreshing` anuncia **Atualizando...**
+  sem criar uma ação; carregamento e vazio mantêm suas mensagens próprias. No ramo de erro,
+  `refreshing` desabilita **Tentar novamente** enquanto a falha permanece apresentada.
 - `onRetry` é usado somente em **Tentar novamente**, após falha de consulta. O botão fica desabilitado
   durante a nova tentativa. A chave pública de mensagem `refresh` permanece por compatibilidade,
   mas não é renderizada como botão.
