@@ -101,6 +101,20 @@ inesperados nos estados inspecionados. HTTP 503 de consulta/ação foi deliberad
 Contraste computado: 232 amostras no aplicativo, mínimo **5.3946:1**; 160 amostras no Storybook,
 mínimo **6.0002:1**. É verificação das superfícies e controles inspecionados, não auditoria global.
 
+### Auditoria HTTP e substituição das capturas
+
+A auditoria final da primeira fixture revelou 404 de contratos auxiliares do shell. Foram completados
+perfil, idade, comunidades e, depois da hidratação, perfil profissional, conforme os DTOs reais.
+As rodadas incompletas foram preservadas como provas limitadas, não como uma validação HTTP limpa.
+Nenhuma alteração de código produtivo foi feita para isso.
+
+**As mesmas 44 verificações do aplicativo foram integralmente repetidas e aprovadas**, em 1280/390 e
+claro/escuro. O registro HTTP da fixture final não contém 4xx ou falhas não previstas; permanecem
+somente os 503 deliberados dos cenários de fila, ação e pânico. As quatro imagens abaixo são dessa
+rodada completa. Os reruns não aumentam o total de 104 verificações distintas. Esta atualização é
+exclusivamente documental/visual; os binários produtivos e seus gates permanecem vinculados às
+composições indicadas acima.
+
 ![Painel desktop claro](continuacao-2026-11-19/app-painel-1280-light.png)
 
 ![Painel mobile escuro](continuacao-2026-11-19/app-painel-390-dark.png)
