@@ -176,6 +176,20 @@ describe("PapoPanel", () => {
     expect(host.textContent ?? "").not.toContain(messagesDasPublicacoes.titulo);
   });
 
+  it("contem sem as props de publicacoes: so a timeline aparece", () => {
+    render({
+      subjectAberto: "cansaço",
+      timeline,
+      publicacoes: undefined,
+      publicacoesEstado: undefined,
+    });
+
+    const texto = host.textContent ?? "";
+    expect(texto).toContain(messagesDaTimeline.eixo);
+    expect(host.querySelectorAll("[role=img]")).toHaveLength(1);
+    expect(texto).not.toContain(messagesDasPublicacoes.titulo);
+  });
+
   it("o clique no assunto alterna a timeline via callback", () => {
     const props = render({ subjectAberto: null });
 

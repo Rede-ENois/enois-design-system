@@ -148,7 +148,7 @@ export function PapoPanel({
                     janela={janela}
                     onJanelaChange={onJanelaChange}
                     messagesDaTimeline={messagesDaTimeline}
-                    publicacoes={subjectAberto === assunto.subject ? publicacoes : null}
+                    publicacoes={subjectAberto === assunto.subject ? (publicacoes ?? null) : null}
                     publicacoesEstado={publicacoesEstado}
                     onPublicacoesRetry={onPublicacoesRetry}
                   />
@@ -196,8 +196,8 @@ function PapoAssuntoItem({
   onJanelaChange: PapoPanelProps["onJanelaChange"];
   messagesDaTimeline: PaporetoMessages["papoTimeline"];
   publicacoes: PapoPublicacaoView[] | null;
-  publicacoesEstado: PapoPanelProps["publicacoesEstado"];
-  onPublicacoesRetry: PapoPanelProps["onPublicacoesRetry"];
+  publicacoesEstado?: PapoPanelProps["publicacoesEstado"];
+  onPublicacoesRetry?: PapoPanelProps["onPublicacoesRetry"];
 }) {
   return (
     <li className="space-y-2 rounded-xl bg-surface-2 p-3">
@@ -260,12 +260,14 @@ function PapoAssuntoItem({
             carregando={messagesDaTimeline.carregando}
             eixo={messagesDaTimeline.eixo}
           />
-          <PapoPublicacoesRelacionadas
-            subject={assunto.subject}
-            publicacoes={publicacoes}
-            estado={publicacoesEstado}
-            onRetry={onPublicacoesRetry}
-          />
+          {publicacoesEstado !== undefined && (
+            <PapoPublicacoesRelacionadas
+              subject={assunto.subject}
+              publicacoes={publicacoes}
+              estado={publicacoesEstado}
+              onRetry={onPublicacoesRetry ?? (() => {})}
+            />
+          )}
         </>
       )}
     </li>
