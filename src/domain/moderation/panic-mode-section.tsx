@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { ChevronDown, OctagonAlert, Power } from "lucide-react";
+import { OctagonAlert, Power } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
@@ -17,58 +17,12 @@ export function PanicModeSection({
   active,
   envLocked,
   loading,
-  error,
-  onRetry,
   pending,
-  compact = false,
   onActivate,
   onDeactivate,
 }: PanicModeSectionProps) {
   const messages = useMessages().panicModeSection;
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const collapsible = compact && !active && !envLocked && !loading && !pending && !error;
-  const heading = (
-    <h2 className="flex min-w-0 items-center gap-2 text-base font-medium">
-      <OctagonAlert
-        aria-hidden="true"
-        className={cn("h-5 w-5 shrink-0", active ? "text-destructive" : "text-primary")}
-      />
-
-      <>{messages.title}</>
-    </h2>
-  );
-  const controls = (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="min-w-0">
-        {!collapsible && heading}
-        <p role={error ? "alert" : undefined} className="mt-1 text-sm text-muted-foreground">
-          {error
-            ? messages.error
-            : envLocked
-              ? messages.envLocked
-              : active
-                ? messages.active
-                : messages.description}
-        </p>
-        {error && onRetry && (
-          <Button type="button" variant="outline" size="sm" onClick={onRetry} disabled={loading}>
-            {messages.retry}
-          </Button>
-        )}
-      </div>
-
-      <Button
-        variant={active ? "outline" : "destructive"}
-        className="w-auto rounded-full gap-2"
-        disabled={pending || loading || envLocked || error}
-        onClick={() => (active ? onDeactivate() : setConfirmOpen(true))}
-      >
-        <Power aria-hidden="true" className="h-4 w-4" />
-
-        <>{active ? messages.deactivate : messages.activate}</>
-      </Button>
-    </div>
-  );
 
   return (
     <section
@@ -77,21 +31,30 @@ export function PanicModeSection({
         active ? "border-destructive/60 bg-destructive/10" : "border-border-soft bg-surface-card",
       )}
     >
-      {collapsible ? (
-        <details className="group">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-            {heading}
-            <ChevronDown
-              aria-hidden="true"
-              className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
-            />
-          </summary>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="flex items-center gap-2 text-base font-medium">
+            <OctagonAlert className={cn("h-5 w-5", active ? "text-destructive" : "text-primary")} />
 
-          <div className="mt-3">{controls}</div>
-        </details>
-      ) : (
-        controls
-      )}
+            <>{messages.title}</>
+          </h2>
+
+          <p className="mt-1 text-sm text-muted-foreground">
+            {envLocked ? messages.envLocked : active ? messages.active : messages.description}
+          </p>
+        </div>
+
+        <Button
+          variant={active ? "outline" : "destructive"}
+          className="w-auto rounded-full gap-2"
+          disabled={pending || loading || envLocked}
+          onClick={() => (active ? onDeactivate() : setConfirmOpen(true))}
+        >
+          <Power className="h-4 w-4" />
+
+          <>{active ? messages.deactivate : messages.activate}</>
+        </Button>
+      </div>
 
       <ConfirmDialog
         open={confirmOpen}
@@ -101,9 +64,7 @@ export function PanicModeSection({
         confirmLabel={messages.activate}
         destructive
         pending={pending}
-        disabled={loading || envLocked || error}
         onConfirm={() => {
-          if (loading || pending || envLocked || error) return;
           setConfirmOpen(false);
           onActivate();
         }}

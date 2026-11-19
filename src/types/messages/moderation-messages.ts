@@ -51,6 +51,8 @@ export type ModerationMessages = {
     revoke: string;
     revokeReasonPlaceholder: string;
     revokeConfirm: string;
+    deleteAccount: string;
+    confirmDeleteAccount: (target: string) => string;
     error: string;
   };
   adminRemovePostAction: {
@@ -120,8 +122,6 @@ export type ModerationMessages = {
   panicModeSection: {
     title: string;
     description: string;
-    error: string;
-    retry: string;
     active: string;
     activate: string;
     deactivate: string;

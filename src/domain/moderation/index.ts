@@ -1,12 +1,3 @@
-export { ModeratorWorkspace } from "./moderator-workspace.js";
-export { ReportsSection } from "./reports-section.js";
-export type { ModeratorWorkspaceProps } from "../../types/domain/moderation/moderator-workspace-props.js";
-export type { ModeratorWorkspaceGroup } from "../../types/domain/moderation/moderator-workspace-group.js";
-export type { ModeratorWorkspaceTab } from "../../types/domain/moderation/moderator-workspace-tab.js";
-export type { ReportsSectionProps } from "../../types/domain/moderation/reports-section-props.js";
-export type { ModerationReportData } from "../../types/domain/moderation/moderation-report-data.js";
-export type { ModerationReportVote } from "../../types/domain/moderation/moderation-report-vote.js";
-export type { ReportAdminAction } from "../../types/domain/moderation/report-admin-action.js";
 export { AdminEntityActionsSection } from "./admin-entity-actions-section.js";
 export { AdminEntityPanel } from "./admin-entity-panel.js";
 export { AdminMembersSection } from "./admin-members-section.js";
@@ -35,6 +26,7 @@ export type { AdminEntityActionsSectionProps } from "../../types/domain/moderati
 export type { AdminHistoryRowData } from "../../types/domain/moderation/admin-history-row-data.js";
 export type { AdminMemberRowData } from "../../types/domain/moderation/admin-member-row-data.js";
 export type { AdminMembersSectionProps } from "../../types/domain/moderation/admin-members-section-props.js";
+export type { AdminAccountAction } from "../../types/domain/moderation/admin-account-action.js";
 export type { AdminProfileAction } from "../../types/domain/moderation/admin-profile-action.js";
 export type { AdminProfileActionsData } from "../../types/domain/moderation/admin-profile-actions-data.js";
 export type { AdminProfileActionsSectionProps } from "../../types/domain/moderation/admin-profile-actions-section-props.js";

@@ -64,6 +64,9 @@ export const moderationMessages: ModerationMessages = {
     revoke: "Revogar advertência",
     revokeReasonPlaceholder: "Explique por que a advertência está sendo revista.",
     revokeConfirm: "Revogar",
+    deleteAccount: "Excluir conta",
+    confirmDeleteAccount: (target: string) =>
+      `Excluir a conta de ${target}? O perfil é anonimizado, o conteúdo some e as sessões caem na hora. Não há como desfazer.`,
     error: "Não foi possível registrar a decisão.",
   },
   adminRemovePostAction: {
@@ -337,9 +340,6 @@ export const moderationMessages: ModerationMessages = {
   },
   panicModeSection: {
     title: "Modo pânico",
-    error:
-      "Não foi possível confirmar o estado do modo pânico. Consulte novamente antes de alterar.",
-    retry: "Tentar novamente",
     description:
       "Bloqueia toda escrita da aplicação (POST/PUT/PATCH/DELETE) com 429 imediatamente. O login e este botão continuam funcionando para você poder desligar.",
     active: "ATIVO: toda escrita está respondendo 429. Desligue para a aplicação voltar ao normal.",
