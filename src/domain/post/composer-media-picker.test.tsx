@@ -80,10 +80,102 @@ describe("ComposerMediaPicker", () => {
       onRemove: vi.fn(),
     });
     try {
-      expect(container.querySelectorAll('[role="status"]')).toHaveLength(3);
-      expect(container.textContent).toContain("1.024 bytes restantes");
-      expect(container.textContent?.match(/bytes restantes/g)).toHaveLength(1);
-      expect(container.querySelector('[role="status"]')?.textContent).not.toContain("1.024");
+      const region = container.querySelector('[role="status"]');
+      expect(region).not.toBeNull();
+      const [first, second, third] = container.querySelectorAll('[role="group"]');
+      expect(first?.textContent).toContain("1.024 bytes restantes");
+      expect(second?.textContent).not.toContain("bytes restantes");
+      expect(third?.textContent).not.toContain("bytes restantes");
+      expect(region?.textContent).not.toContain("bytes restantes");
+    } finally {
+      unmount();
+    }
+  });
+
+  it("updates an existing live region when transfer feedback first appears", () => {
+    const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+    const draft: ComposerMediaDraft = { id: "first", preview: null };
+    const { container, render, unmount } = mount({ items: [], ...handlers });
+    try {
+      const region = container.querySelector('[role="status"]');
+      expect(region).not.toBeNull();
+      expect(region?.textContent).toBe("");
+      render({
+        items: [{ ...draft, transport: { phase: "sending", bytesRemaining: 512 } }],
+        ...handlers,
+      });
+      expect(container.querySelector('[role="status"]')).toBe(region);
+      expect(region?.textContent).toContain("Anexo 1: Enviando");
+      expect(region?.textContent).not.toContain("512");
+      const announcement = region?.firstChild;
+      render({
+        items: [{ ...draft, transport: { phase: "sending", bytesRemaining: 128 } }],
+        ...handlers,
+      });
+      expect(region?.firstChild).toBe(announcement);
+    } finally {
+      unmount();
+    }
+  });
+
+  it.each([false, true])(
+    "keeps focus on the attachment when retry changes action (cancel: %s)",
+    (canCancel) => {
+      const onRetry = vi.fn();
+      const onCancel = vi.fn();
+      const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+      const draft: ComposerMediaDraft = { id: "first", preview: null };
+      const { container, render, unmount } = mount({
+        items: [{ ...draft, transport: { phase: "failed", onRetry } }],
+        ...handlers,
+      });
+      try {
+        const retry = container.querySelector<HTMLButtonElement>(
+          'button[aria-label^="Tentar de novo"]',
+        )!;
+        retry.focus();
+        act(() => retry.click());
+        expect(onRetry).toHaveBeenCalledOnce();
+        render({
+          items: [
+            {
+              ...draft,
+              transport: { phase: "sending", onCancel: canCancel ? onCancel : undefined },
+            },
+          ],
+          ...handlers,
+        });
+        const focused = document.activeElement as HTMLElement | null;
+        expect(focused?.getAttribute("aria-label")).toBe("Anexo 1");
+        expect(focused?.tagName).not.toBe("BUTTON");
+        focused?.click();
+        expect(onCancel).not.toHaveBeenCalled();
+        expect(handlers.onRemove).not.toHaveBeenCalled();
+      } finally {
+        unmount();
+      }
+    },
+  );
+
+  it("does not steal focus from a control reached while retry was pending", () => {
+    const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+    const draft: ComposerMediaDraft = { id: "first", preview: null };
+    const { container, render, unmount } = mount({
+      items: [{ ...draft, transport: { phase: "failed", onRetry: vi.fn() } }],
+      ...handlers,
+    });
+    try {
+      const retry = container.querySelector<HTMLButtonElement>(
+        'button[aria-label^="Tentar de novo"]',
+      )!;
+      const add = container.querySelector<HTMLButtonElement>(
+        'button[aria-label="Adicionar imagem"]',
+      )!;
+      retry.focus();
+      act(() => retry.click());
+      add.focus();
+      render({ items: [{ ...draft, transport: { phase: "sending" } }], ...handlers });
+      expect(document.activeElement).toBe(add);
     } finally {
       unmount();
     }
@@ -98,19 +190,23 @@ describe("ComposerMediaPicker", () => {
     };
     const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
     const { container, render, unmount } = mount({
-      items: [{ ...item, transport: { phase: "sending", bytesRemaining: 0 } }, sibling],
+      items: [sibling, { ...item, transport: { phase: "sending", bytesRemaining: 0 } }],
       ...handlers,
     });
     try {
       expect(container.textContent).toContain("0 bytes restantes");
       expect(container.textContent).not.toContain("aguardando resposta");
       render({
-        items: [{ ...item, transport: { phase: "awaiting-response" } }, sibling],
+        items: [sibling, { ...item, transport: { phase: "awaiting-response" } }],
         ...handlers,
       });
-      expect(container.textContent).toContain("Enviado, aguardando resposta");
-      expect(container.textContent).toContain("Verificando imagem");
-      expect(container.textContent).toContain("Enviando…");
+      const [first, second] = container.querySelectorAll('[role="group"]');
+      expect(first?.textContent).toContain("Enviando…");
+      expect(second?.textContent).toContain("Enviado, aguardando resposta");
+      expect(second?.textContent).toContain("Verificando imagem");
+      expect(container.querySelector('[role="status"]')?.textContent).toBe(
+        "Anexo 2: Enviado, aguardando resposta",
+      );
       expect(container.textContent).not.toMatch(/Processando|Aprovad[oa]|0 bytes restantes/i);
     } finally {
       unmount();
@@ -134,7 +230,8 @@ describe("ComposerMediaPicker", () => {
       onRemove: vi.fn(),
     });
     try {
-      expect(container.textContent?.match(/Falha no envio/g)).toHaveLength(2);
+      const cards = [...container.querySelectorAll('[role="group"]')];
+      expect(cards.filter((card) => card.textContent?.includes("Falha no envio"))).toHaveLength(2);
       expect(container.textContent).toContain("Imagem ocultada");
       expect(container.querySelector("img")?.classList.contains("blur-lg")).toBe(true);
       const buttons = container.querySelectorAll<HTMLButtonElement>(

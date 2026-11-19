@@ -1,11 +1,56 @@
-import { type ChangeEvent, useRef } from "react";
+import { type ChangeEvent, useEffect, useRef } from "react";
 
 import { ImagePlus, X } from "lucide-react";
 
 import { postMessages } from "../../messages/defaults/post.js";
 import { useMessages } from "../../messages/messages-context.js";
+import type { ComposerMediaDraft } from "../../types/domain/post/composer-media-draft.js";
 import type { ComposerMediaPickerProps } from "../../types/domain/post/composer-media-picker-props.js";
 import type { ComposerMediaTransport } from "../../types/domain/post/composer-media-transport.js";
+
+function useTransportMessages() {
+  return useMessages().composerMediaPicker.transport ?? postMessages.composerMediaPicker.transport;
+}
+
+function attachmentKey(item: ComposerMediaDraft, index: number) {
+  return item.id === undefined ? `index:${index}` : `id:${item.id}`;
+}
+
+function TransferAnnouncements({ items }: Pick<ComposerMediaPickerProps, "items">) {
+  const messages = useTransportMessages();
+  const region = useRef<HTMLDivElement>(null);
+  const previous = useRef(new Map<string, ComposerMediaTransport["phase"]>());
+
+  useEffect(() => {
+    const next = new Map<string, ComposerMediaTransport["phase"]>();
+    const updates: string[] = [];
+    items.forEach((item, index) => {
+      if (!item.transport || item.status === "prohibited") return;
+      const key = attachmentKey(item, index);
+      const phase = item.transport.phase;
+      next.set(key, phase);
+      if (previous.current.get(key) !== phase) {
+        updates.push(`${messages.attachment(index + 1)}: ${messages[phase]}`);
+      }
+    });
+    // Do not interrupt a queued announcement with a progress tick.
+    if (region.current && (updates.length > 0 || next.size < previous.current.size)) {
+      region.current.textContent = updates.join(". ");
+    }
+    previous.current = next;
+  }, [items, messages]);
+
+  return <div ref={region} role="status" className="sr-only" />;
+}
+
+function focusAttachmentOnActionRemoval(button: HTMLButtonElement | null) {
+  if (!button) return;
+  return () => {
+    if (button.ownerDocument.activeElement === button) {
+      button.closest<HTMLElement>('[role="group"]')?.focus({ preventScroll: true });
+    }
+  };
+}
 
 function TransportFeedback({
   transport,
@@ -14,8 +59,7 @@ function TransportFeedback({
   transport: ComposerMediaTransport;
   position: number;
 }) {
-  const messages =
-    useMessages().composerMediaPicker.transport ?? postMessages.composerMediaPicker.transport;
+  const messages = useTransportMessages();
   const sending = transport.phase === "sending";
   const bytesRemaining = sending ? transport.bytesRemaining : undefined;
   const measured =
@@ -30,13 +74,12 @@ function TransportFeedback({
 
   return (
     <div className="bg-surface-card px-2 py-1.5 text-xs wrap-anywhere text-text-strong">
-      <p role="status">
-        <span className="sr-only">{`${attachment}: `}</span>
-        {messages[transport.phase]}
-      </p>
+      <p>{messages[transport.phase]}</p>
       {measured && <p>{messages.bytesRemaining(bytesRemaining)}</p>}
       {onAction && (
         <button
+          key={transport.phase}
+          ref={focusAttachmentOnActionRemoval}
           type="button"
           onClick={onAction}
           aria-label={`${action}: ${attachment}`}
@@ -66,6 +109,7 @@ export function ComposerMediaPicker({
   multiple = true,
 }: ComposerMediaPickerProps) {
   const messages = useMessages().composerMediaPicker;
+  const transportMessages = useTransportMessages();
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Opened inside the click: browsers only allow the dialog during a user gesture.
@@ -79,6 +123,7 @@ export function ComposerMediaPicker({
 
   return (
     <div className="space-y-2">
+      <TransferAnnouncements items={items} />
       <input
         ref={fileRef}
         type="file"
@@ -94,8 +139,11 @@ export function ComposerMediaPicker({
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {items.map((item, index) => (
             <div
-              key={item.id === undefined ? `index:${index}` : `id:${item.id}`}
-              className="min-w-0 overflow-hidden rounded-xl border border-border-soft"
+              key={attachmentKey(item, index)}
+              role="group"
+              aria-label={transportMessages.attachment(index + 1)}
+              tabIndex={-1}
+              className="min-w-0 overflow-hidden rounded-xl border border-border-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
             >
               <div className="relative">
                 {item.preview ? (
