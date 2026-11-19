@@ -9,6 +9,12 @@ export const postMessages: PostMessages = {
     placeholder: "Começar publicação",
     addMedia: "Adicionar foto ou vídeo",
   },
+  composerCrossPost: {
+    label: "Publicar também no feed profissional",
+    hint: "Mesma publicação, assinada pelo seu perfil profissional.",
+    unavailableByType:
+      "Para ir também ao feed profissional, use um tipo profissional: insight, projeto, oportunidade, tutorial ou artigo.",
+  },
   composerDraft: {
     salvo: (hora) => `Rascunho salvo às ${hora}`,
     descartar: "Descartar rascunho",

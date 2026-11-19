@@ -10,6 +10,7 @@ import { CaughtUpDivider } from "./caught-up-divider.js";
 import { CommentItem } from "./comments/comment-item.js";
 import { orderCommentsWithAccepted } from "./comments/order-comments-with-accepted.js";
 import { PostComments } from "./comments/post-comments.js";
+import { ComposerCrossPost } from "./composer-cross-post.js";
 import { ComposerLauncher } from "./composer-launcher.js";
 import { ComposerMediaPicker } from "./composer-media-picker.js";
 import { MentionTextarea } from "./editor/mention-textarea.js";
@@ -69,6 +70,20 @@ export const Launcher: StoryObj = {
   render: () => (
     <div className="max-w-xl">
       <ComposerLauncher avatar={null} name="Ana Souza" onOpen={() => {}} onAddMedia={() => {}} />
+    </div>
+  ),
+};
+
+export const CrossPost: StoryObj = {
+  render: () => (
+    <div className="max-w-xl space-y-4">
+      <ComposerCrossPost checked onChange={() => {}} />
+      <ComposerCrossPost
+        checked={false}
+        onChange={() => {}}
+        unavailableReason="Para ir também ao feed profissional, use um tipo profissional: insight, projeto, oportunidade, tutorial ou artigo."
+        error="Você precisa de um perfil profissional ativo para publicar no feed profissional."
+      />
     </div>
   ),
 };
