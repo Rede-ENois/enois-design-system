@@ -22,9 +22,10 @@ export type PapoPanelProps = {
   timeline: PapoIntervaloView[] | null;
   janela: PapoJanela;
   onJanelaChange: (janela: PapoJanela) => void;
-  /** As publicações do subject aberto — o recorte filtrado por dentro do mesmo assunto. */
-  publicacoes: PapoPublicacaoView[] | null;
-  publicacoesEstado: PapoPanelState;
-  onPublicacoesRetry: () => void;
+  /** As publicações do subject aberto — o recorte filtrado por dentro do mesmo assunto.
+   * Opcional na bagagem: o contêiner que ainda não busca publicações segue funcionando. */
+  publicacoes?: PapoPublicacaoView[] | null;
+  publicacoesEstado?: PapoPanelState;
+  onPublicacoesRetry?: () => void;
   onRetry: () => void;
 };
