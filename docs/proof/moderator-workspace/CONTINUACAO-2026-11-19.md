@@ -14,7 +14,10 @@ Isso não comprova implantação em produção.
 ## Composição e preservação
 
 - Head anterior preservado: `44304efa190b4968fc0da292ebe9078c4e794553`.
-- QA incorporada: `09da44896d7e68ad693036b673140c1d450e3dc3`.
+- QA das provas normal/serial: `09da44896d7e68ad693036b673140c1d450e3dc3`.
+- QA adicional incorporada: `7ffc77ff5ce71a9c3f23aab78f2d31a24142aed6`. Mudou somente a versão
+  herdada, de `0.41.4` para `0.41.5`, nas três ocorrências dos dois manifestos. Dependências,
+  contratos e fontes produtivas permaneceram idênticos.
 - Reconciliação por merge na feature publicada, sem reescrever o histórico.
 - Um conflito textual em `src/domain/moderation/index.ts`, resolvido pela união do workspace/fila e
   das novas views administrativas da QA. As outras cinco sobreposições também foram conferidas.
@@ -36,7 +39,7 @@ executados; o build anterior também reproduziu o erro no navegador. A rechecage
 passou em 1280/390, claro/escuro. Os pareceres originais e o delta de correção foram preservados,
 sem converter a revisão anterior em aprovação retrospectiva.
 
-## Gates finais do DS
+## Gates do DS e composição de cada prova
 
 | Gate          | Resultado                                               |
 | ------------- | ------------------------------------------------------- |
@@ -54,13 +57,24 @@ Serial: `npm test -- --no-file-parallelism --maxWorkers=1 --minWorkers=1`, com r
 As identidades das duas suítes coincidem. A diferença para os 2329 casos anteriores é exatamente
 o novo teste da story; nenhum teste foi retirado. Não somamos duas execuções dos mesmos testes.
 
+A suíte normal e a serial acima foram executadas com os metadados `0.41.4`. Depois do avanço da QA
+para `0.41.5`, foram repetidos na composição atual lint, tipos, **2330 testes/261 arquivos**, build,
+`test:dist`, regras ESLint, Storybook e pack, todos com código 0. As identidades dos testes coincidem.
+Não se alega nova execução serial em `0.41.5`: sua evidência está vinculada às fontes produtivas
+idênticas da composição anterior. A igualdade dos fontes e dos membros produtivos do pacote foi
+conferida, não deduzida apenas da alteração de versão.
+
 ## Pacote e consumidor
 
-- Tarball local `0.41.4`, versão herdada da QA, **não release publicada da feature**.
-- SHA-256: `3b4fc2794ee30942d69b1666c5ff6f8fbf51f2bdf9eb78f9eeb46c54d583962b`.
-- O tarball final é byte a byte idêntico ao usado na prova do consumidor. O ajuste de story/teste
-  não altera o pacote produtivo. Os 3137 membros foram conferidos contra a instalação no frontend;
-  oito exports compilados atuais foram importados.
+- Tarball local final `0.41.5`, versão herdada da QA, **não release publicada da feature**.
+- SHA-256 final: `454a7c0cf04245efa698e1a5d6bf4388fc945858748d69cda88db8b5817399f3`.
+- O consumidor foi exercitado com o tarball local `0.41.4`, SHA-256
+  `3b4fc2794ee30942d69b1666c5ff6f8fbf51f2bdf9eb78f9eeb46c54d583962b`.
+  Seus 3137 membros foram conferidos contra a instalação e oito exports compilados importados.
+- Comparados os 3137 membros dos dois tarballs, o único diferente foi `package/package.json`,
+  exclusivamente no campo `version`. **Todos os arquivos produtivos, estilos e declarações são
+  byte a byte idênticos.** A prova do consumidor é reaproveitada por essa equivalência explícita,
+  não como uma instalação ou nova execução de testes com `0.41.5`.
 - Frontend #893: lint, tipos, **1810 testes em 307 arquivos** e build de produção Nitro
   `node-server` aprovados. A QA mais recente do frontend trouxe somente uma redução de baseline já
   presente na composição; a incorporação final manteve a árvore de conteúdo idêntica por hash.
@@ -76,7 +90,8 @@ ao ajuste restrito da demonstração e oito rechecagens incrementais no Storyboo
 As capturas abaixo são do **aplicativo real compilado com API simulada**, conta e alvos fictícios,
 em 1280 × 900 e 390 × 900, claro/escuro. A API usa origem relativa e proxy exclusivamente local;
 a CSP do aplicativo não foi relaxada. As imagens de viewport exigem rolagem para o conteúdo vertical
-restante. A identidade do tarball permite vincular as capturas ao pacote produtivo final.
+restante. A igualdade dos arquivos produtivos dos dois tarballs vincula o runtime das capturas ao
+pacote final; não torna os metadados ou a instalação dos dois artefatos idênticos.
 
 Foram exercitados: abrir/cancelar sem mutar, confirmar e reconsultar a fila, foco restaurado por
 teclado, moderador sem ação administrativa e com voto coletivo, filtros, falha/retry da fila, erro
