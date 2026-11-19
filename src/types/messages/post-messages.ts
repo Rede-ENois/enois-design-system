@@ -7,6 +7,7 @@ import type { FormatPlaceholders } from "../lib/rich-text/format-placeholders.js
 export type PostMessages = {
   caughtUpDivider: { title: string; subline: string };
   composerLauncher: { placeholder: string; addMedia: string };
+  composerCrossPost: { label: string; hint: string; unavailableByType: string };
   composerDraft: { salvo: (hora: string) => string; descartar: string };
   composerMediaPicker: {
     add: string;
