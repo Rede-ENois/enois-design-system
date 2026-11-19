@@ -76,6 +76,40 @@ export const MediaPickerTransport: StoryObj = {
   },
 };
 
+export const MediaPickerRetryAndReorder: StoryObj = {
+  name: "Nova tentativa com reordenação (simulação)",
+  render: function MediaPickerRetryAndReorderStory() {
+    const [items, setItems] = useState<ComposerMediaDraft[]>([
+      { id: "retry", preview: null, transport: { phase: "failed" } },
+      { id: "sibling", preview: null },
+    ]);
+    const retry = (item: ComposerMediaDraft) => {
+      const cancel = () =>
+        setItems((current) => current.map((draft) => (draft.id === item.id ? item : draft)));
+      setItems((current) => [
+        ...current.filter((draft) => draft.id !== item.id),
+        { ...item, transport: { phase: "sending", onCancel: cancel } },
+      ]);
+    };
+    return (
+      <div className="max-w-xl">
+        <ComposerMediaPicker
+          items={items.map((item) =>
+            item.transport?.phase === "failed"
+              ? { ...item, transport: { phase: "failed", onRetry: () => retry(item) } }
+              : item,
+          )}
+          onFiles={() => {}}
+          onRemove={(index) =>
+            setItems((current) => current.filter((_, position) => position !== index))
+          }
+          canAddMore={false}
+        />
+      </div>
+    );
+  },
+};
+
 export const MediaPickerLongCopy: StoryObj = {
   name: "Mensagem longa no anexo (simulação)",
   render: () => (

@@ -1,4 +1,11 @@
-import { type ChangeEvent, useEffect, useRef } from "react";
+import {
+  type ChangeEvent,
+  type RefCallback,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from "react";
 
 import { ImagePlus, X } from "lucide-react";
 
@@ -20,44 +27,48 @@ function TransferAnnouncements({ items }: Pick<ComposerMediaPickerProps, "items"
   const messages = useTransportMessages();
   const region = useRef<HTMLDivElement>(null);
   const previous = useRef(new Map<string, ComposerMediaTransport["phase"]>());
+  const announced = useRef<string[]>([]);
 
   useEffect(() => {
     const next = new Map<string, ComposerMediaTransport["phase"]>();
-    const updates: string[] = [];
+    const positions = new Map<string, number>();
+    const changed: string[] = [];
     items.forEach((item, index) => {
       if (!item.transport || item.status === "prohibited") return;
       const key = attachmentKey(item, index);
       const phase = item.transport.phase;
       next.set(key, phase);
-      if (previous.current.get(key) !== phase) {
-        updates.push(`${messages.attachment(index + 1)}: ${messages[phase]}`);
-      }
+      positions.set(key, index + 1);
+      if (previous.current.get(key) !== phase) changed.push(key);
     });
-    // Do not interrupt a queued announcement with a progress tick.
-    if (region.current && (updates.length > 0 || next.size < previous.current.size)) {
-      region.current.textContent = updates.join(". ");
-    }
+
+    // Retain the last announcements for still-active items, using their current positions.
+    announced.current =
+      changed.length > 0 ? changed : announced.current.filter((key) => next.has(key));
+    const text = announced.current
+      .flatMap((key) => {
+        const position = positions.get(key);
+        const phase = next.get(key);
+        return position === undefined || phase === undefined
+          ? []
+          : [`${messages.attachment(position)}: ${messages[phase]}`];
+      })
+      .join(". ");
+    if (region.current && region.current.textContent !== text) region.current.textContent = text;
     previous.current = next;
   }, [items, messages]);
 
   return <div ref={region} role="status" className="sr-only" />;
 }
 
-function focusAttachmentOnActionRemoval(button: HTMLButtonElement | null) {
-  if (!button) return;
-  return () => {
-    if (button.ownerDocument.activeElement === button) {
-      button.closest<HTMLElement>('[role="group"]')?.focus({ preventScroll: true });
-    }
-  };
-}
-
 function TransportFeedback({
   transport,
   position,
+  actionRef,
 }: {
   transport: ComposerMediaTransport;
   position: number;
+  actionRef: RefCallback<HTMLButtonElement>;
 }) {
   const messages = useTransportMessages();
   const sending = transport.phase === "sending";
@@ -79,7 +90,7 @@ function TransportFeedback({
       {onAction && (
         <button
           key={transport.phase}
-          ref={focusAttachmentOnActionRemoval}
+          ref={actionRef}
           type="button"
           onClick={onAction}
           aria-label={`${action}: ${attachment}`}
@@ -111,6 +122,24 @@ export function ComposerMediaPicker({
   const messages = useMessages().composerMediaPicker;
   const transportMessages = useTransportMessages();
   const fileRef = useRef<HTMLInputElement>(null);
+  const pendingFocus = useRef<HTMLElement | null>(null);
+  const actionRef = useCallback<RefCallback<HTMLButtonElement>>((button) => {
+    if (!button) return;
+    return () => {
+      if (button.ownerDocument.activeElement === button) {
+        pendingFocus.current = button.closest<HTMLElement>('[role="group"]');
+      }
+    };
+  }, []);
+
+  // A keyed attachment can move again after its old action is detached.
+  useLayoutEffect(() => {
+    const target = pendingFocus.current;
+    pendingFocus.current = null;
+    if (!target?.isConnected) return;
+    const document = target.ownerDocument;
+    if (document.activeElement === document.body) target.focus({ preventScroll: true });
+  });
 
   // Opened inside the click: browsers only allow the dialog during a user gesture.
   const pick = () => fileRef.current?.click();
@@ -181,7 +210,11 @@ export function ComposerMediaPicker({
                 </button>
               </div>
               {item.transport && item.status !== "prohibited" && (
-                <TransportFeedback transport={item.transport} position={index + 1} />
+                <TransportFeedback
+                  transport={item.transport}
+                  position={index + 1}
+                  actionRef={actionRef}
+                />
               )}
             </div>
           ))}

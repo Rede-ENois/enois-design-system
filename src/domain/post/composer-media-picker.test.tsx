@@ -181,6 +181,89 @@ describe("ComposerMediaPicker", () => {
     }
   });
 
+  it("restores focus to the same attachment after retry and reorder in one commit", () => {
+    const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+    const target: ComposerMediaDraft = { id: "retry", preview: null };
+    const sibling: ComposerMediaDraft = { id: "sibling", preview: null };
+    const retry = vi.fn();
+    const cancel = vi.fn();
+    const { container, render, unmount } = mount({
+      items: [{ ...target, transport: { phase: "failed", onRetry: retry } }, sibling],
+      ...handlers,
+    });
+    try {
+      const originalCard = container.querySelector('[aria-label="Anexo 1"]');
+      const button = container.querySelector<HTMLButtonElement>(
+        'button[aria-label^="Tentar de novo"]',
+      )!;
+      button.focus();
+      act(() => button.click());
+      render({
+        items: [sibling, { ...target, transport: { phase: "sending", onCancel: cancel } }],
+        ...handlers,
+      });
+      expect(container.querySelector('[aria-label="Anexo 2"]')).toBe(originalCard);
+      expect(document.activeElement).toBe(originalCard);
+      expect(retry).toHaveBeenCalledOnce();
+      expect(cancel).not.toHaveBeenCalled();
+    } finally {
+      unmount();
+    }
+  });
+
+  it("keeps the published announcement when another attachment loses its transport state", () => {
+    const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+    const first: ComposerMediaDraft = { id: "first", preview: null };
+    const second: ComposerMediaDraft = {
+      id: "second",
+      preview: null,
+      transport: { phase: "awaiting-response" },
+    };
+    const { container, render, unmount } = mount({
+      items: [
+        { ...first, transport: { phase: "sending" } },
+        { ...second, transport: { phase: "sending" } },
+      ],
+      ...handlers,
+    });
+    try {
+      const region = container.querySelector('[role="status"]');
+      render({ items: [{ ...first, transport: { phase: "sending" } }, second], ...handlers });
+      const announcement = region?.firstChild;
+      expect(region?.textContent).toBe("Anexo 2: Enviado, aguardando resposta");
+      render({ items: [first, second], ...handlers });
+      expect(region?.firstChild).toBe(announcement);
+      expect(region?.textContent).toBe("Anexo 2: Enviado, aguardando resposta");
+    } finally {
+      unmount();
+    }
+  });
+
+  it.each([false, true])(
+    "uses the new position of the announced attachment (remove: %s)",
+    (remove) => {
+      const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+      const first: ComposerMediaDraft = { id: "first", preview: null };
+      const second: ComposerMediaDraft = {
+        id: "second",
+        preview: null,
+        transport: { phase: "awaiting-response" },
+      };
+      const { container, render, unmount } = mount({ items: [first, second], ...handlers });
+      try {
+        const region = container.querySelector('[role="status"]');
+        expect(region?.textContent).toBe("Anexo 2: Enviado, aguardando resposta");
+        render({ items: remove ? [second] : [second, first], ...handlers });
+        expect(container.querySelector('[role="status"]')).toBe(region);
+        expect(region?.textContent).toBe("Anexo 1: Enviado, aguardando resposta");
+        render({ items: [first], ...handlers });
+        expect(region?.textContent).toBe("");
+      } finally {
+        unmount();
+      }
+    },
+  );
+
   it("waits for explicit transfer completion without changing moderation", () => {
     const item: ComposerMediaDraft = { preview: null, status: "checking", id: "first" };
     const sibling: ComposerMediaDraft = {
