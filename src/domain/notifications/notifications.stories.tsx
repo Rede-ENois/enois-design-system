@@ -91,6 +91,8 @@ const preferenceValues: NotificationPreferencesValues = {
   pushGroups: false,
   pushJobs: true,
   pushSystem: true,
+  muteReactions: false,
+  mutePostComments: false,
 };
 
 const noop = () => {};
@@ -127,6 +129,31 @@ export const Preferences: StoryObj = {
       />
     );
   },
+};
+
+export const PreferencesCommunityProjects: StoryObj = {
+  render: function CommunityProjectsStory() {
+    const [enabled, setEnabled] = useState(false);
+    return (
+      <NotificationPreferences
+        {...preferencesBase}
+        communityProjects={enabled}
+        onCommunityProjectsChange={setEnabled}
+      />
+    );
+  },
+};
+
+export const PreferencesCommunityProjectsSaving: StoryObj = {
+  render: () => (
+    <NotificationPreferences
+      {...preferencesBase}
+      communityProjects
+      onCommunityProjectsChange={noop}
+      communityProjectsPending
+      saveStatus="saving"
+    />
+  ),
 };
 
 export const PreferencesLoading: StoryObj = {

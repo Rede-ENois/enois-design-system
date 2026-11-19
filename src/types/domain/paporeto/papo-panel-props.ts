@@ -1,11 +1,12 @@
 import type { PapoIntervaloView } from "./papo-intervalo-view.js";
 import type { PapoJanela } from "./papo-janela.js";
 import type { PapoPanelState } from "./papo-panel-state.js";
+import type { PapoPublicacaoView } from "./papo-publicacao-view.js";
 import type { PapoStatus } from "./papo-status.js";
 import type { PapoSubjectView } from "./papo-subject-view.js";
 
-/** O que o painel do Papo Reto recebe: os assuntos agregados do escopo e a contagem de falas
- * da última janela. Nada aqui identifica ninguém — o tipo nem teria campo para isso. */
+/** O que o painel do Papo Reto recebe: os assuntos agregados do escopo, a contagem de falas da
+ * última janela e as publicações do assunto aberto. Sem o subject aberto, ninguém é nomeado. */
 export type PapoPanelProps = {
   assuntos: PapoSubjectView[] | null;
   estado: PapoPanelState;
@@ -21,5 +22,10 @@ export type PapoPanelProps = {
   timeline: PapoIntervaloView[] | null;
   janela: PapoJanela;
   onJanelaChange: (janela: PapoJanela) => void;
+  /** As publicações do subject aberto — o recorte filtrado por dentro do mesmo assunto.
+   * Opcional na bagagem: o contêiner que ainda não busca publicações segue funcionando. */
+  publicacoes?: PapoPublicacaoView[] | null;
+  publicacoesEstado?: PapoPanelState;
+  onPublicacoesRetry?: () => void;
   onRetry: () => void;
 };

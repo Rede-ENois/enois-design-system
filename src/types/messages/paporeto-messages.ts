@@ -39,4 +39,23 @@ export type PaporetoMessages = {
     carregando: string;
     eixo: string;
   };
+  /**
+   * Textos das publicações relacionadas ao assunto aberto. Aqui o painel desce do conjunto para
+   * o que já era público: o texto de quem falou do assunto, com o nome de quem escolheu falar.
+   */
+  papoPublicacoes: {
+    titulo: string;
+    tituloDoAssunto: (subject: string) => string;
+    contagem: (count: number) => string;
+    carregando: string;
+    erro: string;
+    retry: string;
+    vazio: string;
+    semAutor: string;
+    abrir: string;
+    fontePost: string;
+    fonteComentario: string;
+    fonteDesabafo: string;
+    fonteConfissao: string;
+  };
 };

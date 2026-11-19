@@ -11,6 +11,10 @@ export type NotificationPreferencesProps = {
   onRetry: () => void;
   /** Called with the new value; the app updates `values` optimistically and saves. */
   onChange: (key: NotificationPreferenceKey, value: boolean) => void;
+  /** Omit both subscription props for consumers without community project notifications. */
+  communityProjects?: boolean;
+  onCommunityProjectsChange?: (value: boolean) => void;
+  communityProjectsPending?: boolean;
   /** Keys whose save is in flight: their switch shows a saving indicator and is locked. */
   pending?: Partial<Record<NotificationPreferenceKey, boolean>>;
   saveStatus?: NotificationPreferencesSaveStatus;
