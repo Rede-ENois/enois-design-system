@@ -165,6 +165,8 @@ export const postMessages: PostMessages = {
       DESABAFO_COMMENT: "Denunciar acolhida",
       CONFESSIONARIO_POST: "Denunciar história",
       CONFESSIONARIO_COMMENT: "Denunciar comentário",
+      DESAFIO_POST: "Denunciar desafio",
+      DESAFIO_PARTICIPACAO: "Denunciar participação",
     },
     reason: "Motivo",
     reasons: {
