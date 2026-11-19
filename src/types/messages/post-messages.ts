@@ -132,6 +132,11 @@ export type PostMessages = {
     publish: string;
     undo: string;
     undoHint: string;
+    community: string;
+    communityHint: string;
+    communityPlaceholder: (count: number) => string;
+    communityEmpty: string;
+    communityPick: string;
   };
   gifPickerDialog: {
     title: string;
