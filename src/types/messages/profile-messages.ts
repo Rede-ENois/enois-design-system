@@ -349,6 +349,19 @@ export type ProfileMessages = {
     readmeMissing: string;
     readmeError: string;
     openReadme: string;
+    /** Importação de organização: a seção que fica depois do README. */
+    orgsTitle: string;
+    orgsHint: string;
+    orgsChoose: string;
+    orgOpenOnGithub: (login: string) => string;
+    orgsLoading: string;
+    orgsError: string;
+    orgsEmpty: string;
+    reposError: string;
+    emptyOrgs: string;
+    stars: (count: number) => string;
+    forks: (count: number) => string;
+    updated: (label: string) => string;
   };
 
   profileGallery: {

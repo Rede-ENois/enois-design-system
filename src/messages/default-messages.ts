@@ -44,6 +44,7 @@ import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
 import { streakMessages } from "./defaults/streak.js";
+import { studyPairProposalsMessages } from "./defaults/study-pair-proposals.js";
 import { studyPairsMessages } from "./defaults/study-pairs.js";
 import { supportUsMessages } from "./defaults/support-us.js";
 import { supportMessages } from "./defaults/support.js";
@@ -89,6 +90,7 @@ export const defaultMessages: Messages = {
   ...streakMessages,
   ...eventsMessages,
   ...studyPairsMessages,
+  ...studyPairProposalsMessages,
   ...networkMessages,
   ...noticesMessages,
   ...companiesMessages,
