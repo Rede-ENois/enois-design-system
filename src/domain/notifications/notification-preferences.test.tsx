@@ -4,6 +4,8 @@ import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { defaultMessages } from "../../messages/default-messages.js";
+import { MessagesContext } from "../../messages/messages-context.js";
 import type { NotificationPreferencesProps } from "../../types/domain/notifications/notification-preferences-props.js";
 
 import { NotificationPreferences } from "./notification-preferences.js";
@@ -47,6 +49,67 @@ function switchFor(label: string) {
 const live = () => container.querySelector("[aria-live]")!;
 
 describe("NotificationPreferences", () => {
+  it("supports a complete legacy message context without project copy", () => {
+    act(() =>
+      root.render(
+        <MessagesContext.Provider
+          value={{
+            ...defaultMessages,
+            notificationPreferences: {
+              ...defaultMessages.notificationPreferences,
+              projectsTitle: undefined,
+              communityProjects: undefined,
+            },
+          }}
+        >
+          <NotificationPreferences
+            values={values}
+            onRetry={() => {}}
+            onChange={() => {}}
+            communityProjects={false}
+            onCommunityProjectsChange={() => {}}
+            pushEnabled
+          />
+        </MessagesContext.Provider>,
+      ),
+    );
+    expect(switchFor("Novos projetos da comunidade").getAttribute("aria-checked")).toBe("false");
+    expect(container.textContent).toContain("Projetos da comunidade");
+  });
+
+  it("offers community project subscriptions only when the consumer supports them", () => {
+    render();
+    expect(container.textContent).not.toContain("Novos projetos da comunidade");
+
+    const onCommunityProjectsChange = vi.fn();
+    render({ communityProjects: false, onCommunityProjectsChange });
+    const projects = switchFor("Novos projetos da comunidade");
+    expect(projects).not.toBeNull();
+    expect(projects.getAttribute("aria-checked")).toBe("false");
+    act(() => projects.click());
+    expect(onCommunityProjectsChange).toHaveBeenCalledExactlyOnceWith(true);
+  });
+
+  it("keeps project subscriptions independent from device push and locks a pending save", () => {
+    const onCommunityProjectsChange = vi.fn();
+    render({
+      communityProjects: true,
+      onCommunityProjectsChange,
+      communityProjectsPending: true,
+      pushEnabled: false,
+    });
+    const projects = switchFor("Novos projetos da comunidade");
+    expect(projects.getAttribute("aria-checked")).toBe("true");
+    expect(projects.disabled).toBe(true);
+    act(() => projects.click());
+    expect(onCommunityProjectsChange).not.toHaveBeenCalled();
+
+    render({ communityProjects: true, onCommunityProjectsChange, pushEnabled: false });
+    expect(switchFor("Novos projetos da comunidade").disabled).toBe(false);
+    act(() => switchFor("Novos projetos da comunidade").click());
+    expect(onCommunityProjectsChange).toHaveBeenCalledExactlyOnceWith(false);
+  });
+
   it("calls onChange with the key and the flipped value", () => {
     const onChange = vi.fn();
     render({ onChange });

@@ -33,6 +33,24 @@ function render(data: NotificationData) {
 }
 
 describe("NotificationItem: prévia do post", () => {
+  it("identifies a new community project instead of using the connection fallback", () => {
+    const html = render({
+      ...notification,
+      kind: "NEW_COMMUNITY_PROJECT",
+      actorId: null,
+      actorName: null,
+      actorHref: null,
+      title: "Novo projeto da comunidade",
+      body: "Pessoa fictícia publicou um projeto de exemplo.",
+      href: "/projetos/pessoa-ficticia/projeto-exemplo",
+      ctaLabel: "Ver projeto",
+    });
+
+    expect(html).toContain("lucide-folder-kanban");
+    expect(html).toContain("Novo projeto da comunidade");
+    expect(html).toContain("Ver projeto");
+  });
+
   it("mostra a prévia abaixo do texto quando ela existe", () => {
     const html = render({ ...notification, preview: "Hoje aprendi query factories" });
 

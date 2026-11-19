@@ -1,6 +1,6 @@
 import type { NotificationsMessages } from "../../types/messages/notifications-messages.js";
 
-export const notificationsMessages: NotificationsMessages = {
+export const notificationsMessages = {
   notificationsPopover: {
     title: "Avisos",
     markAllRead: "Ler tudo",
@@ -27,6 +27,11 @@ export const notificationsMessages: NotificationsMessages = {
   connectionRequestItem: { someone: "Alguém", accept: "Aceitar", reject: "Agora não" },
   notificationPreferences: {
     emailTitle: "E-mail",
+    projectsTitle: "Projetos da comunidade",
+    communityProjects: {
+      label: "Novos projetos da comunidade",
+      hint: "Receba um aviso no app a cada novo projeto publicado. Desativado por padrão.",
+    },
     pushTitle: "Avisos no navegador",
     pushHint: "Escolha o que merece um aviso na hora.",
     items: {
@@ -58,4 +63,4 @@ export const notificationsMessages: NotificationsMessages = {
     saved: "Preferência salva.",
     saveError: "Não foi possível salvar. Tente de novo.",
   },
-};
+} satisfies NotificationsMessages;
