@@ -40,4 +40,20 @@ export const paporetoMessages: PaporetoMessages = {
     carregando: "Contando as falas…",
     eixo: "Falas por hora",
   },
+  papoPublicacoes: {
+    titulo: "Publicações relacionadas",
+    tituloDoAssunto: (subject) => `Publicações relacionadas a ${subject}`,
+    contagem: (count) =>
+      count === 1 ? "1 publicação com este assunto" : `${count} publicações com este assunto`,
+    carregando: "Puxando as publicações…",
+    erro: "Não foi possível puxar as publicações. Tente de novo.",
+    retry: "Tentar de novo",
+    vazio: "Nenhuma publicação com este assunto na janela.",
+    semAutor: "Anônimo",
+    abrir: "Abrir a publicação",
+    fontePost: "Publicação",
+    fonteComentario: "Comentário",
+    fonteDesabafo: "Desabafo",
+    fonteConfissao: "Confissão",
+  },
 };

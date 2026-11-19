@@ -8,6 +8,7 @@ import { defaultMessages } from "../../messages/default-messages.js";
 import type { PapoIntervaloView } from "../../types/domain/paporeto/papo-intervalo-view.js";
 import type { PapoJanela } from "../../types/domain/paporeto/papo-janela.js";
 import type { PapoPanelProps } from "../../types/domain/paporeto/papo-panel-props.js";
+import type { PapoPublicacaoView } from "../../types/domain/paporeto/papo-publicacao-view.js";
 import type { PapoStatus } from "../../types/domain/paporeto/papo-status.js";
 import type { PapoSubjectView } from "../../types/domain/paporeto/papo-subject-view.js";
 
@@ -17,6 +18,7 @@ import { PapoPanel } from "./papo-panel.js";
 
 const messages = defaultMessages.papoPanel;
 const messagesDaTimeline = defaultMessages.papoTimeline;
+const messagesDasPublicacoes = defaultMessages.papoPublicacoes;
 
 const assunto = (nome: string, status: PapoSubjectView["status"]): PapoSubjectView => ({
   subject: nome,
@@ -38,6 +40,18 @@ const assuntos: PapoSubjectView[] = [
 const timeline: PapoIntervaloView[] = [
   { hora: "2026-11-18T17:00:00Z", falas: 2 },
   { hora: "2026-11-18T18:00:00Z", falas: 5 },
+];
+
+const publicacoes: PapoPublicacaoView[] = [
+  {
+    id: "post_1",
+    fonte: "POST",
+    texto: "bora de meetup de rust na sexta?",
+    autor: "Ana Lima",
+    handle: "ana.lima",
+    quando: "há 2 horas",
+    href: "/post/post_1",
+  },
 ];
 
 describe("PapoPanel", () => {
@@ -67,6 +81,9 @@ describe("PapoPanel", () => {
       timeline: null,
       janela: "24h" as PapoJanela,
       onJanelaChange: vi.fn(),
+      publicacoes: null,
+      publicacoesEstado: "loading",
+      onPublicacoesRetry: vi.fn(),
       onRetry: vi.fn(),
       ...overrides,
     };
@@ -133,6 +150,30 @@ describe("PapoPanel", () => {
     render({ subjectAberto: "cansaço", timeline: [] });
 
     expect(host.textContent ?? "").toContain(messagesDaTimeline.semFalas);
+  });
+
+  it("assunto aberto lista as publicacoes relacionadas com autor e link", () => {
+    render({
+      subjectAberto: "inteligencia artificial",
+      timeline,
+      publicacoes,
+      publicacoesEstado: "ready",
+    });
+
+    const texto = host.textContent ?? "";
+    expect(texto).toContain(messagesDasPublicacoes.titulo);
+    expect(texto).toContain("bora de meetup de rust na sexta?");
+    expect(texto).toContain("Ana Lima");
+    expect(texto).toContain("há 2 horas");
+
+    const link = host.querySelector('a[href="/post/post_1"]');
+    expect(link?.textContent).toBe(messagesDasPublicacoes.abrir);
+  });
+
+  it("assunto fechado nao desenha publicacoes relacionadas", () => {
+    render({ subjectAberto: null, publicacoes, publicacoesEstado: "ready" });
+
+    expect(host.textContent ?? "").not.toContain(messagesDasPublicacoes.titulo);
   });
 
   it("o clique no assunto alterna a timeline via callback", () => {
