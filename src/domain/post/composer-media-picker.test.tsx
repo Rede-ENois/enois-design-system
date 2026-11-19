@@ -211,6 +211,36 @@ describe("ComposerMediaPicker", () => {
     }
   });
 
+  it("publishes a new announcement when a different attachment starts in the same position", () => {
+    const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
+    const first: ComposerMediaDraft = { id: "first", preview: null };
+    const second: ComposerMediaDraft = { id: "second", preview: null };
+    const { container, render, unmount } = mount({
+      items: [{ ...first, transport: { phase: "sending", bytesRemaining: 90 } }, second],
+      ...handlers,
+    });
+    try {
+      const region = container.querySelector('[role="status"]');
+      const firstAnnouncement = region?.firstChild;
+      expect(region?.textContent).toBe("Anexo 1: Enviando…");
+      render({
+        items: [{ ...second, transport: { phase: "sending", bytesRemaining: 65 } }],
+        ...handlers,
+      });
+      expect(container.querySelector('[role="status"]')).toBe(region);
+      expect(region?.textContent).toBe("Anexo 1: Enviando…");
+      const secondAnnouncement = region?.firstChild;
+      expect(secondAnnouncement).not.toBe(firstAnnouncement);
+      render({
+        items: [{ ...second, transport: { phase: "sending", bytesRemaining: 31 } }],
+        ...handlers,
+      });
+      expect(region?.firstChild).toBe(secondAnnouncement);
+    } finally {
+      unmount();
+    }
+  });
+
   it("keeps the published announcement when another attachment loses its transport state", () => {
     const handlers = { onFiles: vi.fn(), onRemove: vi.fn() };
     const first: ComposerMediaDraft = { id: "first", preview: null };

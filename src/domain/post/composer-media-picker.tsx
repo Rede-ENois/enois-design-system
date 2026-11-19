@@ -54,7 +54,10 @@ function TransferAnnouncements({ items }: Pick<ComposerMediaPickerProps, "items"
           : [`${messages.attachment(position)}: ${messages[phase]}`];
       })
       .join(". ");
-    if (region.current && region.current.textContent !== text) region.current.textContent = text;
+    // A different attachment can produce the same words after moving into this position.
+    if (region.current && (changed.length > 0 || region.current.textContent !== text)) {
+      region.current.textContent = text;
+    }
     previous.current = next;
   }, [items, messages]);
 
