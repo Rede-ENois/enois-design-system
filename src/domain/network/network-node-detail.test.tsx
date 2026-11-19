@@ -38,6 +38,8 @@ const detail: NetworkNodeDetailData = {
     latencyMs: 120,
     failureStreak: 0,
     quarantineReason: null,
+    trafficInMb: 2048,
+    trafficOutMb: 512,
   },
   declaredCpuCores: 4,
   declaredMemoryMb: 8192,
