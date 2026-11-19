@@ -1,5 +1,6 @@
 export { EditProfileDialog } from "./edit-profile-dialog.js";
 export { GithubImportDialog } from "./github-import-dialog.js";
+export { GithubOrgImportDialog } from "./github-org-import-dialog.js";
 export { ProfessionalProfile } from "./professional-profile.js";
 export { ProfileBannerDialog } from "./profile-banner-dialog.js";
 export { profileBadges } from "./profile-badges.js";
@@ -33,6 +34,8 @@ export type { EditProfileTab } from "../../types/domain/profile/edit-profile-tab
 export type { EditProfileValues } from "../../types/domain/profile/edit-profile-values.js";
 export type { EditingProject } from "../../types/domain/profile/editing-project.js";
 export type { GithubImportDialogProps } from "../../types/domain/profile/github-import-dialog-props.js";
+export type { GithubOrganization } from "../../types/domain/profile/github-organization.js";
+export type { GithubOrgImportDialogProps } from "../../types/domain/profile/github-org-import-dialog-props.js";
 export type { GithubReadmePreview } from "../../types/domain/profile/github-readme-preview.js";
 export type { GithubRepoRow } from "../../types/domain/profile/github-repo-row.js";
 export type { ProfessionalCertificationItem } from "../../types/domain/profile/professional-certification-item.js";

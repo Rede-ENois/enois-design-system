@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Bookmark, Flag, Heart, MessageSquare, Repeat2, Send, ThumbsUp } from "lucide-react";
+import {
+  Bookmark,
+  Flag,
+  FolderPlus,
+  Heart,
+  MessageSquare,
+  Repeat2,
+  Send,
+  ThumbsUp,
+} from "lucide-react";
 
 import { topReactionTabs } from "../../../lib/reactions/summary.js";
 import { useMessages } from "../../../messages/messages-context.js";
@@ -49,6 +58,7 @@ export function PostActions<T extends string>({
   shareMenu,
   onReport,
   onSave,
+  onDestinos,
   children,
   dialogs,
 }: PostActionsProps<T>) {
@@ -258,6 +268,18 @@ export function PostActions<T extends string>({
 
             {savesCount > 0 && <span className="text-xs tabular-nums">{savesCount}</span>}
           </button>
+
+          {onDestinos && (
+            <button
+              type="button"
+              onClick={onDestinos}
+              title={messages.destinos}
+              aria-label={messages.destinos}
+              className={`flex items-center rounded-lg px-2 py-1.5 text-muted-foreground transition hover:text-foreground ${HIT_AREA}`}
+            >
+              <FolderPlus className="h-4 w-4" />
+            </button>
+          )}
         </div>
       </footer>
 

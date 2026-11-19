@@ -15,9 +15,6 @@ const messages = defaultMessages.desabafosComments;
 
 const acolhidaAlheia: DesabafosCommentView = {
   id: "desabafo_c_1",
-  authorName: "Bia",
-  authorAvatar: null,
-  authorStyle: null,
   content: "Estou aqui com você",
   isMine: false,
 };
@@ -105,6 +102,11 @@ describe("DesabafosComments", () => {
     });
     expect(props.onComment).toHaveBeenCalledTimes(1);
     expect(campo()?.value).toBe("fica firme");
+  });
+
+  it("o campo de acolhida tem o teto do backend (800)", () => {
+    render();
+    expect(campo()?.maxLength).toBe(800);
   });
 
   it("só a acolhida minha tem o gesto de remover", () => {

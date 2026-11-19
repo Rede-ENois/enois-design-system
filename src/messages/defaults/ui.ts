@@ -11,7 +11,11 @@ export const uiMessages: UiMessages = {
     limitReached: "limite de caracteres atingido",
   },
   passwordInput: { show: "Mostrar senha", hide: "Ocultar senha" },
-  emojiPicker: { search: "Buscar emoji", empty: "Nenhum emoji com esse nome." },
+  emojiPicker: {
+    search: "Buscar emoji",
+    empty: "Nenhum emoji com esse nome.",
+    more: "Ver todos os emojis",
+  },
   readMore: { more: "Ler mais", less: "Mostrar menos" },
   toast: { region: "Avisos", dismiss: "Fechar aviso" },
   skeletonList: { loading: "Carregando..." },

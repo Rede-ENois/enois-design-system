@@ -25,6 +25,7 @@ export const editorMessages: EditorMessages = {
     loading: "Carregando a imagem...",
     unsupported:
       "Não foi possível abrir esta imagem. Use JPG, PNG ou WebP (fotos HEIC do iPhone precisam ser convertidas).",
+    saveError: "Não foi possível enviar a imagem. Tente novamente.",
     zoom: "Zoom do recorte",
     cancel: "Cancelar",
     save: "Salvar",

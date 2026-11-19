@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SandboxedHtmlFrame } from "../html-frame/sandboxed-html-frame.js";
 
 import { HtmlEditor } from "./html-editor.js";
+import { ImageCropDialog } from "./image-crop-dialog.js";
 import { RichTextToolbar } from "./rich-text-toolbar.js";
 
 const meta: Meta = {
@@ -15,6 +16,25 @@ export default meta;
 
 export const Toolbar: StoryObj = {
   render: () => <RichTextToolbar label="Formatar texto" onFormat={() => {}} onEmoji={() => {}} />,
+};
+
+export const ImageCropUploadError: StoryObj = {
+  render: function ImageCropUploadErrorStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <ImageCropDialog
+        open={open}
+        onOpenChange={setOpen}
+        imageSrc={new URL("../../assets/kenney/tree-03.webp", import.meta.url).href}
+        aspect={1}
+        title="Recortar imagem"
+        onCropComplete={async () => {
+          throw new Error("Simulated upload failure");
+        }}
+      />
+    );
+  },
 };
 
 export const HtmlWithPreview: StoryObj = {
@@ -40,6 +60,7 @@ export const HtmlWithPreview: StoryObj = {
               theme="light"
               className="h-full"
               autoHeight={false}
+              stretchFirstChild={false}
             />
           }
         />

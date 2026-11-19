@@ -5,7 +5,6 @@ import { Camera, Loader2 } from "lucide-react";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ColagemComposerProps } from "../../types/domain/colagem/colagem-composer-props.js";
 import { Button } from "../../ui/button.js";
-import { CharCounter } from "../../ui/char-counter.js";
 import { Textarea } from "../../ui/textarea.js";
 import { ComposerMediaPicker } from "../post/composer-media-picker.js";
 
@@ -51,11 +50,13 @@ export function ColagemComposer({
 
       <p className="text-xs text-text-subtle">{messages.hint}</p>
 
+      {/* O MESMO seletor do compositor do feed: sem `canAddMore={false}`, o botão de abrir o
+          seletor de arquivos existe antes e depois do anexo (trocar a foto), e no celular é o
+          seletor do sistema que abre — câmera ou galeria. */}
       <ComposerMediaPicker
         items={attachment ? [attachment] : []}
         onFiles={onFiles}
         onRemove={onRemoveAttachment}
-        canAddMore={false}
         multiple={false}
       />
 
@@ -66,8 +67,8 @@ export function ColagemComposer({
           placeholder={messages.captionPlaceholder}
           aria-label={messages.caption}
           rows={2}
+          maxLength={MAX_CAPTION}
         />
-        <CharCounter length={description.length} max={MAX_CAPTION} />
       </div>
 
       <label className="flex items-center gap-2 text-xs text-text-subtle">

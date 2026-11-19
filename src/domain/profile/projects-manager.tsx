@@ -409,6 +409,7 @@ export function ProjectsManager({
                     className: "h-full",
                     // A prévia é uma janela do editor (área fixa): aqui a rolagem de dentro é o esperado.
                     autoHeight: false,
+                    stretchFirstChild: false,
                   })}
                 />
               </div>

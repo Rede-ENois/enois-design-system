@@ -1,4 +1,32 @@
 export type ModerationMessages = {
+  adminEntityActionsSection: {
+    deleteCommunityHint: string;
+    deleteGroupHint: string;
+    closeGroup: string;
+    deleteConfirmTitle: string;
+    deleteConfirmBody: (name: string) => string;
+    closeConfirmTitle: string;
+    closeConfirmBody: (name: string) => string;
+    deleteConfirm: string;
+    closeConfirm: string;
+    cancel: string;
+    reasonPlaceholder: string;
+    reasonTooShort: string;
+  };
+  adminMembersSection: {
+    title: (name: string) => string;
+    total: (count: number) => string;
+    searchPlaceholder: string;
+    empty: string;
+    error: string;
+    previous: string;
+    next: string;
+    page: (current: number, total: number) => string;
+    remove: (who: string) => string;
+    removeLabel: string;
+    deletedAccount: string;
+    close: string;
+  };
   adminProfileActionsSection: {
     title: string;
     description: (target: string) => string;

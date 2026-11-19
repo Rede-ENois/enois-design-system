@@ -15,9 +15,6 @@ const messages = defaultMessages.desabafosCard;
 
 const postBase = {
   id: "desabafo_1",
-  authorName: "Ana",
-  authorAvatar: null,
-  authorStyle: null,
   content: "Estou cansado de fingir que está tudo bem",
   createdAt: "2026-11-15T10:30:00Z",
   reactions: 2,
@@ -65,10 +62,12 @@ describe("DesabafosCard", () => {
   const botaoAcolhidas = () =>
     [...host.querySelectorAll("button")].find((b) => b.textContent?.includes("acolhida"));
 
-  it("desenha autor, texto, contagens e o convite às acolhidas", () => {
+  it("desenha o desabafo ANÔNIMO, texto, contagens e o convite às acolhidas", () => {
     render();
     expect(host.textContent).toContain("Estou cansado de fingir que está tudo bem");
-    expect(host.textContent).toContain("Ana");
+    // O anonimato é do contrato: nem nome, nem avatar, nem estilo chegam à view.
+    expect(postBase).not.toHaveProperty("authorName");
+    expect(host.textContent).toContain(messages.anonymous);
     expect(host.textContent).toContain("2");
     expect(botaoAcolhidas()?.textContent).toContain(messages.acolhidas(1));
   });

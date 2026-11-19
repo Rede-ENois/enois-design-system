@@ -1,6 +1,7 @@
 export { ChatDock } from "./chat-dock.js";
 export { ChatDockWindow } from "./chat-dock-window.js";
 export { ConversationHeader } from "./conversation-header.js";
+export { GroupComposer } from "./group-composer.js";
 export { ConversationItem } from "./conversation-item.js";
 export { ConversationListSkeletons } from "./conversation-list-skeletons.js";
 export { ConversationThread } from "./conversation-thread.js";
@@ -12,6 +13,8 @@ export type { ChatDockWindowProps } from "../../types/domain/messages/chat-dock-
 export type { ConversationHeaderProps } from "../../types/domain/messages/conversation-header-props.js";
 export type { ConversationItemData } from "../../types/domain/messages/conversation-item-data.js";
 export type { ConversationItemProps } from "../../types/domain/messages/conversation-item-props.js";
+export type { GroupComposerProps } from "../../types/domain/messages/group-composer-props.js";
+export type { GroupComposerContact } from "../../types/domain/messages/group-composer-contact.js";
 export type { ConversationPeerData } from "../../types/domain/messages/conversation-peer-data.js";
 export type { ConversationSendValues } from "../../types/domain/messages/conversation-send-values.js";
 export type { ConversationServiceOption } from "../../types/domain/messages/conversation-service-option.js";

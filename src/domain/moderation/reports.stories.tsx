@@ -10,7 +10,7 @@ import { reportsStoryData } from "./reports.fixture.js";
 function Demonstracao(props: ReportsSectionProps & { failAction?: boolean }) {
   const [reports, setReports] = useState(props.reports);
   const [pending, setPending] = useState(false);
-  const [actionError, setActionError] = useState(false);
+
   const [error, setError] = useState(props.error);
   return (
     <ReportsSection
@@ -18,7 +18,7 @@ function Demonstracao(props: ReportsSectionProps & { failAction?: boolean }) {
       reports={reports}
       error={error}
       pending={props.pending || pending}
-      actionError={props.actionError || actionError}
+      actionError={props.actionError}
       onRetry={() => setError(false)}
       onVote={(reportId, vote) => {
         setReports((current) =>
@@ -29,13 +29,10 @@ function Demonstracao(props: ReportsSectionProps & { failAction?: boolean }) {
       }}
       onAdminAction={async (reportId) => {
         setPending(true);
-        setActionError(false);
+
         await new Promise((resolve) => setTimeout(resolve, 600));
         setPending(false);
-        if (props.failAction) {
-          setActionError(true);
-          return false;
-        }
+        if (props.failAction) return false;
         setReports((current) => current.filter((report) => report.reportId !== reportId));
         return true;
       }}

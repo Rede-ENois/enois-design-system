@@ -31,7 +31,7 @@ const comments = [
 const render = (
   onOpenGifPicker = vi.fn(),
   reply: { replyToId: string | null; onCancelReply?: () => void } = { replyToId: null },
-  state: Partial<Pick<PostCommentsProps, "canSend" | "sending" | "onSubmit">> = {},
+  state: Partial<Pick<PostCommentsProps, "canSend" | "sending" | "onSubmit" | "comments">> = {},
   error: CommentsError | null = null,
 ) =>
   act(() =>
@@ -195,5 +195,72 @@ describe("PostComments composer", () => {
     expect(container.querySelector('[data-comment="c1"]')).toBeNull();
     expect(container.textContent).toContain("Não foi possível carregar os comentários.");
     expect(container.textContent).toContain("Tentar de novo");
+  });
+
+  it("focuses a contenteditable textbox when opening a reply", () => {
+    field.mockReturnValueOnce(<div role="textbox" contentEditable="plaintext-only" />);
+    render(vi.fn(), { replyToId: "c2" });
+
+    const textbox = container.querySelector('[role="textbox"]');
+    expect(textbox).not.toBeNull();
+    expect(document.activeElement).toBe(textbox);
+  });
+
+  it("groups a large thread in order without scanning it for every root", () => {
+    const roots = Array.from({ length: 80 }, (_, i) => ({
+      id: `root-${i}`,
+      parentCommentId: null,
+      authorName: `Root ${i}`,
+    }));
+    const replies = roots.flatMap((root, i) => [
+      { id: `nested-${i}`, parentCommentId: `reply-${i}`, authorName: `Nested ${i}` },
+      { id: `reply-${i}`, parentCommentId: root.id, authorName: `Reply ${i}` },
+    ]);
+    let idReads = 0;
+    let parentReads = 0;
+    const many = [
+      roots[0]!,
+      { id: "orphan", parentCommentId: "missing", authorName: "Orphan" },
+      ...roots.slice(1),
+      ...replies,
+    ].map(({ id, parentCommentId, authorName }) => ({
+      get id() {
+        idReads += 1;
+        return id;
+      },
+      get parentCommentId() {
+        parentReads += 1;
+        return parentCommentId;
+      },
+      authorName,
+    }));
+    const renderedIds = (within: ParentNode = container) =>
+      [...within.querySelectorAll<HTMLElement>("[data-comment]")].map(
+        (node) => node.dataset.comment,
+      );
+
+    render(vi.fn(), undefined, { comments: many });
+
+    expect(renderedIds()).toEqual(
+      roots.flatMap((root, i) => [
+        root.id,
+        `nested-${i}`,
+        `reply-${i}`,
+        ...(i === 0 ? ["orphan"] : []),
+      ]),
+    );
+    for (const [i, root] of roots.entries()) {
+      const thread = container.querySelector(`[data-comment="${root.id}"]`)!.parentElement!;
+      expect(renderedIds(thread)).toEqual([root.id, `nested-${i}`, `reply-${i}`]);
+    }
+    expect(idReads).toBeLessThan(many.length * 20);
+
+    parentReads = 0;
+    act(() => plus().click());
+    expect(parentReads).toBe(replies.length);
+
+    const updated = [...many, { id: "new", parentCommentId: "reply-0", authorName: "New" }];
+    render(vi.fn(), undefined, { comments: updated });
+    expect(renderedIds().slice(0, 4)).toEqual(["root-0", "nested-0", "reply-0", "new"]);
   });
 });

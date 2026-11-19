@@ -15,6 +15,7 @@ export const desabafosMessages: DesabafosMessages = {
     needText: "Escreva o que está sentindo antes de publicar.",
   },
   desabafosCard: {
+    anonymous: "Anônimo",
     acolhidas: (count) => (count === 1 ? "1 acolhida" : `${count} acolhidas`),
     reactLove: "Reagir com carinho",
     reactSupport: "Reagir com apoio",
@@ -22,6 +23,7 @@ export const desabafosMessages: DesabafosMessages = {
     report: "Denunciar desabafo",
   },
   desabafosComments: {
+    anonymous: "Anônimo",
     empty: "Ninguém acolheu ainda. Sua palavra pode ajudar.",
     loading: "Carregando as acolhidas…",
     error: "Não foi possível abrir as acolhidas. Tente de novo.",

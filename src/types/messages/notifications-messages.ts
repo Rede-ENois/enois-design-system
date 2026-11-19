@@ -23,8 +23,12 @@ export type NotificationsMessages = {
   connectionRequestItem: { someone: string; accept: string; reject: string };
   notificationPreferences: {
     emailTitle: string;
+    projectsTitle?: string;
+    communityProjects?: { label: string; hint: string };
     pushTitle: string;
     pushHint: string;
+    silenceTitle: string;
+    silenceHint: string;
     items: Record<NotificationPreferenceKey, { label: string; hint: string }>;
     pushOff: string;
     enablePush: string;

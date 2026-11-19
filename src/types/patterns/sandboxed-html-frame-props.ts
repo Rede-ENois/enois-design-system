@@ -35,6 +35,14 @@ export type SandboxedHtmlFrameProps = {
    * faz com a foto). Implica não crescer.
    */
   clip?: boolean;
+  /**
+   * Estica o primeiro filho do autor para preencher a faixa (`min-height: 100%`) — o que uma CAPA
+   * espera, porque o fundo do HTML mora no root div. É o padrão quando o quadro não cresce.
+   * JANELA (prévia do editor, página lida no post) quer `false`: ali o primeiro filho é conteúdo
+   * de página, e esticá-lo empurra o resto da página para fora do quadro — a prévia mostrava só o
+   * primeiro bloco, gigante, e o sumiço do resto parecia corte na metade.
+   */
+  stretchFirstChild?: boolean;
   /** App theme: written into the frame so author CSS follows the app instead of the OS. */
   theme: ThemeName;
   /**

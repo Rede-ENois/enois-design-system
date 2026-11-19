@@ -176,6 +176,11 @@ describe("ColagemComments", () => {
     expect(area()?.value).toBe("segunda");
   });
 
+  it("o campo de contribuição tem o teto do backend (800)", () => {
+    render();
+    expect(area()?.maxLength).toBe(800);
+  });
+
   it("sem contribuições, o vazio fala; carregando, idem", () => {
     render({ comments: [], state: { kind: "ready" } });
     expect(host.textContent).toContain(messages.empty);

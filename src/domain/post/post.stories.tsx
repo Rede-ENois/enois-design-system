@@ -10,12 +10,14 @@ import { CaughtUpDivider } from "./caught-up-divider.js";
 import { CommentItem } from "./comments/comment-item.js";
 import { orderCommentsWithAccepted } from "./comments/order-comments-with-accepted.js";
 import { PostComments } from "./comments/post-comments.js";
+import { ComposerCrossPost } from "./composer-cross-post.js";
 import { ComposerLauncher } from "./composer-launcher.js";
 import { ComposerMediaPicker } from "./composer-media-picker.js";
 import { MentionTextarea } from "./editor/mention-textarea.js";
 import { MediaGrid } from "./media/media-grid.js";
 import { PostCardSkeletons } from "./post-card-skeletons.js";
 import { PostCard } from "./post-card.js";
+import { PostDestinosDialog } from "./post-destinos-dialog.js";
 import { PostNotes } from "./post-notes.js";
 import { PostSealPicker } from "./post-seal-picker.js";
 import { QuestionComposerHint } from "./question-composer-hint.js";
@@ -68,6 +70,20 @@ export const Launcher: StoryObj = {
   render: () => (
     <div className="max-w-xl">
       <ComposerLauncher avatar={null} name="Ana Souza" onOpen={() => {}} onAddMedia={() => {}} />
+    </div>
+  ),
+};
+
+export const CrossPost: StoryObj = {
+  render: () => (
+    <div className="max-w-xl space-y-4">
+      <ComposerCrossPost checked onChange={() => {}} />
+      <ComposerCrossPost
+        checked={false}
+        onChange={() => {}}
+        unavailableReason="Para ir também ao feed profissional, use um tipo profissional: insight, projeto, oportunidade, tutorial ou artigo."
+        error="Você precisa de um perfil profissional ativo para publicar no feed profissional."
+      />
     </div>
   ),
 };
@@ -455,6 +471,32 @@ export const Report: StoryObj = {
   },
 };
 
+export const Destinos: StoryObj = {
+  render: function DestinosStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <PostDestinosDialog
+        open={open}
+        onOpenChange={setOpen}
+        postId="p1"
+        murais={[
+          { id: "m1", title: "Trabalho remoto", description: null, count: 12, tem: false },
+          { id: "m2", title: "Ideias de projeto", description: null, count: 4, tem: true },
+        ]}
+        colecoes={[
+          { id: "c1", title: "Ler depois", description: null, count: 7, tem: false },
+          { id: "c2", title: "Referências de UI", description: null, count: 0, tem: true },
+        ]}
+        pendentes={new Set<string>()}
+        erro={null}
+        onColarNoMural={() => {}}
+        onGuardarNaColecao={() => {}}
+      />
+    );
+  },
+};
+
 const note = {
   id: "n1",
   body: "O estágio citado é de 2023; o programa de 2024 mudou as regras de inscrição.",
@@ -478,6 +520,33 @@ export const CaughtUp: StoryObj = {
   render: () => (
     <div className="max-w-xl">
       <CaughtUpDivider />
+    </div>
+  ),
+};
+
+export const MixedCommentMedia: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <MediaGrid
+        compact
+        items={[
+          {
+            id: "image-before",
+            mimeType: "image/webp",
+            cdnUrl: new URL("../../assets/kenney/tree-03.webp", import.meta.url).href,
+          },
+          {
+            id: "recording",
+            mimeType: "audio/mpeg",
+            cdnUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+          },
+          {
+            id: "image-after",
+            mimeType: "image/webp",
+            cdnUrl: new URL("../../assets/kenney/tree-04.webp", import.meta.url).href,
+          },
+        ]}
+      />
     </div>
   ),
 };
