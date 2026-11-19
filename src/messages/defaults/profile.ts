@@ -380,6 +380,19 @@ export const profileMessages: ProfileMessages = {
     readmeMissing: "Seu perfil do GitHub ainda não tem um README público para importar.",
     readmeError: "Não foi possível ler o README agora.",
     openReadme: "Abrir repositório",
+    orgsTitle: "Organizações",
+    orgsHint:
+      "Transforme uma organização do GitHub em empresa da comunidade, com os repositórios escolhidos como projetos dela.",
+    orgsChoose: "Escolha a organização",
+    orgOpenOnGithub: (login) => `Ver ${login} no GitHub`,
+    orgsLoading: "Carregando as organizações…",
+    orgsError: "Não foi possível listar as organizações agora.",
+    orgsEmpty: "Nenhuma organização encontrada nas suas contas do GitHub.",
+    reposError: "Não foi possível listar os repositórios agora.",
+    emptyOrgs: "Você precisa administrar (ou participar de) uma organização no GitHub.",
+    stars: (count) => (count === 1 ? "1 estrela" : `${count} estrelas`),
+    forks: (count) => (count === 1 ? "1 fork" : `${count} forks`),
+    updated: (label) => `atualizado em ${label}`,
   },
 
   profileGallery: {

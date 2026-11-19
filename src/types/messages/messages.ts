@@ -42,6 +42,7 @@ import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
 import type { StreakMessages } from "./streak-messages.js";
+import type { StudyPairProposalsMessages } from "./study-pair-proposals-messages.js";
 import type { StudyPairsMessages } from "./study-pairs-messages.js";
 import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
@@ -94,6 +95,7 @@ export type Messages = UiMessages &
   StreakMessages &
   EventsMessages &
   StudyPairsMessages &
+  StudyPairProposalsMessages &
   CompaniesMessages &
   WhatsNewMessages &
   ReleaseNotesMessages &
