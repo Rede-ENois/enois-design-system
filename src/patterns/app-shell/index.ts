@@ -5,6 +5,8 @@ export { MobileDock } from "./mobile-dock.js";
 export { NavigationDrawer } from "./navigation-drawer.js";
 export { ThemeSwitch } from "./theme-switch.js";
 export { ThemeToggle } from "./theme-toggle.js";
+export type { AppLayoutMainGap } from "../../types/patterns/app-layout-main-gap.js";
+export type { AppLayoutMainProps } from "../../types/patterns/app-layout-main-props.js";
 export type { AppSidebarProps } from "../../types/patterns/app-sidebar-props.js";
 export type { MobileDockItem } from "../../types/patterns/mobile-dock-item.js";
 export type { MobileDockProps } from "../../types/patterns/mobile-dock-props.js";
