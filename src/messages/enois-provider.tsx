@@ -13,6 +13,7 @@ export function EnoisProvider({
   resolveMediaUrl,
   resolveMediaOriginalUrl,
   isOwnMediaUrl,
+  appPathOf,
   revealSensitiveMedia = false,
   children,
 }: EnoisProviderProps) {
@@ -23,8 +24,9 @@ export function EnoisProvider({
       resolveMediaUrl: resolveMediaUrl ?? defaultAdapters.resolveMediaUrl,
       resolveMediaOriginalUrl: resolveMediaOriginalUrl ?? defaultAdapters.resolveMediaOriginalUrl,
       isOwnMediaUrl: isOwnMediaUrl ?? defaultAdapters.isOwnMediaUrl,
+      appPathOf: appPathOf ?? defaultAdapters.appPathOf,
     }),
-    [Link, resolveMediaUrl, resolveMediaOriginalUrl, isOwnMediaUrl],
+    [Link, resolveMediaUrl, resolveMediaOriginalUrl, isOwnMediaUrl, appPathOf],
   );
 
   return (

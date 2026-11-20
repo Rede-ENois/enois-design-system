@@ -37,10 +37,11 @@ export function RichText({
   mentionHref,
   renderMedia,
 }: RichTextProps) {
-  const { isOwnMediaUrl, resolveMediaOriginalUrl } = useAdapters();
+  const { appPathOf, isOwnMediaUrl, resolveMediaOriginalUrl } = useAdapters();
   const spoilerLabel = useMessages().richText.spoilerReveal;
   const linkClass = linkClassName ?? "text-primary hover:underline";
   const context: RichTextContext = {
+    appPathOf,
     linkClass,
     mentionHref,
     isOwnMediaUrl,
@@ -236,12 +237,20 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
       case "spoiler":
         return <SpoilerText key={index} text={node.text ?? ""} />;
 
-      case "link":
+      case "link": {
         if (isMidiaDireta(node.href)) {
           return renderMidia(node.href!, index, ctx, mediaSpoiler);
         }
         if (!safeHref(node.href)) {
           return <span key={index}>{inner}</span>;
+        }
+        const internalPath = node.href ? ctx.appPathOf(node.href) : null;
+        if (internalPath) {
+          return (
+            <AppLink key={index} href={internalPath} className={cn("break-words", ctx.linkClass)}>
+              {inner}
+            </AppLink>
+          );
         }
         return (
           <a
@@ -254,6 +263,7 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
             {inner}
           </a>
         );
+      }
 
       case "image":
         if (isMidiaDireta(node.href)) {
