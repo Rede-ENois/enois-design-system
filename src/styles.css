@@ -4504,6 +4504,9 @@ html:not(.dark) .frame-shop-price {
   --lt: var(--card);
   --lb: var(--muted);
   display: grid;
+  /* The row is as tall as its tallest card; without this the others keep their own height and the
+     stage grows past the card, hiding the foot (and the buy button) under the clip above. */
+  grid-template-rows: 1fr auto;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 16px;
