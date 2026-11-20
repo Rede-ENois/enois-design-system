@@ -6,9 +6,7 @@ const css = readFileSync(new URL("./styles.css", import.meta.url), "utf8");
 
 /** Corpo da regra de um seletor (o primeiro bloco com esse seletor exato). */
 function rule(selector: string): string {
-  const pattern = new RegExp(
-    `${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\{([^}]*)\\}`,
-  );
+  const pattern = new RegExp(`${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\{([^}]*)\\}`);
   const body = pattern.exec(css)?.[1];
   expect(body, selector).toBeDefined();
   return body ?? "";
