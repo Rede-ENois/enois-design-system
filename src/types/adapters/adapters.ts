@@ -22,4 +22,11 @@ export type Adapters = {
    * the current host.
    */
   isOwnMediaUrl: (url: string) => boolean;
+  /**
+   * Whether a link points at a page of the app: returns the internal path when it does, `null`
+   * when it does not. Rich text renders internal links through the router (`AppLink`, same tab)
+   * and external links as plain anchors (`target="_blank"`). Default: relative paths and URLs on
+   * the current host.
+   */
+  appPathOf: (url: string) => string | null;
 };

@@ -57,6 +57,11 @@ describe("AdminProfileActionsSection", () => {
     expect(html).toContain("Revogar advertência");
   });
 
+  it("offers account removal only when the container wires it", () => {
+    expect(render()).not.toContain("Excluir conta");
+    expect(render({ onDeleteAccount: noop })).toContain("Excluir conta");
+  });
+
   it("locks the destructive buttons until the reason has ten characters", () => {
     expect(render()).toContain("disabled");
   });
