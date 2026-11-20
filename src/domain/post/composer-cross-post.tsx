@@ -4,9 +4,10 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { ComposerCrossPostProps } from "../../types/domain/post/composer-cross-post-props.js";
 
 /**
- * The "also publish in the professional feed" row under the composer text. Ticked by default when
- * the person has an active professional profile and picked a type that belongs there too, so the
- * post reaches both audiences as one publication, signed by the professional profile.
+ * The "also publish in the professional feed" row under the composer text, for a person with an
+ * active professional profile who picked a type that belongs there too. UNTICKED by default: the
+ * post reaches the second audience only when the person asks for it, because the replica is signed
+ * by the professional profile and appears in another feed.
  */
 export function ComposerCrossPost({
   checked,
