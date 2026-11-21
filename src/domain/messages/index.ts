@@ -24,6 +24,7 @@ export type { ConversationServiceOption } from "../../types/domain/messages/conv
 export type { ConversationThreadProps } from "../../types/domain/messages/conversation-thread-props.js";
 export type { E2eSetupBannerProps } from "../../types/domain/messages/e2e-setup-banner-props.js";
 export { useGroupTopicErrorText } from "./use-group-topic-error-text.js";
+export { groupTopicErrorFromServer } from "./topic-error-code.js";
 export type { GroupAdminCandidate } from "../../types/domain/messages/group-admin-candidate.js";
 export type { GroupAdminParticipantData } from "../../types/domain/messages/group-admin-participant-data.js";
 export type { GroupAdminSectionProps } from "../../types/domain/messages/group-admin-section-props.js";
