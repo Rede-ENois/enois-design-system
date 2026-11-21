@@ -322,6 +322,14 @@ rejection actions come from the app as `children`.
 Every recruiter-facing word comes from `messages.recruitment`; the status labels themselves come
 from the app as `statusLabel`, because product vocabulary does not live here.
 
+## Transparência de penalidades
+
+`SanctionsView`, no entrypoint `domain`, apresenta o histórico e a conta suspensa por props,
+com evidência textual segura, distinção entre término e prazo de recurso e formulário controlado.
+O horário, a elegibilidade e a confirmação da situação continuam no consumidor/servidor.
+Consulte o [contrato de integração](docs/moderation-transparency.md) e as stories
+`Domain/Moderation/Sanctions`.
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).

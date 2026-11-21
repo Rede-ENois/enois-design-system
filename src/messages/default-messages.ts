@@ -42,6 +42,7 @@ import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { releaseNotesMessages } from "./defaults/release-notes.js";
 import { roleplayMessages } from "./defaults/roleplay.js";
+import { sanctionsMessages } from "./defaults/sanctions.js";
 import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
@@ -57,6 +58,7 @@ import { wellbeingMessages } from "./defaults/wellbeing.js";
 import { whatsNewMessages } from "./defaults/whats-new.js";
 
 export const defaultMessages: Messages = {
+  ...sanctionsMessages,
   ...uiMessages,
   ...avatarMessages,
   ...doacoesMessages,
