@@ -4,7 +4,7 @@
  * the chosen type can be cross-posted is decided by the app (`canCrossPost`).
  */
 export type ComposerCrossPostProps = {
-  /** Checked by default; the person may uncheck it. */
+  /** Unticked by default: the container decides the initial state and remembers the choice. */
   checked: boolean;
   onChange: (checked: boolean) => void;
   /** Why the type cannot be cross-posted right now (shown instead of the offer). */

@@ -12,6 +12,7 @@ import type { RichTextProps } from "../../types/domain/post/rich-text-props.js";
 import type { RichNode } from "../../types/lib/rich-text/rich-node.js";
 import { AppLink } from "../../ui/app-link.js";
 
+import { STICKER_IMAGE_CLASS } from "./editor/editor-dom.js";
 import { mediaBoxStyle, rememberVideoBox } from "./media/media-box.js";
 import { SpoilerMedia } from "./media/spoiler-media.js";
 import { SpoilerText } from "./media/spoiler-text.js";
@@ -34,6 +35,7 @@ export function RichText({
   linkClassName,
   mediaIds,
   mediaSpoiler,
+  inlineStickers,
   mentionHref,
   renderMedia,
 }: RichTextProps) {
@@ -47,6 +49,7 @@ export function RichText({
     isOwnMediaUrl,
     resolveMediaOriginalUrl,
     spoilerLabel,
+    stickerFor: (code) => inlineStickers?.[code],
   };
 
   // Imagem NO MEIO do texto (item 9): quando há mídias anexadas, o conteúdo é dividido nos
@@ -192,11 +195,39 @@ function renderBlock(
   }
 }
 
+/**
+ * Texto puro → figurinhas inline. O que o seletor insere é o código como palavra inteira
+ * (`:enois_feliz:`), então só palavra inteira vira figurinha — código colado a outra palavra fica
+ * como foi escrito. A figurinha passa pelo mesmo ramo `image` do markdown, com o código fazendo o
+ * papel do texto alternativo.
+ */
+function renderTextoComFigurinhas(
+  node: RichNode,
+  index: number,
+  ctx: RichTextContext,
+  mediaSpoiler: boolean,
+): ReactNode {
+  const texto = node.text ?? "";
+  if (!ctx.stickerFor || !texto) return texto;
+
+  const partes = texto.split(/(\S+)/);
+  if (!partes.some((parte) => ctx.stickerFor(parte))) return texto;
+
+  return partes.map((parte, parteIndex) => {
+    const figurinha = ctx.stickerFor(parte);
+    return figurinha
+      ? renderInline([{ kind: "image", text: parte, href: figurinha.url }], ctx, mediaSpoiler)
+      : parte;
+  });
+}
+
 function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = false): ReactNode {
   return nodes.map((node, index) => {
     // Nó com filhos já foi lido de novo pelo parser (negrito com itálico dentro, link com
     // formatação): o texto cru só vale quando não há filhos.
     const inner = node.children ? renderInline(node.children, ctx, mediaSpoiler) : node.text;
+
+    if (node.kind === "text") return renderTextoComFigurinhas(node, index, ctx, mediaSpoiler);
 
     switch (node.kind) {
       case "bold":
@@ -265,7 +296,23 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
         );
       }
 
-      case "image":
+      case "image": {
+        const figurinha = ctx.stickerFor(node.text ?? "");
+        if (figurinha) {
+          const endereco = ctx.resolveMediaOriginalUrl(figurinha.url) ?? figurinha.url;
+          return ctx.isOwnMediaUrl(endereco) ? (
+            <img
+              key={index}
+              src={endereco}
+              alt={figurinha.alt}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              className={STICKER_IMAGE_CLASS}
+            />
+          ) : (
+            <span key={index}>{figurinha.alt}</span>
+          );
+        }
         if (isMidiaDireta(node.href)) {
           return renderMidia(node.href!, index, ctx, mediaSpoiler);
         }
@@ -293,6 +340,7 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
             {node.text || node.href}
           </a>
         );
+      }
 
       default:
         return node.text;
