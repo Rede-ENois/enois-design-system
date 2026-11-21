@@ -38,6 +38,7 @@ export const calendarMessages: CalendarMessages = {
     invited: "Convite",
     owner: "Você organiza",
     moreEntries: (count) => `+${count}`,
+    monthEntry: (position, title) => `Compromisso ${position}: ${title}`,
     emptyDay: "Nada marcado neste dia",
     emptyDayHint: "Escolha outro dia ou crie um compromisso.",
     emptyList: "Nada na agenda deste período",

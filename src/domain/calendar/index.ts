@@ -51,6 +51,7 @@ export type { CalendarInterviewData } from "../../types/domain/calendar/calendar
 export type { CalendarInterviewDialogProps } from "../../types/domain/calendar/calendar-interview-dialog-props.js";
 export type { CalendarInterviewValues } from "../../types/domain/calendar/calendar-interview-values.js";
 export type { CalendarListViewProps } from "../../types/domain/calendar/calendar-list-view-props.js";
+export type { CalendarMonthCellLayout } from "../../types/domain/calendar/calendar-month-cell-layout.js";
 export type { CalendarMonthViewProps } from "../../types/domain/calendar/calendar-month-view-props.js";
 export type { CalendarParticipation } from "../../types/domain/calendar/calendar-participation.js";
 export type { CalendarReminderMinutes } from "../../types/domain/calendar/calendar-reminder-minutes.js";
