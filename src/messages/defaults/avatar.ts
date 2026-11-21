@@ -8,4 +8,8 @@ export const avatarMessages: AvatarMessages = {
     description:
       "Este perfil passou por um processo de verificação de identidade realizado por um provedor especializado.",
   },
+  supporterSeal: {
+    label: "Apoiador",
+    description: "Esta conta já apoiou o projeto com uma doação.",
+  },
 };
