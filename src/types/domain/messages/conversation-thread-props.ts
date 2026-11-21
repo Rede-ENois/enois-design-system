@@ -3,6 +3,8 @@ import type { ReactNode, Ref } from "react";
 import type { ConversationPeerData } from "./conversation-peer-data.js";
 import type { ConversationSendValues } from "./conversation-send-values.js";
 import type { ConversationServiceOption } from "./conversation-service-option.js";
+import type { GroupTopicData } from "./group-topic-data.js";
+import type { GroupTopicError } from "./group-topic-error.js";
 
 export type ConversationThreadProps = {
   conversationTitle?: string | null;
@@ -12,6 +14,23 @@ export type ConversationThreadProps = {
   onBack?: () => void;
   /** Shown between the header and the messages (e.g. the E2eSetupBanner). */
   banner?: ReactNode;
+  /**
+   * Tópicos do grupo: a fileira entra logo abaixo do cabeçalho, acima do banner. Sem `topics`,
+   * o filão é de duas pessoas e não tem assunto.
+   */
+  topics?: GroupTopicData[];
+  /** Tópico aberto; `null` é a conversa inteira ("Todos os assuntos"). */
+  activeTopicId?: string | null;
+  onSelectTopic?: (topicId: string | null) => void;
+  /** True para o dono e os administradores: abre a gestão dos tópicos na fileira. */
+  topicsManager?: boolean;
+  topicsLoading?: boolean;
+  topicsError?: string | null;
+  topicsPending?: boolean;
+  onCreateTopic?: (name: string) => Promise<GroupTopicError | null>;
+  onRenameTopic?: (topicId: string, name: string) => Promise<GroupTopicError | null>;
+  onArchiveTopic?: (topicId: string) => Promise<GroupTopicError | null>;
+  onReorderTopics?: (topicIds: string[]) => Promise<GroupTopicError | null>;
   /**
    * Gate E2E: sem a chave local a conversa não abre. Esconde o histórico e o compositor e
    * centraliza o `banner` com o aviso de que a criptografia é obrigatória.

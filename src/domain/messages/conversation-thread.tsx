@@ -20,6 +20,7 @@ import { EmojiPicker } from "../../ui/emoji-picker.js";
 import { SpoilerPreview } from "../post/media/spoiler-preview.js";
 
 import { ConversationHeader } from "./conversation-header.js";
+import { ConversationTopicFilter } from "./conversation-topic-filter.js";
 import { MessageSkeletons } from "./message-skeletons.js";
 
 /** Preview de arquivo local: gera a blob URL no render e revoga no unmount. Quebra a cadeia de
@@ -42,6 +43,17 @@ export function ConversationThread({
   profileHref,
   onBack,
   banner,
+  topics,
+  activeTopicId = null,
+  onSelectTopic,
+  topicsManager,
+  topicsLoading,
+  topicsError,
+  topicsPending,
+  onCreateTopic,
+  onRenameTopic,
+  onArchiveTopic,
+  onReorderTopics,
   e2eRequired,
   children,
   loading,
@@ -225,6 +237,23 @@ export function ConversationThread({
         profileHref={profileHref}
         onBack={onBack}
       />
+
+      {topics && onSelectTopic && (
+        <ConversationTopicFilter
+          topics={topics}
+          activeTopicId={activeTopicId}
+          onSelectTopic={onSelectTopic}
+          manager={topicsManager}
+          loading={topicsLoading}
+          error={topicsError}
+          pending={topicsPending}
+          onCreateTopic={onCreateTopic}
+          onRenameTopic={onRenameTopic}
+          onArchiveTopic={onArchiveTopic}
+          onReorderTopics={onReorderTopics}
+          e2eRequired={e2eRequired}
+        />
+      )}
 
       {e2eRequired
         ? banner && (
