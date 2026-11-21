@@ -1,5 +1,6 @@
 import type { CalendarAgendaItemData } from "./calendar-agenda-item-data.js";
 import type { CalendarEntryKind } from "./calendar-entry-kind.js";
+import type { CalendarMonthCellLayout } from "./calendar-month-cell-layout.js";
 import type { CalendarView } from "./calendar-view.js";
 
 export type CalendarMonthViewProps = {
@@ -24,6 +25,8 @@ export type CalendarMonthViewProps = {
   onOpenDay?: (day: string, view: CalendarView) => void;
   /** Draws the kind icon on each entry; the name is always in the accessible label. */
   showKindIcon?: boolean;
+  /** `titles` (default) spells the title in the cell; `points` numbers the entries in order. */
+  cellLayout?: CalendarMonthCellLayout;
   /** Hides the entries of a kind without dropping them from the month grid. */
   hiddenKinds?: CalendarEntryKind[];
   className?: string;
