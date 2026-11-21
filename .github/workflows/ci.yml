@@ -43,6 +43,11 @@ jobs:
       - run: npm run test:eslint-rules
       - run: npm run build
       - run: npm run test:dist
+      - name: Pacote publicado não carrega script do repositório
+        run: |
+          node scripts/preparar-pacote.mjs
+          node scripts/check-pacote-publicado.mjs package.json
+          node scripts/restaurar-pacote.mjs
       - run: npm run build-storybook
 
   # A pushed tag vX.Y.Z publishes that version. A prerelease tag (vX.Y.Z-rc.N) publishes under the
