@@ -21,6 +21,7 @@ import type { EmotesMessages } from "./emotes-messages.js";
 import type { EnquetesMessages } from "./enquetes-messages.js";
 import type { EventsMessages } from "./events-messages.js";
 import type { GamesMessages } from "./games-messages.js";
+import type { GroupAdminMessages } from "./group-admin-messages.js";
 import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { MarketplaceMessages } from "./marketplace-messages.js";
@@ -87,6 +88,7 @@ export type Messages = UiMessages &
   BlogMessages &
   MarketplaceMessages &
   ConversationsMessages &
+  GroupAdminMessages &
   SupportMessages &
   DevelopersMessages &
   ModerationMessages &
