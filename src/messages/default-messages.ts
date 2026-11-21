@@ -18,6 +18,7 @@ import { desabafosMessages } from "./defaults/desabafos.js";
 import { desafiosMessages } from "./defaults/desafios.js";
 import { developersMessages } from "./defaults/developers.js";
 import { diarioMessages } from "./defaults/diario.js";
+import { doacoesMessages } from "./defaults/doacoes.js";
 import { editorMessages } from "./defaults/editor.js";
 import { emotesMessages } from "./defaults/emotes.js";
 import { enquetesMessages } from "./defaults/enquetes.js";
@@ -58,6 +59,7 @@ import { whatsNewMessages } from "./defaults/whats-new.js";
 export const defaultMessages: Messages = {
   ...uiMessages,
   ...avatarMessages,
+  ...doacoesMessages,
   ...communitiesMessages,
   ...patternsMessages,
   ...shellMessages,
