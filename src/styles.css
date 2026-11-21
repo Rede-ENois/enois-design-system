@@ -4495,7 +4495,11 @@ html:not(.dark) .frame-shop-price {
 }
 .cos-shop__look-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  /* Abaixo de 150px de coluna, o minmax desiste de encolher e o card transborda a coluna: o pé
+     (onde fica o botão) some pelo overflow. O min() mantém os 150px onde cabem e deixa a coluna
+     caber quando a página comprime o catálogo; o container evita que ele seja a página inteira. */
+  container-type: inline-size;
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
   gap: 12px;
   /* Opening one look's pieces must not stretch the other cards in its row. */
   align-items: start;
@@ -4569,7 +4573,9 @@ html:not(.dark) .frame-shop-price {
 }
 .cos-shop__main {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 370px;
+  /* A coluna lateral cede antes do catálogo: com 370px fixos, a coluna de looks ficava abaixo
+     dos 150px e os cards apareciam pela metade nas larguras intermediárias. */
+  grid-template-columns: minmax(0, 1fr) min(370px, 30%);
   gap: 28px;
   align-items: start;
 }
