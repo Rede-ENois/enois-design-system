@@ -4,6 +4,7 @@ export { ConversationHeader } from "./conversation-header.js";
 export { ConversationItem } from "./conversation-item.js";
 export { ConversationListSkeletons } from "./conversation-list-skeletons.js";
 export { ConversationThread } from "./conversation-thread.js";
+export { ConversationTopicFilter } from "./conversation-topic-filter.js";
 export { E2eSetupBanner } from "./e2e-setup-banner.js";
 export { GroupAdminSection } from "./group-admin-section.js";
 export { GroupComposer } from "./group-composer.js";
@@ -33,5 +34,6 @@ export type { GroupComposerProps } from "../../types/domain/messages/group-compo
 export type { GroupTopicData } from "../../types/domain/messages/group-topic-data.js";
 export type { GroupTopicError } from "../../types/domain/messages/group-topic-error.js";
 export type { GroupTopicsViewProps } from "../../types/domain/messages/group-topics-view-props.js";
+export type { ConversationTopicFilterProps } from "../../types/domain/messages/conversation-topic-filter-props.js";
 export type { MessageBubbleData } from "../../types/domain/messages/message-bubble-data.js";
 export type { MessageBubbleProps } from "../../types/domain/messages/message-bubble-props.js";
