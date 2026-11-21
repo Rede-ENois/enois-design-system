@@ -124,6 +124,12 @@ export const Month: StoryObj = {
   render: () => <CalendarAgenda {...base} view="month" selectedDay="2026-11-10" />,
 };
 
+export const MonthPoints: StoryObj = {
+  render: () => (
+    <CalendarAgenda {...base} view="month" selectedDay="2026-11-10" cellLayout="points" />
+  ),
+};
+
 export const Week: StoryObj = {
   render: () => <CalendarAgenda {...base} view="week" period="2026-11-08" />,
 };

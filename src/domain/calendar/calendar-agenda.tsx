@@ -49,6 +49,7 @@ export function CalendarAgenda({
   error = false,
   eyebrow,
   hiddenKinds,
+  cellLayout,
   newEntryLabel,
   onNewEntry,
   className,
@@ -138,6 +139,7 @@ export function CalendarAgenda({
           selectedDay={selectedDay}
           onSelectDay={onSelectDay}
           hiddenKinds={hiddenKinds}
+          cellLayout={cellLayout}
         />
       )}
 

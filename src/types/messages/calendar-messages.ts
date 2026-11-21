@@ -34,6 +34,8 @@ export type CalendarMessages = {
     owner: string;
     /** Counter on a month cell that holds more entries than fit. */
     moreEntries: (count: number) => string;
+    /** Accessible name of one entry in a compact month cell: its position first, then the entry. */
+    monthEntry: (position: number, title: string) => string;
     emptyDay: string;
     emptyDayHint: string;
     emptyList: string;

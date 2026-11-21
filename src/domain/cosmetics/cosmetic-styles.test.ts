@@ -27,4 +27,17 @@ describe("cosmetics styles", () => {
   it("keeps each look card at its own height when another one opens its pieces", () => {
     expect(rule(".cos-shop__look-grid")).toContain("align-items: start");
   });
+
+  // Bug #1105: a coluna abaixo de 150px fazia o card transbordar e o pé (com o botão) sumia.
+  it("deixa a coluna da grade de looks caber abaixo de 150px", () => {
+    const grid = rule(".cos-shop__look-grid");
+    expect(grid).toContain("repeat(auto-fill, minmax(min(150px, 100%), 1fr))");
+    expect(grid).toContain("container-type: inline-size");
+  });
+
+  it("faz a coluna lateral ceder largura antes do catálogo de looks", () => {
+    const main = rule(".cos-shop__main");
+    expect(main).toContain("min(370px, 30%)");
+    expect(main).not.toContain("370px;");
+  });
 });
