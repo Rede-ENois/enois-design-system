@@ -43,8 +43,8 @@ export const supportUsMessages: SupportUsMessages = {
     otherValue: "Valor em dólar (US$)",
     open: "Abrir a página de pagamento da Wise",
     feeNote:
-      "A taxa de envio fica com quem doa, e a Wise mostra o total antes de você confirmar — assim chega o valor inteiro.",
+      "A taxa de envio fica com quem doa, e a Wise mostra o total antes de você confirmar. Assim chega o valor inteiro.",
     noSeal:
-      "A Wise não gera o comprovante que confirma a doação e libera o selo de apoiador — para isso, use o Pix.",
+      "A Wise não gera o comprovante que confirma a doação e libera o selo de apoiador. Para isso, use o Pix.",
   },
 };
