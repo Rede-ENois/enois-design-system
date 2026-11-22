@@ -9,3 +9,6 @@ storybook-static
 *.tgz
 .serena
 .vitest
+
+# Páginas geradas pela prova visual (o gerador é versionado; a saída não).
+scripts/prova-*.html
