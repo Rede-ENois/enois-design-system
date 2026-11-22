@@ -13,4 +13,9 @@ export type RichTextContext = Pick<
   inlineStickers?: Record<string, EditorSticker>;
   /** A figurinha do código, já resolvida: `undefined` quando o texto não a cita. */
   stickerFor: (code: string) => EditorSticker | undefined;
+  /** O desenho da figurinha inline, quando o app diz qual é (ver `RichTextProps.figurinha`). */
+  figurinha?: {
+    classe: string;
+    ehFigurinha: (url: string, ehMidiaNossa: (url: string) => boolean) => boolean;
+  };
 };
