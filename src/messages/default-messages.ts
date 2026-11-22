@@ -18,11 +18,13 @@ import { desabafosMessages } from "./defaults/desabafos.js";
 import { desafiosMessages } from "./defaults/desafios.js";
 import { developersMessages } from "./defaults/developers.js";
 import { diarioMessages } from "./defaults/diario.js";
+import { doacoesMessages } from "./defaults/doacoes.js";
 import { editorMessages } from "./defaults/editor.js";
 import { emotesMessages } from "./defaults/emotes.js";
 import { enquetesMessages } from "./defaults/enquetes.js";
 import { eventsMessages } from "./defaults/events.js";
 import { gamesMessages } from "./defaults/games.js";
+import { groupAdminMessages } from "./defaults/group-admin.js";
 import { jobsMessages } from "./defaults/jobs.js";
 import { legalMessages } from "./defaults/legal.js";
 import { marketplaceMessages } from "./defaults/marketplace.js";
@@ -59,6 +61,7 @@ export const defaultMessages: Messages = {
   ...sanctionsMessages,
   ...uiMessages,
   ...avatarMessages,
+  ...doacoesMessages,
   ...communitiesMessages,
   ...patternsMessages,
   ...shellMessages,
@@ -82,6 +85,7 @@ export const defaultMessages: Messages = {
   ...developersMessages,
   ...supportMessages,
   ...conversationsMessages,
+  ...groupAdminMessages,
   ...marketplaceMessages,
   ...blogDraftsMessages,
   ...blogMessages,

@@ -15,4 +15,9 @@ export type AdminProfileActionsSectionProps = {
   onSanction: (type: AdminProfileAction, reason: string) => Promise<boolean>;
   /** Withdraws an active warning, keeping the record; resolves `true` on success. */
   onRevokeWarning: (warningId: string, reason: string) => Promise<boolean>;
+  /**
+   * Removes the account itself (anonymized, sessions revoked) with the trimmed reason. Optional:
+   * without it the button is not offered, so an administrator cannot reach a backend that lacks it.
+   */
+  onDeleteAccount?: (reason: string) => Promise<boolean>;
 };

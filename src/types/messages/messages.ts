@@ -16,11 +16,13 @@ import type { DesabafosMessages } from "./desabafos-messages.js";
 import type { DesafiosMessages } from "./desafios-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { DiarioMessages } from "./diario-messages.js";
+import type { DoacoesMessages } from "./doacoes-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
 import type { EmotesMessages } from "./emotes-messages.js";
 import type { EnquetesMessages } from "./enquetes-messages.js";
 import type { EventsMessages } from "./events-messages.js";
 import type { GamesMessages } from "./games-messages.js";
+import type { GroupAdminMessages } from "./group-admin-messages.js";
 import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { MarketplaceMessages } from "./marketplace-messages.js";
@@ -61,6 +63,7 @@ import type { WhatsNewMessages } from "./whats-new-messages.js";
 export type Messages = SanctionsMessages &
   UiMessages &
   AvatarMessages &
+  DoacoesMessages &
   CommunitiesMessages &
   PatternsMessages &
   ShellMessages &
@@ -89,6 +92,7 @@ export type Messages = SanctionsMessages &
   BlogMessages &
   MarketplaceMessages &
   ConversationsMessages &
+  GroupAdminMessages &
   SupportMessages &
   DevelopersMessages &
   ModerationMessages &
