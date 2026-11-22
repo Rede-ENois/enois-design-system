@@ -26,8 +26,17 @@ export type PaporetoMessages = {
     pessoas: (count: number) => string;
     falasPost: (count: number) => string;
     falasComentario: (count: number) => string;
+    /** A frase longa do crescimento, para a linha de detalhe do assunto. */
     crescimento: (percent: number) => string;
+    /** O percentual curto da pílula ("+25%"). */
+    crescimentoCurto: (percent: number) => string;
+    /** Assunto sem véspera comparável: diz que é novo, não inventa percentual. */
+    novoEmAlta: string;
     semCrescimento: string;
+    pessoasRotulo: string;
+    falasPostRotulo: string;
+    falasComentarioRotulo: string;
+    falasUltimaHoraRotulo: string;
     falasUltimaHora: (count: number) => string;
     ultimas24: string;
     privacidade: string;

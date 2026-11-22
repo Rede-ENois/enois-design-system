@@ -31,6 +31,11 @@ const assunto = (nome: string, status: PapoSubjectView["status"]): PapoSubjectVi
   crescimento: 25,
 });
 
+const assuntoNovo: PapoSubjectView = {
+  ...assunto("pangolim na horta", "EMERGENTE"),
+  crescimento: null,
+};
+
 const assuntos: PapoSubjectView[] = [
   assunto("inteligencia artificial", "EMERGENTE"),
   assunto("feira de projetos", "HOT"),
@@ -97,12 +102,45 @@ describe("PapoPanel", () => {
     const texto = host.textContent ?? "";
     expect(texto).toContain("inteligencia artificial");
     expect(texto).toContain(messages.statusEmergente);
-    expect(texto).toContain(messages.pessoas(9));
-    expect(texto).toContain(messages.falasPost(12));
-    expect(texto).toContain(messages.falasComentario(8));
+    expect(texto).toContain(messages.crescimentoCurto(25));
     expect(texto).toContain(messages.crescimento(25));
     expect(texto).toContain(messages.falasAnalisadas(87));
     expect(texto).not.toContain("@"); // nenhum identificador de pessoa vaza
+  });
+
+  it("cada metrica fica com o seu rotulo no mesmo item da grade", () => {
+    render();
+
+    const card = host.querySelector("ol li") ?? host;
+    const grade = card.querySelector("ul.grid");
+    expect(grade?.className).toContain("grid-cols-2");
+    expect(grade?.className).toContain("min-[380px]:grid-cols-4");
+
+    const metricas = grade ? [...grade.querySelectorAll("li")] : [];
+    expect(metricas).toHaveLength(4);
+    const numeros = metricas.map((li) => li.querySelector("p")?.textContent);
+    expect(numeros).toEqual(["9", "3", "12", "8"]);
+    expect(metricas[0]?.textContent).toContain(messages.pessoasRotulo);
+    expect(metricas[1]?.textContent).toContain(messages.falasUltimaHoraRotulo);
+    expect(metricas[2]?.textContent).toContain(messages.falasPostRotulo);
+    expect(metricas[3]?.textContent).toContain(messages.falasComentarioRotulo);
+  });
+
+  it("o card nao solta separador solto nem quebra o nome do assunto", () => {
+    render();
+
+    const card = host.querySelector("ol li") ?? host;
+    // O separador "·" entre métricas virou grade: não sobra ponto solto no card.
+    expect(card.textContent?.split("·").length ?? 0).toBeLessThanOrEqual(1);
+  });
+
+  it("assunto sem vespera comparavel mostra novo em alta em vez de percentual inventado", () => {
+    render({ assuntos: [assuntoNovo] });
+
+    const texto = host.textContent ?? "";
+    expect(texto).toContain(messages.novoEmAlta);
+    expect(texto).not.toContain("%");
+    expect(texto).not.toContain(messages.crescimento(0));
   });
 
   it("filtra por trajetoria sem mostrar assunto de outra faixa", () => {

@@ -25,7 +25,13 @@ export const paporetoMessages: PaporetoMessages = {
     falasPost: (count) => (count === 1 ? "1 publicação" : `${count} publicações`),
     falasComentario: (count) => (count === 1 ? "1 comentário" : `${count} comentários`),
     crescimento: (percent) => `Subiu ${Math.round(percent)}% nas últimas 24 horas`,
+    crescimentoCurto: (percent) => `+${Math.round(percent)}%`,
+    novoEmAlta: "Novo em alta",
     semCrescimento: "Estável",
+    pessoasRotulo: "pessoas distintas",
+    falasPostRotulo: "publicações",
+    falasComentarioRotulo: "comentários",
+    falasUltimaHoraRotulo: "falas na última hora",
     falasUltimaHora: (count) =>
       count === 1 ? "1 fala na última hora" : `${count} falas na última hora`,
     ultimas24: "últimas 24 horas",
