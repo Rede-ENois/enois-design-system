@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import type { EditorSticker } from "./editor-sticker.js";
+
 export type RichTextProps = {
   content: string;
   className?: string;
@@ -16,6 +18,22 @@ export type RichTextProps = {
   mediaIds?: string[] | null;
   /** Oculta imagens e vídeos anexados/inline até a pessoa revelar o conteúdo. */
   mediaSpoiler?: boolean;
+  /**
+   * Figurinhas que o texto pode citar por código (ex.: `:enois_feliz:`), na mesma resolução que o
+   * campo de escrita usa. Código que está aqui vira a imagem inline do tamanho do texto; sem o
+   * mapa, a imagem da casa é desenhada como mídia (o caso de uma foto colada no corpo).
+   */
+  inlineStickers?: Record<string, EditorSticker>;
+  /**
+   * Como desenhar a figurinha inline quando ela não vem do `inlineStickers`. O tamanho é decisão do
+   * app, que conhece os endereços do catálogo dele; aqui só entra a classe e a regra de endereço.
+   */
+  figurinha?: {
+    /** Classe aplicada à imagem da figurinha. */
+    classe: string;
+    /** Decide se o endereço é figurinha (e não mídia anexada), com o `isOwnMediaUrl` do app. */
+    ehFigurinha: (url: string, ehMidiaNossa: (url: string) => boolean) => boolean;
+  };
   /** Profile address of a `@username` mention. */
   mentionHref: (username: string) => string;
   /** Renders the media behind an inline `{{media:<id>}}` marker (the app loads it). */

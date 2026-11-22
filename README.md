@@ -153,6 +153,25 @@ attachment gets its own player without autoplay; other attachments reuse the
 existing image or video view individually. Image-only lists retain their grid.
 Items without a media URL are skipped.
 
+### Envio de anexos no seletor de mídia
+
+`ComposerMediaPicker` aceita `transport` opcional em cada `ComposerMediaDraft`.
+Forneça um `id` de rascunho único e estável para manter a identidade ao reordenar
+ou tentar novamente. Sem esse ID, a identidade continua posicional; `onRemove(index)`
+sempre recebe a posição atual.
+
+- `sending`: exibe “Enviando…” e `bytesRemaining` se o transporte fornecer uma
+  contagem medida, inteira e não negativa. O botão de cancelar só aparece com `onCancel`.
+- `awaiting-response`: exibe “Enviado, aguardando resposta” somente quando o aplicativo
+  confirmar o fim da transferência e ainda não tiver a resposta final. Zero bytes
+  restantes não muda a fase. A mensagem não indica processamento nem aprovação.
+- `failed`: exibe falha técnica e, se `onRetry` for fornecido, permite tentar de novo.
+  Se `status` for `prohibited`, a recusa prevalece e o feedback de transporte fica oculto.
+
+O aplicativo controla as fases e executa as ações. Sem `transport`, o seletor
+preserva a apresentação existente de `checking`, `allowed` e `prohibited`.
+A story `MediaPickerTransport` demonstra os estados e as ações com dados fictícios.
+
 ### Character counters
 
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same

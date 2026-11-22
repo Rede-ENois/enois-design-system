@@ -14,6 +14,15 @@ export type PostMessages = {
     remove: string;
     checking: string;
     prohibited: string;
+    transport?: {
+      sending: string;
+      "awaiting-response": string;
+      failed: string;
+      bytesRemaining: (bytes: number) => string;
+      attachment: (position: number) => string;
+      cancel: string;
+      retry: string;
+    };
   };
   spoilerText: { show: string; hide: string };
   imageLightbox: { title: string; close: string };

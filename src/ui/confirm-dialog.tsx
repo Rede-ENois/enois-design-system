@@ -24,9 +24,9 @@ export function ConfirmDialog({
   destructive = false,
   pending = false,
   disabled = false,
-  onConfirm,
   error,
   onCloseAutoFocus,
+  onConfirm,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -36,10 +36,18 @@ export function ConfirmDialog({
   cancelLabel?: string;
   destructive?: boolean;
   pending?: boolean;
+  /** Bloqueia a confirmacao enquanto o consumidor ainda nao tem o que confirmar. */
   disabled?: boolean;
-  onConfirm: () => void;
-  error?: string;
+  /**
+   * Mensagem da ultima tentativa, anunciada como alerta. Vazio (ausente, nulo ou "") nao desenha
+   * nada: um `role="alert"` em branco e lido pelo leitor de tela como alerta vazio, o que e pior
+   * do que nao ter alerta. Cor de texto normal de proposito — o erro ja aparece inteiro aqui e o
+   * vermelho fica para as acoes destrutivas do rodape.
+   */
+  error?: string | null;
+  /** Foco ao fechar: o consumidor devolve o foco ao elemento que abriu o dialogo. */
   onCloseAutoFocus?: (event: Event) => void;
+  onConfirm: () => void;
 }) {
   const messages = useMessages().confirmDialog;
 
@@ -49,14 +57,15 @@ export function ConfirmDialog({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
 
+          {/* Descricao longa (mensagem de API, regra com muitos itens) quebra no proprio texto. */}
           <DialogDescription className="break-words">{description}</DialogDescription>
         </DialogHeader>
 
-        {error && (
-          <p role="alert" className="text-sm text-text-strong">
+        {error ? (
+          <p role="alert" className="break-words text-sm text-text-strong">
             {error}
           </p>
-        )}
+        ) : null}
 
         <DialogFooter className="gap-2">
           <Button variant="outline" className="rounded-full" onClick={() => onOpenChange(false)}>

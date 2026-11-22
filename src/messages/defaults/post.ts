@@ -2,8 +2,9 @@ import type { PostMessages } from "../../types/messages/post-messages.js";
 
 const spoilerReveal = "Mostrar mídia";
 const openImage = "Ampliar imagem";
+const byteCount = new Intl.NumberFormat("pt-BR");
 
-export const postMessages: PostMessages = {
+export const postMessages = {
   caughtUpDivider: { title: "Você está em dia", subline: "Abaixo, posts que você já viu." },
   composerLauncher: {
     placeholder: "Começar publicação",
@@ -24,6 +25,16 @@ export const postMessages: PostMessages = {
     remove: "Remover mídia",
     checking: "Verificando imagem…",
     prohibited: "Imagem ocultada",
+    transport: {
+      sending: "Enviando…",
+      "awaiting-response": "Enviado, aguardando resposta",
+      failed: "Falha no envio",
+      bytesRemaining: (bytes) =>
+        bytes === 1 ? "1 byte restante" : `${byteCount.format(bytes)} bytes restantes`,
+      attachment: (position) => `Anexo ${position}`,
+      cancel: "Cancelar envio",
+      retry: "Tentar de novo",
+    },
   },
   spoilerText: { show: "Mostrar spoiler", hide: "Esconder spoiler" },
   imageLightbox: { title: "Imagem ampliada", close: "Fechar" },
@@ -322,4 +333,4 @@ export const postMessages: PostMessages = {
     resolved: "Resolvidas",
   },
   questionComposer: { hint: "Pergunte do seu jeito. Ninguém aqui nasceu sabendo." },
-};
+} satisfies PostMessages;

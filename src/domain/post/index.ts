@@ -138,5 +138,6 @@ export type { ComposerCrossPostProps } from "../../types/domain/post/composer-cr
 export type { ComposerLauncherProps } from "../../types/domain/post/composer-launcher-props.js";
 export type { ComposerMediaDraft } from "../../types/domain/post/composer-media-draft.js";
 export type { ComposerMediaPickerProps } from "../../types/domain/post/composer-media-picker-props.js";
+export type { ComposerMediaTransport } from "../../types/domain/post/composer-media-transport.js";
 export type { HashtagOption } from "../../types/domain/post/hashtag-option.js";
 export type { HashtagPickerProps } from "../../types/domain/post/hashtag-picker-props.js";

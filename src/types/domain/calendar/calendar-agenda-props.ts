@@ -1,6 +1,7 @@
 import type { CalendarAgendaItemData } from "./calendar-agenda-item-data.js";
 import type { CalendarAnswer } from "./calendar-answer.js";
 import type { CalendarEntryKind } from "./calendar-entry-kind.js";
+import type { CalendarMonthCellLayout } from "./calendar-month-cell-layout.js";
 import type { CalendarView } from "./calendar-view.js";
 
 /**
@@ -35,6 +36,8 @@ export type CalendarAgendaProps = {
   /** What the header announces above the period, e.g. the scope name. */
   eyebrow?: string;
   hiddenKinds?: CalendarEntryKind[];
+  /** Month grid only: entry titles in the cell, or numbered points when the cell is small. */
+  cellLayout?: CalendarMonthCellLayout;
   /** Label of the header button that opens a blank entry; omitted means no button. */
   newEntryLabel?: string;
   onNewEntry?: () => void;

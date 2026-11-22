@@ -12,6 +12,7 @@ import type { RichTextProps } from "../../types/domain/post/rich-text-props.js";
 import type { RichNode } from "../../types/lib/rich-text/rich-node.js";
 import { AppLink } from "../../ui/app-link.js";
 
+import { STICKER_IMAGE_CLASS } from "./editor/editor-dom.js";
 import { mediaBoxStyle, rememberVideoBox } from "./media/media-box.js";
 import { SpoilerMedia } from "./media/spoiler-media.js";
 import { SpoilerText } from "./media/spoiler-text.js";
@@ -34,18 +35,23 @@ export function RichText({
   linkClassName,
   mediaIds,
   mediaSpoiler,
+  inlineStickers,
+  figurinha,
   mentionHref,
   renderMedia,
 }: RichTextProps) {
-  const { isOwnMediaUrl, resolveMediaOriginalUrl } = useAdapters();
+  const { appPathOf, isOwnMediaUrl, resolveMediaOriginalUrl } = useAdapters();
   const spoilerLabel = useMessages().richText.spoilerReveal;
   const linkClass = linkClassName ?? "text-primary hover:underline";
   const context: RichTextContext = {
+    appPathOf,
     linkClass,
     mentionHref,
     isOwnMediaUrl,
     resolveMediaOriginalUrl,
     spoilerLabel,
+    stickerFor: (code) => inlineStickers?.[code],
+    figurinha,
   };
 
   // Imagem NO MEIO do texto (item 9): quando há mídias anexadas, o conteúdo é dividido nos
@@ -191,11 +197,39 @@ function renderBlock(
   }
 }
 
+/**
+ * Texto puro → figurinhas inline. O que o seletor insere é o código como palavra inteira
+ * (`:enois_feliz:`), então só palavra inteira vira figurinha — código colado a outra palavra fica
+ * como foi escrito. A figurinha passa pelo mesmo ramo `image` do markdown, com o código fazendo o
+ * papel do texto alternativo.
+ */
+function renderTextoComFigurinhas(
+  node: RichNode,
+  index: number,
+  ctx: RichTextContext,
+  mediaSpoiler: boolean,
+): ReactNode {
+  const texto = node.text ?? "";
+  if (!ctx.stickerFor || !texto) return texto;
+
+  const partes = texto.split(/(\S+)/);
+  if (!partes.some((parte) => ctx.stickerFor(parte))) return texto;
+
+  return partes.map((parte, parteIndex) => {
+    const figurinha = ctx.stickerFor(parte);
+    return figurinha
+      ? renderInline([{ kind: "image", text: parte, href: figurinha.url }], ctx, mediaSpoiler)
+      : parte;
+  });
+}
+
 function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = false): ReactNode {
   return nodes.map((node, index) => {
     // Nó com filhos já foi lido de novo pelo parser (negrito com itálico dentro, link com
     // formatação): o texto cru só vale quando não há filhos.
     const inner = node.children ? renderInline(node.children, ctx, mediaSpoiler) : node.text;
+
+    if (node.kind === "text") return renderTextoComFigurinhas(node, index, ctx, mediaSpoiler);
 
     switch (node.kind) {
       case "bold":
@@ -236,12 +270,20 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
       case "spoiler":
         return <SpoilerText key={index} text={node.text ?? ""} />;
 
-      case "link":
+      case "link": {
         if (isMidiaDireta(node.href)) {
           return renderMidia(node.href!, index, ctx, mediaSpoiler);
         }
         if (!safeHref(node.href)) {
           return <span key={index}>{inner}</span>;
+        }
+        const internalPath = node.href ? ctx.appPathOf(node.href) : null;
+        if (internalPath) {
+          return (
+            <AppLink key={index} href={internalPath} className={cn("break-words", ctx.linkClass)}>
+              {inner}
+            </AppLink>
+          );
         }
         return (
           <a
@@ -254,8 +296,46 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
             {inner}
           </a>
         );
+      }
 
-      case "image":
+      case "image": {
+        const figurinha = ctx.stickerFor(node.text ?? "");
+        if (figurinha) {
+          const endereco = ctx.resolveMediaOriginalUrl(figurinha.url) ?? figurinha.url;
+          // A figurinha do mapa sai pelo mesmo desenho que o app pediu para as que ele mesmo
+          // escreve no texto: as duas são o mesmo emote e ficavam com tamanhos diferentes.
+          const classe =
+            ctx.figurinha && ctx.figurinha.ehFigurinha(endereco, ctx.isOwnMediaUrl)
+              ? ctx.figurinha.classe
+              : STICKER_IMAGE_CLASS;
+          return ctx.isOwnMediaUrl(endereco) ? (
+            <img
+              key={index}
+              src={endereco}
+              alt={figurinha.alt}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              className={classe}
+            />
+          ) : (
+            <span key={index}>{figurinha.alt}</span>
+          );
+        }
+        // Figurinha do catálogo do app (emote, pacote próprio ou CDN de figurinha): desenha com a
+        // classe do app, sem moldura de anexo. Vem ANTES da mídia direta porque a figurinha também
+        // termina em `.webp`/`.svg` — a mídia direta desenharia o arquivo como se fosse um anexo.
+        if (ctx.figurinha?.ehFigurinha(node.href ?? "", ctx.isOwnMediaUrl)) {
+          return (
+            <img
+              key={index}
+              src={node.href}
+              alt={node.text ?? ""}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              className={ctx.figurinha.classe}
+            />
+          );
+        }
         if (isMidiaDireta(node.href)) {
           return renderMidia(node.href!, index, ctx, mediaSpoiler);
         }
@@ -283,6 +363,7 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
             {node.text || node.href}
           </a>
         );
+      }
 
       default:
         return node.text;
