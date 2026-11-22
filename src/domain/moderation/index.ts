@@ -11,6 +11,7 @@ export { ContributorsSection } from "./contributors-section.js";
 export { DisputesSection } from "./disputes-section.js";
 export { EmailLogSection } from "./email-log-section.js";
 export { GamesReviewSection } from "./games-review-section.js";
+export { ModeratorWorkspace } from "./moderator-workspace.js";
 export { MonitoringSection } from "./monitoring-section.js";
 export { NotesSection } from "./notes-section.js";
 export { PanicModeSection } from "./panic-mode-section.js";
@@ -54,6 +55,9 @@ export type { MonitoringEventLevel } from "../../types/domain/moderation/monitor
 export type { MonitoringMinutePoint } from "../../types/domain/moderation/monitoring-minute-point.js";
 export type { MonitoringOverviewData } from "../../types/domain/moderation/monitoring-overview-data.js";
 export type { MonitoringResource } from "../../types/domain/moderation/monitoring-resource.js";
+export type { ModeratorWorkspaceGroup } from "../../types/domain/moderation/moderator-workspace-group.js";
+export type { ModeratorWorkspaceProps } from "../../types/domain/moderation/moderator-workspace-props.js";
+export type { ModeratorWorkspaceTab } from "../../types/domain/moderation/moderator-workspace-tab.js";
 export type { MonitoringSectionProps } from "../../types/domain/moderation/monitoring-section-props.js";
 export type { MonitoringSupplyData } from "../../types/domain/moderation/monitoring-supply-data.js";
 export type { NoteReviewStatus } from "../../types/domain/moderation/note-review-status.js";
