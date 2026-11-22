@@ -50,8 +50,10 @@
     "test:eslint-rules": "node eslint/rules/jsx-content-spacing.test.js && node eslint/rules/type-boundaries.test.js && node eslint/rules/view-rules.test.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "npm run build",
-    "test:dist": "node scripts/check-dist.mjs"
+    "prepublishOnly": "npm run build && node scripts/restaurar-pacote.mjs",
+    "test:dist": "node scripts/check-dist.mjs",
+    "prepublicar": "node scripts/preparar-pacote.mjs",
+    "test:publicado": "node scripts/check-pacote-publicado.mjs"
   },
   "peerDependencies": {
     "lucide-react": "^1.0.0",
