@@ -614,6 +614,31 @@
   .text-primary {
     color: var(--primary-text, var(--primary));
   }
+
+  /* Figurinha no meio do texto (emote do catálogo, do pacote É Nóis ou dos provedores).
+     O desenho do anexo — moldura, canto arredondado e margem vertical — é o certo para uma
+     foto e errado para um emote de uma linha, que empurra a altura da frase. A caixa é
+     quadrada e acompanha o tamanho da fonte de onde o texto está, então a figurinha cabe
+     igual em comentário, publicação e mensagem, sem valor em pixel por tela. */
+  .enois-figurinha {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 1.75em;
+    height: 1.75em;
+    margin: 0 0.125em;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    vertical-align: middle;
+    object-fit: contain;
+  }
+
+  /* Parágrafo que é só a figurinha: ela é o conteúdo, então ocupa mais espaço. */
+  p:has(> .enois-figurinha:only-child) > .enois-figurinha {
+    width: 3em;
+    height: 3em;
+  }
 }
 
 /* ── Jogo de Palavras: animação de erro na linha ───────────────────────────── */
