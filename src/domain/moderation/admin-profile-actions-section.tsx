@@ -5,12 +5,16 @@ import { AlertTriangle, Ban, Gavel, History, ShieldAlert, Trash2 } from "lucide-
 import { useMessages } from "../../messages/messages-context.js";
 import { ListRowSkeletons } from "../../patterns/skeletons/list-row-skeletons.js";
 import type { AdminAccountAction } from "../../types/domain/moderation/admin-account-action.js";
-import type { AdminProfileAction } from "../../types/domain/moderation/admin-profile-action.js";
 import type { AdminProfileActionsSectionProps } from "../../types/domain/moderation/admin-profile-actions-section-props.js";
 import { Button } from "../../ui/button.js";
 import { ConfirmDialog } from "../../ui/confirm-dialog.js";
 import { EmptyState } from "../../ui/empty-state.js";
 import { Input } from "../../ui/input.js";
+import { PillRow } from "../../ui/pill-row.js";
+import { Pill } from "../../ui/pill.js";
+
+/** Suspension lengths the selector offers; the permanent ban is the third choice. */
+const SUSPENSION_DAYS = [7, 30];
 
 /**
  * Direct administrative actions on an account: warning, punishment and the account's history —
@@ -19,6 +23,10 @@ import { Input } from "../../ui/input.js";
  * Every action needs a reason (10+ characters) and an explicit confirmation, because none of them
  * can be undone from this screen: a warning is revoked (and stays in the history), a ban revokes
  * the sessions, and removing the account anonymizes the profile for good.
+ *
+ * The punishment is chosen in one selector and confirmed once. Before, the two bans were buttons
+ * of the same weight side by side: a click on the wrong one went straight to the confirmation of a
+ * permanent ban.
  */
 export function AdminProfileActionsSection({
   profile,
@@ -32,8 +40,15 @@ export function AdminProfileActionsSection({
   onDeleteAccount,
 }: AdminProfileActionsSectionProps) {
   const messages = useMessages().adminProfileActionsSection;
-  const [reason, setReason] = useState("");
+  const [reason, setReasonState] = useState("");
+
+  const setReason = (value: string) => {
+    setReasonState(value);
+    setFailed(false);
+  };
   const [action, setAction] = useState<AdminAccountAction | null>(null);
+  const [days, setDays] = useState<number | null>(SUSPENSION_DAYS[0]);
+  const [failed, setFailed] = useState(false);
   const [revoking, setRevoking] = useState<string | null>(null);
   const [revokeReason, setRevokeReason] = useState("");
 
@@ -53,15 +68,24 @@ export function AdminProfileActionsSection({
         ? await onWarn(clean)
         : current === "DELETE"
           ? await (onDeleteAccount?.(clean) ?? Promise.resolve(false))
-          : await onSanction(current, clean);
+          : await onSanction(
+              current === "BAN" && days !== null ? { type: "BAN", days } : { type: "PERMABAN" },
+              clean,
+            );
     setAction(null);
-    if (ok) setReason("");
+    if (ok) {
+      setReason("");
+      setFailed(false);
+    } else setFailed(true);
   };
 
   const revoke = async (warningId: string) => {
     const ok = await onRevokeWarning(warningId, revokeClean);
     setRevoking(null);
-    if (ok) setRevokeReason("");
+    if (ok) {
+      setRevokeReason("");
+      setFailed(false);
+    } else setFailed(true);
   };
 
   return (
@@ -85,7 +109,25 @@ export function AdminProfileActionsSection({
           aria-label={messages.reasonPlaceholder}
         />
 
-        {tooShort && <p className="text-xs text-text-subtle">{messages.reasonTooShort}</p>}
+        {tooShort && (
+          <p role="alert" className="text-xs text-text-subtle">
+            {messages.reasonTooShort}
+          </p>
+        )}
+
+        <p className="text-xs font-medium text-text-subtle">{messages.sanctionLabel}</p>
+
+        <PillRow label={messages.sanctionLabel}>
+          {SUSPENSION_DAYS.map((length) => (
+            <Pill key={length} size="sm" active={days === length} onClick={() => setDays(length)}>
+              <>{messages.sanctions.suspension(length)}</>
+            </Pill>
+          ))}
+
+          <Pill size="sm" active={days === null} onClick={() => setDays(null)}>
+            <>{messages.sanctions.permanent}</>
+          </Pill>
+        </PillRow>
 
         <div className="flex flex-wrap gap-2">
           <Button
@@ -105,23 +147,11 @@ export function AdminProfileActionsSection({
             size="sm"
             className="w-auto rounded-full gap-1.5"
             disabled={clean.length < 10 || pending}
-            onClick={() => setAction("BAN")}
+            onClick={() => setAction(days === null ? "PERMABAN" : "BAN")}
           >
-            <Gavel className="h-3.5 w-3.5" />
+            {days === null ? <Ban className="h-3.5 w-3.5" /> : <Gavel className="h-3.5 w-3.5" />}
 
-            <>{messages.ban}</>
-          </Button>
-
-          <Button
-            variant="destructive"
-            size="sm"
-            className="w-auto rounded-full gap-1.5"
-            disabled={clean.length < 10 || pending}
-            onClick={() => setAction("PERMABAN")}
-          >
-            <Ban className="h-3.5 w-3.5" />
-
-            <>{messages.banPermanent}</>
+            <>{messages.sanction}</>
           </Button>
 
           {onDeleteAccount && (
@@ -235,8 +265,8 @@ export function AdminProfileActionsSection({
         description={
           action === "WARN"
             ? messages.confirmWarn(target)
-            : action === "BAN"
-              ? messages.confirmBan(target)
+            : action === "BAN" && days !== null
+              ? messages.confirmSanction(target, days)
               : action === "DELETE"
                 ? messages.confirmDeleteAccount(target)
                 : messages.confirmBanPermanent(target)
@@ -250,6 +280,12 @@ export function AdminProfileActionsSection({
 
       {action !== null && (
         <p className="text-xs text-text-subtle">{messages.confirmReason(clean)}</p>
+      )}
+
+      {failed && (
+        <p role="alert" className="text-xs text-destructive">
+          {messages.error}
+        </p>
       )}
     </section>
   );

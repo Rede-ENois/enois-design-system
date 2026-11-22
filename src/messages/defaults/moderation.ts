@@ -40,13 +40,17 @@ export const moderationMessages: ModerationMessages = {
     reasonPlaceholder: "Motivo (mínimo 10 caracteres)",
     reasonTooShort: "O motivo precisa de pelo menos 10 caracteres.",
     warn: "Advertir",
-    ban: "Banir",
-    banPermanent: "Banir permanentemente",
+    sanctionLabel: "Tipo de punição",
+    sanction: "Aplicar punição",
+    sanctions: {
+      permanent: "Banir permanentemente",
+      suspension: (days: number) => `Suspender por ${days} dias`,
+    },
     confirmTitle: "Confirmar ação",
     confirmWarn: (target: string) =>
       `Registrar advertência em ${target}? A pessoa é avisada e vê a advertência no histórico da conta.`,
-    confirmBan: (target: string) =>
-      `Banir ${target}? As sessões caem na hora e a conta não consegue entrar de novo.`,
+    confirmSanction: (target: string, days: number) =>
+      `Suspender ${target} por ${days} dias? As sessões caem na hora e a conta não consegue entrar de novo até o fim do prazo.`,
     confirmBanPermanent: (target: string) =>
       `Banir ${target} PERMANENTEMENTE, sem caminho de recurso? As sessões caem e a conta não volta.`,
     confirmReason: (reason: string) => `Motivo registrado: “${reason}”.`,
