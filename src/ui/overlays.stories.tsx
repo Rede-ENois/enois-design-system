@@ -64,6 +64,59 @@ export const Confirm: StoryObj = {
   },
 };
 
+export const ConfirmIndisponivel: StoryObj = {
+  name: "Confirm — bloqueado até haver o que confirmar",
+  render: function ConfirmIndisponivelStory() {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button size="sm" variant="destructive" onClick={() => setOpen(true)}>
+          Excluir comunidade
+        </Button>
+
+        <ConfirmDialog
+          open={open}
+          onOpenChange={setOpen}
+          title="Excluir comunidade?"
+          description="Escolha antes para onde vão as publicações."
+          confirmLabel="Excluir"
+          destructive
+          disabled
+          error="Escolha um destino antes de excluir."
+          onConfirm={() => setOpen(false)}
+        />
+      </>
+    );
+  },
+};
+
+export const ConfirmEnviando: StoryObj = {
+  name: "Confirm — enviando",
+  render: function ConfirmEnviandoStory() {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button size="sm" variant="destructive" onClick={() => setOpen(true)}>
+          Excluir post
+        </Button>
+
+        <ConfirmDialog
+          open={open}
+          onOpenChange={setOpen}
+          title="Excluir post?"
+          description="Essa ação não pode ser desfeita."
+          confirmLabel="Excluir"
+          destructive
+          pending
+          onConfirm={() => setOpen(false)}
+        />
+      </>
+    );
+  },
+};
+
 export const SheetStory: StoryObj = {
   name: "Sheet",
   render: () => (
