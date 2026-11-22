@@ -34,4 +34,17 @@ export const supportUsMessages: SupportUsMessages = {
     keyLabel: "Chave (CNPJ): ",
     keyFooter: " · Apoie o Énóis",
   },
+  apoieWise: {
+    title: "Doar de fora do Brasil",
+    description:
+      "Está fora do Brasil, ou prefere pagar com cartão? A doação também pode ir pela Wise, em dólar: abra o link, informe o valor na página da Wise e pague em poucos passos.",
+    suggestedValues: "Valores sugeridos em dólar",
+    suggestedValue: (valor) => `US$ ${valor}`,
+    otherValue: "Valor em dólar (US$)",
+    open: "Abrir a página de pagamento da Wise",
+    feeNote:
+      "A taxa de envio fica com quem doa, e a Wise mostra o total antes de você confirmar — assim chega o valor inteiro.",
+    noSeal:
+      "A Wise não gera o comprovante que confirma a doação e libera o selo de apoiador — para isso, use o Pix.",
+  },
 };

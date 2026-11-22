@@ -4,6 +4,7 @@ import { ToastProvider } from "../../ui/toast.js";
 
 import { ApoieBanner } from "./apoie-banner.js";
 import { ApoieCard } from "./apoie-card.js";
+import { ApoieWise } from "./apoie-wise.js";
 
 const meta: Meta = {
   title: "Domain/Support us",
@@ -20,6 +21,14 @@ export const Card: StoryObj = {
   render: () => (
     <div className="max-w-xs">
       <ApoieCard />
+    </div>
+  ),
+};
+
+export const Wise: StoryObj = {
+  render: () => (
+    <div className="max-w-md">
+      <ApoieWise href="https://wise.com/pay/me/exemplo" />
     </div>
   ),
 };
