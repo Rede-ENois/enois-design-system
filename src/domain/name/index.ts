@@ -1,7 +1,9 @@
+export { BirthdaySeal } from "./birthday-seal.js";
 export { ContributorTag } from "./contributor-tag.js";
 export { HumanitySeal } from "./humanity-seal.js";
 export { StyledName } from "./styled-name.js";
 export { SupporterSeal } from "./supporter-seal.js";
+export type { BirthdaySealProps } from "../../types/domain/name/birthday-seal-props.js";
 export type { ContributorTagProps } from "../../types/domain/name/contributor-tag-props.js";
 export type { HumanitySealProps } from "../../types/domain/name/humanity-seal-props.js";
 export type { StyledNameProps } from "../../types/domain/name/styled-name-props.js";

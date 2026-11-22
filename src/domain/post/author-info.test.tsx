@@ -20,6 +20,19 @@ describe("AuthorInfo", () => {
     expect(html).toContain('data-nameplate="placa-teia"');
   });
 
+  it("shows the birthday tag next to the name only when today is the author's birthday", () => {
+    const props = {
+      authorName: "Ana",
+      authorAvatar: null,
+      authorHref: "/perfil/ana",
+      timeLabel: "há 2 min",
+    };
+    expect(renderToStaticMarkup(<AuthorInfo {...props} />)).not.toContain("Aniversariante");
+    expect(renderToStaticMarkup(<AuthorInfo {...props} authorBirthdayToday />)).toContain(
+      "Aniversariante",
+    );
+  });
+
   it("shows the humanity seal next to the name only for verified profiles", () => {
     const props = {
       authorName: "Ana",

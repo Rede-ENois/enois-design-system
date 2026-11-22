@@ -3,6 +3,10 @@ import type { AvatarMessages } from "../../types/messages/avatar-messages.js";
 export const avatarMessages: AvatarMessages = {
   userAvatar: { fallbackAlt: "Avatar", unknownInitial: "?" },
   contributorTag: { label: "Contribuinte" },
+  birthdaySeal: {
+    label: "Aniversariante",
+    description: "Hoje é o aniversário desta pessoa. Um parabéns cai bem!",
+  },
   humanitySeal: {
     label: "Humanidade Comprovada",
     description:
