@@ -24,6 +24,16 @@ export type RichTextProps = {
    * mapa, a imagem da casa é desenhada como mídia (o caso de uma foto colada no corpo).
    */
   inlineStickers?: Record<string, EditorSticker>;
+  /**
+   * Como desenhar a figurinha inline quando ela não vem do `inlineStickers`. O tamanho é decisão do
+   * app, que conhece os endereços do catálogo dele; aqui só entra a classe e a regra de endereço.
+   */
+  figurinha?: {
+    /** Classe aplicada à imagem da figurinha. */
+    classe: string;
+    /** Decide se o endereço é figurinha (e não mídia anexada), com o `isOwnMediaUrl` do app. */
+    ehFigurinha: (url: string, ehMidiaNossa: (url: string) => boolean) => boolean;
+  };
   /** Profile address of a `@username` mention. */
   mentionHref: (username: string) => string;
   /** Renders the media behind an inline `{{media:<id>}}` marker (the app loads it). */

@@ -36,6 +36,7 @@ export function RichText({
   mediaIds,
   mediaSpoiler,
   inlineStickers,
+  figurinha,
   mentionHref,
   renderMedia,
 }: RichTextProps) {
@@ -50,6 +51,7 @@ export function RichText({
     resolveMediaOriginalUrl,
     spoilerLabel,
     stickerFor: (code) => inlineStickers?.[code],
+    figurinha,
   };
 
   // Imagem NO MEIO do texto (item 9): quando há mídias anexadas, o conteúdo é dividido nos
@@ -311,6 +313,21 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
             />
           ) : (
             <span key={index}>{figurinha.alt}</span>
+          );
+        }
+        // Figurinha do catálogo do app (emote, pacote próprio ou CDN de figurinha): desenha com a
+        // classe do app, sem moldura de anexo. Vem ANTES da mídia direta porque a figurinha também
+        // termina em `.webp`/`.svg` — a mídia direta desenharia o arquivo como se fosse um anexo.
+        if (ctx.figurinha?.ehFigurinha(node.href ?? "", ctx.isOwnMediaUrl)) {
+          return (
+            <img
+              key={index}
+              src={node.href}
+              alt={node.text ?? ""}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              className={ctx.figurinha.classe}
+            />
           );
         }
         if (isMidiaDireta(node.href)) {
