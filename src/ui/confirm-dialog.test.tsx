@@ -111,9 +111,27 @@ describe("ConfirmDialog", () => {
   });
 
   it("descricao longa quebra dentro do dialogo", () => {
+    const descricao = "Regra ".repeat(80);
+    abrir({ description: descricao });
+
+    const texto = [...container.ownerDocument.body.querySelectorAll("p")].find((no) =>
+      no.textContent?.startsWith("Regra Regra"),
+    );
+    expect(texto?.className.split(/\s+/)).toContain("break-words");
+  });
+
+  it("mensagem longa de erro tambem quebra dentro do dialogo", () => {
     abrir({ error: "x".repeat(400) });
 
     const alerta = container.ownerDocument.body.querySelector('[role="alert"]');
     expect(alerta?.className.split(/\s+/)).toContain("break-words");
+  });
+
+  it("string vazia nao desenha alerta em branco", () => {
+    // Um `role="alert"` vazio e anunciado como alerta sem texto: o leitor de tela para a leitura
+    // sem dizer nada. Vazio tem que sumir, como `undefined`.
+    abrir({ error: "" });
+
+    expect(container.ownerDocument.body.querySelector('[role="alert"]')).toBeNull();
   });
 });

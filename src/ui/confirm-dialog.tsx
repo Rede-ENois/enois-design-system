@@ -38,8 +38,13 @@ export function ConfirmDialog({
   pending?: boolean;
   /** Bloqueia a confirmacao enquanto o consumidor ainda nao tem o que confirmar. */
   disabled?: boolean;
-  /** Mensagem da ultima tentativa, anunciada como alerta; some quando o consumidor limpa a prop. */
-  error?: string;
+  /**
+   * Mensagem da ultima tentativa, anunciada como alerta. Vazio (ausente, nulo ou "") nao desenha
+   * nada: um `role="alert"` em branco e lido pelo leitor de tela como alerta vazio, o que e pior
+   * do que nao ter alerta. Cor de texto normal de proposito — o erro ja aparece inteiro aqui e o
+   * vermelho fica para as acoes destrutivas do rodape.
+   */
+  error?: string | null;
   /** Foco ao fechar: o consumidor devolve o foco ao elemento que abriu o dialogo. */
   onCloseAutoFocus?: (event: Event) => void;
   onConfirm: () => void;
@@ -52,11 +57,12 @@ export function ConfirmDialog({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
 
-          <DialogDescription>{description}</DialogDescription>
+          {/* Descricao longa (mensagem de API, regra com muitos itens) quebra no proprio texto. */}
+          <DialogDescription className="break-words">{description}</DialogDescription>
         </DialogHeader>
 
         {error ? (
-          <p role="alert" className="break-words text-sm text-destructive">
+          <p role="alert" className="break-words text-sm text-text-strong">
             {error}
           </p>
         ) : null}
