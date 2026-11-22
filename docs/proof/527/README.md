@@ -2,10 +2,10 @@
 
 Storybook do DS (`Domain/Post` → `Comments`), Chrome headless, DPR 1.
 
-| | Campo de escrita | Botão de enviar |
-|---|---|---|
-| Antes | 208 px | 36×36 na mesma linha, à direita |
-| Depois | 250 px | 310×36 na linha de baixo |
+|        | Campo de escrita | Botão de enviar                 |
+| ------ | ---------------- | ------------------------------- |
+| Antes  | 208 px           | 36×36 na mesma linha, à direita |
+| Depois | 250 px           | 310×36 na linha de baixo        |
 
 A 1280 px nada muda: campo de 474 px e enviar de 36×36 ao lado dele.
 
