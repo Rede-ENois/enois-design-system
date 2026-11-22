@@ -1,9 +1,12 @@
 // Gera a página de prova visual do ConfirmDialog (PR #387) com as classes do componente REAL:
 // o overlay e o conteúdo vêm de `src/ui/dialog.tsx`, o alerta e o rodapé de `src/ui/confirm-dialog.tsx`.
 // O CSS é o build do Storybook (Tailwind compilado do DS), então o desenho é o do pacote.
-import { readFileSync, writeFileSync } from "node:fs";
+// As páginas são escritas ao lado das capturas (`docs/proof/confirm-dialog/`), não na raiz.
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const storybook = new URL("../storybook-static/", import.meta.url);
+const destino = new URL("../docs/proof/confirm-dialog/", import.meta.url);
+mkdirSync(destino, { recursive: true });
 const index = JSON.parse(readFileSync(new URL("index.json", storybook), "utf8"));
 const iframe = readFileSync(new URL("iframe.html", storybook), "utf8");
 
@@ -58,6 +61,6 @@ for (const [nome, caso] of Object.entries(casos)) {
 ${folhas.map((href) => `<link rel="stylesheet" href="file://${decodeURIComponent(new URL(href, storybook).pathname)}">`).join("\n")}
 <style>body{margin:0;min-height:100vh;background:#888;}</style>
 </head><body>${dialogo(caso)}</body></html>`;
-  writeFileSync(new URL(`./prova-387-${nome}.html`, import.meta.url), html);
+  writeFileSync(new URL(`prova-387-${nome}.html`, destino), html);
 }
 console.log("folhas:", folhas.length);

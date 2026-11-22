@@ -7,6 +7,11 @@ A página é montada por `scripts/prova-387.mjs`, que reproduz **a árvore que o
 `src/ui/confirm-dialog.tsx` — e a desenha com o **CSS compilado do próprio design system**
 (o `styles.css` do build do Storybook, que é o Tailwind do DS, não uma cópia à mão).
 
+O CSS é real (build do Storybook), mas a **árvore HTML é uma cópia** das classes de
+`dialog.tsx`/`confirm-dialog.tsx`. Se um dos dois mudar de classe, esta prova continua mostrando o
+desenho antigo sem avisar: atualize o script junto com o componente. O script escreve as páginas
+neste diretório (`prova-387-*.html`), não na raiz do repositório.
+
 Captura: `google-chrome --headless --window-size=<largura>,<altura> --screenshot=…`. Console
 limpo (a página não tem script). As larguras são as do gate: 1280 px e 390 px.
 
