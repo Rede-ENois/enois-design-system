@@ -41,6 +41,7 @@ import { postMessages } from "./defaults/post.js";
 import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { releaseNotesMessages } from "./defaults/release-notes.js";
+import { reportsMessages } from "./defaults/reports.js";
 import { roleplayMessages } from "./defaults/roleplay.js";
 import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
@@ -100,6 +101,7 @@ export const defaultMessages: Messages = {
   ...companiesMessages,
   ...whatsNewMessages,
   ...releaseNotesMessages,
+  ...reportsMessages,
   ...calendarMessages,
   ...roleplayMessages,
   ...colagemMessages,
