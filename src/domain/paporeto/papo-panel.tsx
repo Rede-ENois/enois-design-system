@@ -222,16 +222,12 @@ function PapoAssuntoItem({
         >
           <span className="block truncate text-sm font-semibold text-text">{assunto.subject}</span>
 
-          <span
-            className={cn("mt-0.5 block text-xs font-medium", COR_DO_STATUS[assunto.status])}
-          >
+          <span className={cn("mt-0.5 block text-xs font-medium", COR_DO_STATUS[assunto.status])}>
             {messages[ROTULO_STATUS[assunto.status]] as string}
           </span>
         </button>
 
-        <span
-          className="shrink-0 rounded-full bg-surface-3 px-2 py-0.5 text-right text-sm font-semibold tabular-nums text-text"
-        >
+        <span className="shrink-0 rounded-full bg-surface-3 px-2 py-0.5 text-right text-sm font-semibold tabular-nums text-text">
           {rotuloCrescimento}
         </span>
       </div>
@@ -280,6 +276,7 @@ function PapoMetrica({ numero, rotulo }: { numero: number; rotulo: string }) {
   return (
     <li className="min-w-0">
       <p className="truncate text-sm font-semibold tabular-nums text-text">{numero}</p>
+
       <p className="truncate text-xs text-text-subtle">{rotulo}</p>
     </li>
   );
