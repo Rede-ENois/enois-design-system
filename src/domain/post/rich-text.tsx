@@ -302,6 +302,12 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
         const figurinha = ctx.stickerFor(node.text ?? "");
         if (figurinha) {
           const endereco = ctx.resolveMediaOriginalUrl(figurinha.url) ?? figurinha.url;
+          // A figurinha do mapa sai pelo mesmo desenho que o app pediu para as que ele mesmo
+          // escreve no texto: as duas são o mesmo emote e ficavam com tamanhos diferentes.
+          const classe =
+            ctx.figurinha && ctx.figurinha.ehFigurinha(endereco, ctx.isOwnMediaUrl)
+              ? ctx.figurinha.classe
+              : STICKER_IMAGE_CLASS;
           return ctx.isOwnMediaUrl(endereco) ? (
             <img
               key={index}
@@ -309,7 +315,7 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
               alt={figurinha.alt}
               loading="lazy"
               referrerPolicy="no-referrer"
-              className={STICKER_IMAGE_CLASS}
+              className={classe}
             />
           ) : (
             <span key={index}>{figurinha.alt}</span>

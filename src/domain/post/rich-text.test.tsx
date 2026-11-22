@@ -77,6 +77,42 @@ describe("RichText figurinhas", () => {
 
     expect(html).not.toContain("<img");
   });
+
+  it("com a prop, a figurinha do mapa também sai na classe do app (#1100)", () => {
+    const html = renderToStaticMarkup(
+      <RichText
+        content="oi :enois_feliz: tudo bem?"
+        mentionHref={mentionHref}
+        inlineStickers={stickers}
+        figurinha={{
+          classe: "enois-figurinha",
+          ehFigurinha: (url, ehMidiaNossa) => ehMidiaNossa(url) && url.startsWith("/emojis/"),
+        }}
+      />,
+    );
+
+    expect(html).toContain('src="/emojis/enois/feliz.webp" alt="Énóis feliz"');
+    expect(html).toContain('class="enois-figurinha"');
+    expect(html).not.toContain('class="inline-block h-[1.75em] w-auto max-w-none align-middle"');
+  });
+
+  it("com a prop, a figurinha do mapa que não é figurinha fica com o desenho que já tinha", () => {
+    const html = renderToStaticMarkup(
+      <RichText
+        content="oi KEKW"
+        mentionHref={mentionHref}
+        inlineStickers={stickers}
+        figurinha={{
+          classe: "enois-figurinha",
+          ehFigurinha: (url, ehMidiaNossa) => ehMidiaNossa(url) && url.startsWith("/emojis/enois/"),
+        }}
+      />,
+    );
+
+    expect(html).toContain('src="/emojis/kekw.webp"');
+    expect(html).toContain('class="inline-block h-[1.75em] w-auto max-w-none align-middle"');
+    expect(html).not.toContain("enois-figurinha");
+  });
 });
 
 describe("RichText e o desenho da figurinha do app", () => {
