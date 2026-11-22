@@ -39,7 +39,7 @@ export function ConfirmDialog({
   /** Bloqueia a confirmacao enquanto o consumidor ainda nao tem o que confirmar. */
   disabled?: boolean;
   /** Mensagem da ultima tentativa, anunciada como alerta; some quando o consumidor limpa a prop. */
-  error?: string | null;
+  error?: string;
   /** Foco ao fechar: o consumidor devolve o foco ao elemento que abriu o dialogo. */
   onCloseAutoFocus?: (event: Event) => void;
   onConfirm: () => void;

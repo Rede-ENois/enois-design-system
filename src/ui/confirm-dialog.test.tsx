@@ -76,7 +76,7 @@ describe("ConfirmDialog", () => {
     const alerta = container.ownerDocument.body.querySelector('[role="alert"]');
     expect(alerta?.textContent).toBe("A conexao caiu. Tente de novo.");
 
-    abrir({ error: null });
+    abrir({ error: undefined });
     expect(container.ownerDocument.body.querySelector('[role="alert"]')).toBeNull();
   });
 
