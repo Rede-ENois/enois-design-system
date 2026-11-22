@@ -19,11 +19,11 @@ a página não tem script.
 
 ## O que a imagem mostra
 
-| | Antes (mídia direta) | Agora (`.enois-figurinha`) |
-|---|---|---|
-| No meio da frase | vira bloco: a figurinha sobe para a linha de cima, com moldura e cantos, e o texto recomeça embaixo | fica **na linha**, alinhada pelo meio, sem moldura |
-| Parágrafo só com a figurinha | bloco de mais de 300 px de altura | 3em, proporcional à fonte |
-| 390 px | a imagem ocupa quase toda a largura | cabe na linha, sem overflow horizontal |
+|                              | Antes (mídia direta)                                                                                | Agora (`.enois-figurinha`)                         |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| No meio da frase             | vira bloco: a figurinha sobe para a linha de cima, com moldura e cantos, e o texto recomeça embaixo | fica **na linha**, alinhada pelo meio, sem moldura |
+| Parágrafo só com a figurinha | bloco de mais de 300 px de altura                                                                   | 3em, proporcional à fonte                          |
+| 390 px                       | a imagem ocupa quase toda a largura                                                                 | cabe na linha, sem overflow horizontal             |
 
 A frase de teste é longa de propósito: é ela que revela a quebra de linha causada pelo bloco.
 
