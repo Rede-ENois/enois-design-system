@@ -23,4 +23,23 @@ export type ReportsMessages = {
     /** Nomes de alvo conhecidos; chave ausente cai no identificador bruto. */
     targets: Record<string, string | undefined>;
   };
+  reportsSection: {
+    title: string;
+    description: string;
+    empty: string;
+    error: string;
+    retry: string;
+    loading: string;
+    /** Explica o recorte mostrado; não é a contagem padrão da fila. */
+    count: (visible: number, total: number) => string;
+    filterReason: string;
+    filterTarget: string;
+    allReasons: string;
+    allTargets: string;
+    search: string;
+    searchPlaceholder: string;
+    clearFilters: string;
+    noFiltered: string;
+    noFilteredHint: string;
+  };
 };

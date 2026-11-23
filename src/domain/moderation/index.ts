@@ -24,6 +24,7 @@ export { PanicModeSection } from "./panic-mode-section.js";
 export { ProjectsReviewSection } from "./projects-review-section.js";
 export { ReportCard } from "./report-card.js";
 export { PullRequestsSection } from "./pull-requests-section.js";
+export { ReportsSection } from "./reports-section.js";
 export { SupportTicketsSection } from "./support-tickets-section.js";
 export { SuspiciousPostsSection } from "./suspicious-posts-section.js";
 export { SuspiciousUsersSection } from "./suspicious-users-section.js";
@@ -76,6 +77,10 @@ export type { ProjectsReviewSectionProps } from "../../types/domain/moderation/p
 export type { PullRequestData } from "../../types/domain/moderation/pull-request-data.js";
 export type { PullRequestReviewDecision } from "../../types/domain/moderation/pull-request-review-decision.js";
 export type { PullRequestsSectionProps } from "../../types/domain/moderation/pull-requests-section-props.js";
+export type { ModerationReportData } from "../../types/domain/moderation/moderation-report-data.js";
+export type { ModerationReportVote } from "../../types/domain/moderation/moderation-report-vote.js";
+export type { ReportCardProps } from "../../types/domain/moderation/report-card-props.js";
+export type { ReportsSectionProps } from "../../types/domain/moderation/reports-section-props.js";
 export type { SupportTicketData } from "../../types/domain/moderation/support-ticket-data.js";
 export type { SupportTicketsSectionProps } from "../../types/domain/moderation/support-tickets-section-props.js";
 export type { SuspiciousPostData } from "../../types/domain/moderation/suspicious-post-data.js";

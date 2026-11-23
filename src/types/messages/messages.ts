@@ -110,6 +110,7 @@ export type Messages = SanctionsMessages &
   ReleaseNotesMessages &
   ReportsMessages &
   CalendarMessages &
+  ReportsMessages &
   RoleplayMessages &
   ColagemMessages &
   MuraisMessages &
