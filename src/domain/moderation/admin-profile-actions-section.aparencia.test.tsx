@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
 import type { AdminHistoryRowData } from "../../types/domain/moderation/admin-history-row-data.js";
+import type { AdminProfileActionsSectionProps } from "../../types/domain/moderation/admin-profile-actions-section-props.js";
 
 import { AdminProfileActionsSection } from "./admin-profile-actions-section.js";
 
@@ -28,7 +29,7 @@ const history: AdminHistoryRowData[] = [
 
 const noop = async () => true;
 
-function render(overrides: Partial<Parameters<typeof AdminProfileActionsSection>[0]> = {}) {
+function render(overrides: Partial<AdminProfileActionsSectionProps> = {}) {
   return renderToStaticMarkup(
     <AdminProfileActionsSection
       profile={{ username: "alvo", displayName: "Alvo Teste", activeWarnings: 1 }}
@@ -42,11 +43,11 @@ function render(overrides: Partial<Parameters<typeof AdminProfileActionsSection>
 }
 
 describe("AdminProfileActionsSection", () => {
-  it("shows the three direct actions and the active warning count", () => {
+  it("shows the direct actions and the active warning count", () => {
     const html = render();
     expect(html).toContain("Ações diretas de administração");
     expect(html).toContain("Advertir");
-    expect(html).toContain("Banir permanentemente");
+    expect(html).toContain("Tipo de punição");
     expect(html).toContain("A conta tem 1 advertência ativa");
   });
 

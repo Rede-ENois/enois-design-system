@@ -33,11 +33,15 @@ export type ModerationMessages = {
     reasonPlaceholder: string;
     reasonTooShort: string;
     warn: string;
-    ban: string;
-    banPermanent: string;
+    sanctionLabel: string;
+    sanction: string;
+    sanctions: {
+      permanent: string;
+      suspension: (days: number) => string;
+    };
     confirmTitle: string;
     confirmWarn: (target: string) => string;
-    confirmBan: (target: string) => string;
+    confirmSanction: (target: string, days: number) => string;
     confirmBanPermanent: (target: string) => string;
     confirmReason: (reason: string) => string;
     confirm: string;
@@ -54,6 +58,8 @@ export type ModerationMessages = {
     deleteAccount: string;
     confirmDeleteAccount: (target: string) => string;
     error: string;
+    /** A revogação falhou; fica perto do histórico, separada do erro da punição. */
+    revokeError: string;
   };
   adminRemovePostAction: {
     reasonPlaceholder: string;
