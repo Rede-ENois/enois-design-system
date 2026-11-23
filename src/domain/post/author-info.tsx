@@ -5,6 +5,7 @@ import type { AuthorInfoProps } from "../../types/domain/post/author-info-props.
 import { AppLink } from "../../ui/app-link.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { UserBadges } from "../badges/user-badges.js";
+import { BirthdaySeal } from "../name/birthday-seal.js";
 import { ContributorTag } from "../name/contributor-tag.js";
 import { HumanitySeal } from "../name/humanity-seal.js";
 import { StyledName } from "../name/styled-name.js";
@@ -18,6 +19,7 @@ export function AuthorInfo({
   authorStyle,
   authorContributor,
   authorHumanityVerified,
+  authorBirthdayToday,
   authorAvatar,
   authorAvatarFrame,
   authorBadge,
@@ -101,6 +103,8 @@ export function AuthorInfo({
           {authorConnectionDegree && (
             <span className="text-xs font-normal text-text-subtle">• {authorConnectionDegree}</span>
           )}
+
+          {authorBirthdayToday && <BirthdaySeal />}
 
           {authorHumanityVerified && <HumanitySeal />}
 

@@ -11,6 +11,8 @@ export type AuthorInfoProps = {
   authorContributor?: AuthorContributorTag | null;
   /** Selo "Humanidade Comprovada"; ausente = perfil sem verificação aprovada. */
   authorHumanityVerified?: boolean;
+  /** Tag "Aniversariante" quando hoje é o aniversário do autor; ausente = não é. */
+  authorBirthdayToday?: boolean;
   authorAvatar: string | null;
   authorAvatarFrame?: string | null;
   authorBadge?: string | null;
