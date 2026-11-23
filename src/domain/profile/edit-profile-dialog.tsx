@@ -65,6 +65,9 @@ export function EditProfileDialog({
   const [goalsText, setGoalsText] = useState((profile.goals ?? []).join(", "));
   const [openToWork, setOpenToWork] = useState(profile.openToWork);
   const [isMentor, setIsMentor] = useState(profile.isMentor);
+  // Modo recrutador: liga o painel de banco de talentos. Desligar suspende o acesso sem apagar
+  // o banco nem as inscrições.
+  const [isRecruiter, setIsRecruiter] = useState(profile.isRecruiter ?? false);
   // Ranking opcional (pedido via suporte): preferencia da CONTA, salva junto com o perfil.
   const [showRanking, setShowRanking] = useState(profile.showRanking !== false);
   const [aka, setAka] = useState(profile.aka ?? "");
@@ -115,6 +118,7 @@ export function EditProfileDialog({
       goalsText,
       openToWork,
       isMentor,
+      isRecruiter,
       showRanking,
       aka,
       badges,
@@ -350,6 +354,12 @@ export function EditProfileDialog({
                   <Switch checked={isMentor} onCheckedChange={setIsMentor} />
 
                   <>{messages.mentorAvailable}</>
+                </label>
+
+                <label className="flex items-center gap-3 text-sm font-normal text-text-strong">
+                  <Switch checked={isRecruiter} onCheckedChange={setIsRecruiter} />
+
+                  <>{messages.recruiterMode}</>
                 </label>
               </div>
 
