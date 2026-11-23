@@ -1,7 +1,8 @@
-import "../../../.storybook/storybook.css";
 import { StrictMode } from "react";
+
 import { createRoot } from "react-dom/client";
 
+import "../../../.storybook/storybook.css";
 import { PapoPanel } from "../../../src/domain/paporeto/papo-panel.js";
 import type { PapoSubjectView } from "../../../src/types/domain/paporeto/papo-subject-view.js";
 
@@ -42,18 +43,13 @@ const propsBase = {
   onRetry: () => {},
 };
 
-function Prova() {
-  const vazio = new URLSearchParams(location.search).get("vazio") === "1";
-  return (
-    <main className="min-h-screen bg-background p-6 text-text">
-      <PapoPanel {...propsBase} assuntos={vazio ? [] : comConteudo} />
-    </main>
-  );
-}
+const vazio = new URLSearchParams(location.search).get("vazio") === "1";
 
 const raiz = createRoot(document.getElementById("raiz") as HTMLElement);
 raiz.render(
   <StrictMode>
-    <Prova />
+    <main className="min-h-screen bg-background p-6 text-text">
+      <PapoPanel {...propsBase} assuntos={vazio ? [] : comConteudo} />
+    </main>
   </StrictMode>,
 );

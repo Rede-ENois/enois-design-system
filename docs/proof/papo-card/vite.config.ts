@@ -9,7 +9,8 @@ export default defineConfig({
   base: "./",
   plugins: [react(), tailwindcss()],
   build: {
-    outDir: "saida",
+    // Fora do repo: o bundle não entra em git nem no `eslint .` do CI.
+    outDir: process.env.PROVA_SAIDA ?? "/tmp/papo-proof-build",
     emptyOutDir: true,
   },
 });

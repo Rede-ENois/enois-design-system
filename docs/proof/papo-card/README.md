@@ -9,10 +9,11 @@ tela larga (1280) ou no celular (390)?
 
 ```bash
 # 1. Monta o bundle da prova (Tailwind gera as classes a partir do src real).
+#    O bundle vai para /tmp/papo-proof-build (fora do repo: não entra em git nem no lint).
 npx vite build --config docs/proof/papo-card/vite.config.ts
 
 # 2. Serve o bundle (script precisa de http:// — módulo ES não roda em file://).
-( cd docs/proof/papo-card/saida && python3 -m http.server 8791 & )
+( cd /tmp/papo-proof-build && python3 -m http.server 8791 & )
 
 # 3. Captura 1280 e 390, com conteúdo e vazio; mede overflow e coleta console.
 node docs/proof/papo-card/shot.mjs

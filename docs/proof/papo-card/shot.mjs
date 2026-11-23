@@ -1,14 +1,12 @@
 // Captura headless (Chrome via CDP) do card do Papo Reto montado pela prova real (#397).
 // Mede overflow horizontal em 1280 e 390, nos cenários "com conteúdo" e "vazio", e coleta
 // qualquer erro de console. Saída: PNGs + resultado.json em docs/proof/papo-card/.
-
 import { spawn } from "node:child_process";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const RAIZ = new URL(".", import.meta.url).pathname;
-const ENTRADA = join(RAIZ, "saida", "index.html");
 const OUT = RAIZ;
 
 const CHROME =
@@ -110,7 +108,10 @@ async function pagina(wsUrl, largura, altura, url, arquivo, cena) {
       errosConsole.push(ev.params.exceptionDetails?.exception?.description ?? "exception");
     }
     if (ev.method === "Log.entryAdded" && ev.params.entry.level === "error") {
-      errosConsole.push(ev.params.entry.text);
+      // O favicon ausente não é erro da aplicação; só interessa o que vem do app.
+      if (!/favicon/i.test(ev.params.entry.url ?? "")) {
+        errosConsole.push(ev.params.entry.text);
+      }
     }
     if (ev.method === "Runtime.consoleAPICalled" && ev.params.type === "error") {
       errosConsole.push(ev.params.args.map((a) => a.value ?? a.description).join(" "));
@@ -133,7 +134,10 @@ async function pagina(wsUrl, largura, altura, url, arquivo, cena) {
     })()`,
   });
 
-  const { data } = await cmd("Page.captureScreenshot", { format: "png", captureBeyondViewport: true });
+  const { data } = await cmd("Page.captureScreenshot", {
+    format: "png",
+    captureBeyondViewport: true,
+  });
   writeFileSync(join(OUT, arquivo), Buffer.from(data, "base64"));
 
   await cdp.send("Target.closeTarget", { targetId });
@@ -148,8 +152,12 @@ async function main(wsUrl) {
     [1280, 900],
     [390, 844],
   ]) {
-    resultados.push(await pagina(wsUrl, largura, altura, base, `com-conteudo-${largura}.png`, "com-conteudo"));
-    resultados.push(await pagina(wsUrl, largura, altura, `${base}?vazio=1`, `vazio-${largura}.png`, "vazio"));
+    resultados.push(
+      await pagina(wsUrl, largura, altura, base, `com-conteudo-${largura}.png`, "com-conteudo"),
+    );
+    resultados.push(
+      await pagina(wsUrl, largura, altura, `${base}?vazio=1`, `vazio-${largura}.png`, "vazio"),
+    );
   }
   writeFileSync(join(OUT, "resultado.json"), JSON.stringify(resultados, null, 2));
   console.log(JSON.stringify(resultados, null, 2));
