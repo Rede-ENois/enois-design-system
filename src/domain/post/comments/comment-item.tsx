@@ -13,6 +13,7 @@ import { Button } from "../../../ui/button.js";
 import { ReadMore } from "../../../ui/read-more.js";
 import { UserAvatar } from "../../avatar/user-avatar.js";
 import { UserBadges } from "../../badges/user-badges.js";
+import { BirthdaySeal } from "../../name/birthday-seal.js";
 import { ContributorTag } from "../../name/contributor-tag.js";
 import { HumanitySeal } from "../../name/humanity-seal.js";
 import { StyledName } from "../../name/styled-name.js";
@@ -148,6 +149,8 @@ export function CommentItem<T extends string>({
             {comment.authorContributor && (
               <ContributorTag color={comment.authorContributor.color} />
             )}
+
+            {comment.authorBirthdayToday && <BirthdaySeal />}
 
             {comment.authorHumanityVerified && <HumanitySeal />}
 

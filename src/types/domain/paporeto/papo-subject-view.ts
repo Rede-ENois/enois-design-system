@@ -12,4 +12,8 @@ export type PapoSubjectView = {
   falasUltimaHora: number;
   /** Proporção de volume das últimas 24h contra a véspera; nulo = sem véspera comparável. */
   crescimento: number | null;
+  /** O assunto passou pelo chão da base pequena: a tela diz que a amostra é menor. */
+  amostragemMenor?: boolean;
+  /** Tamanho da base do assunto (publicações distintas do escopo na janela); o marcador sai das pessoas. */
+  janelaPublicacoes?: number;
 };

@@ -36,3 +36,23 @@ describe("TabsTrigger", () => {
     expect(activeTab("my-extra-class")).toContain("my-extra-class");
   });
 });
+
+describe("TabsList", () => {
+  it("rola na horizontal em vez de estourar a largura da tela", () => {
+    // Seis abas com ícone e rótulo passam de 390 px; sem rolagem própria a faixa empurrava a
+    // página inteira para o lado no celular (#1146).
+    const html = renderToStaticMarkup(
+      <Tabs defaultValue="a">
+        <TabsList aria-label="abas">
+          <TabsTrigger value="a">A</TabsTrigger>
+
+          <TabsTrigger value="b">B</TabsTrigger>
+        </TabsList>
+      </Tabs>,
+    );
+
+    expect(html).toContain("overflow-x-auto");
+    expect(html).toContain("overscroll-x-contain");
+    expect(html).toContain("scrollbar-on-hover");
+  });
+});

@@ -143,6 +143,23 @@ describe("PapoPanel", () => {
     expect(texto).not.toContain(messages.crescimento(0));
   });
 
+  it("marca o assunto de amostra pequena com o numero de pessoas", () => {
+    const pequeno = {
+      ...assunto("grupo de estudo", "EMERGENTE"),
+      pessoas: 4,
+      amostragemMenor: true,
+    };
+    render({ assuntos: [pequeno] });
+
+    expect(host.textContent ?? "").toContain(messages.amostragemMenor(4));
+  });
+
+  it("nao marca amostra pequena quando o assunto nao passou pelo chao da base", () => {
+    render();
+
+    expect(host.textContent ?? "").not.toContain("Amostra pequena");
+  });
+
   it("filtra por trajetoria sem mostrar assunto de outra faixa", () => {
     render({ filtro: "EMERGENTE" });
 
