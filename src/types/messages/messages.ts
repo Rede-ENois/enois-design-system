@@ -27,6 +27,7 @@ import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { MarketplaceMessages } from "./marketplace-messages.js";
 import type { ModerationMessages } from "./moderation-messages.js";
+import type { ModeratorWorkspaceMessages } from "./moderator-workspace-messages.js";
 import type { MuraisMessages } from "./murais-messages.js";
 import type { NetworkMessages } from "./network-messages.js";
 import type { NoticesMessages } from "./notices-messages.js";
@@ -39,7 +40,9 @@ import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
 import type { PwaMessages } from "./pwa-messages.js";
 import type { ReleaseNotesMessages } from "./release-notes-messages.js";
+import type { ReportsMessages } from "./reports-messages.js";
 import type { RoleplayMessages } from "./roleplay-messages.js";
+import type { SanctionsMessages } from "./sanctions-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
@@ -59,7 +62,8 @@ import type { WhatsNewMessages } from "./whats-new-messages.js";
  * states, counters), keyed by component. Content and product copy never live here: they come
  * from the app through props. Each feature adds its own `<Feature>Messages` type to this union.
  */
-export type Messages = UiMessages &
+export type Messages = SanctionsMessages &
+  UiMessages &
   AvatarMessages &
   DoacoesMessages &
   CommunitiesMessages &
@@ -94,6 +98,7 @@ export type Messages = UiMessages &
   SupportMessages &
   DevelopersMessages &
   ModerationMessages &
+  ModeratorWorkspaceMessages &
   CosmeticsMessages &
   OnboardingMessages &
   StreakMessages &
@@ -103,7 +108,9 @@ export type Messages = UiMessages &
   CompaniesMessages &
   WhatsNewMessages &
   ReleaseNotesMessages &
+  ReportsMessages &
   CalendarMessages &
+  ReportsMessages &
   RoleplayMessages &
   ColagemMessages &
   MuraisMessages &

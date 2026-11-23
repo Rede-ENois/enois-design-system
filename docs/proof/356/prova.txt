@@ -1,0 +1,7 @@
+fila montada com 3 cartões: 3
+voto bloqueado com pending: ""
+voto liberado sem pending: "denuncia-ficticia-1:PUNISH"
+cartão votado sai da fila: 2
+foco no título depois da remoção: "h2:Denúncias em análise"
+filtro motivo Golpe: "1 de 2 denúncia(s) neste recorte"
+pending inicial no botão: true

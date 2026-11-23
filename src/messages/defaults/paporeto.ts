@@ -1,5 +1,8 @@
 import type { PaporetoMessages } from "../../types/messages/paporeto-messages.js";
 
+/** A pílula curta e a frase longa mostram o mesmo número: arredondam por aqui, uma vez só. */
+const crescimentoArredondado = (percent: number): number => Math.round(percent);
+
 export const paporetoMessages: PaporetoMessages = {
   papoPanel: {
     title: "Papo Reto",
@@ -24,8 +27,14 @@ export const paporetoMessages: PaporetoMessages = {
     pessoas: (count) => (count === 1 ? "1 pessoa distinta" : `${count} pessoas distintas`),
     falasPost: (count) => (count === 1 ? "1 publicação" : `${count} publicações`),
     falasComentario: (count) => (count === 1 ? "1 comentário" : `${count} comentários`),
-    crescimento: (percent) => `Subiu ${Math.round(percent)}% nas últimas 24 horas`,
+    crescimento: (percent) => `Subiu ${crescimentoArredondado(percent)}% nas últimas 24 horas`,
+    crescimentoCurto: (percent) => `+${crescimentoArredondado(percent)}%`,
+    novoEmAlta: "Novo em alta",
     semCrescimento: "Estável",
+    pessoasRotulo: "pessoas distintas",
+    falasPostRotulo: "publicações",
+    falasComentarioRotulo: "comentários",
+    falasUltimaHoraRotulo: "falas na última hora",
     falasUltimaHora: (count) =>
       count === 1 ? "1 fala na última hora" : `${count} falas na última hora`,
     ultimas24: "últimas 24 horas",

@@ -29,6 +29,7 @@ import { jobsMessages } from "./defaults/jobs.js";
 import { legalMessages } from "./defaults/legal.js";
 import { marketplaceMessages } from "./defaults/marketplace.js";
 import { moderationMessages } from "./defaults/moderation.js";
+import { moderatorWorkspaceMessages } from "./defaults/moderator-workspace.js";
 import { muraisMessages } from "./defaults/murais.js";
 import { networkMessages } from "./defaults/network.js";
 import { noticesMessages } from "./defaults/notices.js";
@@ -41,7 +42,9 @@ import { postMessages } from "./defaults/post.js";
 import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { releaseNotesMessages } from "./defaults/release-notes.js";
+import { reportsMessages } from "./defaults/reports.js";
 import { roleplayMessages } from "./defaults/roleplay.js";
+import { sanctionsMessages } from "./defaults/sanctions.js";
 import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
@@ -57,6 +60,7 @@ import { wellbeingMessages } from "./defaults/wellbeing.js";
 import { whatsNewMessages } from "./defaults/whats-new.js";
 
 export const defaultMessages: Messages = {
+  ...sanctionsMessages,
   ...uiMessages,
   ...avatarMessages,
   ...doacoesMessages,
@@ -89,6 +93,7 @@ export const defaultMessages: Messages = {
   ...blogMessages,
   ...jobsMessages,
   ...moderationMessages,
+  ...moderatorWorkspaceMessages,
   ...cosmeticsMessages,
   ...onboardingMessages,
   ...streakMessages,
@@ -100,6 +105,7 @@ export const defaultMessages: Messages = {
   ...companiesMessages,
   ...whatsNewMessages,
   ...releaseNotesMessages,
+  ...reportsMessages,
   ...calendarMessages,
   ...roleplayMessages,
   ...colagemMessages,
