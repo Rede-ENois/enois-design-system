@@ -1,4 +1,6 @@
-import { Image, Loader2 } from "lucide-react";
+import * as React from "react";
+
+import { Image, Loader2, Search } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
@@ -6,40 +8,87 @@ import type { MuraisEstado } from "../../types/domain/murais/murais-estado.js";
 import type { MuraisListaProps } from "../../types/domain/murais/murais-lista-props.js";
 import type { MuralResumo } from "../../types/domain/murais/mural-resumo.js";
 import { Button } from "../../ui/button.js";
+import { Input } from "../../ui/input.js";
 
 /**
  * A lista de murais do Explorar: cartões com título, descrição, dono e quantas publicações já
- * estão coladas. Estados de carga, erro e vazio desenhados aqui, com as palavras do DS.
+ * estão coladas. Estados de carga, erro e vazio desenhados aqui, com as palavras do DS. Com
+ * `busca`, o campo fica sempre visível — inclusive no vazio, para trocar o termo sem recarregar.
  */
 export function MuraisLista({
   murais,
   state,
   onOpen,
+  busca,
   hasMore,
   loadingMore,
   onLoadMore,
 }: MuraisListaProps) {
   const messages = useMessages().muraisLista;
+  const buscaId = React.useId();
+  const termo = busca?.valor.trim() ?? "";
 
-  if (state.kind === "loading") {
-    return <EstadoLista icone>{messages.loading}</EstadoLista>;
+  const campo = busca && (
+    <div className="relative">
+      <label htmlFor={buscaId} className="sr-only">
+        {messages.buscarPlaceholder}
+      </label>
+
+      <Search
+        aria-hidden
+        className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-subtle"
+      />
+      <Input
+        id={buscaId}
+        type="search"
+        value={busca.valor}
+        onChange={(event) => busca.aoMudar(event.target.value)}
+        placeholder={messages.buscarPlaceholder}
+        className="h-11 rounded-full bg-surface-card pl-10"
+        showCounter={false}
+      />
+    </div>
+  );
+
+  if (state.kind === "loading" && !termo) {
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista icone>{messages.loading}</EstadoLista>
+      </div>
+    );
   }
   if (state.kind === "error") {
-    return <EstadoLista>{messages.error}</EstadoLista>;
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista>{messages.error}</EstadoLista>
+      </div>
+    );
   }
   if (state.kind === "empty") {
-    return <EstadoLista>{messages.empty}</EstadoLista>;
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista>{termo ? messages.semResultado(termo) : messages.empty}</EstadoLista>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
+      {campo}
+
       <div className="grid gap-3 sm:grid-cols-2">
         {murais.map((mural) => (
           <CartaoMural key={mural.id} mural={mural} onOpen={onOpen} />
         ))}
       </div>
 
-      {hasMore && (
+      {hasMore && !termo && (
         <div className="flex justify-center">
           <Button variant="outline" onClick={onLoadMore}>
             {loadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : messages.loadMore}
