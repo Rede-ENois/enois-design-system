@@ -10,7 +10,17 @@ const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
 >(({ className, ...props }, ref) => (
-  <TabsPrimitive.List ref={ref} className={cn("flex items-center gap-1", className)} {...props} />
+  // A faixa rola sozinha em vez de alargar a página: com muitas abas ela passava da largura do
+  // celular e levava a tela inteira para o lado (#1146). `min-w-0` deixa a faixa encolher dentro
+  // da coluna do pai em vez de ser esticada pelo conteúdo.
+  <TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      "flex min-w-0 items-center gap-1 overflow-x-auto overscroll-x-contain pb-1 scrollbar-on-hover",
+      className,
+    )}
+    {...props}
+  />
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
 
