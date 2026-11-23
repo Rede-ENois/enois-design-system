@@ -1,0 +1,746 @@
+{
+  "stories": 23,
+  "renders": 92,
+  "keyboardScenarios": 4,
+  "clockScenarios": 4,
+  "minimumContrast": 5.394629687883682,
+  "errors": [],
+  "rows": [
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "suspended",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "history",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "effective-end",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "no-deadline",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "permanent",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "unavailable-evidence",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "behavioral",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "media-description",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "long-content",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "loading",
+      "overflow": false,
+      "minimumContrast": 6.000245442417584,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "empty",
+      "overflow": false,
+      "minimumContrast": 16.140759922778788,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "load-error",
+      "overflow": false,
+      "minimumContrast": 16.140759922778788,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "appeal-error",
+      "overflow": false,
+      "minimumContrast": 5.394629687883682,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "submitting",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "pending",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "approved",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "denied",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "expired",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "refreshing",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "invalid-deadline",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "multiple-sanctions",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "limit-reached",
+      "overflow": false,
+      "minimumContrast": 5.394629687883682,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "story": "clock-transition",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "suspended",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "history",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "effective-end",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "no-deadline",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "permanent",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "unavailable-evidence",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "behavioral",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "media-description",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "long-content",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "loading",
+      "overflow": false,
+      "minimumContrast": 6.931427204104399,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "empty",
+      "overflow": false,
+      "minimumContrast": 16.285689457990813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "load-error",
+      "overflow": false,
+      "minimumContrast": 16.285689457990813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "appeal-error",
+      "overflow": false,
+      "minimumContrast": 7.146251796598622,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "submitting",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "pending",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "approved",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "denied",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "expired",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "refreshing",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "invalid-deadline",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "multiple-sanctions",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "limit-reached",
+      "overflow": false,
+      "minimumContrast": 7.00052721063311,
+      "failures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "story": "clock-transition",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "suspended",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "history",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "effective-end",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "no-deadline",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "permanent",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "unavailable-evidence",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "behavioral",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "media-description",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "long-content",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "loading",
+      "overflow": false,
+      "minimumContrast": 6.000245442417584,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "empty",
+      "overflow": false,
+      "minimumContrast": 16.140759922778788,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "load-error",
+      "overflow": false,
+      "minimumContrast": 16.140759922778788,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "appeal-error",
+      "overflow": false,
+      "minimumContrast": 5.394629687883682,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "submitting",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "pending",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "approved",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "denied",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "expired",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "refreshing",
+      "overflow": false,
+      "minimumContrast": 14.612679299045658,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "invalid-deadline",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "multiple-sanctions",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "limit-reached",
+      "overflow": false,
+      "minimumContrast": 5.394629687883682,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "story": "clock-transition",
+      "overflow": false,
+      "minimumContrast": 7.520981248510489,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "suspended",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "history",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "effective-end",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "no-deadline",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "permanent",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "unavailable-evidence",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "behavioral",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "media-description",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "long-content",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "loading",
+      "overflow": false,
+      "minimumContrast": 6.931427204104399,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "empty",
+      "overflow": false,
+      "minimumContrast": 16.285689457990813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "load-error",
+      "overflow": false,
+      "minimumContrast": 16.285689457990813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "appeal-error",
+      "overflow": false,
+      "minimumContrast": 7.146251796598622,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "submitting",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "pending",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "approved",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "denied",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "expired",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "refreshing",
+      "overflow": false,
+      "minimumContrast": 13.316527322869367,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "invalid-deadline",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "multiple-sanctions",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "limit-reached",
+      "overflow": false,
+      "minimumContrast": 7.00052721063311,
+      "failures": []
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "story": "clock-transition",
+      "overflow": false,
+      "minimumContrast": 8.079767341435813,
+      "failures": []
+    }
+  ]
+}

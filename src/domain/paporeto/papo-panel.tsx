@@ -199,6 +199,13 @@ function PapoAssuntoItem({
   publicacoesEstado?: PapoPanelProps["publicacoesEstado"];
   onPublicacoesRetry?: PapoPanelProps["onPublicacoesRetry"];
 }) {
+  const rotuloCrescimento =
+    assunto.crescimento === null
+      ? messages.novoEmAlta
+      : assunto.crescimento > 0
+        ? messages.crescimentoCurto(assunto.crescimento)
+        : messages.semCrescimento;
+
   return (
     <li className="space-y-2 rounded-xl bg-surface-2 p-3">
       <div className="flex items-start justify-between gap-2">
@@ -215,36 +222,26 @@ function PapoAssuntoItem({
         >
           <span className="block truncate text-sm font-semibold text-text">{assunto.subject}</span>
 
-          <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-text-subtle">
-            <span className={cn("font-medium", COR_DO_STATUS[assunto.status])}>
-              {messages[ROTULO_STATUS[assunto.status]] as string}
-            </span>
-
-            <span aria-hidden>·</span>
-
-            <span>{messages.pessoas(assunto.pessoas)}</span>
-
-            <span aria-hidden>·</span>
-
-            <span>
-              {messages.falasPost(assunto.falasPost)} ·{" "}
-              {messages.falasComentario(assunto.falasComentario)}
-            </span>
+          <span className={cn("mt-0.5 block text-xs font-medium", COR_DO_STATUS[assunto.status])}>
+            {messages[ROTULO_STATUS[assunto.status]] as string}
           </span>
         </button>
 
-        <div className="shrink-0 text-right">
-          <p className="text-sm font-semibold text-text">
-            {assunto.crescimento > 0
-              ? messages.crescimento(assunto.crescimento)
-              : messages.semCrescimento}
-          </p>
-
-          <p className="text-xs text-text-subtle">
-            {messages.falasUltimaHora(assunto.falasUltimaHora)}
-          </p>
-        </div>
+        <span className="shrink-0 rounded-full bg-surface-3 px-2 py-0.5 text-right text-sm font-semibold tabular-nums text-text">
+          {rotuloCrescimento}
+        </span>
       </div>
+
+      <ul className="grid grid-cols-2 gap-x-3 gap-y-1.5 min-[380px]:grid-cols-4">
+        <PapoMetrica numero={assunto.pessoas} rotulo={messages.pessoasRotulo} />
+        <PapoMetrica numero={assunto.falasUltimaHora} rotulo={messages.falasUltimaHoraRotulo} />
+        <PapoMetrica numero={assunto.falasPost} rotulo={messages.falasPostRotulo} />
+        <PapoMetrica numero={assunto.falasComentario} rotulo={messages.falasComentarioRotulo} />
+      </ul>
+
+      {assunto.crescimento !== null && assunto.crescimento > 0 && (
+        <p className="text-xs text-text-subtle">{messages.crescimento(assunto.crescimento)}</p>
+      )}
 
       {aberto && (
         <>
@@ -270,6 +267,17 @@ function PapoAssuntoItem({
           )}
         </>
       )}
+    </li>
+  );
+}
+
+/** A métrica do card: o número e o rótulo dele no mesmo item — o par nunca se separa. */
+function PapoMetrica({ numero, rotulo }: { numero: number; rotulo: string }) {
+  return (
+    <li className="min-w-0">
+      <p className="truncate text-sm font-semibold tabular-nums text-text">{numero}</p>
+
+      <p className="truncate text-xs text-text-subtle">{rotulo}</p>
     </li>
   );
 }

@@ -10,5 +10,6 @@ export type PapoSubjectView = {
   falasComentario: number;
   pessoas: number;
   falasUltimaHora: number;
-  crescimento: number;
+  /** Proporção de volume das últimas 24h contra a véspera; nulo = sem véspera comparável. */
+  crescimento: number | null;
 };
