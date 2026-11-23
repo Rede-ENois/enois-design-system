@@ -227,9 +227,17 @@ function PapoAssuntoItem({
           </span>
         </button>
 
-        <span className="shrink-0 rounded-full bg-surface-3 px-2 py-0.5 text-right text-sm font-semibold tabular-nums text-text">
-          {rotuloCrescimento}
-        </span>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          <span className="rounded-full bg-surface-3 px-2 py-0.5 text-right text-sm font-semibold tabular-nums text-text">
+            {rotuloCrescimento}
+          </span>
+
+          {assunto.amostragemMenor && (
+            <span className="rounded-full bg-surface-2 px-2 py-0.5 text-xs font-medium text-text-subtle">
+              {messages.amostragemMenor(assunto.pessoas)}
+            </span>
+          )}
+        </div>
       </div>
 
       <ul className="grid grid-cols-2 gap-x-3 gap-y-1.5 min-[380px]:grid-cols-4">

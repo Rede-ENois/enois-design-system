@@ -37,6 +37,8 @@ export type PaporetoMessages = {
     falasPostRotulo: string;
     falasComentarioRotulo: string;
     falasUltimaHoraRotulo: string;
+    /** Rótulo da amostra pequena: o assunto existe, mas sai de poucas pessoas. */
+    amostragemMenor: (pessoas: number) => string;
     falasUltimaHora: (count: number) => string;
     ultimas24: string;
     privacidade: string;
