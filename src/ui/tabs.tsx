@@ -3,32 +3,37 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "../lib/utils.js";
+import type { TabsListProps } from "../types/components/ui/tabs-list-props.js";
 
 const Tabs = TabsPrimitive.Root;
 
-const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  // A faixa nunca passa da largura da página nem alarga o que está em volta: com muitas abas ela
-  // passava da largura do celular e a tela inteira ia para o lado junto (#1146, #1147). `w-full`
-  // prende a faixa ao container e `max-w-full` funciona mesmo quando quem usa muda o `flex` para
-  // embrulhar as abas em linhas (`flex-wrap`: a largura do conteúdo deixaria de ser a da tela).
-  // `min-w-0` deixa a faixa encolher dentro da coluna do pai em vez de ser esticada pelo conteúdo;
-  // o que não couber rola só dentro dela (`overscroll-x-contain` não entrega o arrasto à página).
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "flex w-full max-w-full min-w-0 items-center gap-1 overflow-x-auto overscroll-x-contain pb-1 scrollbar-on-hover",
-      // Mesma borda de encostar da PillRow: o conteúdo da casca tem px-3 no celular e px-6 do sm;
-      // a margem negativa (igual ao px-3) põe a faixa na largura cheia da tela para quem embrulha
-      // as abas em linhas. Numa linha só, o padding de novo no começo devolve o alinhamento.
-      "-mx-3 px-3 sm:mx-0 sm:px-0",
-      className,
-    )}
-    {...props}
-  />
-));
+// Três por linha no celular: cada aba fica com um terço da faixa menos metade do `gap-1` de cada
+// lado (`0.5rem` é o gap total), então três abas mais dois gaps fecham a largura exata da linha.
+const WRAPPED_ROWS =
+  "flex-wrap max-sm:[&>*]:shrink max-sm:[&>*]:basis-[calc(33.333%_-_0.5rem)] max-sm:[&>*]:justify-center";
+
+const TabsList = React.forwardRef<React.ElementRef<typeof TabsPrimitive.List>, TabsListProps>(
+  ({ className, rows = "single", ...props }, ref) => (
+    // A faixa nunca passa da largura da página nem alarga o que está em volta: com muitas abas ela
+    // passava da largura do celular e a tela inteira ia para o lado junto (#1146, #1147). `w-full`
+    // prende a faixa ao container e `max-w-full` funciona mesmo quando a faixa embrulha as abas.
+    // `min-w-0` deixa a faixa encolher dentro da coluna do pai em vez de ser esticada pelo conteúdo;
+    // o que não couber rola só dentro dela (`overscroll-x-contain` não entrega o arrasto à página).
+    <TabsPrimitive.List
+      ref={ref}
+      className={cn(
+        "flex w-full max-w-full min-w-0 items-center gap-1 overflow-x-auto overscroll-x-contain pb-1 scrollbar-on-hover",
+        // Mesma borda de encostar da PillRow: o conteúdo da casca tem px-3 no celular e px-6 do sm;
+        // a margem negativa (igual ao px-3) põe a faixa na largura cheia da tela para quem embrulha
+        // as abas em linhas. Numa linha só, o padding de novo no começo devolve o alinhamento.
+        "-mx-3 px-3 sm:mx-0 sm:px-0",
+        rows === "wrap" && WRAPPED_ROWS,
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
 TabsList.displayName = TabsPrimitive.List.displayName;
 
 const TabsTrigger = React.forwardRef<
