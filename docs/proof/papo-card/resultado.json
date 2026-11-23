@@ -1,0 +1,38 @@
+[
+  {
+    "cena": "com-conteudo",
+    "largura": 1280,
+    "errores": [],
+    "overflowPagina": 0,
+    "overflowSecao": 0,
+    "alturaDoc": 900,
+    "itens": 2
+  },
+  {
+    "cena": "vazio",
+    "largura": 1280,
+    "errores": [],
+    "overflowPagina": 0,
+    "overflowSecao": 0,
+    "alturaDoc": 900,
+    "itens": 0
+  },
+  {
+    "cena": "com-conteudo",
+    "largura": 390,
+    "errores": [],
+    "overflowPagina": 0,
+    "overflowSecao": 0,
+    "alturaDoc": 844,
+    "itens": 2
+  },
+  {
+    "cena": "vazio",
+    "largura": 390,
+    "errores": [],
+    "overflowPagina": 0,
+    "overflowSecao": 0,
+    "alturaDoc": 844,
+    "itens": 0
+  }
+]

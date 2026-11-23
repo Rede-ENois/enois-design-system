@@ -263,3 +263,14 @@ describe("PapoPanel", () => {
     expect(props.onRetry).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("formatação do crescimento", () => {
+  it("a pílula curta e a frase longa arredondam o mesmo número", () => {
+    for (const percent of [0.4, 12.5, 23.7, 49.9, 99.6, 100]) {
+      const arredondado = Math.round(percent);
+      expect(messages.crescimentoCurto(percent)).toBe(`+${arredondado}%`);
+      expect(messages.crescimento(percent)).toContain(`${arredondado}%`);
+      expect(messages.crescimento(percent)).toContain("Subiu");
+    }
+  });
+});
