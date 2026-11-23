@@ -44,11 +44,14 @@ export function AdminProfileActionsSection({
 
   const setReason = (value: string) => {
     setReasonState(value);
-    setFailed(false);
+    if (showTooShort) setShowTooShort(false);
+    if (sanctionFailed) setSanctionFailed(false);
   };
   const [action, setAction] = useState<AdminAccountAction | null>(null);
   const [days, setDays] = useState<number | null>(SUSPENSION_DAYS[0]);
-  const [failed, setFailed] = useState(false);
+  const [showTooShort, setShowTooShort] = useState(false);
+  const [sanctionFailed, setSanctionFailed] = useState(false);
+  const [revokeFailed, setRevokeFailed] = useState(false);
   const [revoking, setRevoking] = useState<string | null>(null);
   const [revokeReason, setRevokeReason] = useState("");
 
@@ -63,20 +66,22 @@ export function AdminProfileActionsSection({
   const confirm = async () => {
     const current = action;
     if (!current) return;
+    if (current !== "DELETE" && tooShort) {
+      setAction(null);
+      setShowTooShort(true);
+      return;
+    }
     const ok =
       current === "WARN"
         ? await onWarn(clean)
         : current === "DELETE"
           ? await (onDeleteAccount?.(clean) ?? Promise.resolve(false))
-          : await onSanction(
-              current === "BAN" && days !== null ? { type: "BAN", days } : { type: "PERMABAN" },
-              clean,
-            );
+          : await onSanction(days !== null ? { type: "BAN", days } : { type: "PERMABAN" }, clean);
     setAction(null);
     if (ok) {
       setReason("");
-      setFailed(false);
-    } else setFailed(true);
+      setSanctionFailed(false);
+    } else setSanctionFailed(true);
   };
 
   const revoke = async (warningId: string) => {
@@ -84,8 +89,8 @@ export function AdminProfileActionsSection({
     setRevoking(null);
     if (ok) {
       setRevokeReason("");
-      setFailed(false);
-    } else setFailed(true);
+      setRevokeFailed(false);
+    } else setRevokeFailed(true);
   };
 
   return (
@@ -109,7 +114,7 @@ export function AdminProfileActionsSection({
           aria-label={messages.reasonPlaceholder}
         />
 
-        {tooShort && (
+        {showTooShort && (
           <p role="alert" className="text-xs text-text-subtle">
             {messages.reasonTooShort}
           </p>
@@ -134,7 +139,7 @@ export function AdminProfileActionsSection({
             variant="outline"
             size="sm"
             className="w-auto rounded-full gap-1.5"
-            disabled={clean.length < 10 || pending}
+            disabled={pending}
             onClick={() => setAction("WARN")}
           >
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -146,7 +151,7 @@ export function AdminProfileActionsSection({
             variant="destructive"
             size="sm"
             className="w-auto rounded-full gap-1.5"
-            disabled={clean.length < 10 || pending}
+            disabled={pending}
             onClick={() => setAction(days === null ? "PERMABAN" : "BAN")}
           >
             {days === null ? <Ban className="h-3.5 w-3.5" /> : <Gavel className="h-3.5 w-3.5" />}
@@ -159,7 +164,7 @@ export function AdminProfileActionsSection({
               variant="destructive"
               size="sm"
               className="w-auto rounded-full gap-1.5"
-              disabled={clean.length < 10 || pending}
+              disabled={pending}
               onClick={() => setAction("DELETE")}
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -243,6 +248,7 @@ export function AdminProfileActionsSection({
                         onClick={() => {
                           setRevoking(row.id);
                           setRevokeReason("");
+                          setRevokeFailed(false);
                         }}
                       >
                         <>{messages.revoke}</>
@@ -282,9 +288,15 @@ export function AdminProfileActionsSection({
         <p className="text-xs text-text-subtle">{messages.confirmReason(clean)}</p>
       )}
 
-      {failed && (
+      {sanctionFailed && (
         <p role="alert" className="text-xs text-destructive">
           {messages.error}
+        </p>
+      )}
+
+      {revokeFailed && (
+        <p role="alert" className="text-xs text-destructive">
+          {messages.revokeError}
         </p>
       )}
     </section>

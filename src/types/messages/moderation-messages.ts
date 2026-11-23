@@ -58,6 +58,8 @@ export type ModerationMessages = {
     deleteAccount: string;
     confirmDeleteAccount: (target: string) => string;
     error: string;
+    /** A revogação falhou; fica perto do histórico, separada do erro da punição. */
+    revokeError: string;
   };
   adminRemovePostAction: {
     reasonPlaceholder: string;

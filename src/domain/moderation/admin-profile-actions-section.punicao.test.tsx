@@ -122,21 +122,64 @@ describe("AdminProfileActionsSection — uma punição por vez", () => {
     ).toContain("Não foi possível registrar a decisão.");
   });
 
-  it("anuncia o motivo curto e some quando o motivo alcança o mínimo", () => {
-    render();
-    preencherMotivo("curto");
+  it("o motivo curto só é anunciado ao tentar confirmar, não a cada tecla", async () => {
+    const onSanction = vi.fn(async () => true);
+    render({ onSanction });
 
-    const aviso = [...container.querySelectorAll<HTMLElement>("[role='alert']")].find((elemento) =>
-      elemento.textContent?.includes("pelo menos 10 caracteres"),
-    );
-    expect(aviso).toBeTruthy();
-
-    preencherMotivo("motivo com dez ou mais letras");
-
-    expect(
-      [...container.querySelectorAll<HTMLElement>("[role='alert']")].some((elemento) =>
+    const alertaCurto = () =>
+      [...container.querySelectorAll<HTMLElement>("[role='alert']")].find((elemento) =>
         elemento.textContent?.includes("pelo menos 10 caracteres"),
-      ),
-    ).toBe(false);
+      );
+
+    // Digitando (9 letras): nada é anunciado — o alerta é do envio, não da tecla.
+    preencherMotivo("curto");
+    expect(alertaCurto()).toBeFalsy();
+    preencherMotivo("123456789");
+    expect(alertaCurto()).toBeFalsy();
+
+    // Tenta confirmar com o motivo curto: o alerta aparece, e a punição não é enviada.
+    await confirmar("Aplicar punição");
+    expect(alertaCurto()).toBeTruthy();
+    expect(onSanction).not.toHaveBeenCalled();
+
+    // Com 10 letras, o envio passa e o alerta já não aparece.
+    preencherMotivo("1234567890");
+    await confirmar("Aplicar punição");
+    expect(onSanction).toHaveBeenCalledTimes(1);
+    expect(alertaCurto()).toBeFalsy();
+  });
+
+  it("a falha da revogação aparece como alerta próprio, sem somar o da punição", async () => {
+    const onRevokeWarning = vi.fn(async () => false);
+    render({
+      onRevokeWarning,
+      history: [
+        {
+          id: "w1",
+          kind: "WARNING",
+          typeLabel: "Advertência",
+          active: true,
+          reason: "Primeiro aviso",
+          createdAtLabel: "01/11/2026",
+        },
+      ],
+    });
+
+    await act(async () => {
+      escrevente("Revogar advertência")?.click();
+    });
+    const campoRevogacao = container.querySelectorAll<HTMLInputElement>("input")[1];
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+      setter?.call(campoRevogacao, "Motivo justo da revisão");
+      campoRevogacao?.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    await act(async () => {
+      escrevente("Revogar")?.click();
+    });
+
+    const alertas = [...container.querySelectorAll("[role='alert']")].map((a) => a.textContent);
+    expect(alertas).toContain("Não foi possível revogar a advertência.");
+    expect(alertas).not.toContain("Não foi possível registrar a decisão.");
   });
 });

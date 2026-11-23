@@ -72,6 +72,7 @@ export const moderationMessages: ModerationMessages = {
     confirmDeleteAccount: (target: string) =>
       `Excluir a conta de ${target}? O perfil é anonimizado, o conteúdo some e as sessões caem na hora. Não há como desfazer.`,
     error: "Não foi possível registrar a decisão.",
+    revokeError: "Não foi possível revogar a advertência.",
   },
   adminRemovePostAction: {
     reasonPlaceholder: "Motivo (mínimo 10 caracteres)",
