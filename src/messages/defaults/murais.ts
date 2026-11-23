@@ -21,6 +21,7 @@ export const muraisMessages: MuraisMessages = {
   },
   muraisQuadro: {
     contributions: (count) => `${count} publicações coladas`,
+    compartilhar: "Compartilhar mural",
     editar: "Editar mural",
     remover: "Remover mural",
     removerConfirmTitle: "Remover este mural?",

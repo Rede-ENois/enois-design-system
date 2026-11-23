@@ -25,6 +25,8 @@ export type MuraisMessages = {
   muraisQuadro: {
     /** "3 publicações coladas" no cabeçalho do quadro. */
     contributions: (count: number) => string;
+    /** "Compartilhar mural" no botão que abre o menu de quem compõe. */
+    compartilhar: string;
     editar: string;
     remover: string;
     removerConfirmTitle: string;
