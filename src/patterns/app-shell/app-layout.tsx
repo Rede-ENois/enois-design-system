@@ -1,5 +1,4 @@
 import type { WithRequiredChildren } from "../../types/components/with-required-children.js";
-import type { AppLayoutMainGap } from "../../types/patterns/app-layout-main-gap.js";
 import type { AppLayoutMainProps } from "../../types/patterns/app-layout-main-props.js";
 
 function AppLayoutRoot({ children }: WithRequiredChildren) {
@@ -34,14 +33,14 @@ function AppLayoutSidebar({ children }: WithRequiredChildren) {
 }
 
 function AppLayoutMain({ children, gap = "none" }: AppLayoutMainProps) {
-  // `space-y` e nao `gap`: mantem a margem que o bloco ja traz (a de um titulo, por exemplo),
-  // em vez de descarta-la como o `gap` do flex faria.
-  return <main className={mainClassName(gap)}>{children}</main>;
-}
-
-function mainClassName(gap: AppLayoutMainGap): string {
-  const base = "min-w-0 flex-1";
-  return gap === "md" ? `${base} space-y-4` : base;
+  // A coluna do conteudo e sempre do tamanho da casca: `w-full` a mantem no calculo do pai e
+  // `max-w-full` impede que ela cresca por causa do que tem dentro (conteudo largo rola ou se
+  // acomoda dentro do main, nunca empurra a pagina). O `gap` e flex e nao `space-y`: `space-y`
+  // zera a margem de cima de todo filho depois do primeiro, e um bloco posicionado de proposito
+  // em cima da borda (como o "novidades" do feed) perde a posicao e volta para o fluxo.
+  const base = "min-w-0 w-full max-w-full flex-1";
+  const classes = gap === "md" ? `${base} flex flex-col gap-4` : base;
+  return <main className={classes}>{children}</main>;
 }
 
 function AppLayoutNavigation({ children }: WithRequiredChildren) {
