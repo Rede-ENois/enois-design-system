@@ -21,7 +21,7 @@ export function AuthenticatedAppHeader({
       {/* Mobile: hamburger a esquerda, logo centralizado, acoes a direita */}
       <button
         onClick={onOpenNavigation}
-        className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary lg:hidden"
+        className={menuButtonClassName()}
         aria-label={messages.openMenu}
         title={messages.openMenu}
       >
@@ -39,4 +39,11 @@ export function AuthenticatedAppHeader({
       <div className="relative z-20 flex items-center gap-2 md:ml-auto">{actions}</div>
     </AppHeaderLayout>
   );
+}
+// A acao vem PRIMEIRO, antes do embrulho da marca, e o `order` a poe de novo na esquerda: no
+// celular isso e o primeiro item da casca de verdade. Antes, quem montasse no app uma casca com
+// colunas (grade) ou linhas (flex com embrulho) jogava o menu para o canto dele e o resto ficava
+// numa coluna estreita do lado. Do md para cima o `order` some e o embrulho vira item flex de novo.
+function menuButtonClassName(): string {
+  return "relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary max-md:order-first max-md:col-start-1 max-md:row-start-1 lg:hidden";
 }
