@@ -42,6 +42,7 @@ import type { PwaMessages } from "./pwa-messages.js";
 import type { ReleaseNotesMessages } from "./release-notes-messages.js";
 import type { ReportsMessages } from "./reports-messages.js";
 import type { RoleplayMessages } from "./roleplay-messages.js";
+import type { SanctionsMessages } from "./sanctions-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
@@ -61,7 +62,8 @@ import type { WhatsNewMessages } from "./whats-new-messages.js";
  * states, counters), keyed by component. Content and product copy never live here: they come
  * from the app through props. Each feature adds its own `<Feature>Messages` type to this union.
  */
-export type Messages = UiMessages &
+export type Messages = SanctionsMessages &
+  UiMessages &
   AvatarMessages &
   DoacoesMessages &
   CommunitiesMessages &
