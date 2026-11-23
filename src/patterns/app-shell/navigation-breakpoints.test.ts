@@ -14,9 +14,11 @@ function source(path: string): string {
 describe("authenticated navigation breakpoint", () => {
   it("keeps the menu button on tablets and hides it only on desktop", () => {
     const header = source("src/domain/shell/authenticated-app-header.tsx");
-    const button = header.match(/<button[\s\S]*?aria-label=\{messages\.openMenu\}/);
-    expect(button?.[0]).toContain("lg:hidden");
-    expect(button?.[0]).not.toContain("md:hidden");
+    const button = header.match(/<button[\s\S]*?aria-label=\{messages\.openMenu\}/)?.[0] ?? "";
+    // Classes montadas numa funcao para o `order` do celular: vale o que o arquivo declara.
+    const classes = button + (header.match(/function menuButtonClassName[\s\S]*?\n\}/)?.[0] ?? "");
+    expect(classes).toContain("lg:hidden");
+    expect(classes).not.toContain("md:hidden");
   });
 
   it("hides the drawer overlay and panel with the menu button", () => {
