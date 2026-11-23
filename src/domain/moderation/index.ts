@@ -16,6 +16,7 @@ export { MonitoringSection } from "./monitoring-section.js";
 export { NotesSection } from "./notes-section.js";
 export { PanicModeSection } from "./panic-mode-section.js";
 export { ProjectsReviewSection } from "./projects-review-section.js";
+export { ReportCard } from "./report-card.js";
 export { PullRequestsSection } from "./pull-requests-section.js";
 export { SupportTicketsSection } from "./support-tickets-section.js";
 export { SuspiciousPostsSection } from "./suspicious-posts-section.js";
