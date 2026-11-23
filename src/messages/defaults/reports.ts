@@ -46,6 +46,20 @@ export const reportsMessages: ReportsMessages = {
       GROUP_POST: "Publicação de grupo",
       GROUP_COMMENT: "Comentário de grupo",
     },
+    adminTitle: "Ação administrativa imediata",
+    adminHint:
+      "Punir agora é ação de administração e não substitui a decisão coletiva. O quórum dos votos continua valendo.",
+    penalize: "Punir agora",
+    penalizeTitle: (reference) => `Punir agora: ${reference}`,
+    penalizeDescription:
+      "A punição imediata aplica as consequências e fica registrada com o motivo. Ela não concede banimento nem define duração: uma eventual suspensão continua sendo a decisão coletiva do quórum.",
+    penalizeConfirm: "Punir agora",
+    penalizeCancel: "Cancelar",
+    penalizeReasonPlaceholder: "Motivo da punição (mínimo de 10 caracteres)",
+    penalizeReasonTooShort: "Escreva pelo menos 10 caracteres para registrar o motivo.",
+    penalizeError: "Não foi possível aplicar a punição. Tente novamente.",
+    penalizeEffect:
+      "Esta ação restringe o alvo nas consequências já acordadas (restrição imediata); o banimento e a duração, quando cabíveis, dependem da decisão coletiva.",
   },
   reportsSection: {
     title: "Denúncias em análise",

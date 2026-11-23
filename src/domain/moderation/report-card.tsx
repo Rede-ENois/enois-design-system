@@ -1,10 +1,53 @@
+import { useState } from "react";
+
 import { useMessages } from "../../messages/messages-context.js";
 import type { ReportCardProps } from "../../types/domain/moderation/report-card-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../ui/dialog.js";
+import { Input } from "../../ui/input.js";
 
-export function ReportCard({ report, admin, pending, onVote }: ReportCardProps) {
+/** Empresa nunca é alvo de punição imediata, mesmo que a flag chegue incoerente. */
+function penalizable(report: ReportCardProps["report"]) {
+  return report.canPenalize && report.targetType !== "COMPANY";
+}
+
+export function ReportCard({ report, admin, pending, onVote, onPenalize }: ReportCardProps) {
   const messages = useMessages().reportCard;
+  const [confirming, setConfirming] = useState(false);
+  const [reason, setReason] = useState("");
+  const [penalizeFailed, setPenalizeFailed] = useState(false);
+  const [penalizing, setPenalizing] = useState(false);
+
+  const clean = reason.trim();
+  const tooShort = clean.length > 0 && clean.length < 10;
+  const showPenalize = admin && penalizable(report) && Boolean(onPenalize);
+
+  const closeConfirm = () => {
+    setConfirming(false);
+    setReason("");
+    setPenalizeFailed(false);
+  };
+
+  const confirmPenalize = async () => {
+    if (!onPenalize || !penalizable(report) || clean.length < 10) return;
+    setPenalizing(true);
+    try {
+      const ok = await onPenalize(report.reportId, clean);
+      if (ok) closeConfirm();
+      else setPenalizeFailed(true);
+    } finally {
+      setPenalizing(false);
+    }
+  };
+
   return (
     <li className="min-w-0 space-y-4 rounded-2xl border border-border-soft bg-surface-card p-4">
       <header className="space-y-2">
@@ -116,6 +159,97 @@ export function ReportCard({ report, admin, pending, onVote }: ReportCardProps) 
           </Button>
         </div>
       </section>
+      {showPenalize && (
+        <section
+          className="space-y-3 rounded-xl border border-border-soft bg-surface-2 p-3"
+          aria-label={messages.adminTitle}
+        >
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold text-text-strong">{messages.adminTitle}</h4>
+
+            <p className="text-xs text-text-subtle">{messages.adminHint}</p>
+          </div>
+
+          <Button
+            type="button"
+            size="sm"
+            variant="destructive"
+            className="rounded-full whitespace-normal"
+            disabled={pending}
+            onClick={() => setConfirming(true)}
+          >
+            {messages.penalize}
+          </Button>
+        </section>
+      )}
+
+      {showPenalize && (
+        <Dialog
+          open={confirming}
+          onOpenChange={(next) => {
+            if (!next) closeConfirm();
+          }}
+        >
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>
+                {messages.penalizeTitle(messages.reportReference(report.reportId))}
+              </DialogTitle>
+
+              <DialogDescription className="break-words">
+                {messages.penalizeDescription}
+              </DialogDescription>
+            </DialogHeader>
+
+            <p className="text-xs text-text-subtle">{messages.penalizeEffect}</p>
+
+            <div className="space-y-1">
+              <Input
+                value={reason}
+                onChange={(event) => {
+                  setReason(event.target.value);
+                  if (penalizeFailed) setPenalizeFailed(false);
+                }}
+                placeholder={messages.penalizeReasonPlaceholder}
+                maxLength={2000}
+                aria-label={messages.penalizeReasonPlaceholder}
+              />
+
+              {tooShort && (
+                <p role="alert" className="text-xs text-text-subtle">
+                  {messages.penalizeReasonTooShort}
+                </p>
+              )}
+
+              {penalizeFailed && (
+                <p role="alert" className="break-words text-sm text-text-strong">
+                  {messages.penalizeError}
+                </p>
+              )}
+            </div>
+
+            <DialogFooter className="gap-2">
+              <Button
+                variant="outline"
+                className="rounded-full"
+                disabled={penalizing}
+                onClick={closeConfirm}
+              >
+                {messages.penalizeCancel}
+              </Button>
+
+              <Button
+                variant="destructive"
+                className="rounded-full"
+                disabled={penalizing || pending || !penalizable(report) || clean.length < 10}
+                onClick={() => void confirmPenalize()}
+              >
+                {messages.penalizeConfirm}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </li>
   );
 }

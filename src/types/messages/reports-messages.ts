@@ -22,6 +22,22 @@ export type ReportsMessages = {
     reasons: Record<string, string | undefined>;
     /** Nomes de alvo conhecidos; chave ausente cai no identificador bruto. */
     targets: Record<string, string | undefined>;
+    /** Bloco de ação administrativa imediata, separado da decisão coletiva. */
+    adminTitle: string;
+    adminHint: string;
+    penalize: string;
+    penalizeTitle: (reference: string) => string;
+    penalizeDescription: string;
+    penalizeConfirm: string;
+    penalizeCancel: string;
+    penalizeReasonPlaceholder: string;
+    penalizeReasonTooShort: string;
+    penalizeError: string;
+    /**
+     * Explica a RESTRICTION imediata sem inventar banimento nem duração: a decisão coletiva
+     * continua sendo o caminho para a sanção.
+     */
+    penalizeEffect: string;
   };
   reportsSection: {
     title: string;

@@ -23,6 +23,8 @@ function Demonstracao(props: ReportCardProps) {
   );
 }
 
+const penalizeDemo = async () => true;
+
 const meta = {
   title: "Domain/Moderation/Denúncia (cartão)",
   component: ReportCard,
@@ -31,6 +33,7 @@ const meta = {
     admin: true,
     pending: false,
     onVote: () => {},
+    onPenalize: penalizeDemo,
   },
   render: (args) => <Demonstracao {...args} />,
 } satisfies Meta<typeof ReportCard>;
@@ -38,12 +41,20 @@ export default meta;
 
 export const Principal: StoryObj<typeof meta> = {};
 
+export const SemAcaoAdministrativa: StoryObj<typeof meta> = {
+  args: { onPenalize: undefined },
+};
+
 export const VotoRegistrado: StoryObj<typeof meta> = {
   args: { report: reportsStoryData[1] },
 };
 
-export const SemAcaoAdministrativa: StoryObj<typeof meta> = {
+export const SemVisaoAdministrativa: StoryObj<typeof meta> = {
   args: { admin: false },
+};
+
+export const EmpressaInelegivel: StoryObj<typeof meta> = {
+  args: { report: reportsStoryData[1] },
 };
 
 export const DadosAusentes: StoryObj<typeof meta> = {

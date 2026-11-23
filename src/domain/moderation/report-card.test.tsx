@@ -149,7 +149,95 @@ describe("ReportCard", () => {
 
   it("não expõe ação administrativa direta", () => {
     render();
-    expect(host.textContent).not.toContain("Ação administrativa direta");
+    expect(host.textContent).not.toContain("Ação administrativa imediata");
     expect(host.querySelectorAll("button")).toHaveLength(2);
+  });
+
+  describe("Punir agora", () => {
+    function dialogButton(label: string) {
+      const element = [...document.body.querySelectorAll("button")].find(
+        (item) => item.textContent === label && item.closest("[role='dialog']"),
+      );
+      if (!(element instanceof HTMLButtonElement)) {
+        throw new Error(`Botão do diálogo não encontrado: ${label}`);
+      }
+      return element;
+    }
+
+    function typeReason(value: string) {
+      const input = document.body.querySelector<HTMLInputElement>("[role='dialog'] input");
+      if (!input) throw new Error("Campo de motivo ausente");
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+      act(() => {
+        setter?.call(input, value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+    }
+
+    it("mostra a ação só para admin elegível e com callback", () => {
+      render({ onPenalize: vi.fn() });
+      expect(host.textContent).toContain("Ação administrativa imediata");
+      render({ onPenalize: undefined });
+      expect(host.textContent).not.toContain("Ação administrativa imediata");
+      render({ admin: false, onPenalize: vi.fn() });
+      expect(host.textContent).not.toContain("Ação administrativa imediata");
+    });
+
+    it("mantém empresa inelegível mesmo com a flag ligada", () => {
+      render({
+        report: report({ targetType: "COMPANY", canPenalize: true }),
+        onPenalize: vi.fn(),
+      });
+      expect(host.textContent).not.toContain("Ação administrativa imediata");
+    });
+
+    it("não muta ao abrir e cancelar o diálogo", () => {
+      const onPenalize = vi.fn().mockResolvedValue(true);
+      render({ onPenalize });
+      click(button("Punir agora"));
+      expect(onPenalize).not.toHaveBeenCalled();
+      click(dialogButton("Cancelar"));
+      expect(onPenalize).not.toHaveBeenCalled();
+    });
+
+    it("não confirma com motivo curto demais", () => {
+      const onPenalize = vi.fn().mockResolvedValue(true);
+      render({ onPenalize });
+      click(button("Punir agora"));
+      typeReason("curto");
+      expect(dialogButton("Punir agora").disabled).toBe(true);
+      expect(onPenalize).not.toHaveBeenCalled();
+    });
+
+    it("confirma uma única vez com o motivo aparado", async () => {
+      const onPenalize = vi.fn().mockResolvedValue(true);
+      render({ onPenalize });
+      click(button("Punir agora"));
+      typeReason("   Motivo administrativo fictício válido   ");
+      await act(async () => {
+        dialogButton("Punir agora").click();
+      });
+      expect(onPenalize).toHaveBeenCalledExactlyOnceWith(
+        "denuncia-ficticia-1",
+        "Motivo administrativo fictício válido",
+      );
+      expect(onPenalize).toHaveBeenCalledTimes(1);
+    });
+
+    it("mantém o diálogo e informa a falha sem declarar sucesso", async () => {
+      const onPenalize = vi.fn().mockResolvedValue(false);
+      render({ onPenalize });
+      click(button("Punir agora"));
+      typeReason("Motivo administrativo fictício válido");
+      await act(async () => {
+        dialogButton("Punir agora").click();
+      });
+      expect(document.body.textContent).toContain("Não foi possível aplicar a punição");
+    });
+
+    it("bloqueia a abertura enquanto a fila está pendente", () => {
+      render({ onPenalize: vi.fn(), pending: true });
+      expect(button("Punir agora").disabled).toBe(true);
+    });
   });
 });
