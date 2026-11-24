@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { FolderOpen, Loader2 } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
@@ -6,41 +8,75 @@ import type { ColecaoResumo } from "../../types/domain/colecoes/colecao-resumo.j
 import type { ColecoesEstado } from "../../types/domain/colecoes/colecoes-estado.js";
 import type { ColecoesListaProps } from "../../types/domain/colecoes/colecoes-lista-props.js";
 import { Button } from "../../ui/button.js";
+import { SearchField } from "../../ui/search-field.js";
 
 /**
  * A lista das suas coleções: pastas com título, descrição e quantos posts já guardam. Coleção é
  * privada, então nada aqui mostra dono — quem vê a página é sempre quem criou. Estados de carga,
- * erro e vazio desenhados aqui, com as palavras do DS.
+ * erro e vazio desenhados aqui, com as palavras do DS. Com `busca`, o campo fica sempre
+ * visível — inclusive no vazio, para trocar o termo sem recarregar.
  */
 export function ColecoesLista({
   colecoes,
   state,
   onOpen,
+  busca,
   hasMore,
   loadingMore,
   onLoadMore,
 }: ColecoesListaProps) {
   const messages = useMessages().colecoesLista;
+  const buscaId = React.useId();
+  const termo = busca?.valor.trim() ?? "";
 
-  if (state.kind === "loading") {
-    return <EstadoLista icone>{messages.loading}</EstadoLista>;
+  const campo = busca && (
+    <SearchField
+      id={buscaId}
+      value={busca.valor}
+      onChange={busca.aoMudar}
+      placeholder={messages.buscarPlaceholder}
+    />
+  );
+
+  if (state.kind === "loading" && !termo) {
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista icone>{messages.loading}</EstadoLista>
+      </div>
+    );
   }
   if (state.kind === "error") {
-    return <EstadoLista>{messages.error}</EstadoLista>;
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista>{messages.error}</EstadoLista>
+      </div>
+    );
   }
   if (state.kind === "empty") {
-    return <EstadoLista>{messages.empty}</EstadoLista>;
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista>{termo ? messages.semResultado(termo) : messages.empty}</EstadoLista>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
+      {campo}
+
       <div className="grid gap-3 sm:grid-cols-2">
         {colecoes.map((colecao) => (
           <CartaoColecao key={colecao.id} colecao={colecao} onOpen={onOpen} />
         ))}
       </div>
 
-      {hasMore && (
+      {hasMore && !termo && (
         <div className="flex justify-center">
           <Button variant="outline" onClick={onLoadMore}>
             {loadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : messages.loadMore}

@@ -9,6 +9,10 @@ export type ColecoesMessages = {
     empty: string;
     loadMore: string;
     openColecao: string;
+    /** Campo de busca da lista. */
+    buscarPlaceholder: string;
+    /** "Nenhuma coleção com o termo \"vôlei\".": a busca foi feita e nada bateu. */
+    semResultado: (termo: string) => string;
     /** Contagem curta no cartão: "3 posts". */
     posts: (count: number) => string;
   };

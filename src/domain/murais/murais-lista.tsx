@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { Image, Loader2 } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
@@ -6,40 +8,74 @@ import type { MuraisEstado } from "../../types/domain/murais/murais-estado.js";
 import type { MuraisListaProps } from "../../types/domain/murais/murais-lista-props.js";
 import type { MuralResumo } from "../../types/domain/murais/mural-resumo.js";
 import { Button } from "../../ui/button.js";
+import { SearchField } from "../../ui/search-field.js";
 
 /**
  * A lista de murais do Explorar: cartões com título, descrição, dono e quantas publicações já
- * estão coladas. Estados de carga, erro e vazio desenhados aqui, com as palavras do DS.
+ * estão coladas. Estados de carga, erro e vazio desenhados aqui, com as palavras do DS. Com
+ * `busca`, o campo fica sempre visível — inclusive no vazio, para trocar o termo sem recarregar.
  */
 export function MuraisLista({
   murais,
   state,
   onOpen,
+  busca,
   hasMore,
   loadingMore,
   onLoadMore,
 }: MuraisListaProps) {
   const messages = useMessages().muraisLista;
+  const buscaId = React.useId();
+  const termo = busca?.valor.trim() ?? "";
 
-  if (state.kind === "loading") {
-    return <EstadoLista icone>{messages.loading}</EstadoLista>;
+  const campo = busca && (
+    <SearchField
+      id={buscaId}
+      value={busca.valor}
+      onChange={busca.aoMudar}
+      placeholder={messages.buscarPlaceholder}
+    />
+  );
+
+  if (state.kind === "loading" && !termo) {
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista icone>{messages.loading}</EstadoLista>
+      </div>
+    );
   }
   if (state.kind === "error") {
-    return <EstadoLista>{messages.error}</EstadoLista>;
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista>{messages.error}</EstadoLista>
+      </div>
+    );
   }
   if (state.kind === "empty") {
-    return <EstadoLista>{messages.empty}</EstadoLista>;
+    return (
+      <div className="space-y-4">
+        {campo}
+
+        <EstadoLista>{termo ? messages.semResultado(termo) : messages.empty}</EstadoLista>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
+      {campo}
+
       <div className="grid gap-3 sm:grid-cols-2">
         {murais.map((mural) => (
           <CartaoMural key={mural.id} mural={mural} onOpen={onOpen} />
         ))}
       </div>
 
-      {hasMore && (
+      {hasMore && !termo && (
         <div className="flex justify-center">
           <Button variant="outline" onClick={onLoadMore}>
             {loadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : messages.loadMore}
