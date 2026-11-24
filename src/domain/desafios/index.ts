@@ -2,6 +2,7 @@ export { DesafiosFeed } from "./desafios-feed.js";
 export { DesafiosCard } from "./desafios-card.js";
 export { DesafiosComposer } from "./desafios-composer.js";
 export { DesafiosParticipacoes } from "./desafios-participacoes.js";
+export { DesafiosDetalhe } from "./desafios-detalhe.js";
 export { DesafiosAuthor } from "./desafios-author.js";
 
 export type { DesafioView } from "../../types/domain/desafios/desafio-view.js";
@@ -15,5 +16,6 @@ export type { DesafiosComposerProps } from "../../types/domain/desafios/desafios
 export type { DesafiosPublishInput } from "../../types/domain/desafios/desafios-publish-input.js";
 export type { DesafiosParticipacoesProps } from "../../types/domain/desafios/desafios-participacoes-props.js";
 export type { DesafiosParticipacoesState } from "../../types/domain/desafios/desafios-participacoes-state.js";
+export type { DesafiosDetalheProps } from "../../types/domain/desafios/desafios-detalhe-props.js";
 export type { DesafiosParticipateInput } from "../../types/domain/desafios/desafios-participate-input.js";
 export type { DesafiosCloseInput } from "../../types/domain/desafios/desafios-close-input.js";
