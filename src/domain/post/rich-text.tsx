@@ -197,11 +197,15 @@ function renderBlock(
   }
 }
 
+/** `:codigo:` — o formato que o seletor insere, com grupos para não perder o texto entre eles. */
+const FORMATO_DE_FIGURINHA = /(:[^\s:[\]`]{1,64}:)/u;
+
 /**
- * Texto puro → figurinhas inline. O que o seletor insere é o código como palavra inteira
- * (`:enois_feliz:`), então só palavra inteira vira figurinha — código colado a outra palavra fica
- * como foi escrito. A figurinha passa pelo mesmo ramo `image` do markdown, com o código fazendo o
- * papel do texto alternativo.
+ * Texto puro → figurinhas inline. Só o código entre dois-pontos (`:enois_feliz:`) vira figurinha,
+ * que é o que o seletor insere; o código solto continua palavra, porque o mapa tem palavra comum
+ * (um nome que virou figurinha) e trocar a palavra inteira escrevia figurinha em texto normal.
+ * Código colado a outra palavra fica como foi escrito. A figurinha passa pelo mesmo ramo `image`
+ * do markdown, com o código fazendo o papel do texto alternativo.
  */
 function renderTextoComFigurinhas(
   node: RichNode,
@@ -212,11 +216,11 @@ function renderTextoComFigurinhas(
   const texto = node.text ?? "";
   if (!ctx.stickerFor || !texto) return texto;
 
-  const partes = texto.split(/(\S+)/);
-  if (!partes.some((parte) => ctx.stickerFor(parte))) return texto;
+  const partes = texto.split(FORMATO_DE_FIGURINHA);
+  if (!partes.some((parte) => parte.length > 2 && ctx.stickerFor(parte))) return texto;
 
   return partes.map((parte, parteIndex) => {
-    const figurinha = ctx.stickerFor(parte);
+    const figurinha = parte.length > 2 ? ctx.stickerFor(parte) : undefined;
     return figurinha
       ? renderInline([{ kind: "image", text: parte, href: figurinha.url }], ctx, mediaSpoiler)
       : parte;

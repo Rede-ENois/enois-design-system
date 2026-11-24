@@ -20,8 +20,10 @@ export type RichTextProps = {
   mediaSpoiler?: boolean;
   /**
    * Figurinhas que o texto pode citar por código (ex.: `:enois_feliz:`), na mesma resolução que o
-   * campo de escrita usa. Código que está aqui vira a imagem inline do tamanho do texto; sem o
-   * mapa, a imagem da casa é desenhada como mídia (o caso de uma foto colada no corpo).
+   * campo de escrita usa. As chaves incluem os dois-pontos: só `:codigo:` vira a imagem inline do
+   * tamanho do texto, e a chave solta nunca casa, para palavra comum que também é código continuar
+   * palavra. Sem o mapa, a imagem da casa é desenhada como mídia (o caso de uma foto colada no
+   * corpo).
    */
   inlineStickers?: Record<string, EditorSticker>;
   /**
