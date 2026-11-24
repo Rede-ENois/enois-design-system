@@ -36,8 +36,11 @@ export function DesafiosDetalhe({ open, onOpenChange, timeLeft, ...mural }: Desa
         aria-describedby={undefined}
         className="flex h-dvh max-h-none w-screen max-w-none flex-col gap-0 overflow-hidden border-0 p-0 shadow-none sm:rounded-none"
       >
-        {/* A coluna fica centrada no desktop: a camada ocupa a janela, mas a leitura não estica. */}
-        <div className="mx-auto flex h-full w-full max-w-2xl flex-col">
+        {/* A coluna fica centrada no desktop: a camada ocupa a janela, mas a leitura não estica.
+            A rolagem é da coluna inteira (convite + mural): com o mural em outro contêiner, o gesto
+            sobre o convite não chegava às participações — e o convite longo comia a altura da
+            camada, deixando o mural sem espaço para rolar. */}
+        <div className="mx-auto flex min-h-0 w-full max-w-2xl flex-1 flex-col overflow-y-auto overscroll-contain">
           <header className="shrink-0 space-y-2 border-b border-border-soft px-4 py-4 pr-14">
             <DesafiosAuthor author={desafio.author} />
 
@@ -58,7 +61,7 @@ export function DesafiosDetalhe({ open, onOpenChange, timeLeft, ...mural }: Desa
             </p>
           </header>
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+          <div className="px-4 py-4">
             <DesafiosParticipacoes {...mural} />
           </div>
         </div>

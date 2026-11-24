@@ -140,6 +140,24 @@ describe("DesafiosDetalhe", () => {
     expect(dialogo.textContent).toContain(participacao.content);
   });
 
+  it("rola a coluna inteira: o gesto sobre o convite também desce até as participações", () => {
+    render();
+
+    const dialogo = document.querySelector<HTMLElement>('[role="dialog"]')!;
+    const coluna = dialogo.querySelector("header")!.parentElement!;
+
+    // Um só contêiner de rolagem, o da coluna (convite + mural). Com o mural rolando sozinho, o
+    // gesto sobre o convite parava nele e as participações ficavam fora de alcance — e o convite
+    // longo comia a altura da camada, deixando o mural sem espaço para rolar.
+    const rolos = Array.from(dialogo.querySelectorAll<HTMLElement>("div")).filter((div) =>
+      div.className.includes("overflow-y-auto"),
+    );
+    expect(rolos).toHaveLength(1);
+    expect(rolos[0]).toBe(coluna);
+    expect(coluna.className).toContain("overscroll-contain");
+    expect(coluna.className).toContain("min-h-0");
+  });
+
   it("fecha pelo X uma vez só", () => {
     const props = render();
 
