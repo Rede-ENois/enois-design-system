@@ -311,6 +311,33 @@ describe("MuralQuadro", () => {
     render({ colarErro: "Essa publicação já está neste mural." });
     expect(host.textContent).toContain("Essa publicação já está neste mural.");
   });
+
+  it("sem menu de compartilhar não há botão; com ele, o botão abre os itens", async () => {
+    render();
+    expect(host.querySelector(`button[aria-label="${quadro.compartilhar}"]`)).toBeNull();
+
+    render({
+      compartilhar: <button type="button">Copiar link</button>,
+    });
+    const abrir = host.querySelector<HTMLButtonElement>(
+      `button[aria-label="${quadro.compartilhar}"]`,
+    )!;
+    expect(abrir).not.toBeNull();
+    await act(async () => abrir.click());
+
+    // No jsdom não há layout, então o menu abre deslocado e recortado; aqui basta provar que
+    // os itens de quem compõe chegam ao documento. O clique neles é do app (teste da rota).
+    expect(
+      [...document.body.querySelectorAll("button")].filter((b) => b.textContent === "Copiar link")
+        .length,
+    ).toBe(1);
+  });
+
+  it("quem não é dono também compartilha o mural", () => {
+    render({ compartilhar: <button type="button">Copiar link</button> });
+    expect(host.querySelector(`button[aria-label="${quadro.compartilhar}"]`)).not.toBeNull();
+    expect(host.textContent).not.toContain(quadro.editar);
+  });
 });
 
 describe("MuralContribuicaoCartao", () => {

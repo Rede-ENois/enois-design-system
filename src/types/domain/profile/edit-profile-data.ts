@@ -14,6 +14,8 @@ export type EditProfileData = {
   goals?: string[] | null;
   openToWork: boolean;
   isMentor: boolean;
+  /** Modo recrutador: abre o painel de banco de talentos. */
+  isRecruiter?: boolean | null;
   showRanking?: boolean | null;
   aka?: string | null;
   badges?: string[] | null;

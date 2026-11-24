@@ -14,6 +14,7 @@ export type EditProfileValues = {
   goalsText: string;
   openToWork: boolean;
   isMentor: boolean;
+  isRecruiter: boolean;
   showRanking: boolean;
   aka: string;
   badges: string[];
