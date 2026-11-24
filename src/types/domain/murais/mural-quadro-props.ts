@@ -13,6 +13,11 @@ export type MuralQuadroProps = {
   colando: boolean;
   /** Aviso de recusa da colagem (post inexistente, já colado, sem permissão). */
   colarErro: string | null;
+  /**
+   * O conteúdo do menu de compartilhar o mural (copiar link, enviar, compartilhar do aparelho).
+   * Os itens são botões de quem compõe: o endereço do mural é quem compõe que sabe.
+   */
+  compartilhar?: ReactNode;
   /** Os cartões das publicações coladas (o card do feed vem de quem compõe). */
   children: ReactNode;
 };

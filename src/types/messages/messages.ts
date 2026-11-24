@@ -51,6 +51,7 @@ import type { StudyPairProposalsMessages } from "./study-pair-proposals-messages
 import type { StudyPairsMessages } from "./study-pairs-messages.js";
 import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
+import type { TalentBankMessages } from "./talent-bank-messages.js";
 import type { TermometroMessages } from "./termometro-messages.js";
 import type { UiMessages } from "./ui-messages.js";
 import type { WalletMessages } from "./wallet-messages.js";
@@ -120,5 +121,6 @@ export type Messages = SanctionsMessages &
   DesabafosMessages &
   ConfessionarioMessages &
   TermometroMessages &
+  TalentBankMessages &
   DesafiosMessages &
   PaporetoMessages;

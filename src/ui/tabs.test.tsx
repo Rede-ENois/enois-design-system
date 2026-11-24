@@ -54,5 +54,22 @@ describe("TabsList", () => {
     expect(html).toContain("overflow-x-auto");
     expect(html).toContain("overscroll-x-contain");
     expect(html).toContain("scrollbar-on-hover");
+    expect(html).not.toContain("flex-wrap");
+  });
+
+  it("nas linhas embrulhadas quebra em tres abas por linha so no celular", () => {
+    const html = renderToStaticMarkup(
+      <Tabs defaultValue="a">
+        <TabsList aria-label="abas" rows="wrap">
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+      </Tabs>,
+    );
+
+    expect(html).toContain("flex-wrap");
+    // O SSR escapa `>` e `&` do seletor; o que importa sao os tres utilitarios aplicados as abas.
+    expect(html).toMatch(/max-sm:\[&amp;&gt;\*\]:shrink/);
+    expect(html).toMatch(/max-sm:\[&amp;&gt;\*\]:basis-\[calc\(33\.333%_-_0\.5rem\)\]/);
+    expect(html).toMatch(/max-sm:\[&amp;&gt;\*\]:justify-center/);
   });
 });

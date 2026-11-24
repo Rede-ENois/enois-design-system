@@ -53,6 +53,7 @@ import { studyPairProposalsMessages } from "./defaults/study-pair-proposals.js";
 import { studyPairsMessages } from "./defaults/study-pairs.js";
 import { supportUsMessages } from "./defaults/support-us.js";
 import { supportMessages } from "./defaults/support.js";
+import { talentBankMessages } from "./defaults/talent-bank.js";
 import { termometroMessages } from "./defaults/termometro.js";
 import { uiMessages } from "./defaults/ui.js";
 import { walletMessages } from "./defaults/wallet.js";
@@ -116,6 +117,7 @@ export const defaultMessages: Messages = {
   ...desabafosMessages,
   ...confessionarioMessages,
   ...termometroMessages,
+  ...talentBankMessages,
   ...desafiosMessages,
   ...paporetoMessages,
 };

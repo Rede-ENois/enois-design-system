@@ -1,12 +1,13 @@
 import { Children, useState } from "react";
 
-import { Loader2, Pencil, Trash2 } from "lucide-react";
+import { Loader2, Pencil, Send, Trash2 } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import type { MuralQuadroProps } from "../../types/domain/murais/mural-quadro-props.js";
 import { Button } from "../../ui/button.js";
 import { ConfirmDialog } from "../../ui/confirm-dialog.js";
 import { Input } from "../../ui/input.js";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover.js";
 
 /**
  * O quadro do mural: cabeçalho (título, descrição, dono, contagem), ações do dono e a barra de
@@ -21,6 +22,7 @@ export function MuralQuadro({
   onColar,
   colando,
   colarErro,
+  compartilhar,
   children,
 }: MuralQuadroProps) {
   const messages = useMessages().muraisQuadro;
@@ -41,19 +43,42 @@ export function MuralQuadro({
               {messages.contributions(mural.contributions)}
             </p>
           </div>
-          {ehDono && (
-            <div className="flex shrink-0 gap-2">
-              <Button variant="outline" onClick={onEditar}>
-                <Pencil className="h-4 w-4" aria-hidden="true" />
-                {messages.editar}
-              </Button>
 
-              <Button variant="outline" onClick={() => setConfirmarRemocao(true)}>
-                <Trash2 className="h-4 w-4" aria-hidden="true" />
-                {messages.remover}
-              </Button>
-            </div>
-          )}
+          <div className="flex shrink-0 gap-2">
+            {compartilhar && (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" aria-label={messages.compartilhar}>
+                    <Send className="h-4 w-4" aria-hidden="true" />
+
+                    <span className="hidden sm:inline">{messages.compartilhar}</span>
+                  </Button>
+                </PopoverTrigger>
+
+                <PopoverContent
+                  align="end"
+                  sideOffset={8}
+                  className="flex w-52 flex-col gap-0.5 rounded-xl border-border-soft p-1.5 shadow-card"
+                >
+                  {compartilhar}
+                </PopoverContent>
+              </Popover>
+            )}
+
+            {ehDono && (
+              <>
+                <Button variant="outline" onClick={onEditar}>
+                  <Pencil className="h-4 w-4" aria-hidden="true" />
+                  {messages.editar}
+                </Button>
+
+                <Button variant="outline" onClick={() => setConfirmarRemocao(true)}>
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
+                  {messages.remover}
+                </Button>
+              </>
+            )}
+          </div>
         </div>
 
         <form

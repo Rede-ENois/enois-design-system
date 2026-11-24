@@ -7,6 +7,8 @@ export const colecoesMessages: ColecoesMessages = {
     empty: "Nenhuma coleção ainda. Crie uma pasta para organizar o que você salvou.",
     loadMore: "Carregar mais coleções",
     openColecao: "Abrir coleção",
+    buscarPlaceholder: "Buscar pelo título ou pela descrição",
+    semResultado: (termo) => `Nenhuma coleção com o termo "${termo}".`,
     posts: (count) => `${count} posts`,
   },
   colecoesFormulario: {

@@ -39,6 +39,7 @@ export type ProfileMessages = {
     };
     openToWork: string;
     mentorAvailable: string;
+    recruiterMode: string;
     akaHint: string;
     badgeUpload: string;
     badgeRemove: string;

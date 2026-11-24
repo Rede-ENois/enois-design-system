@@ -48,3 +48,4 @@ export * from "./roleplay/index.js";
 export * from "./whats-new/index.js";
 export * from "./emotes/index.js";
 export * from "./doacoes/index.js";
+export * from "./talent-banks/index.js";
