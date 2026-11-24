@@ -32,7 +32,7 @@ describe("RichText links", () => {
 describe("RichText figurinhas", () => {
   const stickers: Record<string, EditorSticker> = {
     ":enois_feliz:": { url: "/emojis/enois/feliz.webp", alt: "Énóis feliz" },
-    KEKW: { url: "/emojis/kekw.webp", alt: "KEKW" },
+    ":KEKW:": { url: "/emojis/kekw.webp", alt: "KEKW" },
   };
 
   it("desenha a figurinha de código como imagem inline do tamanho do texto", () => {
@@ -49,9 +49,21 @@ describe("RichText figurinhas", () => {
     expect(html).not.toContain("max-h-80");
   });
 
+  it("só o código entre dois-pontos vira figurinha: código solto continua palavra", () => {
+    // O seletor grava `:enois_feliz:`; o código solto é o mesmo identificador num mapa que também
+    // tem palavra comum (um nome que virou figurinha), e trocar a palavra inteira transformava
+    // texto normal em figurinha.
+    const html = renderToStaticMarkup(
+      <RichText content="oi KEKW, e :KEKW:" mentionHref={mentionHref} inlineStickers={stickers} />,
+    );
+
+    expect(html).toContain("oi KEKW,");
+    expect(html.match(/<img/g)).toHaveLength(1);
+  });
+
   it("só troca a palavra inteira: código colado em outra palavra fica texto", () => {
     const html = renderToStaticMarkup(
-      <RichText content="a KEKWb e KEKW" mentionHref={mentionHref} inlineStickers={stickers} />,
+      <RichText content="a KEKWb e :KEKW:" mentionHref={mentionHref} inlineStickers={stickers} />,
     );
 
     expect(html).toContain("KEKWb");
@@ -99,7 +111,7 @@ describe("RichText figurinhas", () => {
   it("com a prop, a figurinha do mapa que não é figurinha fica com o desenho que já tinha", () => {
     const html = renderToStaticMarkup(
       <RichText
-        content="oi KEKW"
+        content="oi :KEKW:"
         mentionHref={mentionHref}
         inlineStickers={stickers}
         figurinha={{
