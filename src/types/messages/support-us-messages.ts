@@ -31,4 +31,14 @@ export type SupportUsMessages = {
     keyLabel: string;
     keyFooter: string;
   };
+  apoieWise: {
+    title: string;
+    description: string;
+    suggestedValues: string;
+    suggestedValue: (valor: string) => string;
+    otherValue: string;
+    open: string;
+    feeNote: string;
+    noSeal: string;
+  };
 };

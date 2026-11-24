@@ -1,0 +1,227 @@
+name: Release automatica
+
+# DECISÃO (2026-11-24, dona do projeto): todo merge que chega na main vira uma versão publicada,
+# sem ninguém criar tag à mão. O número é patch até o nono — 0.46.1, 0.46.2 … 0.46.9 — e o décimo
+# abre a próxima minor: 0.47.0, 0.47.1 … 0.47.9, 0.48.0. Três dígitos por minor; 0.46.30 não existe.
+# A regra do contador mora em scripts/proxima-versao.mjs.
+#
+# Como a release acontece: este workflow espera os mesmos gates da CI, commita a versão no
+# package.json da main, cria a tag vX.Y.Z e faz o push das duas. A tag dispara o publish que já
+# existe em ci.yml (o único caminho até o GitHub Packages, com o NODE_AUTH_TOKEN do repositório),
+# e o front recebe o aviso `ds-release` logo em seguida.
+#
+# De onde sai o número: a última tag `v*` do repositório — a mesma que foi publicada no registro.
+# O package.json da main não conta (uma promoção da `qa` na main traz o package.json dela, com
+# outra versão). Na primeira execução não existe tag nenhuma: aí só o `VERSAO_DE_REFERENCIA` abaixo
+# vale, uma vez, para alinhar a main com a versão já publicada.
+#
+# SECURITY — read before editing this file:
+#   - Never on `pull_request`: este job faz push de commit e tag com um token de escrita.
+#   - O commit de release só mexe em package.json/package-lock.json — o `paths-ignore` impede que ele
+#     re-dispare o próprio workflow. Um merge que muda arquivo desses de propósito (documentação,
+#     promoção da `qa`) também não vira release: para publicar uma correção só de documentação, mude
+#     também um arquivo de `src/` no mesmo commit.
+#   - O aviso ao front usa outro secret, DS_RELEASE_TOKEN: o `repository_dispatch` não roda a partir
+#     do GITHUB_TOKEN, e o token precisa de escrita em contents no repositório do front. Se o secret
+#     não existir, o passo avisa e a release continua — o lock do front fica para o próximo evento.
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "package.json"
+      - "package-lock.json"
+      - "docs/**"
+      - "README.md"
+
+permissions:
+  contents: read
+
+# Uma promoção por vez, em ordem: a primeira publica 0.46.1, a segunda espera, lê a tag nova e
+# publica 0.46.2. `cancel-in-progress: false` é obrigatório — cancelar no meio deixaria a main
+# sem a release.
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+env:
+  # A última versão publicada. Só vale na primeira execução, quando ainda não há tag `v*` — depois
+  # o contador vem das tags.
+  VERSAO_DE_REFERENCIA: 0.46.0
+  # Repositório do front que recebe o aviso `ds-release`.
+  REPOSITORIO_DO_FRONT: Rede-ENois/enois-frontend
+
+jobs:
+  preparar:
+    name: Calcular a versão
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      versao: ${{ steps.versao.outputs.versao }}
+      publicada: ${{ steps.versao.outputs.publicada }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Qual é a próxima versão
+        id: versao
+        run: |
+          set -euo pipefail
+
+          echo "## Release automática" >> "$GITHUB_STEP_SUMMARY"
+
+          # A tag mais alta (por versão, não por data): é ela que foi publicada.
+          ultima="$(git tag --list 'v[0-9]*' --sort=-v:refname | head -1)"
+          ultima="${ultima#v}"
+          # Sem tag nenhuma (primeira execução): parte da referência.
+          atual="${ultima:-$VERSAO_DE_REFERENCIA}"
+
+          # A versão vem de fora via env, não de argv: o node decide sozinho se o primeiro
+          # argumento é script ou execução, e com `-e` o argv não é garantido.
+          seguinte="$(
+            ATUAL="$atual" node -e 'import(process.cwd() + "/scripts/proxima-versao.mjs").then(({ proximaVersao }) => console.log(proximaVersao(process.env.ATUAL)))'
+          )"
+
+          # A frase do resumo carrega o ordinal ("the third patch for 0.46").
+          frase() {
+            node -e 'import(process.cwd() + "/scripts/proxima-versao.mjs").then(({ fraseDaVersao }) => console.log(fraseDaVersao(process.argv[1])))' "$1"
+          }
+
+          {
+            echo ""
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Última versão publicada | \`$atual\` ($(frase "$atual")) |"
+            echo "| Esta release | \`$seguinte\` ($(frase "$seguinte")) |"
+            echo "| Commit | \`${GITHUB_SHA:0:7}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "versao=$seguinte" >> "$GITHUB_OUTPUT"
+
+          # A tag já existe: a versão foi publicada. O workflow tem que terminar aqui, então a única
+          # execução que pode chegar ao push de novo é a da própria CI (o push da tag não dispara
+          # `push` em branch).
+          if git rev-parse -q --verify "refs/tags/v$seguinte" >/dev/null; then
+            echo "publicada=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publicada=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  verificar:
+    name: Lint, typecheck, test and build
+    needs: preparar
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: rm -rf node_modules && npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:eslint-rules
+      - run: npm run build
+      - run: npm run test:dist
+      - name: Pacote publicado não carrega script do repositório
+        run: |
+          node scripts/preparar-pacote.mjs
+          node scripts/check-pacote-publicado.mjs package.json
+          node scripts/restaurar-pacote.mjs
+      - run: npm run build-storybook
+
+  publicar:
+    name: Release ${{ needs.preparar.outputs.versao }}
+    needs: [preparar, verificar]
+    # O push do commit de release dispara a CI desta mesma main: essa execução sobrou de um cálculo
+    # com a tag anterior. A tag de uma versão publicada nunca muda, e ela já está lá.
+    if: needs.preparar.outputs.versao != '' && needs.preparar.outputs.publicada != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Push em branch protegida: ação externa, sob aprovação explícita do environment `release`
+    # (regra de revisão exigida).
+    environment: release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # O token do Actions não contorna as regras da branch protegida; o secret é um PAT (ou um
+          # token de app) com escrita em contents.
+          token: ${{ secrets.RELEASE_TOKEN }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Commit da versão e tag
+        id: tag
+        env:
+          # O número que a CI já contou e conferiu no resumo do job "Calcular a versão".
+          VERSAO: ${{ needs.preparar.outputs.versao }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "release"
+          git config user.email "release@users.noreply.github.com"
+
+          # A fila do `concurrency` pode ter deixado outro commit na main depois do cálculo: o
+          # próprio cálculo roda por último em cada execução, então a fila já conta a tag anterior.
+          git pull --ff-only origin main
+
+          if git rev-parse -q --verify "refs/tags/v$VERSAO" >/dev/null; then
+            echo "v$VERSAO já existe; nada a publicar."
+            exit 0
+          fi
+
+          npm version "$VERSAO" --no-git-tag-version
+          git add package.json package-lock.json
+          git commit -m "chore(release): $VERSAO [skip release]" -m "Publicado automaticamente pelo workflow Release automatica."
+          git tag -a "v$VERSAO" -m "v$VERSAO"
+          git push origin HEAD:main
+          git push origin "v$VERSAO"
+
+      - name: Avisar o front
+        env:
+          VERSAO: ${{ needs.preparar.outputs.versao }}
+          TOKEN_DO_FRONT: ${{ secrets.DS_RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # Dois tokens, dois papéis: este job fez o push aqui com o RELEASE_TOKEN, e o
+          # repository_dispatch é outro repositório — o token do front precisa de escrita em
+          # contents lá.
+          if [ -z "$TOKEN_DO_FRONT" ]; then
+            echo "::warning::DS_RELEASE_TOKEN não configurado; o front não recebeu o aviso ds-release da $VERSAO."
+            exit 0
+          fi
+
+          # O aviso é a forma de chegar cedo ao front; o pacote sai pelo publish do ci.yml, que
+          # já foi disparado pela tag. Se o aviso falhar, a release não desanda: o GitHub mostra o
+          # warning no resumo do job, e o próximo merge avisa o front com a versão seguinte.
+          codigo="$(curl -sS -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer $TOKEN_DO_FRONT" \
+            "https://api.github.com/repos/${{ github.repository }}/git/ref/tags/v$VERSAO" || true)"
+          if [ "$codigo" != "200" ]; then
+            echo "::warning::a tag v$VERSAO não apareceu no GitHub (HTTP $codigo); o front não foi avisado."
+            exit 0
+          fi
+
+          corpo="$(VERSAO="$VERSAO" node -e 'process.stdout.write(JSON.stringify({ event_type: "ds-release", client_payload: { version: process.env.VERSAO } }))')"
+          resposta="$(curl -sS -o /tmp/dispatch.json -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $TOKEN_DO_FRONT" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ env.REPOSITORIO_DO_FRONT }}/dispatches" \
+            -d "$corpo" || true)"
+
+          if [ "$resposta" != "204" ]; then
+            echo "::warning::o front não recebeu o aviso ds-release da $VERSAO (HTTP $resposta: $(cat /tmp/dispatch.json))"
+            exit 0
+          fi
+
+          echo "Front avisado da \`$VERSAO\`." >> "$GITHUB_STEP_SUMMARY"
