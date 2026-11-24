@@ -45,6 +45,7 @@ export const profileMessages: ProfileMessages = {
     },
     openToWork: "Aberto a oportunidades",
     mentorAvailable: "Mentor disponível",
+    recruiterMode: "Sou recrutador",
     akaHint: "Como você é conhecido por aqui (até 60 caracteres). Aparece ao lado do seu nome.",
     badgeUpload: "Enviar imagem",
     badgeRemove: "Remover emblema",
