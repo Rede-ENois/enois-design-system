@@ -45,3 +45,7 @@ Dialog plumbing belongs to the wrapper. Behaviour specific to the content stays 
 - [ ] Do Escape, the close button and the backdrop all close exactly once?
 - [ ] Are scroll lock, focus trap and `aria-modal` left to the wrapper, with nothing manual in the
       view?
+- [ ] When the content is taller than the layer, is the whole column one scroll region — header
+      included? Two sibling scroll boxes trap the gesture: a wheel or a swipe over the header never
+      reaches the list below, and a long header eats the layer's height until the list has no room
+      left to scroll (`desafios-detalhe.tsx`).

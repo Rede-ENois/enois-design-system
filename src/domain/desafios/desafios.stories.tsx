@@ -58,6 +58,70 @@ const participacao: DesafioParticipacaoView = {
   isMine: false,
 };
 
+/**
+ * O caso do convite comprido com mural longo: é o convite que come a altura da camada e deixa o
+ * mural sem espaço para rolar. A rolagem é da coluna inteira (convite + mural), para o gesto
+ * sobre o convite também descer até as participações.
+ */
+export const DetalheComMuralLongo: StoryObj = {
+  name: "Detalhe com mural longo",
+  render: function DetalheLongoStory() {
+    const [open, setOpen] = useState(true);
+
+    const participacoesLongas: DesafioParticipacaoView[] = Array.from(
+      { length: 12 },
+      (_, indice) => ({
+        ...participacao,
+        id: `part_${indice + 1}`,
+        content: `Participação ${indice + 1}: o verso ${indice + 1} do poema do bairro.`,
+        cheers: indice,
+      }),
+    );
+
+    return (
+      <article className="mx-auto max-w-xl [contain-intrinsic-size:auto_360px] [content-visibility:auto] rounded-2xl bg-surface-card p-5">
+        <p className="text-sm text-text-subtle">Feed atrás do desafio</p>
+
+        {open ? (
+          <DesafiosDetalhe
+            open
+            onOpenChange={(next) => {
+              setOpen(next);
+            }}
+            timeLeft="em 3 dias"
+            desafio={{
+              ...desafio,
+              description:
+                "Quero convidar todo mundo para escrever um poema de quatro versos sobre o seu bairro. " +
+                "Pode ser em cima, embaixo, no centro, nas bordas; cada um do seu jeito, sem medo do rhyme. " +
+                "Depois eu leio tudo em voz alta na live, e o melhor verso vira o mural do desafio. " +
+                "Vem!",
+              participacoes: participacoesLongas.length,
+            }}
+            state={{ kind: "ready" }}
+            participacoes={participacoesLongas}
+            onParticipate={async () => undefined}
+            onCheer={() => undefined}
+            onUncheer={() => undefined}
+            onRemoveParticipacao={() => undefined}
+            onClose={() => undefined}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(true);
+            }}
+            className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground"
+          >
+            Reabrir o desafio
+          </button>
+        )}
+      </article>
+    );
+  },
+};
+
 export const LinhaDoTempo: StoryObj = {
   name: "Linha do tempo",
   render: () => (
