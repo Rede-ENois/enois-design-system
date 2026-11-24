@@ -7,6 +7,8 @@ export const muraisMessages: MuraisMessages = {
     empty: "Nenhum mural por aqui ainda. Reúna as melhores publicações em um.",
     loadMore: "Carregar mais murais",
     openMural: "Abrir mural",
+    buscarPlaceholder: "Buscar pelo título ou pela descrição",
+    semResultado: (termo) => `Nenhum mural com o termo "${termo}".`,
     contributions: (count) => `${count} publicações`,
   },
   muraisFormulario: {

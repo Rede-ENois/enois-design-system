@@ -9,6 +9,10 @@ export type MuraisMessages = {
     empty: string;
     loadMore: string;
     openMural: string;
+    /** Campo de busca da lista. */
+    buscarPlaceholder: string;
+    /** "Nenhum mural com o termo \"vôlei\".": a busca foi feita e nada bateu. */
+    semResultado: (termo: string) => string;
     /** Contagem curta no cartão: "3 publicações". */
     contributions: (count: number) => string;
   };

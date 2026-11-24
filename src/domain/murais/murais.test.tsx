@@ -113,6 +113,45 @@ describe("MuraisLista", () => {
     await act(async () => carregar!.click());
     expect(props.onLoadMore).toHaveBeenCalledTimes(1);
   });
+
+  it("sem busca não há campo; com busca, cada tecla chega em quem compõe", async () => {
+    render();
+    expect(host.querySelector("input[type='search']")).toBeNull();
+
+    const aoMudar = vi.fn();
+    render({ busca: { valor: "", aoMudar } });
+    const campo = host.querySelector<HTMLInputElement>("input[type='search']")!;
+    expect(campo.placeholder).toBe(lista.buscarPlaceholder);
+
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set?.call(
+        campo,
+        "feira",
+      );
+      campo.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    expect(aoMudar).toHaveBeenCalledWith("feira");
+  });
+
+  it("vazio com termo diz o termo e some com o carregar mais; o campo continua", () => {
+    render({
+      murais: [],
+      state: { kind: "empty" },
+      hasMore: true,
+      busca: { valor: " vôlei ", aoMudar: vi.fn() },
+    });
+
+    expect(host.textContent).toContain(lista.semResultado("vôlei"));
+    expect(host.textContent).not.toContain(lista.empty);
+    expect(host.textContent).not.toContain(lista.loadMore);
+    expect(host.querySelector("input[type='search']")).not.toBeNull();
+  });
+
+  it("com termo, mesmo com mais páginas, o carregar mais não aparece", () => {
+    render({ hasMore: true, busca: { valor: "feira", aoMudar: vi.fn() } });
+    expect(host.textContent).not.toContain(lista.loadMore);
+    expect(host.textContent).toContain("Fotografia do interior");
+  });
 });
 
 describe("MuralFormulario", () => {

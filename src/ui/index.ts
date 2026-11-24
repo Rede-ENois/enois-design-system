@@ -31,6 +31,7 @@ export { LoadingState } from "./loading-state.js";
 export { MetaLine } from "./meta-line.js";
 export { PageHeader } from "./page-header.js";
 export { PasswordInput } from "./password-input.js";
+export { SearchField } from "./search-field.js";
 export { Select } from "./select.js";
 export { Pill } from "./pill.js";
 export { PillRow } from "./pill-row.js";
