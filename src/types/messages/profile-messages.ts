@@ -1,6 +1,12 @@
 import type { ProfileGardenStyle } from "../domain/profile/profile-garden-style.js";
 
 export type ProfileMessages = {
+  /** A festa no perfil de quem faz aniversário hoje (figurinhas voando, balões e o tíquete). */
+  birthdayCelebration: {
+    title: (name: string) => string;
+    body: string;
+    dismiss: string;
+  };
   editProfileDialog: {
     title: string;
     cancel: string;
