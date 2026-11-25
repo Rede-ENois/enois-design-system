@@ -4,6 +4,9 @@ export {
   composerSuggestionsAria,
   ComposerStickerSuggestions,
 } from "./composer-sticker-suggestions.js";
+export type { ComposerStickerSuggestion } from "../../types/domain/emotes/composer-sticker-suggestion.js";
+export type { ComposerStickerSuggestionsProps } from "../../types/domain/emotes/composer-sticker-suggestions-props.js";
+export type { FigurinhaComunidadeItem } from "../../types/domain/emotes/figurinha-comunidade-item.js";
 export { EmoteCell, EmotePageButton } from "./emote-cell.js";
 export { EmotePickerDialogView, EmotePickerTriggerButton } from "./emote-picker-dialog-view.js";
 export {
