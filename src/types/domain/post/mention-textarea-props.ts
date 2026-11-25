@@ -3,6 +3,8 @@ import type { ComponentPropsWithoutRef, ReactNode, Ref } from "react";
 import type { EditorSticker } from "./editor-sticker.js";
 import type { MentionTextareaHandle } from "./mention-textarea-handle.js";
 import type { MentionUser } from "./mention-user.js";
+import type { StickerQueryState } from "./sticker-query-state.js";
+import type { StickerSuggestions } from "./sticker-suggestions.js";
 
 export type MentionTextareaProps = Pick<
   ComponentPropsWithoutRef<"textarea">,
@@ -51,4 +53,11 @@ export type MentionTextareaProps = Pick<
   ref?: Ref<MentionTextareaHandle>;
   /** The @mention term being typed ("" when there is none). */
   onMentionQueryChange: (query: string) => void;
+  /**
+   * Autocomplete de figurinhas (`:palavra`): o campo acha o termo sob o cursor e repassa as teclas
+   * ao menu enquanto ele está aberto. Sem ela o `:` continua sendo só texto.
+   */
+  stickerSuggestions?: StickerSuggestions;
+  /** O termo de figurinha sob o cursor (ou `null`): o dono do campo busca as figurinhas. */
+  onStickerQueryChange?: (state: StickerQueryState | null) => void;
 };
