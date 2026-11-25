@@ -13,7 +13,7 @@ import {
  * A página do catálogo da comunidade: título, busca, grade de cartões e páginas.
  *
  * Só desenha — o app manda os cartões já montados (com as ações que a pessoa tem) e diz em que
- * estado está a consulta (`loading`, `error`, `empty` ou `ready`).
+ * estado está a consulta (`loading`, `error`, `empty`, `guest` ou `ready`).
  */
 export function FigurinhaComunidadeCatalogo({
   cartoes,
@@ -32,6 +32,16 @@ export function FigurinhaComunidadeCatalogo({
   retryLabel,
 }: FigurinhaComunidadeCatalogoProps) {
   const aviso = state === "error" ? labels.error : labels.loading;
+
+  if (state === "guest") {
+    return (
+      <section className="flex flex-col gap-4" aria-label={title}>
+        <p className="sr-only">{intro}</p>
+
+        <EmptyState title={labels.guest} />
+      </section>
+    );
+  }
 
   return (
     <section className="flex flex-col gap-4" aria-label={title} aria-busy={state === "loading"}>
