@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { createPortal } from "react-dom";
 
 import type { ComposerStickerSuggestionsProps } from "../../types/domain/emotes/composer-sticker-suggestions-props.js";
@@ -28,11 +30,14 @@ export function ComposerStickerSuggestions({
   onDestacar,
   anchor,
 }: ComposerStickerSuggestionsProps) {
-  if (typeof document === "undefined") return null;
-  const caixa = anchor.current?.getBoundingClientRect();
+  const rolagem = useRolagemQueMoveOMenu();
+  const caixa = typeof document === "undefined" ? null : anchor.current?.getBoundingClientRect();
   if (!caixa) return null;
 
-  const topo = Math.min(caixa.bottom + 4, window.innerHeight - ALTURA - 8);
+  // Acima do campo quando não cabe embaixo (o composer fica no rodapé da tela).
+  const acima = caixa.bottom + 4 + ALTURA > window.innerHeight - 8 && caixa.top > ALTURA + 8;
+  const altura = Math.min(ALTURA, (acima ? caixa.top : window.innerHeight - caixa.bottom) - 12);
+  const topo = acima ? caixa.top - altura - 4 : caixa.bottom + 4;
   const esquerda = Math.min(caixa.left, Math.max(8, window.innerWidth - LARGURA - 8));
 
   if (opcoes.length === 0) {
@@ -62,7 +67,7 @@ export function ComposerStickerSuggestions({
         "--menu-top": `${topo}px`,
         "--menu-left": `${esquerda}px`,
         "--menu-width": `${LARGURA}px`,
-        "--menu-height": `${ALTURA}px`,
+        "--menu-height": `${altura}px`,
       }}
       className="fixed left-(--menu-left) top-(--menu-top) z-50 max-h-(--menu-height) w-(--menu-width) overflow-y-auto rounded-md border border-border-soft bg-surface-1 py-1 shadow-md"
     >
@@ -96,11 +101,6 @@ export function ComposerStickerSuggestions({
 }
 
 /**
- * Monta o menu no `body` (portal), preso ao campo por `anchorRef`. Fora do campo, ele não é
- * recortado pelo `overflow` do formulário e não some atrás de barras fixas.
- */
-
-/**
  * Liga o menu ao campo para leitores de tela: devolve os atributos ARIA do `textarea`.
  * Vazio quando o menu está fechado — fora do modo combobox, sem `aria-controls` pendurado.
  */
@@ -121,4 +121,19 @@ export function composerSuggestionsAria(
     "aria-expanded": true,
     ...(destaque >= 0 ? { "aria-activedescendant": `${id}-opcao-${destaque}` } : {}),
   };
+}
+
+/** Redesenha o menu quando algo o tira do lugar: rolagem, resize (o campo anda na tela). */
+function useRolagemQueMoveOMenu(): number {
+  const [versao, setVersao] = useState(0);
+  useEffect(() => {
+    const mover = () => setVersao((atual) => atual + 1);
+    window.addEventListener("scroll", mover, true);
+    window.addEventListener("resize", mover);
+    return () => {
+      window.removeEventListener("scroll", mover, true);
+      window.removeEventListener("resize", mover);
+    };
+  }, []);
+  return versao;
 }

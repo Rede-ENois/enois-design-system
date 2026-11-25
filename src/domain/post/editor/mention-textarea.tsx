@@ -438,8 +438,18 @@ export function MentionTextarea({
    * spaces, so a sticker code stays a word. Over `maxLength` nothing changes. The caret lands after
    * the insert; the field takes the focus only if it had it (a dialog may be open over it).
    */
-  const insertText = (text: string, spaced: boolean, selection = currentSelection()): boolean => {
-    const before = value.slice(0, selection.start);
+  const insertText = (
+    text: string,
+    spaced: boolean,
+    selection = currentSelection(),
+    tipo?: StickerQueryState,
+  ): boolean => {
+    // Sem seleção, o `:palavra` até o cursor sai junto: ele era a busca, não o texto.
+    const inicio =
+      tipo && selection.start === selection.end && tipo.end === selection.end
+        ? tipo.start
+        : selection.start;
+    const before = value.slice(0, inicio);
     const after = value.slice(selection.end);
     const prefix = spaced && before && !/\s$/.test(before) ? " " : "";
     const suffix = spaced && after && !/^\s/.test(after) ? " " : "";
@@ -447,7 +457,7 @@ export function MentionTextarea({
     const next = `${before}${inserted}${after}`;
     if (maxLength !== undefined && next.length > maxLength) return false;
 
-    const caret = before.length + inserted.length;
+    const caret = inicio + inserted.length;
     const focused = fieldRef.current?.ownerDocument.activeElement === fieldRef.current;
     applyEdit(next, { start: caret, end: caret }, focused);
     return true;
@@ -467,6 +477,8 @@ export function MentionTextarea({
 
   useImperativeHandle(ref, () => ({
     insertAtCaret: (text) => insertText(text, true),
+    replaceStickerQuery: (codigo, tipo) =>
+      insertText(`:${codigo.replace(/^:+|:+$/g, "")}:`, false, undefined, tipo),
     focus: () => {
       const el = fieldRef.current;
       if (!el) return;
