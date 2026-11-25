@@ -1,3 +1,5 @@
+export { BirthdayCelebration, BIRTHDAY_CELEBRATION_MS } from "./birthday-celebration.js";
+export type { BirthdayCelebrationProps } from "../../types/domain/profile/birthday-celebration-props.js";
 export { EditProfileDialog } from "./edit-profile-dialog.js";
 export { GithubImportDialog } from "./github-import-dialog.js";
 export { GithubOrgImportDialog } from "./github-org-import-dialog.js";

@@ -1,6 +1,11 @@
 import type { ProfileMessages } from "../../types/messages/profile-messages.js";
 
 export const profileMessages: ProfileMessages = {
+  birthdayCelebration: {
+    title: (name: string) => `Feliz aniversário, ${name}!`,
+    body: "O perfil está em festa hoje: manda um abraço.",
+    dismiss: "Fechar os parabéns",
+  },
   editProfileDialog: {
     title: "Editar perfil",
     cancel: "Cancelar",
