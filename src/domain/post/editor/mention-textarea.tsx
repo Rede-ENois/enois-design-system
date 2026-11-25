@@ -23,6 +23,7 @@ import { textFieldClasses } from "../../../lib/text-field-classes.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import { RichTextToolbarMenu } from "../../../patterns/editor/rich-text-toolbar-menu.js";
 import { RichTextToolbar } from "../../../patterns/editor/rich-text-toolbar.js";
+import type { EdicaoDoCampo } from "../../../types/domain/post/edicao-do-campo.js";
 import type { EditorEditKind } from "../../../types/domain/post/editor-edit-kind.js";
 import type { EditorHistorySnapshot } from "../../../types/domain/post/editor-history-snapshot.js";
 import type { MentionTextareaProps } from "../../../types/domain/post/mention-textarea-props.js";
@@ -497,18 +498,51 @@ export function MentionTextarea({
     applyEdit(result.value, { start: result.selectionStart, end: result.selectionEnd }, true);
   };
 
-  useImperativeHandle(ref, () => ({
-    insertAtCaret: (text) => insertText(text, true),
-    replaceStickerQuery: (codigo, tipo) =>
-      insertText(`:${codigo.replace(/^:+|:+$/g, "")}:`, false, undefined, tipo),
-    focus: () => {
+  // O handle fica parado entre renders (identidade estável): com um objeto novo a cada render, o app
+  // que guarda a ref para inserir a figurinha do seletor re-renderiza em laço. A edição pedida fica
+  // guardada aqui e sai no layout, com o texto e a seleção do render em que o campo está.
+  // O handle fica parado entre renders (identidade estável): com um objeto novo a cada render, o app
+  // que guarda a ref para inserir a figurinha do seletor re-renderiza em laço. A edição pedida é
+  // guardada e o layout a solta com o texto e a seleção do render em que o campo está.
+  const edicaoPedidaRef = useRef<EdicaoDoCampo | null>(null);
+  const [, setEdicaoPedida] = useState(0);
+
+  function pedirEdicao(edicao: EdicaoDoCampo) {
+    edicaoPedidaRef.current = edicao;
+    setEdicaoPedida((n) => n + 1);
+  }
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      insertAtCaret: (text: string) => {
+        pedirEdicao({ tipo: "inserir", texto: text });
+        return true;
+      },
+      replaceStickerQuery: (codigo: string, tipo: StickerQueryState) => {
+        pedirEdicao({ tipo: "substituirTermo", codigo, termo: tipo });
+        return true;
+      },
+      focus: () => pedirEdicao({ tipo: "focar" }),
+    }),
+    [],
+  );
+
+  useLayoutEffect(() => {
+    const edicao = edicaoPedidaRef.current;
+    if (!edicao) return;
+    edicaoPedidaRef.current = null;
+    if (edicao.tipo === "inserir") insertText(edicao.texto, true);
+    if (edicao.tipo === "substituirTermo")
+      insertText(`:${edicao.codigo.replace(/^:+|:+$/g, "")}:`, false, undefined, edicao.termo);
+    if (edicao.tipo === "focar") {
       const el = fieldRef.current;
       if (!el) return;
       const selection = currentSelection();
       el.focus({ preventScroll: true });
       writeSelection(el, selection.start, selection.end);
-    },
-  }));
+    }
+  });
 
   /** Undo or redo one step: goes through `onChange` and mention reconciliation like any edit. */
   const moveInHistory = (direction: "undo" | "redo") => {

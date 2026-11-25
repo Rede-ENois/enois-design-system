@@ -209,11 +209,11 @@ describe("MentionTextarea insertAtCaret", () => {
 
   it("does not insert past maxLength", () => {
     render({ initial: "abcdef", maxLength: 8 });
-    let inserted = true;
+    // A edição sai no layout, depois do render: o limite é conferido lá, e quem diz o resultado é
+    // o `onChange` (que não vem).
     act(() => {
-      inserted = handle.current?.insertAtCaret("KEKW") ?? true;
+      handle.current?.insertAtCaret("KEKW");
     });
-    expect(inserted).toBe(false);
     expect(changed).not.toHaveBeenCalled();
   });
 
