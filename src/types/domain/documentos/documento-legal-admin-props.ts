@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type { DocumentoLegalAdminRascunho } from "./documento-legal-admin-rascunho.js";
 import type { DocumentoLegalAdminRotulos } from "./documento-legal-admin-rotulos.js";
 
@@ -20,4 +22,6 @@ export type DocumentoLegalAdminProps = {
   onPublicar: () => void;
   /** Versões já publicadas (resumo), para o admin ver o que está no ar. */
   publicados: { id: string; tipo: string; versao: number; titulo: string; vigente: boolean }[];
+  /** A confirmação da publicação; o app a recebe pronta e só a mostra quando ela vale. */
+  children?: ReactNode;
 };

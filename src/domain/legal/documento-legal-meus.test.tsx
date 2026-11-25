@@ -135,6 +135,7 @@ describe("DocumentoLegalAdmin", () => {
     publicadoErro: "Erro.",
     vazio: "Nada publicado.",
     publicados: "No ar",
+    confirmacaoTitulo: "Confirmar",
   } satisfies DocumentoLegalAdminRotulos;
 
   it("sem texto não dá para criar o rascunho", () => {
@@ -204,6 +205,7 @@ describe("DocumentoLegalAdmin", () => {
       root.render(
         <DocumentoLegalPublicarConfirmacao
           labels={ROTULOS}
+          aberta
           publicando={false}
           onConfirmar={() => {}}
           onCancelar={() => cancelou++}

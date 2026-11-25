@@ -29,6 +29,7 @@ export function DocumentoLegalAdmin({
   publicando,
   onPublicar,
   publicados,
+  children,
 }: DocumentoLegalAdminProps) {
   const enviando = rascunho.estado === "enviando";
   const faltando = !tipo || !titulo.trim() || !conteudo.trim();
@@ -118,6 +119,8 @@ export function DocumentoLegalAdmin({
           <Button variant="destructive" onClick={onPublicar} disabled={publicando}>
             {publicando ? labels.publicando : labels.publicar}
           </Button>
+
+          {children}
         </div>
       ) : null}
 
@@ -150,9 +153,12 @@ export function DocumentoLegalAdmin({
 export function DocumentoLegalPublicarConfirmacao({
   labels,
   publicando,
+  aberta,
   onConfirmar,
   onCancelar,
 }: DocumentoLegalPublicarConfirmacaoProps) {
+  if (!aberta) return null;
+
   return (
     <div className="space-y-3 rounded-md border border-destructive/40 bg-destructive/5 p-4">
       <p role="alert" className="text-sm font-semibold">

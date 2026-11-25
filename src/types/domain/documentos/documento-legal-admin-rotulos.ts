@@ -19,6 +19,8 @@ export type DocumentoLegalAdminRotulos = {
   publicar: string;
   publicarAviso: string;
   publicando: string;
+  /** Aviso enquanto a confirmação da publicação está na tela. */
+  confirmacaoTitulo: string;
   confirmar: string;
   cancelar: string;
   publicado: string;
