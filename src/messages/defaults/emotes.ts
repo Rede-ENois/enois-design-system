@@ -16,5 +16,23 @@ export const emotesMessages: EmotesMessages = {
     page: (page: number, totalPages: number) => `Página ${page} de ${totalPages}`,
     previous: "Página anterior",
     next: "Próxima página",
+    holdHint: "Segure para denunciar ou banir",
+  },
+  emoteActionDialog: {
+    title: "Figurinha",
+    description: "Segurou a figurinha. O que você quer fazer com ela?",
+    report: "Denunciar",
+    reportDone: "Você já denunciou esta figurinha.",
+    reports: (denunciantes: number, limiar: number) =>
+      `${denunciantes} de ${limiar} denúncias tiram a figurinha do ar`,
+    ban: "Banir figurinha",
+    unban: "Desfazer o banimento",
+    banned: "Esta figurinha está fora do ar.",
+    reasonLabel: "Motivo",
+    reasonPlaceholder: "Por que esta figurinha sai do ar? (pelo menos 10 caracteres)",
+    reasonRequired: "Escreva o motivo (pelo menos 10 caracteres).",
+    cancel: "Cancelar",
+    error: "Não foi possível concluir. Tente de novo.",
+    official: "As figurinhas do É Nóis não podem ser denunciadas nem banidas.",
   },
 };

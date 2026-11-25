@@ -28,6 +28,7 @@ const escolhidos: string[] = [];
 const paginaPedida: number[] = [];
 const buscaDigitada: string[] = [];
 const abaEscolhida: string[] = [];
+const seguradas: string[] = [];
 
 function render(overrides: Partial<EmotePickerDialogViewProps> = {}) {
   act(() =>
@@ -50,7 +51,18 @@ function render(overrides: Partial<EmotePickerDialogViewProps> = {}) {
   );
 }
 
-const cell = (code: string) => document.querySelector<HTMLButtonElement>(`button[title="${code}"]`);
+/** A célula pelo título: o título abre com o código e, com gesto, segue com o rótulo de segurar. */
+const cell = (code: string) =>
+  [...document.querySelectorAll<HTMLButtonElement>("button[title]")].find(
+    (botao) => botao.title === code || botao.title.startsWith(`${code} — `),
+  ) ?? null;
+
+/** jsdom não tem `PointerEvent`: um `Event` com o tipo do ponteiro basta para o gesto. */
+function ponteiro(tipo: string) {
+  const evento = new Event(tipo, { bubbles: true });
+  Object.defineProperty(evento, "pointerType", { value: "touch" });
+  return evento;
+}
 
 function botao(rotulo: string) {
   return document.querySelector<HTMLButtonElement>(`button[aria-label="${rotulo}"]`);
@@ -69,7 +81,19 @@ afterEach(() => {
   paginaPedida.length = 0;
   buscaDigitada.length = 0;
   abaEscolhida.length = 0;
+  seguradas.length = 0;
 });
+
+/** Pressão de verdade: o ponteiro desce, o relógio da célula anda e o gesto abre as ações. */
+async function segurar(codigo: string) {
+  act(() => {
+    cell(codigo)?.dispatchEvent(ponteiro("pointerdown"));
+  });
+  await new Promise((resolver) => setTimeout(resolver, 600));
+  act(() => {
+    cell(codigo)?.dispatchEvent(ponteiro("pointerup"));
+  });
+}
 
 describe("EmotePickerDialogView", () => {
   it("desenha título, busca, abas, grade, contagem e dica", () => {
@@ -123,6 +147,70 @@ describe("EmotePickerDialogView", () => {
     act(() => cell("KEKW")?.click());
 
     expect(escolhidos).toEqual(["KEKW"]);
+  });
+
+  it("segurar a figurinha abre as ações em vez de escolher", async () => {
+    render({ onHold: (item) => seguradas.push(item.code) });
+
+    await segurar("KEKW");
+    act(() => cell("KEKW")?.click());
+
+    expect(seguradas).toEqual(["KEKW"]);
+    // O clique que o navegador dispara ao soltar depois da pressão longa não escolhe a figurinha.
+    expect(escolhidos).toEqual([]);
+  });
+
+  it("um toque curto continua escolhendo", () => {
+    render({ onHold: (item) => seguradas.push(item.code) });
+
+    act(() => {
+      const alvo = cell("KEKW");
+      alvo?.dispatchEvent(ponteiro("pointerdown"));
+      alvo?.dispatchEvent(ponteiro("pointerup"));
+      alvo?.click();
+    });
+
+    expect(seguradas).toEqual([]);
+    expect(escolhidos).toEqual(["KEKW"]);
+  });
+
+  it("a célula anuncia o gesto no title e no menu de contexto", () => {
+    render({ onHold: (item) => seguradas.push(item.code) });
+
+    expect(cell("KEKW")?.title).toBe(`KEKW — ${messages.holdHint}`);
+    expect(cell("KEKW")?.className).toContain("select-none");
+
+    act(() =>
+      cell("KEKW")?.dispatchEvent(
+        new MouseEvent("contextmenu", { bubbles: true, cancelable: true }),
+      ),
+    );
+    expect(seguradas).toEqual(["KEKW"]);
+  });
+
+  it("sem gesto, a célula é só clique: nada de pressão longa nem menu", async () => {
+    render();
+
+    expect(cell("KEKW")?.title).toBe("KEKW");
+    await segurar("KEKW");
+    act(() =>
+      cell("KEKW")?.dispatchEvent(
+        new MouseEvent("contextmenu", { bubbles: true, cancelable: true }),
+      ),
+    );
+
+    expect(seguradas).toEqual([]);
+  });
+
+  it("o pacote É Nóis e as Recentes não oferecem o gesto", () => {
+    render({ tab: "enois", localTab: true, onHold: (item) => seguradas.push(item.code) });
+    expect(cell("KEKW")?.title).toBe("KEKW");
+
+    render({ tab: "recent", localTab: true, onHold: (item) => seguradas.push(item.code) });
+    expect(cell("KEKW")?.title).toBe("KEKW");
+
+    render({ tab: "all", onHold: (item) => seguradas.push(item.code) });
+    expect(cell("KEKW")?.title).toBe(`KEKW — ${messages.holdHint}`);
   });
 
   it("trocar de aba avisa o app", () => {
