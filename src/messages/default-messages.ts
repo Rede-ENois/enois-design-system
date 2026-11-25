@@ -59,6 +59,7 @@ import { uiMessages } from "./defaults/ui.js";
 import { walletMessages } from "./defaults/wallet.js";
 import { wellbeingMessages } from "./defaults/wellbeing.js";
 import { whatsNewMessages } from "./defaults/whats-new.js";
+import { wrappedMessages } from "./defaults/wrapped.js";
 
 export const defaultMessages: Messages = {
   ...sanctionsMessages,
@@ -117,6 +118,7 @@ export const defaultMessages: Messages = {
   ...desabafosMessages,
   ...confessionarioMessages,
   ...termometroMessages,
+  ...wrappedMessages,
   ...talentBankMessages,
   ...desafiosMessages,
   ...paporetoMessages,
