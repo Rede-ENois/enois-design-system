@@ -87,6 +87,8 @@ export type { MentionTextareaProps } from "../../types/domain/post/mention-texta
 export type { EditorSticker } from "../../types/domain/post/editor-sticker.js";
 export type { MentionTextareaHandle } from "../../types/domain/post/mention-textarea-handle.js";
 export type { MentionUser } from "../../types/domain/post/mention-user.js";
+export type { StickerQueryState } from "../../types/domain/post/sticker-query-state.js";
+export type { StickerSuggestions } from "../../types/domain/post/sticker-suggestions.js";
 export type { PostActionsProps } from "../../types/domain/post/post-actions-props.js";
 export type { PostCardData } from "../../types/domain/post/post-card-data.js";
 export type { PostCardHrefs } from "../../types/domain/post/post-card-hrefs.js";

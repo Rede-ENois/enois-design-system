@@ -27,6 +27,7 @@ import type { EditorEditKind } from "../../../types/domain/post/editor-edit-kind
 import type { EditorHistorySnapshot } from "../../../types/domain/post/editor-history-snapshot.js";
 import type { MentionTextareaProps } from "../../../types/domain/post/mention-textarea-props.js";
 import type { MentionUser } from "../../../types/domain/post/mention-user.js";
+import type { StickerQueryState } from "../../../types/domain/post/sticker-query-state.js";
 import type { TextSelection } from "../../../types/domain/post/text-selection.js";
 import type { MentionListSide } from "../../../types/lib/mentions/list-placement.js";
 import type { RichTextFormat } from "../../../types/lib/rich-text/rich-text-format.js";
@@ -106,6 +107,8 @@ export function MentionTextarea({
   onSubmitShortcut,
   mentionResults: results,
   onMentionQueryChange,
+  stickerSuggestions,
+  onStickerQueryChange,
   stickers,
   toolbarActions,
   trailingButtons,
@@ -138,6 +141,7 @@ export function MentionTextarea({
   const [mentionIndex, setMentionIndex] = useState(-1);
   const [listSide, setListSide] = useState<MentionListSide>("above");
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [stickerQuery, setStickerQuery] = useState<string | null>(null);
   const [mentions, setMentions] = useState<Pick<MentionUser, "id" | "username">[]>([]);
 
   useLayoutEffect(() => {
@@ -192,6 +196,14 @@ export function MentionTextarea({
     el.style.minHeight = `${Math.max(MIN_ROWS, rows ?? 0) * lineHeight + verticalPadding}px`;
   }, [rows, className]);
 
+  // Onde o cursor parou por fora do campo (seta, clique): o termo `:palavra` muda com ele.
+  const rememberCaret = () => {
+    const el = fieldRef.current;
+    if (!stickerSuggestions || !el || composingRef.current) return;
+    const selection = readSelection(el);
+    setStickerQuery(stickerSuggestions.resolve(value, selection?.end ?? -1)?.query ?? null);
+  };
+
   // Remember the caret while it is inside the field: a dialog takes the focus away, and the owner
   // still inserts where the person was writing.
   useEffect(() => {
@@ -200,6 +212,7 @@ export function MentionTextarea({
     const remember = () => {
       const selection = readSelection(el);
       if (selection && !composingRef.current) lastSelectionRef.current = selection;
+      if (selection) rememberCaret();
     };
     el.ownerDocument.addEventListener("selectionchange", remember);
     return () => el.ownerDocument.removeEventListener("selectionchange", remember);
@@ -217,6 +230,22 @@ export function MentionTextarea({
   useEffect(() => {
     onMentionQueryChange(mentionQuery);
   }, [mentionQuery, onMentionQueryChange]);
+
+  // O `:` é o irmão do `@`: o campo não sabe o que é uma figurinha, só onde o termo começa e acaba.
+  useEffect(() => {
+    if (!stickerSuggestions) return;
+    // Sem careta guardada, o fim do texto é o cursor (editou, apagou, a lista fechou e voltou).
+    const cursor = lastSelectionRef.current ?? {
+      start: value.length,
+      end: value.length,
+    };
+    const state = stickerSuggestions.resolve(value, cursor.end);
+    setStickerQuery(state ? state.query : null);
+    onStickerQueryChange?.(state);
+  }, [stickerQuery, value, stickerSuggestions, onStickerQueryChange]);
+
+  const stickerMenu =
+    stickerSuggestions && stickerQuery !== null ? stickerSuggestions.render(fieldRef) : null;
 
   useEffect(() => {
     setSelectedIdx(0);
@@ -332,6 +361,8 @@ export function MentionTextarea({
     pendingSelectionRef.current = { ...selection, focus };
     updateMention(next, selection.end);
     changeValue(next);
+    if (stickerSuggestions)
+      setStickerQuery(stickerSuggestions.resolve(next, selection.end)?.query ?? null);
     setRedrawCount((count) => count + 1);
   };
 
@@ -407,8 +438,18 @@ export function MentionTextarea({
    * spaces, so a sticker code stays a word. Over `maxLength` nothing changes. The caret lands after
    * the insert; the field takes the focus only if it had it (a dialog may be open over it).
    */
-  const insertText = (text: string, spaced: boolean, selection = currentSelection()): boolean => {
-    const before = value.slice(0, selection.start);
+  const insertText = (
+    text: string,
+    spaced: boolean,
+    selection = currentSelection(),
+    tipo?: StickerQueryState,
+  ): boolean => {
+    // Sem seleção, o `:palavra` até o cursor sai junto: ele era a busca, não o texto.
+    const inicio =
+      tipo && selection.start === selection.end && tipo.end === selection.end
+        ? tipo.start
+        : selection.start;
+    const before = value.slice(0, inicio);
     const after = value.slice(selection.end);
     const prefix = spaced && before && !/\s$/.test(before) ? " " : "";
     const suffix = spaced && after && !/^\s/.test(after) ? " " : "";
@@ -416,7 +457,7 @@ export function MentionTextarea({
     const next = `${before}${inserted}${after}`;
     if (maxLength !== undefined && next.length > maxLength) return false;
 
-    const caret = before.length + inserted.length;
+    const caret = inicio + inserted.length;
     const focused = fieldRef.current?.ownerDocument.activeElement === fieldRef.current;
     applyEdit(next, { start: caret, end: caret }, focused);
     return true;
@@ -436,6 +477,8 @@ export function MentionTextarea({
 
   useImperativeHandle(ref, () => ({
     insertAtCaret: (text) => insertText(text, true),
+    replaceStickerQuery: (codigo, tipo) =>
+      insertText(`:${codigo.replace(/^:+|:+$/g, "")}:`, false, undefined, tipo),
     focus: () => {
       const el = fieldRef.current;
       if (!el) return;
@@ -544,6 +587,12 @@ export function MentionTextarea({
   };
 
   const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    // O menu de figurinhas é o do app; o campo só segura a tecla enquanto ele a tratar.
+    if (stickerMenu && stickerSuggestions?.onKeyDown?.(e.nativeEvent)) {
+      e.preventDefault();
+      return;
+    }
+
     // Antes da lista de menção: com a lista aberta, Enter escolhe a pessoa, mas Ctrl+Enter envia.
     if (onSubmitShortcut && isSubmitShortcut(e.nativeEvent)) {
       e.preventDefault();
@@ -690,6 +739,9 @@ export function MentionTextarea({
         aria-multiline="true"
         aria-label={placeholder}
         aria-placeholder={placeholder}
+        aria-autocomplete={stickerMenu ? "list" : undefined}
+        aria-controls={stickerMenu ? stickerMenu.id : undefined}
+        aria-expanded={stickerMenu ? true : undefined}
         contentEditable="plaintext-only"
         suppressContentEditableWarning
         data-placeholder={placeholder}
@@ -708,6 +760,8 @@ export function MentionTextarea({
           composingRef.current = true;
         }}
         onCompositionEnd={endComposition}
+        onKeyUp={rememberCaret}
+        onMouseUp={rememberCaret}
         className={textFieldClasses(
           `max-h-[240px] w-full min-w-0 resize-none overflow-y-auto text-base md:text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere] empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)] ${
             toolbarMenu ? "pr-9" : ""

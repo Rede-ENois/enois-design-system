@@ -76,7 +76,7 @@ export default tseslint.config(
   },
   {
     // Package entrypoints are the public API: they must re-export the component prop types.
-    files: ["src/index.ts", "src/*/index.ts", "src/*/*/index.ts"],
+    files: ["src/index.ts", "src/*/index.ts", "src/*/*/index.ts", "src/*/*/index.tsx"],
     rules: { "local/type-boundaries": "off" },
   },
   {
