@@ -10,7 +10,11 @@ export type FigurinhaComunidadeCatalogoProps = {
   onTermoChange: (termo: string) => void;
   page: number;
   totalPages: number;
-  state: "loading" | "error" | "empty" | "ready";
+  /**
+   * `guest` é o catálogo que a visita não tem como ler (a consulta exige conta): mostra o convite e
+   * esconde a busca e os cartões, em vez de pedir para tentar de novo o que não vai mudar.
+   */
+  state: "loading" | "error" | "empty" | "ready" | "guest";
   title: string;
   intro: string;
   searchPlaceholder: string;
@@ -18,6 +22,7 @@ export type FigurinhaComunidadeCatalogoProps = {
     loading: string;
     empty: string;
     error: string;
+    guest: string;
     count: (total: number) => string;
     page: (page: number, totalPages: number) => string;
     previous: string;
