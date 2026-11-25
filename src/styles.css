@@ -4418,6 +4418,105 @@ html:not(.dark) .frame-shop-price {
   -webkit-mask-position: center;
 }
 
+/* ── Festa de aniversário no perfil (BirthdayCelebration) ─────────────────────
+   Figurinhas do É Nóis voando, balões subindo, confete caindo e a luz de festa no
+   rodapé, por alguns segundos. Quem decide se anima é o componente (motionAllowed
+   e emoji de cor no aparelho); aqui a animação é só CSS. A posição de cada
+   figurinha é fixa no componente e chega como variável (--birthday-left/top/size),
+   para a festa ser a mesma toda vez. */
+.birthday-celebration__glow {
+  background: linear-gradient(to top, var(--color-signal-love), transparent);
+  opacity: 0.18;
+  animation: birthday-glow 8s ease-out forwards;
+}
+.birthday-celebration__balloon {
+  left: var(--birthday-left);
+  animation: birthday-balloon 7s ease-in forwards;
+  animation-delay: var(--birthday-delay, 0ms);
+}
+.birthday-celebration__confetti {
+  left: var(--birthday-left);
+  animation: birthday-confetti var(--birthday-duration, 1.6s) linear forwards;
+  animation-delay: var(--birthday-delay, 0ms);
+}
+.birthday-celebration__confetti--love {
+  background-color: var(--color-signal-love);
+}
+.birthday-celebration__confetti--oportunidade {
+  background-color: var(--color-opportunity);
+}
+.birthday-celebration__confetti--growth {
+  background-color: var(--color-growth);
+}
+.birthday-celebration__confetti--primary {
+  background-color: var(--color-primary);
+}
+.birthday-celebration__sticker {
+  left: var(--birthday-left);
+  top: var(--birthday-top);
+  width: var(--birthday-size);
+  height: var(--birthday-size);
+  animation: birthday-sticker 4.2s ease-in-out forwards;
+  animation-delay: var(--birthday-delay, 0ms);
+}
+@keyframes birthday-glow {
+  from {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.22;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes birthday-balloon {
+  0% {
+    opacity: 0;
+    transform: translateY(12vh) rotate(-4deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-108vh) rotate(6deg);
+  }
+}
+@keyframes birthday-confetti {
+  0% {
+    opacity: 1;
+    transform: translateY(-4vh) rotate(0deg);
+  }
+  100% {
+    opacity: 0.15;
+    transform: translateY(104vh) rotate(540deg);
+  }
+}
+@keyframes birthday-sticker {
+  0% {
+    opacity: 0;
+    transform: translateY(18vh) rotate(-14deg) scale(0.6);
+  }
+  18% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 1;
+    transform: translateY(-6vh) rotate(10deg) scale(1.08);
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-64vh) rotate(-6deg) scale(0.9);
+  }
+}
+
 /* Nameplate: the name over the plate, its icons at the right edge. */
 .cos-plate {
   position: relative;

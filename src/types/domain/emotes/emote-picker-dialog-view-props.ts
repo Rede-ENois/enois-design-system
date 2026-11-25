@@ -33,4 +33,9 @@ export type EmotePickerDialogViewProps = {
   page?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  /**
+   * Segurar uma figurinha da grade (denunciar, banir). Só as abas com figurinhas de terceiros e da
+   * comunidade oferecem: o pacote É Nóis e as Recentes passam sem, e a célula volta a ser só clique.
+   */
+  onHold?: (item: EmotePickerItem) => void;
 };
