@@ -7,7 +7,10 @@ export type MentionTextareaHandle = {
    * added around it when the neighbours are not whitespace. The caret is remembered while the field
    * has no focus (a dialog is open), so the insert lands where the person was writing. Goes through
    * the same mention reconciliation as a typed edit and never exceeds `maxLength`.
-   * Returns `false` when nothing was inserted.
+   *
+   * The edit is applied after the render (the text and the selection are the ones the field has
+   * at that moment), so `maxLength` can only be checked there: this returns `true` and `onChange`
+   * is what tells whether anything went in.
    */
   insertAtCaret: (text: string) => boolean;
   /**
