@@ -23,6 +23,7 @@ export type WrappedMessages = {
     interacoesFeitas: (n: number) => string;
     interacoesRecebidas: (n: number) => string;
     comunidades: (n: number) => string;
+    aberturaMes: (mes: string) => string;
     labelPublicacoes: string;
     labelComentarios: string;
     labelInteracoesFeitas: string;
@@ -53,6 +54,9 @@ export type WrappedMessages = {
     ritmoMes: (mes: string) => string;
     ritmoDia: (dia: string) => string;
     ritmoHora: (hora: number) => string;
+    comportamentoCresceu: string;
+    comportamentoDesacelerou: string;
+    comunidadesTitulo: string;
     meses: string[];
     diasSemana: string[];
     /** Perfil (seção 7). */
@@ -66,6 +70,8 @@ export type WrappedMessages = {
     impactoTitulo: string;
     impactoConversas: (n: number) => string;
     impactoRecebidas: (n: number) => string;
+    impactoComentariosComReacao: (n: number) => string;
+    impactoComunidades: (n: number) => string;
     impactoCredibilidade: (n: number) => string;
     /** Encerramento (seção 9). */
     encerramentoTitulo: string;
