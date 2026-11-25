@@ -141,6 +141,9 @@ function montarSlides({
     });
   }
   slides.push({ key: "ritmo", render: () => <Ritmo r={retrospectiva} /> });
+  if (retrospectiva.comunidades.length > 0) {
+    slides.push({ key: "comunidades", render: () => <Comunidades r={retrospectiva} /> });
+  }
   if (retrospectiva.perfil.caracteristicas.length > 0) {
     slides.push({ key: "perfil", render: () => <Perfil r={retrospectiva} /> });
   }
@@ -151,6 +154,7 @@ function montarSlides({
 
 function Abertura({ r, nome }: { r: WrappedRetrospectiva; nome: string }) {
   const m = useMessages().wrapped;
+  const labels = useWrappedLabels();
   return (
     <WrappedSection title={m.abertura(nome, r.ano)} subtitle={m.aberturaSub}>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -161,6 +165,11 @@ function Abertura({ r, nome }: { r: WrappedRetrospectiva; nome: string }) {
         <WrappedStat value={r.metricas.comunidades} label={m.labelComunidades} />
         <WrappedStat value={r.metricas.diasAtivos} label={m.labelDiasAtivos} />
       </div>
+      {r.metricas.mesMaisAtivo != null ? (
+        <p className="text-sm text-text-subtle">
+          {m.aberturaMes(labels.mes(r.metricas.mesMaisAtivo) ?? "")}
+        </p>
+      ) : null}
     </WrappedSection>
   );
 }
@@ -303,6 +312,12 @@ function Ritmo({ r }: { r: WrappedRetrospectiva }) {
         {dia ? <li>{m.ritmoDia(dia)}</li> : null}
         {hora != null ? <li>{m.ritmoHora(hora)}</li> : null}
       </ul>
+      {r.ritmo.comportamento?.sentido === "CRESCEU" ? (
+        <p className="text-sm text-text-strong">{m.comportamentoCresceu}</p>
+      ) : null}
+      {r.ritmo.comportamento?.sentido === "DESACELEROU" ? (
+        <p className="text-sm text-text-strong">{m.comportamentoDesacelerou}</p>
+      ) : null}
 
       <div className="flex h-32 items-end gap-1" aria-hidden>
         {r.ritmo.porMes.map((valor, i) => {
@@ -316,6 +331,26 @@ function Ritmo({ r }: { r: WrappedRetrospectiva }) {
           );
         })}
       </div>
+    </WrappedSection>
+  );
+}
+
+function Comunidades({ r }: { r: WrappedRetrospectiva }) {
+  const m = useMessages().wrapped;
+  return (
+    <WrappedSection title={m.comunidadesTitulo}>
+      <ul className="space-y-2">
+        {r.comunidades.map((c) => (
+          <li
+            key={c.communityId}
+            className="flex items-center justify-between gap-2 rounded-xl bg-surface-2 px-3 py-2"
+          >
+            <span className="min-w-0 truncate text-sm text-text-strong">{c.nome}</span>
+
+            <span className="shrink-0 tabular-nums text-sm text-text-subtle">{c.publicacoes}</span>
+          </li>
+        ))}
+      </ul>
     </WrappedSection>
   );
 }
@@ -352,6 +387,14 @@ function Impacto({ r }: { r: WrappedRetrospectiva }) {
         <WrappedStat
           value={r.impacto.interacoesRecebidas}
           label={m.impactoRecebidas(r.impacto.interacoesRecebidas)}
+        />
+        <WrappedStat
+          value={r.impacto.comentariosComReacao}
+          label={m.impactoComentariosComReacao(r.impacto.comentariosComReacao)}
+        />
+        <WrappedStat
+          value={r.impacto.comunidades}
+          label={m.impactoComunidades(r.impacto.comunidades)}
         />
       </div>
 
