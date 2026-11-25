@@ -5,10 +5,15 @@ export {
   ComposerStickerSuggestions,
 } from "./composer-sticker-suggestions.js";
 export type { ComposerStickerSuggestion } from "../../types/domain/emotes/composer-sticker-suggestion.js";
+export type { EmoteActionDialogViewProps } from "../../types/domain/emotes/emote-action-dialog-view-props.js";
+export type { EmoteCellProps } from "../../types/domain/emotes/emote-cell-props.js";
 export type { ComposerStickerSuggestionsProps } from "../../types/domain/emotes/composer-sticker-suggestions-props.js";
 export type { FigurinhaComunidadeCatalogoProps } from "../../types/domain/emotes/figurinha-comunidade-catalogo-props.js";
 export type { FigurinhaComunidadeEnvioProps } from "../../types/domain/emotes/figurinha-comunidade-envio-props.js";
 export type { FigurinhaComunidadeItem } from "../../types/domain/emotes/figurinha-comunidade-item.js";
+/** Alinhado com o mínimo de motivo que o backend aceita ao banir (e com a view das ações). */
+export const EMOTE_ACTION_MOTIVO_MINIMO = 10;
+export { EmoteActionDialogView } from "./emote-action-dialog-view.js";
 export { EmoteCell, EmotePageButton } from "./emote-cell.js";
 export { EmotePickerDialogView, EmotePickerTriggerButton } from "./emote-picker-dialog-view.js";
 export { FigurinhaComunidadeCatalogo } from "./figurinha-comunidade-catalogo.js";

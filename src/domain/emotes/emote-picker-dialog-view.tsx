@@ -72,12 +72,14 @@ export function EmotePickerDialogView({
   page = 1,
   totalPages = 1,
   onPageChange,
+  onHold,
 }: EmotePickerDialogViewProps) {
   const messages = useMessages().emotePickerDialog;
   const searchTerm = query.trim();
   const hasRecent = tabs.some((item) => item.value === "recent");
   // Buscar dentro de "Recentes" reaproveita o campo, mas quem responde é a lista do catálogo.
   const shownTab = hasRecent && tab === "recent" && searchTerm ? "all" : tab;
+  const holdable = onHold && shownTab !== "enois" && shownTab !== "recent" ? onHold : undefined;
   const empty = items.length === 0;
   const shownTotal = localTotal ?? items.length;
 
@@ -89,6 +91,8 @@ export function EmotePickerDialogView({
           code={item.code}
           src={item.src}
           onSelect={() => onSelect(item)}
+          onHold={holdable ? () => holdable(item) : undefined}
+          holdLabel={holdable ? messages.holdHint : undefined}
         />
       ))}
     </div>

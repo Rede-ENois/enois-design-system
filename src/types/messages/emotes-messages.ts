@@ -17,5 +17,26 @@ export type EmotesMessages = {
     page: (page: number, totalPages: number) => string;
     previous: string;
     next: string;
+    /** Dica do gesto de segurar (title da célula e de quem abre as ações por teclado). */
+    holdHint: string;
+  };
+  /** Ações de uma figurinha segurada no seletor (denunciar, banir). */
+  emoteActionDialog: {
+    title: string;
+    description: string;
+    report: string;
+    reportDone: string;
+    /** Quantas contas já denunciaram e quantas tiram a figurinha do ar. */
+    reports: (denunciantes: number, limiar: number) => string;
+    ban: string;
+    unban: string;
+    banned: string;
+    reasonLabel: string;
+    reasonPlaceholder: string;
+    reasonRequired: string;
+    cancel: string;
+    error: string;
+    /** Figurinha do pacote É Nóis: o diálogo abre só para dizer que ela é protegida. */
+    official: string;
   };
 };

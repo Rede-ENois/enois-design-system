@@ -1,7 +1,12 @@
+import { type PointerEvent as ReactPointerEvent, useRef } from "react";
+
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 
 import type { EmoteCellProps } from "../../types/domain/emotes/emote-cell-props.js";
 import { Input } from "../../ui/input.js";
+
+/** Quanto tempo de pressão vira gesto de segurar (o toque curto segue escolhendo a figurinha). */
+const HOLD_MS = 500;
 
 /**
  * Uma figurinha na grade: a imagem, o código no `title`/`aria-label` e o clique devolvendo o
@@ -9,15 +14,73 @@ import { Input } from "../../ui/input.js";
  *
  * O clique é confirmado na própria célula: só `hover` não aparece no toque, e em telas pequenas a
  * pessoa não sabia se pegou a certa.
+ *
+ * Com `onHold`, segurar a figurinha abre as ações dela (denunciar, banir) em vez de escolher: o
+ * clique que o navegador dispara ao soltar depois de uma pressão longa é descartado, e o toque
+ * curto continua escolhendo. O mesmo gesto fica no menu de contexto (botão direito, Shift+F10 no
+ * teclado), que é como quem não usa o toque chega nele.
  */
-export function EmoteCell({ code, src, onSelect }: EmoteCellProps) {
+export function EmoteCell({ code, src, onSelect, onHold, holdLabel }: EmoteCellProps) {
+  const holdTimer = useRef<number | null>(null);
+  const held = useRef(false);
+
+  const cancelHold = () => {
+    if (holdTimer.current !== null) {
+      window.clearTimeout(holdTimer.current);
+      holdTimer.current = null;
+    }
+  };
+
+  const startPress = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (!onHold || (event.pointerType === "mouse" && event.button !== 0)) {
+      return;
+    }
+    cancelHold();
+    held.current = false;
+    holdTimer.current = window.setTimeout(() => {
+      holdTimer.current = null;
+      held.current = true;
+      onHold(code);
+    }, HOLD_MS);
+  };
+
+  const endPress = () => cancelHold();
+
   return (
     <button
       type="button"
-      title={code}
+      title={holdLabel ? `${code} — ${holdLabel}` : code}
       aria-label={code}
-      onClick={() => onSelect(code)}
-      className="mx-auto flex h-9 w-9 items-center justify-center rounded-lg p-1 transition hover:scale-105 hover:bg-surface-2 hover:ring-1 hover:ring-primary/35 active:scale-95 active:bg-surface-2 active:ring-2 active:ring-ring"
+      onClick={() => {
+        if (held.current) {
+          held.current = false;
+          return;
+        }
+        onSelect(code);
+      }}
+      onPointerDown={startPress}
+      onPointerUp={endPress}
+      onPointerCancel={endPress}
+      onPointerLeave={cancelHold}
+      onContextMenu={
+        onHold
+          ? (event) => {
+              event.preventDefault();
+              onHold(code);
+            }
+          : undefined
+      }
+      onKeyDown={
+        onHold
+          ? (event) => {
+              if (event.key === "F10" && event.shiftKey) {
+                event.preventDefault();
+                onHold(code);
+              }
+            }
+          : undefined
+      }
+      className="mx-auto flex h-9 w-9 touch-none select-none items-center justify-center rounded-lg p-1 transition [-webkit-touch-callout:none] hover:scale-105 hover:bg-surface-2 hover:ring-1 hover:ring-primary/35 active:scale-95 active:bg-surface-2 active:ring-2 active:ring-ring"
     >
       {src && (
         <img
