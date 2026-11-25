@@ -7,7 +7,8 @@ export type EmotesMessages = {
     searchPlaceholder: string;
     tabRecent: string;
     tabEnois: string;
-    tabAll: string;
+    /** Figurinhas de provedores externos (BetterTTV, FrankerFaceZ): a origem "de terceiros". */
+    tabThirdParty: string;
     loading: string;
     empty: string;
     error: string;

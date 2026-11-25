@@ -7,7 +7,7 @@ export const emotesMessages: EmotesMessages = {
     searchPlaceholder: "Buscar figurinha",
     tabRecent: "Recentes",
     tabEnois: "É Nóis",
-    tabAll: "Todas",
+    tabThirdParty: "De terceiros",
     loading: "Carregando figurinhas...",
     empty: "Nenhuma figurinha com esse nome.",
     error: "Não foi possível carregar as figurinhas agora.",
