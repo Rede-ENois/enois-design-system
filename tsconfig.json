@@ -1,10 +1,14 @@
 {
   "include": ["src", ".storybook", "vite.config.ts", "vitest.config.ts", "eslint.config.js"],
+  // Só o typecheck lê esta lib; o build (tsconfig.build.json) continua com `types: []`: sem ele,
+  // o pacote passaria a exigir Node 22 de todo mundo. O jsdom atual usa o `Iterator` global
+  // (helpers/dom-tree.js), que o Node 22 tem em runtime; sem `esnext.iterator` o typecheck dos
+  // testes recusava.
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
     "module": "ESNext",
-    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "ESNext.Iterator"],
     "types": ["vite/client"],
     "moduleResolution": "Bundler",
     "noEmit": true,
