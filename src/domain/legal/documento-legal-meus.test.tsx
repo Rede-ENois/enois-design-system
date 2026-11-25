@@ -4,7 +4,7 @@ import { act } from "react";
 import { type Root, createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import type { DocumentoLegalAdminRotulos } from "../../types/domain/documentos/documento-legal-admin-props.js";
+import type { DocumentoLegalAdminRotulos } from "../../types/domain/documentos/documento-legal-admin-rotulos.js";
 import type { DocumentoLegalPaginaProps } from "../../types/domain/documentos/documento-legal-pagina-props.js";
 
 import { DocumentoLegalAdmin, DocumentoLegalPublicarConfirmacao } from "./documento-legal-admin.js";

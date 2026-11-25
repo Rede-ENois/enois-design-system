@@ -5,7 +5,9 @@ export type { LegalLayoutProps } from "../../types/domain/legal/legal-layout-pro
 export type { LegalSectionProps } from "../../types/domain/legal/legal-section-props.js";
 export { DocumentoLegalAdmin, DocumentoLegalPublicarConfirmacao } from "./documento-legal-admin.js";
 export { DocumentoLegalMeus } from "./documento-legal-meus.js";
-export type { DocumentoLegalAdminRotulos } from "../../types/domain/documentos/documento-legal-admin-props.js";
+export type { DocumentoLegalAdminProps } from "../../types/domain/documentos/documento-legal-admin-props.js";
+export type { DocumentoLegalAdminRotulos } from "../../types/domain/documentos/documento-legal-admin-rotulos.js";
+export type { DocumentoLegalPublicarConfirmacaoProps } from "../../types/domain/documentos/documento-legal-publicar-confirmacao-props.js";
 export type { DocumentoLegalAdminRascunho } from "../../types/domain/documentos/documento-legal-admin-rascunho.js";
 export type { DocumentoLegalPaginaProps } from "../../types/domain/documentos/documento-legal-pagina-props.js";
 export type { DocumentoLegalPendente } from "../../types/domain/documentos/documento-legal-pendente.js";

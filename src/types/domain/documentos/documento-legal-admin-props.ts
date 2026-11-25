@@ -1,28 +1,23 @@
-export type DocumentoLegalAdminRotulos = {
-  /** Título da seção do formulário (o `titulo` abaixo é o do campo de título). */
-  tituloSecao: string;
-  /** Quem pode usar a tela (o app confere; aqui é só o aviso). */
-  apenasAdmin: string;
-  /** Rótulos das versões (os mesmos da página de leitura). */
-  versao: (versao: number) => string;
-  vigente: string;
-  naoVigente: string;
+import type { DocumentoLegalAdminRascunho } from "./documento-legal-admin-rascunho.js";
+import type { DocumentoLegalAdminRotulos } from "./documento-legal-admin-rotulos.js";
+
+export type DocumentoLegalAdminProps = {
+  labels: DocumentoLegalAdminRotulos;
   tipo: string;
+  opcoesTipo: { valor: string; rotulo: string }[];
+  onTipo: (tipo: string) => void;
   titulo: string;
+  onTitulo: (titulo: string) => void;
   resumo: string;
+  onResumo: (resumo: string) => void;
   conteudo: string;
-  conteudoAjuda: string;
-  enviar: string;
-  enviando: string;
-  erro: string;
-  criarFeito: (versao: number) => string;
-  publicar: string;
-  publicarAviso: string;
-  publicando: string;
-  confirmar: string;
-  cancelar: string;
-  publicado: string;
-  publicadoErro: string;
-  vazio: string;
-  publicados: string;
+  onConteudo: (conteudo: string) => void;
+  rascunho: DocumentoLegalAdminRascunho;
+  onEnviar: () => void;
+  /** O rascunho criado; sem ele não há o que publicar (null = nada para publicar). */
+  idRascunho: string | null;
+  publicando: boolean;
+  onPublicar: () => void;
+  /** Versões já publicadas (resumo), para o admin ver o que está no ar. */
+  publicados: { id: string; tipo: string; versao: number; titulo: string; vigente: boolean }[];
 };

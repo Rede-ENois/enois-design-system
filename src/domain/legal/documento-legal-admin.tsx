@@ -1,5 +1,5 @@
-import type { DocumentoLegalAdminRotulos } from "../../types/domain/documentos/documento-legal-admin-props.js";
-import type { DocumentoLegalAdminRascunho } from "../../types/domain/documentos/documento-legal-admin-rascunho.js";
+import type { DocumentoLegalAdminProps } from "../../types/domain/documentos/documento-legal-admin-props.js";
+import type { DocumentoLegalPublicarConfirmacaoProps } from "../../types/domain/documentos/documento-legal-publicar-confirmacao-props.js";
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
 import { Label } from "../../ui/label.js";
@@ -29,26 +29,7 @@ export function DocumentoLegalAdmin({
   publicando,
   onPublicar,
   publicados,
-}: {
-  labels: DocumentoLegalAdminRotulos;
-  tipo: string;
-  opcoesTipo: { valor: string; rotulo: string }[];
-  onTipo: (tipo: string) => void;
-  titulo: string;
-  onTitulo: (titulo: string) => void;
-  resumo: string;
-  onResumo: (resumo: string) => void;
-  conteudo: string;
-  onConteudo: (conteudo: string) => void;
-  rascunho: DocumentoLegalAdminRascunho;
-  onEnviar: () => void;
-  /** O rascunho criado; sem ele não há o que publicar. */
-  idRascunho: string | null;
-  publicando: boolean;
-  onPublicar: () => void;
-  /** Versões já publicadas (resumo), para o admin ver o que está no ar. */
-  publicados: { id: string; tipo: string; versao: number; titulo: string; vigente: boolean }[];
-}) {
+}: DocumentoLegalAdminProps) {
   const enviando = rascunho.estado === "enviando";
   const faltando = !tipo || !titulo.trim() || !conteudo.trim();
 
@@ -171,12 +152,7 @@ export function DocumentoLegalPublicarConfirmacao({
   publicando,
   onConfirmar,
   onCancelar,
-}: {
-  labels: DocumentoLegalAdminRotulos;
-  publicando: boolean;
-  onConfirmar: () => void;
-  onCancelar: () => void;
-}) {
+}: DocumentoLegalPublicarConfirmacaoProps) {
   return (
     <div className="space-y-3 rounded-md border border-destructive/40 bg-destructive/5 p-4">
       <p role="alert" className="text-sm font-semibold">
