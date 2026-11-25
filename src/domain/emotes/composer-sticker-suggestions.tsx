@@ -20,6 +20,7 @@ export function ComposerStickerSuggestions({
   id,
   opcoes,
   destaque,
+  destaqueId,
   carregando = false,
   loadingLabel,
   listLabel,
@@ -70,9 +71,9 @@ export function ComposerStickerSuggestions({
           key={opcao.code}
           id={`${id}-opcao-${indice}`}
           role="option"
-          aria-selected={indice === destaque}
+          aria-selected={destaqueId ? opcao.id === destaqueId : indice === destaque}
           className={`flex cursor-pointer items-center gap-2 px-3 py-1.5 text-sm ${
-            indice === destaque ? "bg-surface-2" : ""
+            (destaqueId ? opcao.id === destaqueId : indice === destaque) ? "bg-surface-2" : ""
           }`}
           onMouseDown={(event) => event.preventDefault()}
           onMouseEnter={() => onDestacar(indice)}

@@ -7,6 +7,8 @@ export type ComposerStickerSuggestionsProps = {
   id: string;
   opcoes: ComposerStickerSuggestion[];
   destaque: number;
+  /** Id do item em destaque, para o `aria-activedescendant` do campo. */
+  destaqueId?: string;
   carregando?: boolean;
   loadingLabel: string;
   listLabel: string;

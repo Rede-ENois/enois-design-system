@@ -4,6 +4,8 @@
  */
 export type ComposerStickerSuggestion = {
   code: string;
+  /** Chave única do item (o código pode se repetir entre origens; o id não). */
+  id?: string;
   nome?: string;
   src: string;
   origem: string;
