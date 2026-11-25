@@ -30,7 +30,8 @@ export function ComposerStickerSuggestions({
   onDestacar,
   anchor,
 }: ComposerStickerSuggestionsProps) {
-  const rolagem = useRolagemQueMoveOMenu();
+  // O valor não é lido: a chamada só assina rolagem/resize para redesenhar na posição nova.
+  useRolagemQueMoveOMenu();
   const caixa = typeof document === "undefined" ? null : anchor.current?.getBoundingClientRect();
   if (!caixa) return null;
 
@@ -73,7 +74,7 @@ export function ComposerStickerSuggestions({
     >
       {opcoes.map((opcao, indice) => (
         <li
-          key={opcao.code}
+          key={opcao.id ?? opcao.code}
           id={`${id}-opcao-${indice}`}
           role="option"
           aria-selected={destaqueId ? opcao.id === destaqueId : indice === destaque}
