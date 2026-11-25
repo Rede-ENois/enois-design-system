@@ -16,7 +16,7 @@ const messages = defaultMessages.emotePickerDialog;
 const TABS = [
   { value: "recent", label: messages.tabRecent },
   { value: "enois", label: messages.tabEnois },
-  { value: "all", label: messages.tabAll },
+  { value: "all", label: messages.tabThirdParty },
 ];
 
 const ITEMS = [{ code: "KEKW", src: "/emotes/image/KEKW?variant=thumb" }, { code: "GONE" }];
@@ -158,7 +158,7 @@ describe("EmotePickerDialogView", () => {
     render({ tab: "recent", query: "kek", items: [] });
 
     expect(document.querySelector<HTMLButtonElement>('[data-state="active"]')?.textContent).toBe(
-      messages.tabAll,
+      messages.tabThirdParty,
     );
   });
 
