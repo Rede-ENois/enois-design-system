@@ -53,6 +53,9 @@ import {
 import { createHistory, recordEdit, resetHistory, stepHistory } from "./editor-history.js";
 import { initialContent } from "./initial-content.js";
 
+// Antes da primeira leitura nenhuma chave (nem `null`) casa, então o primeiro aviso sempre sai.
+const SEM_LEITURA = Symbol("sem leitura");
+
 /** Altura mínima da caixa, em linhas de texto, para dar espaço de revisar o que foi escrito. */
 const MIN_ROWS = 4;
 
@@ -196,13 +199,25 @@ export function MentionTextarea({
     el.style.minHeight = `${Math.max(MIN_ROWS, rows ?? 0) * lineHeight + verticalPadding}px`;
   }, [rows, className]);
 
+  // O app recebe o termo novo uma vez por mudança: o mesmo `:palavra` resolvido de novo (o efeito
+  // rodou por `stickerSuggestions` novo, por exemplo) não vira aviso repetido.
+  const ultimoTermoRef = useRef<string | null | typeof SEM_LEITURA>(SEM_LEITURA);
+  function avisarTermo(state: StickerQueryState | null) {
+    const chave = state ? `${state.query}|${state.start}|${state.end}` : null;
+    if (ultimoTermoRef.current === chave) return;
+    ultimoTermoRef.current = chave;
+    onStickerQueryChange?.(state);
+  }
+
   // Onde o cursor parou por fora do campo (seta, clique): o termo `:palavra` muda com ele.
-  const rememberCaret = () => {
+  function rememberCaret() {
     const el = fieldRef.current;
     if (!stickerSuggestions || !el || composingRef.current) return;
     const selection = readSelection(el);
-    setStickerQuery(stickerSuggestions.resolve(value, selection?.end ?? -1)?.query ?? null);
-  };
+    const state = stickerSuggestions.resolve(value, selection?.end ?? -1);
+    avisarTermo(state);
+    setStickerQuery(state ? state.query : null);
+  }
 
   // Remember the caret while it is inside the field: a dialog takes the focus away, and the owner
   // still inserts where the person was writing.
@@ -232,6 +247,11 @@ export function MentionTextarea({
   }, [mentionQuery, onMentionQueryChange]);
 
   // O `:` é o irmão do `@`: o campo não sabe o que é uma figurinha, só onde o termo começa e acaba.
+  //
+  // A regra é "when changed": resolvido a cada `value`, o efeito não tem `stickerQuery` na lista de
+  // dependências. Com o estado na lista, um app que devolve `stickerSuggestions` novo a cada render
+  // (o de figurinhas lê estado por ref) refazia o efeito, avisava de novo e o efeito nunca parava —
+  // "Maximum update depth exceeded".
   useEffect(() => {
     if (!stickerSuggestions) return;
     // Sem careta guardada, o fim do texto é o cursor (editou, apagou, a lista fechou e voltou).
@@ -240,9 +260,12 @@ export function MentionTextarea({
       end: value.length,
     };
     const state = stickerSuggestions.resolve(value, cursor.end);
-    setStickerQuery(state ? state.query : null);
-    onStickerQueryChange?.(state);
-  }, [stickerQuery, value, stickerSuggestions, onStickerQueryChange]);
+    avisarTermo(state);
+    setStickerQuery((atual) => {
+      const proximo = state ? state.query : null;
+      return atual === proximo ? atual : proximo;
+    });
+  }, [value, stickerSuggestions, onStickerQueryChange]);
 
   const stickerMenu =
     stickerSuggestions && stickerQuery !== null ? stickerSuggestions.render(fieldRef) : null;
@@ -361,8 +384,7 @@ export function MentionTextarea({
     pendingSelectionRef.current = { ...selection, focus };
     updateMention(next, selection.end);
     changeValue(next);
-    if (stickerSuggestions)
-      setStickerQuery(stickerSuggestions.resolve(next, selection.end)?.query ?? null);
+    if (stickerSuggestions) avisarTermo(stickerSuggestions.resolve(next, selection.end));
     setRedrawCount((count) => count + 1);
   };
 
