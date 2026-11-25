@@ -23,6 +23,12 @@ export type WrappedMessages = {
     interacoesFeitas: (n: number) => string;
     interacoesRecebidas: (n: number) => string;
     comunidades: (n: number) => string;
+    labelPublicacoes: string;
+    labelComentarios: string;
+    labelInteracoesFeitas: string;
+    labelInteracoesRecebidas: string;
+    labelComunidades: string;
+    labelDiasAtivos: string;
     /** Assuntos (seção 2). */
     assuntosTitulo: string;
     assuntosPublicados: string;
@@ -70,6 +76,8 @@ export type WrappedMessages = {
     avancar: string;
     voltar: string;
     compartilhar: string;
+    verPublicacao: string;
+    verPerfil: string;
     compartilhado: string;
     copiado: string;
     etapa: (atual: number, total: number) => string;

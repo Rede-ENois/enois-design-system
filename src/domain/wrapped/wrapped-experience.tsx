@@ -8,6 +8,7 @@ import type { LinkProps } from "../../types/adapters/link-props.js";
 import type { WrappedExperienciaProps } from "../../types/domain/wrapped/wrapped-experiencia-props.js";
 import type { WrappedRetrospectiva } from "../../types/domain/wrapped/wrapped-retrospectiva.js";
 import type { WrappedSlide } from "../../types/domain/wrapped/wrapped-slide.js";
+import { AppLink } from "../../ui/app-link.js";
 import { Button } from "../../ui/button.js";
 import { EmptyState } from "../../ui/empty-state.js";
 import { LoadingState } from "../../ui/loading-state.js";
@@ -24,13 +25,7 @@ import { WrappedSection, WrappedStat } from "./wrapped-view.js";
  * processamento sob demanda). O compartilhamento é um callback do container — a view nunca
  * chama `navigator`.
  */
-export function WrappedExperience({
-  state,
-  nome,
-  onRetry,
-  onShare,
-  LinkComponent,
-}: WrappedExperienciaProps) {
+export function WrappedExperience({ state, nome, onRetry, onShare }: WrappedExperienciaProps) {
   const messages = useMessages().wrapped;
   const [indice, setIndice] = useState(0);
 
@@ -60,7 +55,7 @@ export function WrappedExperience({
     );
   }
 
-  const slides = montarSlides({ retrospectiva: state.retrospectiva, nome, LinkComponent });
+  const slides = montarSlides({ retrospectiva: state.retrospectiva, nome });
   const atual = Math.min(indice, slides.length - 1);
   const slide = slides[atual];
   const ultimo = atual === slides.length - 1;
@@ -117,11 +112,9 @@ export function WrappedExperience({
 function montarSlides({
   retrospectiva,
   nome,
-  LinkComponent,
 }: {
   retrospectiva: WrappedRetrospectiva;
   nome: string;
-  LinkComponent?: React.ComponentType<LinkProps>;
 }): WrappedSlide[] {
   const slides: WrappedSlide[] = [
     { key: "abertura", render: () => <Abertura r={retrospectiva} nome={nome} /> },
@@ -132,19 +125,19 @@ function montarSlides({
   if (retrospectiva.publicacoesMarcantes.length > 0) {
     slides.push({
       key: "marcantes",
-      render: () => <Marcantes r={retrospectiva} LinkComponent={LinkComponent} />,
+      render: () => <Marcantes r={retrospectiva} />,
     });
   }
   if (retrospectiva.tretas.length > 0) {
     slides.push({
       key: "tretas",
-      render: () => <Tretas r={retrospectiva} LinkComponent={LinkComponent} />,
+      render: () => <Tretas r={retrospectiva} />,
     });
   }
   if (retrospectiva.interacoes.length > 0) {
     slides.push({
       key: "interacoes",
-      render: () => <Interacoes r={retrospectiva} LinkComponent={LinkComponent} />,
+      render: () => <Interacoes r={retrospectiva} />,
     });
   }
   slides.push({ key: "ritmo", render: () => <Ritmo r={retrospectiva} /> });
@@ -161,18 +154,12 @@ function Abertura({ r, nome }: { r: WrappedRetrospectiva; nome: string }) {
   return (
     <WrappedSection title={m.abertura(nome, r.ano)} subtitle={m.aberturaSub}>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        <WrappedStat value={r.metricas.publicacoes} label={m.publicacoes(r.metricas.publicacoes)} />
-        <WrappedStat value={r.metricas.comentarios} label={m.comentarios(r.metricas.comentarios)} />
-        <WrappedStat
-          value={r.metricas.interacoesFeitas}
-          label={m.interacoesFeitas(r.metricas.interacoesFeitas)}
-        />
-        <WrappedStat
-          value={r.metricas.interacoesRecebidas}
-          label={m.interacoesRecebidas(r.metricas.interacoesRecebidas)}
-        />
-        <WrappedStat value={r.metricas.comunidades} label={m.comunidades(r.metricas.comunidades)} />
-        <WrappedStat value={r.metricas.diasAtivos} label={m.diasAtivos(r.metricas.diasAtivos)} />
+        <WrappedStat value={r.metricas.publicacoes} label={m.labelPublicacoes} />
+        <WrappedStat value={r.metricas.comentarios} label={m.labelComentarios} />
+        <WrappedStat value={r.metricas.interacoesFeitas} label={m.labelInteracoesFeitas} />
+        <WrappedStat value={r.metricas.interacoesRecebidas} label={m.labelInteracoesRecebidas} />
+        <WrappedStat value={r.metricas.comunidades} label={m.labelComunidades} />
+        <WrappedStat value={r.metricas.diasAtivos} label={m.labelDiasAtivos} />
       </div>
     </WrappedSection>
   );
@@ -212,13 +199,7 @@ function Tags({ itens }: { itens: string[] }) {
   );
 }
 
-function Marcantes({
-  r,
-  LinkComponent,
-}: {
-  r: WrappedRetrospectiva;
-  LinkComponent?: React.ComponentType<LinkProps>;
-}) {
+function Marcantes({ r }: { r: WrappedRetrospectiva }) {
   const m = useMessages().wrapped;
   return (
     <WrappedSection title={m.marcantesTitulo}>
@@ -230,7 +211,14 @@ function Marcantes({
             <p className="mt-1 text-xs text-text-subtle">
               {p.motivo === "PROPRIA" ? m.marcantePropria : m.marcanteParticipacao} · {p.metrica}
             </p>
-            {p.href ? <InternoLink href={p.href} LinkComponent={LinkComponent} /> : null}
+            {p.href ? (
+              <AppLink
+                href={p.href}
+                className="mt-1 inline-block text-xs font-medium text-primary underline-offset-4 hover:underline"
+              >
+                {m.verPublicacao}
+              </AppLink>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -238,27 +226,26 @@ function Marcantes({
   );
 }
 
-function Tretas({
-  r,
-  LinkComponent,
-}: {
-  r: WrappedRetrospectiva;
-  LinkComponent?: React.ComponentType<LinkProps>;
-}) {
+function Tretas({ r }: { r: WrappedRetrospectiva }) {
   const m = useMessages().wrapped;
   return (
     <WrappedSection title={m.tretasTitulo} subtitle={m.tretasSub}>
       <ul className="space-y-3">
         {r.tretas.map((t) => (
           <li key={t.publicacaoId} className="rounded-2xl border border-border-soft p-3">
-            <p className="text-sm text-text-strong">
-              {t.trecho ?? m.tretaComentarios(t.comentarios)}
-            </p>
+            {t.trecho ? <p className="text-sm text-text-strong">{t.trecho}</p> : null}
 
             <p className="mt-1 text-xs text-text-subtle">
               {m.tretaComentarios(t.comentarios)} · {m.tretaDuracao(t.duracaoDias)}
             </p>
-            {t.href ? <InternoLink href={t.href} LinkComponent={LinkComponent} /> : null}
+            {t.href ? (
+              <AppLink
+                href={t.href}
+                className="mt-1 inline-block text-xs font-medium text-primary underline-offset-4 hover:underline"
+              >
+                {m.verPublicacao}
+              </AppLink>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -266,13 +253,7 @@ function Tretas({
   );
 }
 
-function Interacoes({
-  r,
-  LinkComponent,
-}: {
-  r: WrappedRetrospectiva;
-  LinkComponent?: React.ComponentType<LinkProps>;
-}) {
+function Interacoes({ r }: { r: WrappedRetrospectiva }) {
   const m = useMessages().wrapped;
   return (
     <WrappedSection title={m.interacoesTitulo}>
@@ -293,7 +274,14 @@ function Interacoes({
             </span>
 
             <span className="shrink-0 tabular-nums text-sm text-text-subtle">{i.vezes}</span>
-            {i.href ? <InternoLink href={i.href} LinkComponent={LinkComponent} /> : null}
+            {i.href ? (
+              <AppLink
+                href={i.href}
+                className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+              >
+                {m.verPerfil}
+              </AppLink>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -322,8 +310,8 @@ function Ritmo({ r }: { r: WrappedRetrospectiva }) {
           return (
             <div
               key={`${i}-${pct}`}
-              className="flex-1 rounded-t bg-primary/70"
-              style={{ "--wrapped-fill": `${pct}%` }}
+              className="flex-1 rounded-t bg-primary/70 h-[var(--wrapped-fill)] min-h-[2px]"
+              style={{ "--wrapped-fill": `${Math.max(3, pct)}%` }}
             />
           );
         })}
@@ -391,26 +379,5 @@ function Encerramento({ r }: { r: WrappedRetrospectiva }) {
       ) : null}
       <p className="text-sm text-text-subtle">{m.encerramentoObrigado}</p>
     </WrappedSection>
-  );
-}
-
-function InternoLink({
-  href,
-  LinkComponent,
-}: {
-  href: string;
-  LinkComponent?: React.ComponentType<LinkProps>;
-}) {
-  if (!LinkComponent) {
-    return null;
-  }
-  const Link = LinkComponent;
-  return (
-    <Link
-      href={href}
-      className="mt-1 inline-block text-xs font-medium text-primary underline-offset-4 hover:underline"
-    >
-      {href}
-    </Link>
   );
 }
