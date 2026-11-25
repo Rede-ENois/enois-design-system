@@ -57,6 +57,7 @@ import type { UiMessages } from "./ui-messages.js";
 import type { WalletMessages } from "./wallet-messages.js";
 import type { WellbeingMessages } from "./wellbeing-messages.js";
 import type { WhatsNewMessages } from "./whats-new-messages.js";
+import type { WrappedMessages } from "./wrapped-messages.js";
 
 /**
  * Fixed microcopy owned by the design system components (accessible labels, headings, empty
@@ -121,6 +122,7 @@ export type Messages = SanctionsMessages &
   DesabafosMessages &
   ConfessionarioMessages &
   TermometroMessages &
+  WrappedMessages &
   TalentBankMessages &
   DesafiosMessages &
   PaporetoMessages;

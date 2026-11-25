@@ -12,6 +12,7 @@ export * from "./search/index.js";
 export * from "./shell/index.js";
 export * from "./support-us/index.js";
 export * from "./wellbeing/index.js";
+export * from "./wrapped/index.js";
 export * from "./post/index.js";
 export * from "./colagem/index.js";
 export * from "./murais/index.js";
