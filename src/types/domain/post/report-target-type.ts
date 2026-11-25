@@ -15,4 +15,6 @@ export type ReportTargetType =
   | "CONFESSIONARIO_COMMENT"
   // Desafios do Explorar (convites nominais com mural, tabelas próprias fora de posts).
   | "DESAFIO_POST"
-  | "DESAFIO_PARTICIPACAO";
+  | "DESAFIO_PARTICIPACAO"
+  // Figurinhas da comunidade (catálogo próprio; a penalidade da moderação tira a figurinha do texto).
+  | "FIGURINHA_COMUNIDADE";
