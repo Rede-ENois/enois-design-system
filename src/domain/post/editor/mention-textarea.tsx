@@ -199,7 +199,6 @@ export function MentionTextarea({
     el.style.minHeight = `${Math.max(MIN_ROWS, rows ?? 0) * lineHeight + verticalPadding}px`;
   }, [rows, className]);
 
-  // Onde o cursor parou por fora do campo (seta, clique): o termo `:palavra` muda com ele.
   // O app recebe o termo novo uma vez por mudança: o mesmo `:palavra` resolvido de novo (o efeito
   // rodou por `stickerSuggestions` novo, por exemplo) não vira aviso repetido.
   const ultimoTermoRef = useRef<string | null | typeof SEM_LEITURA>(SEM_LEITURA);
@@ -210,6 +209,7 @@ export function MentionTextarea({
     onStickerQueryChange?.(state);
   }
 
+  // Onde o cursor parou por fora do campo (seta, clique): o termo `:palavra` muda com ele.
   function rememberCaret() {
     const el = fieldRef.current;
     if (!stickerSuggestions || !el || composingRef.current) return;
