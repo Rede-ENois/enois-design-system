@@ -4,7 +4,7 @@ import { EmptyState } from "../../ui/empty-state.js";
 import { Input } from "../../ui/input.js";
 
 const KB = 512;
-const MIME = "image/png,image/jpeg";
+const MIME = "image/png,image/jpeg,image/gif,image/svg+xml";
 
 /**
  * O formulário de envio de uma figurinha. O arquivo é escolhido no seletor nativo (o único
