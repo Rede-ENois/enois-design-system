@@ -37,3 +37,4 @@ export function fraseDaVersao(versao) {
     ? `the first release of 0.${minor}`
     : `the ${ORDINAIS[patch - 1]} patch for 0.${minor}`;
 }
+// alinhamento 4
