@@ -29,6 +29,7 @@ export { Input } from "./input.js";
 export { Label } from "./label.js";
 export { LoadingState } from "./loading-state.js";
 export { MetaLine } from "./meta-line.js";
+export { PageBackLink } from "./page-back-link.js";
 export { PageHeader } from "./page-header.js";
 export { PasswordInput } from "./password-input.js";
 export { SearchField } from "./search-field.js";
@@ -66,6 +67,7 @@ export type { EmptyStateProps } from "../types/components/ui/empty-state-props.j
 export type { LoadingStateProps } from "../types/components/ui/loading-state-props.js";
 export type { PasswordInputProps } from "../types/components/ui/password-input-props.js";
 export type { PillProps } from "../types/components/ui/pill-props.js";
+export type { PageBackLinkProps } from "../types/components/ui/page-back-link-props.js";
 export type { PageHeaderProps } from "../types/components/ui/page-header-props.js";
 export type { PillRowProps } from "../types/components/ui/pill-row-props.js";
 export type { PullIndicatorProps } from "../types/components/ui/pull-indicator-props.js";

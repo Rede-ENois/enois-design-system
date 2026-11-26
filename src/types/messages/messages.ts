@@ -35,9 +35,11 @@ import type { NotificationsMessages } from "./notifications-messages.js";
 import type { OnboardingMessages } from "./onboarding-messages.js";
 import type { PaporetoMessages } from "./paporeto-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
+import type { PortfolioMessages } from "./portfolio-messages.js";
 import type { PostDestinosMessages } from "./post-destinos-messages.js";
 import type { PostMessages } from "./post-messages.js";
 import type { ProfileMessages } from "./profile-messages.js";
+import type { ProfilePortfolioLinkMessages } from "./profile-portfolio-link-messages.js";
 import type { PwaMessages } from "./pwa-messages.js";
 import type { ReleaseNotesMessages } from "./release-notes-messages.js";
 import type { ReportsMessages } from "./reports-messages.js";
@@ -125,4 +127,6 @@ export type Messages = SanctionsMessages &
   WrappedMessages &
   TalentBankMessages &
   DesafiosMessages &
-  PaporetoMessages;
+  PaporetoMessages &
+  ProfilePortfolioLinkMessages &
+  PortfolioMessages;
