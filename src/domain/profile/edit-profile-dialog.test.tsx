@@ -50,6 +50,38 @@ const pickBadge = async () => {
   });
 };
 
+describe("EditProfileDialog order in the info tab", () => {
+  // No celular "Sou recrutador" é a mais longa das chaves e estourava a largura: ela vai para o fim,
+  // logo abaixo do ranking, e no desktop fica no fim da linha. `order` só vale entre irmãos flex: é a
+  // metade estrutural que este teste garante.
+  it("puts the four switches in one wrapping row, with the recruiter one after the ranking", async () => {
+    await render(async () => "x");
+
+    const labelOf = (text: string) =>
+      [...document.body.querySelectorAll("label")].find((label) =>
+        label.textContent?.startsWith(text),
+      )!;
+    const row = labelOf("Aberto a oportunidades").parentElement!;
+    const ranking = labelOf("Mostrar o ranking");
+    const recruiter = labelOf("Sou recrutador");
+
+    expect(row.className).toContain("flex");
+    expect(row.className).toContain("flex-wrap");
+    expect(labelOf("Mentor disponível").parentElement).toBe(row);
+    expect(ranking.parentElement).toBe(row);
+    expect(recruiter.parentElement).toBe(row);
+
+    // Ordem de DOM: no desktop é a da linha (recrutador depois do ranking).
+    expect(ranking.nextElementSibling).toBe(recruiter);
+    // No celular o recrutador vai para o fim e ocupa a linha inteira.
+    expect(ranking.className).toContain("order-first");
+    expect(recruiter.className).toContain("order-last");
+    expect(recruiter.className).toContain("basis-full");
+    expect(recruiter.className).toContain("md:order-none");
+    expect(recruiter.className).toContain("md:basis-auto");
+  });
+});
+
 describe("EditProfileDialog badge upload", () => {
   it("shows why the upload was refused", async () => {
     await render(() => Promise.reject(new Error("Este tipo de arquivo não é aceito aqui.")));
