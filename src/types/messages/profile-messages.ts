@@ -183,6 +183,8 @@ export type ProfileMessages = {
     posts: string;
   };
   profileCityPrivacy: { label: string; hint: string };
+  /** "Sou recrutador": declaração da conta que abre a central de recrutamento e o banco. */
+  recruiterMode: { label: string; hint: string };
   profileCommunityShelf: {
     communityEyebrow: string;
     communityTitle: string;

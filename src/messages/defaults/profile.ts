@@ -195,6 +195,10 @@ export const profileMessages: ProfileMessages = {
     links: "Links",
     posts: "Publicações profissionais",
   },
+  recruiterMode: {
+    label: "Sou recrutador",
+    hint: "Ligado, você ganha a central de recrutamento (vagas) e o seu banco de talentos.",
+  },
   profileCityPrivacy: {
     label: "Mostrar minha cidade no perfil",
     hint: "Desligado, sua cidade fica só com você e serve para sugerir comunidades e encontros por perto.",

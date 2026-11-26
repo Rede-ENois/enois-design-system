@@ -10,6 +10,8 @@ export { ProfileBioDialog } from "./profile-bio-dialog.js";
 export { ProfileEditMenu } from "./profile-edit-menu.js";
 export { ProfileCityPrivacy } from "./profile-city-privacy.js";
 export { ProfileContentTabs } from "./profile-content-tabs.js";
+export { RecruiterModeSwitch } from "./recruiter-mode-switch.js";
+export type { RecruiterModeSwitchProps } from "../../types/domain/profile/recruiter-mode-switch-props.js";
 export { ProfileReplyCard } from "./profile-reply-card.js";
 export { ProfileCommunityShelf } from "./profile-community-shelf.js";
 export { ProfileExperiencesSection } from "./profile-experiences-section.js";
