@@ -60,6 +60,10 @@ export const POST_TYPE_META: Record<PostType, PostTypeMeta> = {
     className: "bg-highlight-article text-highlight-article-text",
     classAvatar: "bg-user-article text-user-article-text",
   },
+  PORTFOLIO: {
+    className: "bg-highlight-project text-highlight-project-text",
+    classAvatar: "bg-user-project text-user-project-text",
+  },
   POLL: {
     className: "bg-secondary/30 text-text-strong",
     classAvatar: "",

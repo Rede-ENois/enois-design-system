@@ -4,6 +4,8 @@ export { defaultMessages } from "./messages/default-messages.js";
 export { useAdapters } from "./adapters/adapters-context.js";
 export { cn } from "./lib/utils.js";
 export type { SanctionsMessages } from "./types/messages/sanctions-messages.js";
+export type { PortfolioExploreMessages } from "./types/messages/portfolio-explore-messages.js";
+export type { PortfolioMessages } from "./types/messages/portfolio-messages.js";
 export type { Messages } from "./types/messages/messages.js";
 export type { MessagesOverride } from "./types/messages/messages-override.js";
 export type { EnoisProviderProps } from "./types/messages/enois-provider-props.js";

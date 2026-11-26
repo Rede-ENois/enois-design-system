@@ -10,4 +10,6 @@ export type PostCardHrefs = {
   repostedBy?: string | null;
   /** The blog post a BLOG pointer leads to. */
   blog?: string | null;
+  /** The professional showcase a PORTFOLIO pointer leads to. */
+  portfolio?: string | null;
 };

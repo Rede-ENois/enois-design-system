@@ -67,6 +67,7 @@ export type PostMessages = {
     readMore: string;
     readBlog: string;
     readArticle: string;
+    readPortfolio: string;
     edited: string;
     editedTime: (time: string) => string;
     mediaSpoilerReveal: string;
