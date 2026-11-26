@@ -343,9 +343,10 @@ export function EditProfileDialog({
                 />
               </Field>
 
-              {/* O "Sou recrutador" é o mais longo dos três e estourava a largura no celular: fora da
-                  linha, ele desce para baixo do ranking; no desktop volta para a linha (ordem de DOM). */}
-              <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
+              {/* Os quatro na mesma linha, que quebra quando não cabe: no celular "Sou recrutador" vai
+                  para o fim e ocupa a linha inteira, logo abaixo do ranking; no desktop fica no fim da
+                  linha, como sempre esteve. */}
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
                 <label className="flex items-center gap-3 text-sm font-normal text-text-strong">
                   <Switch checked={openToWork} onCheckedChange={setOpenToWork} />
 
@@ -357,25 +358,25 @@ export function EditProfileDialog({
 
                   <>{messages.mentorAvailable}</>
                 </label>
-              </div>
 
-              <label className="order-last flex items-start gap-3 text-sm font-normal text-text-strong md:order-none">
-                <Switch checked={showRanking} onCheckedChange={setShowRanking} />
+                <label className="order-first flex items-start gap-3 text-sm font-normal text-text-strong md:order-none">
+                  <Switch checked={showRanking} onCheckedChange={setShowRanking} />
 
-                <span>
-                  <span className="block">{messages.showRanking}</span>
+                  <span>
+                    <span className="block">{messages.showRanking}</span>
 
-                  <span className="block text-xs font-normal text-text-subtle">
-                    {messages.showRankingHint}
+                    <span className="block text-xs font-normal text-text-subtle">
+                      {messages.showRankingHint}
+                    </span>
                   </span>
-                </span>
-              </label>
+                </label>
 
-              <label className="order-first flex items-center gap-3 text-sm font-normal text-text-strong md:order-none">
-                <Switch checked={isRecruiter} onCheckedChange={setIsRecruiter} />
+                <label className="order-last flex flex-1 basis-full items-start gap-3 text-sm font-normal text-text-strong md:order-none md:basis-auto">
+                  <Switch checked={isRecruiter} onCheckedChange={setIsRecruiter} />
 
-                <>{messages.recruiterMode}</>
-              </label>
+                  <>{messages.recruiterMode}</>
+                </label>
+              </div>
             </div>
           )}
 
