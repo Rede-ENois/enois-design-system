@@ -15,6 +15,11 @@ export type PortfolioShowcaseProps = {
   publishedAt: string | null;
   /** Desenha a página no quadro isolado do app (tema e modo lite moram lá). */
   renderHtmlFrame: (props: ProfileHtmlFrameProps) => ReactNode;
+  /**
+   * Imprimir a vitrine (e salvar em PDF pelo próprio navegador). Sem o gesto, a ação não aparece:
+   * quem embute a vitrine decide se o visitante pode levar uma cópia.
+   */
+  onPrint?: () => void;
   /** Sem nada publicado: a última versão saiu do ar. */
   unavailable?: boolean;
 };

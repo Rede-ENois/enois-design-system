@@ -1,9 +1,10 @@
-import { ExternalLink, FileText, ImageOff, Link2 } from "lucide-react";
+import { ExternalLink, FileText, ImageOff, Link2, Printer } from "lucide-react";
 
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { PortfolioBlock } from "../../types/domain/portfolio/portfolio-block.js";
 import type { PortfolioShowcaseProps } from "../../types/domain/portfolio/portfolio-showcase-props.js";
+import { Button } from "../../ui/button.js";
 import { StyledName } from "../name/styled-name.js";
 
 /**
@@ -13,6 +14,9 @@ import { StyledName } from "../name/styled-name.js";
  * O que abre em outra aba (PDF, link, repositório) é âncora com `rel="noopener noreferrer"`: a
  * peça não ganha acesso à janela de quem lê. A imagem do card é só a página renderizada do PDF; o
  * arquivo inteiro só abre pelo botão.
+ *
+ * A cópia em PDF é a impressão do próprio navegador: a tela de impressão oferece "salvar em PDF"
+ * com a vitrine já aberta, sem o app gerar arquivo nenhum no servidor.
  */
 export function PortfolioShowcase({
   author,
@@ -21,6 +25,7 @@ export function PortfolioShowcase({
   blocks,
   publishedAt,
   renderHtmlFrame,
+  onPrint,
   unavailable = false,
 }: PortfolioShowcaseProps) {
   const messages = useMessages().portfolioShowcase;
@@ -40,11 +45,27 @@ export function PortfolioShowcase({
           <StyledName name={author.name} className="text-lg font-semibold text-text-strong" />
         </a>
 
-        {publishedAt && (
-          <p className="text-xs font-normal text-text-subtle">
-            {messages.publishedOn(publishedAt)}
-          </p>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          {publishedAt && (
+            <p className="text-xs font-normal text-text-subtle">
+              {messages.publishedOn(publishedAt)}
+            </p>
+          )}
+
+          {onPrint && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              onClick={onPrint}
+            >
+              <Printer className="h-3.5 w-3.5" aria-hidden />
+
+              <>{messages.print}</>
+            </Button>
+          )}
+        </div>
       </header>
 
       {html && (

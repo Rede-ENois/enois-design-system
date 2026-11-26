@@ -44,11 +44,35 @@ describe("card de vitrine", () => {
       ),
     );
 
+    // A vitrine de outra pessoa leva o nome de quem publicou, não o rótulo da própria.
+    expect(container.textContent).toContain("Ana");
+    expect(container.textContent).not.toContain("Sua vitrine");
     expect(container.textContent).toContain("Desenho e construo interfaces.");
     expect(container.textContent).toContain("Abrir vitrine");
     expect(container.textContent).not.toContain("Editar minha vitrine");
     // O avatar é o de quem publicou: sem foto, o fallback mostra as iniciais do nome.
     expect(container.querySelector(".rounded-full")?.textContent).toBe("A");
+    expect(container.querySelector('a[href="/portfolio/ana"]')).not.toBeNull();
+  });
+
+  it("a própria vitrine publicada continua se chamando Sua vitrine", () => {
+    act(() =>
+      root.render(
+        <PortfolioCard
+          card={{
+            username: "ana",
+            name: "Ana",
+            avatarUrl: null,
+            headline: "Desenho e construo interfaces.",
+            href: "/portfolio/ana",
+          }}
+          editorHref="/portfolio/editar"
+          mine
+        />,
+      ),
+    );
+
+    expect(container.textContent).toContain("Sua vitrine");
     expect(container.querySelector('a[href="/portfolio/ana"]')).not.toBeNull();
   });
 
@@ -109,6 +133,76 @@ describe("seção de vitrines no Explorar", () => {
     expect(container.textContent).toContain("Editar minha vitrine");
     expect(container.textContent).toContain("Ilustração e cerâmica.");
     expect(container.textContent).toContain("Outras salas");
+    expect(container.querySelector('a[href="/portfolio/bia"]')).not.toBeNull();
+    // Sem página seguinte não há carregar mais: a lista já está inteira.
+    expect(container.querySelector("button")).toBeNull();
+  });
+
+  const cards = [
+    {
+      username: "bia",
+      name: "Bia",
+      avatarUrl: null,
+      headline: "Ilustração e cerâmica.",
+      href: "/portfolio/bia",
+    },
+  ];
+
+  it("com página seguinte, o carregar mais pede as demais vitrines", () => {
+    const onLoadMore = vi.fn();
+    act(() =>
+      root.render(
+        <PortfolioExploreSection
+          mine={null}
+          cards={cards}
+          editorHref="/portfolio/editar"
+          onLoadMore={onLoadMore}
+          loadMoreLabel="Carregar mais vitrines"
+        />,
+      ),
+    );
+
+    const button = container.querySelector("button") as HTMLButtonElement;
+    expect(button.textContent).toContain("Carregar mais vitrines");
+    act(() => button.click());
+    expect(onLoadMore).toHaveBeenCalledOnce();
+  });
+
+  it("enquanto a página chega, o botão fica em espera", () => {
+    act(() =>
+      root.render(
+        <PortfolioExploreSection
+          mine={null}
+          cards={cards}
+          editorHref="/portfolio/editar"
+          onLoadMore={vi.fn()}
+          loadingMore
+          loadMoreLabel="Carregar mais vitrines"
+        />,
+      ),
+    );
+
+    const button = container.querySelector("button") as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+    expect(button.textContent).toContain("Carregando vitrines");
+  });
+
+  it("a falha da página seguinte avisa sem tirar as vitrines que já vieram", () => {
+    act(() =>
+      root.render(
+        <PortfolioExploreSection
+          mine={null}
+          cards={cards}
+          editorHref="/portfolio/editar"
+          onLoadMore={vi.fn()}
+          loadMoreLabel="Tentar de novo"
+          loadMoreError="Não foi possível carregar as outras vitrines."
+        />,
+      ),
+    );
+
+    expect(container.textContent).toContain("Não foi possível carregar as outras vitrines.");
+    expect(container.textContent).toContain("Tentar de novo");
     expect(container.querySelector('a[href="/portfolio/bia"]')).not.toBeNull();
   });
 });

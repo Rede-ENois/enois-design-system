@@ -8,7 +8,7 @@ import { UserAvatar } from "../avatar/user-avatar.js";
  * O card de uma vitrine. Com a vitrine no ar, mostra quem publicou e a primeira frase da página,
  * e abre a vitrine; sem ela, vira o convite para montar a própria, que leva ao editor.
  */
-export function PortfolioCard({ card, editorHref }: PortfolioCardProps) {
+export function PortfolioCard({ card, editorHref, mine = false }: PortfolioCardProps) {
   const messages = useMessages().portfolioExplore;
 
   if (!card) {
@@ -41,7 +41,9 @@ export function PortfolioCard({ card, editorHref }: PortfolioCardProps) {
       <div className="flex items-center gap-2">
         <UserAvatar src={card.avatarUrl} alt={card.name} className="h-9 w-9" />
 
-        <p className="truncate text-sm font-semibold text-text-strong">{messages.mine}</p>
+        <p className="truncate text-sm font-semibold text-text-strong">
+          {mine ? messages.mine : card.name}
+        </p>
       </div>
 
       <p className="line-clamp-2 text-sm font-normal text-muted-foreground">
