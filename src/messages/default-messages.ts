@@ -37,8 +37,11 @@ import { notificationsMessages } from "./defaults/notifications.js";
 import { onboardingMessages } from "./defaults/onboarding.js";
 import { paporetoMessages } from "./defaults/paporeto.js";
 import { patternsMessages } from "./defaults/patterns.js";
+import { portfolioExploreMessages } from "./defaults/portfolio-explore.js";
+import { portfolioMessages } from "./defaults/portfolio.js";
 import { postDestinosMessages } from "./defaults/post-destinos.js";
 import { postMessages } from "./defaults/post.js";
+import { profilePortfolioLinkMessages } from "./defaults/profile-portfolio-link.js";
 import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { releaseNotesMessages } from "./defaults/release-notes.js";
@@ -122,4 +125,7 @@ export const defaultMessages: Messages = {
   ...talentBankMessages,
   ...desafiosMessages,
   ...paporetoMessages,
+  ...profilePortfolioLinkMessages,
+  ...portfolioExploreMessages,
+  ...portfolioMessages,
 };
