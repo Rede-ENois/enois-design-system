@@ -22,6 +22,7 @@ export const wrappedMessages: WrappedMessages = {
     interacoesFeitas: (n) => (n === 1 ? "1 interação feita" : `${n} interações feitas`),
     interacoesRecebidas: (n) => (n === 1 ? "1 interação recebida" : `${n} interações recebidas`),
     comunidades: (n) => (n === 1 ? "1 comunidade" : `${n} comunidades`),
+    aberturaMes: (mes) => `Seu mês mais movimentado foi ${mes}`,
     labelPublicacoes: "publicações",
     labelComentarios: "comentários",
     labelInteracoesFeitas: "interações feitas",
@@ -52,6 +53,9 @@ export const wrappedMessages: WrappedMessages = {
     ritmoMes: (mes) => `Seu mês mais movimentado foi ${mes}`,
     ritmoDia: (dia) => `Você aparecia mais às ${dia}`,
     ritmoHora: (hora) => `Sua hora favorita: ${hora}h`,
+    comportamentoCresceu: "Sua presença cresceu na segunda metade do ano.",
+    comportamentoDesacelerou: "A segunda metade foi mais calma que a primeira.",
+    comunidadesTitulo: "Comunidades que você movimentou",
     meses: [
       "janeiro",
       "fevereiro",
@@ -77,6 +81,9 @@ export const wrappedMessages: WrappedMessages = {
     impactoConversas: (n) =>
       n === 1 ? "1 publicação que gerou conversa" : `${n} publicações que geraram conversa`,
     impactoRecebidas: (n) => (n === 1 ? "1 interação recebida" : `${n} interações recebidas`),
+    impactoComentariosComReacao: (n) =>
+      n === 1 ? "1 comentário seu recebeu reação" : `${n} comentários seus receberam reação`,
+    impactoComunidades: (n) => (n === 1 ? "1 comunidade" : `${n} comunidades`),
     impactoCredibilidade: (n) => `Sua credibilidade hoje: ${n}`,
     encerramentoTitulo: "Um feliz ano novo",
     encerramentoFrase: "Esse foi o seu ano no Énóis.",

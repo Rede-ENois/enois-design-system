@@ -38,6 +38,7 @@ const retrospectiva: WrappedRetrospectiva = {
     porMes: Array.from({ length: 12 }, () => 0),
     porDiaSemana: Array.from({ length: 7 }, () => 0),
     porHora: Array.from({ length: 24 }, () => 0),
+    comportamento: { porTrimestre: [1, 1, 1, 1], sentido: "ESTAVEL" },
   },
   perfil: {
     principal: "CRIADOR",
@@ -45,6 +46,7 @@ const retrospectiva: WrappedRetrospectiva = {
   },
   impacto: {
     publicacoesComConversa: 0,
+    comentariosComReacao: 0,
     interacoesRecebidas: 15,
     comunidades: 2,
     credibilidade: 400,
