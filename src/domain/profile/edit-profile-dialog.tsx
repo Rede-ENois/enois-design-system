@@ -343,7 +343,10 @@ export function EditProfileDialog({
                 />
               </Field>
 
-              <div className="flex items-center gap-8">
+              {/* Os quatro na mesma linha, que quebra quando não cabe: no celular "Sou recrutador" vai
+                  para o fim e ocupa a linha inteira, logo abaixo do ranking; no desktop fica no fim da
+                  linha, como sempre esteve. */}
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
                 <label className="flex items-center gap-3 text-sm font-normal text-text-strong">
                   <Switch checked={openToWork} onCheckedChange={setOpenToWork} />
 
@@ -356,24 +359,24 @@ export function EditProfileDialog({
                   <>{messages.mentorAvailable}</>
                 </label>
 
-                <label className="flex items-center gap-3 text-sm font-normal text-text-strong">
+                <label className="order-first flex items-start gap-3 text-sm font-normal text-text-strong md:order-none">
+                  <Switch checked={showRanking} onCheckedChange={setShowRanking} />
+
+                  <span>
+                    <span className="block">{messages.showRanking}</span>
+
+                    <span className="block text-xs font-normal text-text-subtle">
+                      {messages.showRankingHint}
+                    </span>
+                  </span>
+                </label>
+
+                <label className="order-last flex flex-1 basis-full items-start gap-3 text-sm font-normal text-text-strong md:order-none md:basis-auto">
                   <Switch checked={isRecruiter} onCheckedChange={setIsRecruiter} />
 
                   <>{messages.recruiterMode}</>
                 </label>
               </div>
-
-              <label className="flex items-start gap-3 text-sm font-normal text-text-strong">
-                <Switch checked={showRanking} onCheckedChange={setShowRanking} />
-
-                <span>
-                  <span className="block">{messages.showRanking}</span>
-
-                  <span className="block text-xs font-normal text-text-subtle">
-                    {messages.showRankingHint}
-                  </span>
-                </span>
-              </label>
             </div>
           )}
 
