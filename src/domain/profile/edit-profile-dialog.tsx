@@ -343,7 +343,9 @@ export function EditProfileDialog({
                 />
               </Field>
 
-              <div className="flex items-center gap-8">
+              {/* O "Sou recrutador" é o mais longo dos três e estourava a largura no celular: fora da
+                  linha, ele desce para baixo do ranking; no desktop volta para a linha (ordem de DOM). */}
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
                 <label className="flex items-center gap-3 text-sm font-normal text-text-strong">
                   <Switch checked={openToWork} onCheckedChange={setOpenToWork} />
 
@@ -355,15 +357,9 @@ export function EditProfileDialog({
 
                   <>{messages.mentorAvailable}</>
                 </label>
-
-                <label className="flex items-center gap-3 text-sm font-normal text-text-strong">
-                  <Switch checked={isRecruiter} onCheckedChange={setIsRecruiter} />
-
-                  <>{messages.recruiterMode}</>
-                </label>
               </div>
 
-              <label className="flex items-start gap-3 text-sm font-normal text-text-strong">
+              <label className="order-last flex items-start gap-3 text-sm font-normal text-text-strong md:order-none">
                 <Switch checked={showRanking} onCheckedChange={setShowRanking} />
 
                 <span>
@@ -373,6 +369,12 @@ export function EditProfileDialog({
                     {messages.showRankingHint}
                   </span>
                 </span>
+              </label>
+
+              <label className="order-first flex items-center gap-3 text-sm font-normal text-text-strong md:order-none">
+                <Switch checked={isRecruiter} onCheckedChange={setIsRecruiter} />
+
+                <>{messages.recruiterMode}</>
               </label>
             </div>
           )}
