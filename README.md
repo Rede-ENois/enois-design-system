@@ -357,3 +357,6 @@ GPL-3.0, same as `enois-frontend`.
 
 <!-- Alinhamento de 2026-11-25: reemite a release para o front receber o aviso ds-release depois de
      uma falha do token. Apagar na próxima mudança de código. -->
+
+<!-- Alinhamento de 2026-11-26: reemite o aviso ao front depois da falha do token na 0.46.8.
+     Apagar na próxima mudança de código. -->
