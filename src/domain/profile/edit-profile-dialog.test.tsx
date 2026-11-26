@@ -50,6 +50,27 @@ const pickBadge = async () => {
   });
 };
 
+describe("EditProfileDialog order in the info tab", () => {
+  // No celular "Sou recrutador" é a mais longa das chaves e estourava a largura: fora da linha, ela
+  // desce para baixo do ranking, e no desktop volta para o fim da linha.
+  it("puts the recruiter switch after the ranking one on the phone and back in the row on desktop", async () => {
+    await render(async () => "x");
+
+    const recruiter = [...document.body.querySelectorAll("label")].find(
+      (label) => label.textContent === "Sou recrutador",
+    )!;
+    const ranking = [...document.body.querySelectorAll("label")].find((label) =>
+      label.textContent?.startsWith("Mostrar o ranking"),
+    )!;
+
+    expect(recruiter.className).toContain("order-first");
+    expect(recruiter.className).toContain("md:order-none");
+    expect(ranking.className).toContain("order-last");
+    expect(ranking.className).toContain("md:order-none");
+    expect(ranking.nextElementSibling).toBe(recruiter);
+  });
+});
+
 describe("EditProfileDialog badge upload", () => {
   it("shows why the upload was refused", async () => {
     await render(() => Promise.reject(new Error("Este tipo de arquivo não é aceito aqui.")));
