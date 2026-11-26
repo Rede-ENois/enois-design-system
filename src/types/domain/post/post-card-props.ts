@@ -77,6 +77,11 @@ export type PostCardProps = {
   mediaSpoiler?: boolean;
   /** A mini página do post (o app monta o quadro). */
   page?: ReactNode;
+  /**
+   * O resumo da vitrine publicada que o PORTFOLIO aponta (nome, frase e atalho). Ausente no card
+   * de quem está editando o próprio: ali a frase é o texto do post.
+   */
+  portfolio?: ReactNode;
   /** A enquete do post (alternativas + voto); o app monta — o DS não conhece a API de voto. */
   poll?: ReactNode;
   /** Resumo de reações. */

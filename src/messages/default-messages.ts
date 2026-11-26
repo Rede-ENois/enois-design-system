@@ -37,6 +37,7 @@ import { notificationsMessages } from "./defaults/notifications.js";
 import { onboardingMessages } from "./defaults/onboarding.js";
 import { paporetoMessages } from "./defaults/paporeto.js";
 import { patternsMessages } from "./defaults/patterns.js";
+import { portfolioExploreMessages } from "./defaults/portfolio-explore.js";
 import { portfolioMessages } from "./defaults/portfolio.js";
 import { postDestinosMessages } from "./defaults/post-destinos.js";
 import { postMessages } from "./defaults/post.js";
@@ -125,5 +126,6 @@ export const defaultMessages: Messages = {
   ...desafiosMessages,
   ...paporetoMessages,
   ...profilePortfolioLinkMessages,
+  ...portfolioExploreMessages,
   ...portfolioMessages,
 };

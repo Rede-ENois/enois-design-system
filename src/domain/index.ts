@@ -24,6 +24,7 @@ export * from "./confessionario/index.js";
 export * from "./desafios/index.js";
 export * from "./termometro/index.js";
 export * from "./paporeto/index.js";
+export * from "./portfolio-explore/index.js";
 export * from "./portfolio/index.js";
 export * from "./games/index.js";
 export * from "./appearance/index.js";

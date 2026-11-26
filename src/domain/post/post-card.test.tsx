@@ -148,3 +148,34 @@ describe("post card offscreen rendering", () => {
     expect(render(true)).not.toContain("content-visibility");
   });
 });
+
+describe("pleca de vitrine no card de post", () => {
+  it("a publicação de portfólio abre a vitrine com o resumo que o app monta", () => {
+    const html = renderToStaticMarkup(
+      <PostCard
+        post={{
+          id: "post-vitrine",
+          type: "PORTFOLIO",
+          content: "Minha vitrine está no ar.",
+          authorName: "Ana",
+          authorAvatar: null,
+          tags: [],
+          mediaIds: [],
+        }}
+        hrefs={{ author: "/perfil/ana", post: "/post/post-vitrine", portfolio: "/portfolio/ana" }}
+        timeLabel="agora"
+        isOwner={false}
+        mySeals={[]}
+        onShowSeals={vi.fn()}
+        renderRichText={({ content }) => <p>{content}</p>}
+        renderMediaGrid={() => null}
+        portfolio={<p>Desenho e construo interfaces.</p>}
+      />,
+    );
+
+    expect(html).toContain("Vitrine");
+    expect(html).toContain("Desenho e construo interfaces.");
+    expect(html).toContain('href="/portfolio/ana"');
+    expect(html).toContain("Abrir vitrine");
+  });
+});

@@ -35,6 +35,7 @@ import type { NotificationsMessages } from "./notifications-messages.js";
 import type { OnboardingMessages } from "./onboarding-messages.js";
 import type { PaporetoMessages } from "./paporeto-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
+import type { PortfolioExploreMessages } from "./portfolio-explore-messages.js";
 import type { PortfolioMessages } from "./portfolio-messages.js";
 import type { PostDestinosMessages } from "./post-destinos-messages.js";
 import type { PostMessages } from "./post-messages.js";
@@ -129,4 +130,5 @@ export type Messages = SanctionsMessages &
   DesafiosMessages &
   PaporetoMessages &
   ProfilePortfolioLinkMessages &
+  PortfolioExploreMessages &
   PortfolioMessages;

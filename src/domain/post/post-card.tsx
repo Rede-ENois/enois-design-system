@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  Briefcase,
   CircleCheck,
   FileText,
   MoreHorizontal,
@@ -71,6 +72,7 @@ export function PostCard({
   pageLoading = false,
   mediaSpoiler = false,
   page,
+  portfolio,
   poll,
   reactionsSummary,
   notes,
@@ -448,6 +450,22 @@ export function PostCard({
 
           <>{messages.readBlog}</>
         </AppLink>
+      )}
+
+      {/* Vitrine */}
+      {post.type === "PORTFOLIO" && hrefs.portfolio && (
+        <div className="mt-3 space-y-2">
+          {portfolio}
+
+          <AppLink
+            href={hrefs.portfolio}
+            className="inline-flex items-center gap-1.5 text-sm font-normal text-primary hover:underline"
+          >
+            <Briefcase className="h-3.5 w-3.5" aria-hidden />
+
+            <>{messages.readPortfolio}</>
+          </AppLink>
+        </div>
       )}
 
       {/* Artigo */}
