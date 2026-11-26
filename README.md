@@ -360,3 +360,6 @@ GPL-3.0, same as `enois-frontend`.
 
 <!-- Alinhamento de 2026-11-26: reemite o aviso ao front depois da falha do token na 0.46.8.
      Apagar na próxima mudança de código. -->
+
+<!-- Alinhamento 3 de 2026-11-26: dispara o workflow "Release automatica" pela tag de novo para
+     medir o aviso ao front. Apagar na próxima mudança de código. -->
