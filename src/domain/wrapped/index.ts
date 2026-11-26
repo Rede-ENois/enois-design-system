@@ -10,6 +10,7 @@ export type { WrappedPublicacaoMarcante } from "../../types/domain/wrapped/wrapp
 export type { WrappedTreta } from "../../types/domain/wrapped/wrapped-treta.js";
 export type { WrappedInteracao } from "../../types/domain/wrapped/wrapped-interacao.js";
 export type { WrappedRitmo } from "../../types/domain/wrapped/wrapped-ritmo.js";
+export type { WrappedComportamento } from "../../types/domain/wrapped/wrapped-comportamento.js";
 export type { WrappedPerfil } from "../../types/domain/wrapped/wrapped-perfil.js";
 export type { WrappedImpacto } from "../../types/domain/wrapped/wrapped-impacto.js";
 export type { WrappedComunidade } from "../../types/domain/wrapped/wrapped-comunidade.js";
