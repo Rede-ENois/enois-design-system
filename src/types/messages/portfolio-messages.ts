@@ -12,6 +12,8 @@ export type PortfolioMessages = {
     mediaMissing: string;
     /** Botão que abre o PDF inteiro. */
     openPdf: string;
+    /** Botão que abre a impressão do navegador, onde a vitrine também sai em PDF. */
+    print: string;
     openLink: string;
     empty: string;
     unavailable: string;

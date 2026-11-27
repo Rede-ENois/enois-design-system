@@ -2,7 +2,7 @@
 import { act } from "react";
 
 import { type Root, createRoot } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { defaultMessages } from "../../messages/default-messages.js";
 import type { PortfolioBlock } from "../../types/domain/portfolio/portfolio-block.js";
@@ -66,6 +66,20 @@ describe("PortfolioShowcase", () => {
   it("desenha a página no quadro isolado que o app entregou", () => {
     render({ html: "<p>Olá</p>" });
     expect(host.querySelector('[data-testid="frame"]')).not.toBeNull();
+  });
+
+  it("imprime a vitrine pelo gesto do app, e só quando ele oferece", () => {
+    render({ html: "<p>Olá</p>" });
+    expect(host.textContent).not.toContain(messages.print);
+
+    const onPrint = vi.fn();
+    render({ html: "<p>Olá</p>", onPrint });
+
+    const button = [...host.querySelectorAll("button")].find(
+      (item) => item.textContent?.trim() === messages.print,
+    ) as HTMLButtonElement;
+    act(() => button.click());
+    expect(onPrint).toHaveBeenCalledOnce();
   });
 
   it("sem página e sem peças, mostra o estado vazio", () => {
