@@ -12,6 +12,7 @@ export const portfolioMessages: Pick<Messages, "portfolioShowcase" | "portfolioE
     mediaUnavailable: "Esta mídia ainda não pode ser mostrada.",
     mediaMissing: "A mídia desta peça não foi encontrada.",
     openPdf: "Abrir PDF",
+    print: "Imprimir ou salvar em PDF",
     openLink: "Abrir link",
     empty: "Esta vitrine ainda não tem nada publicado.",
     unavailable: "Esta vitrine não está no ar no momento.",
